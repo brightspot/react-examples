@@ -3,4 +3,5 @@
 # it using "git config --global core.excludesfile ~/.gitignore".
 
 node_modules
+brightspot-types
 
