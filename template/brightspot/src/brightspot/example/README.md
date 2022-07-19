@@ -3,8 +3,8 @@ Place your Brightspot classes (`*.ts` files) in this folder. Use `PascalCase` fo
 _Ticket.ts_
 
 ```typescript
-import BrightspotClass from '@brightspot/types/BrightspotClass'
-import Content from '@brightspot/types/com/psddev/cms/db/Content'
+import BrightspotClass from '../../../brightspot-types/BrightspotClass'
+import Content from '../../../brightspot-types/com/psddev/cms/db/Content'
 
 const T = BrightspotClass.extend(Content.class)
   .build({
