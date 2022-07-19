@@ -37,5 +37,9 @@ fi
 
 mkdir $GIT_DIR/$1
 cp -r $GIT_DIR/template/brightspot $GIT_DIR/$1/brightspot
+
+# temp fix for brightspot types upload command.
+rm $GIT_DIR/$1/brightspot/src/brightspot/example/README.md
+
 cp -r $GIT_DIR/template/apps/$2 $GIT_DIR/$1/app
 echo "Successfully initialized example [$1]."
