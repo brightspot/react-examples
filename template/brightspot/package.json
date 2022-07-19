@@ -1,0 +1,19 @@
+{
+  "name": "brightspot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@brightspot/cli": "^4.5.7-rc.2",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@brightspot/types": "./brightspot-types"
+  }
+}
