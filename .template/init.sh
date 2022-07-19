@@ -6,7 +6,7 @@ GIT_DIR=$(git rev-parse --show-toplevel)
 
 # array of app template folder names
 APPS=
-temp=($GIT_DIR/template/apps/*)
+temp=($GIT_DIR/.template/apps/*)
 for i in "${temp[@]}"
 do
    APPS+=($(echo "$i" | rev | cut -d/ -f1 | rev))
@@ -36,6 +36,6 @@ then
 fi
 
 mkdir $GIT_DIR/$1
-cp -r $GIT_DIR/template/brightspot $GIT_DIR/$1/brightspot
-cp -r $GIT_DIR/template/apps/$2 $GIT_DIR/$1/app
+cp -r $GIT_DIR/.template/brightspot $GIT_DIR/$1/brightspot
+cp -r $GIT_DIR/.template/apps/$2 $GIT_DIR/$1/app
 echo "Successfully initialized example [$1]."
