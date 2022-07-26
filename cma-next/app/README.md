@@ -4,9 +4,9 @@ In this tutorial, you will learn how to use a Content Management API Endpoint pr
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Installation
+## Installation and Running
 
-Refer to [INSTALL.md](INSTALL.md).
+Refer to [README.md](react-examples/README.md) at the root of the react-examples directory.
 
 ## Running Brightspot
 
