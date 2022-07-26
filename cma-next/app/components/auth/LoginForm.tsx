@@ -29,7 +29,7 @@ const LoginForm = () => {
     } else if (result?.error) {
       setError({ isError: true, message: 'An error occurred.'})
     } else if (!result?.error) {
-      localStorage.setItem('hw-user', enteredUserName!)
+      sessionStorage.setItem('hw-user', enteredUserName!)
       router.replace("/");
     }
   };

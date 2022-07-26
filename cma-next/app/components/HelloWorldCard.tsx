@@ -37,7 +37,7 @@ const HelloWorldCard: React.FC<HelloWorldCardProps> = ({
     setIsSSR(false);
     setEditFormState({
       ...editFormState,
-      userName: localStorage.getItem(USER) || "",
+      userName: sessionStorage.getItem(USER) || "",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

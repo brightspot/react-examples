@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
 
   const logoutHandler = () => {
     signOut();
-    localStorage.removeItem('hw-user')
+    sessionStorage.removeItem('hw-user')
   };
 
   if (error.isError) console.error(error.message);
@@ -127,9 +127,9 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
               />
             </div>
           </form>
-          {!isSSR && localStorage.getItem(USER) && 
+          {!isSSR && sessionStorage.getItem(USER) && 
           <div className={styles.user}>
-            <span>{localStorage.getItem('hw-user')?.charAt(0)}</span>
+            <span>{sessionStorage.getItem('hw-user')?.charAt(0)}</span>
             </div>
             }
         </div>

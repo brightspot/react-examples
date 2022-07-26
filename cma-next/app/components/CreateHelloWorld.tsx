@@ -19,7 +19,7 @@ const CreateHelloWorld: React.FC<CreateHelloWorldProps> = ({ getItems }) => {
   const submitNewHelloWorld = async () => {
     const text = textRef?.current?.value;
     const title = titleRef?.current?.value;
-    const userName = localStorage.getItem(USER);
+    const userName = sessionStorage.getItem(USER);
 
     const newHelloWorldValues = {
       text,
