@@ -63,7 +63,7 @@ query MyQuery {
 
 | HelloWorld GraphQL Query Result |
 | --- |
-| <img width="721" alt="All Hello World Queries" src="https://user-images.githubusercontent.com/58481829/180990975-1aba81bd-834a-4aab-b112-b1dc607722a0.png"> |
+| <img width="1435" alt="Query All" src="https://user-images.githubusercontent.com/58481829/180996186-270c60cc-7648-440b-b0e6-e1d5b8c26206.png"> |
 
 You can also select an individual Hello World item by adding the `id`  To use variables, select the `$` next to the `" "` that appears next to id when selected. Add the id variable in the bottom of the middle rail in the `Query Variables` section.
 
