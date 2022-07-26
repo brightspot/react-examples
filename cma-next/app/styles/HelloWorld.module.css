@@ -1,0 +1,20 @@
+.helloWorldContainer {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+
+}
+
+@media (min-width: 568px) {
+    .helloWorldContainer {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .helloWorldContainer {
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 1rem;
+    }
+  }

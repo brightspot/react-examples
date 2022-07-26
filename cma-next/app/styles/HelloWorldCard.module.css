@@ -1,0 +1,88 @@
+.helloWorldCard {
+    padding: 0.5rem;
+    background-color: #fff;
+    box-shadow: var(--lightShadow);
+    border-radius: var(--mainBorderRadius);
+    margin-bottom: 2rem;
+    color: var( --primaryTextColor);
+    position: relative;
+  }
+
+  .helloWorldForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .helloWorldForm > input {
+    height: var(--inputHeight);
+    border: none;
+    background: none;
+    font-size: 16px;
+    border-bottom: 1 px dashed var(--borderColor);
+  }
+
+  .helloWorldForm > input:hover {
+    cursor: pointer;
+  }
+
+  .submitButton {
+    width: 100px;
+    height: var(--inputHeight);
+    border-radius: var(--buttonBorderRadius);
+    color: var(--moduleBgColor);
+    border: 1px solid var(--moduleBgColor);
+    background-color: #fff ;
+    transition: all .3s ease-out;
+  }
+  
+  .submitButton:hover {
+    cursor: pointer;
+    background-color: var(--moduleBgColor);
+    color: #fff;
+  }
+
+  .helloWorldBottom {
+    display: flex;
+  }
+
+  .helloWorldSuccess {
+    color: var(--success);
+    position: absolute;
+    right: 81px;
+    bottom: 10px;
+    font-size: 12px;
+  }
+
+  .deleteButton {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: 1px solid var(--primaryRed);
+    background-color: #fff;
+    transition: all .5s ease-out;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .deleteButton:hover {
+    cursor: pointer;
+    background-color: var(--primaryRed);
+  }
+  
+  .deleteIcon {
+    color: var(--primaryRed);
+    width: 20px;
+    height: 20px;
+  }
+  
+  .deleteIcon:hover {
+    color: #fff;
+  }
+
+  .id {
+    font-size: 15px;
+  }

@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+/* Variables */
+:root {
+  --grayscaleOne: #faf9f9;
+  --grayscaleTwo: #f1eced;
+  --grayscaleThree: #e6dfe0;
+  --grayscaleFour: #f0f0f0;
+  --grayscaleFive: #949494;
+  --primaryTextColor: #4b4545;
+  --secondaryTextColor: #787171;
+  --primaryRed: rgb(238, 1, 32);
+  --moduleBgColor: #2a5975;
+  --borderColor: #f1eced;
+  --success: #28a745;
+  --mainTransition: all 0.3s linear;
+  --mainSpacing: 0.3rem;
+  --lightShadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+  --mainBorderRadius: 5px;
+  --buttonBorderRadius: 22px;
+  --inputHeight: 30px;
+}
+
+/* Global */
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  margin: 0 auto;
+  font-family: 'Noto Sans', sans-serif;
+  color: var(--primaryTextColor);
+  background: var(--grayscaleTwo);
+  line-height: 1.7;
+  font-size: 1rem;
+  font-weight: 300;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--slantedFont);
+  margin-bottom: 1.25rem;
+  letter-spacing: var(--mainSpacing);
+}
+p {
+  margin: 0.2rem;
+  padding: 0;
+}
+
