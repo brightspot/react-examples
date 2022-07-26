@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Installation and Running
 
-Refer to [README.md](react-examples/README.md) at the root of the react-examples directory.
+Refer to [README.md](https://github.com/brightspot/react-examples/blob/cma-next/README.md) at the root of the react-examples directory.
 
 ## Running Brightspot
 
@@ -51,6 +51,6 @@ Run the following commands in your terminal:
 ```bash
 yarn && yarn run dev
 ```
-Go to `http://localhost:3000` in your browser. You will see a login page. Login with your user name (the name you use to login to Brightspot). You will be redirected to the Hello World dashboard. You will be able to perform all CRUD applications using this dashboard. 
+Go to `http://localhost:3000` in your browser. You will see a login page. Login with your user name (the name you used to login to Brightspot). You will be redirected to the Hello World dashboard. You will be able to perform all CRUD applications using this dashboard. 
 
 All GraphQL queries are located in the `cma-next/app/queries` directory. All api routes for using these queries are located in the `cma-next/app/pages/api` directory. 
