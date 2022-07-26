@@ -8,11 +8,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Refer to [README.md](https://github.com/brightspot/react-examples/blob/cma-next/README.md) at the root of the react-examples directory.
 
-## Running Brightspot
-
-Refer to [RUNNING.md](RUNNING.md).
-
 Once Brightspot is running, login to the CMS using any credentials at: `localhost/cms`.
+
 
 ## Create a GraphQL Content Management API (CMA) Endpoint
 
