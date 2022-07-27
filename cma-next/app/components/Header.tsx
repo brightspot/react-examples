@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
       });
     }
     const result = await response.json();
-    const array = result?.com_brightspot_tutorial_HelloWorldQuery?.items.map(
+    const array = result?.brightspot_example_HelloWorldQuery?.items.map(
       (item: { text: string; _id: string; title: string; _typename: string }) =>
         item._id
     );
