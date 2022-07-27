@@ -24,7 +24,6 @@ export default NextAuth({
           }
         );
         const data = await response.json();
-        console.log("data", data);
         if (!response.ok) {
           throw new Error(data.message || "something went wrong....");
         }

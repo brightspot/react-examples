@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import HelloWorldContainer from "../components/HelloWorldContainer";
 import { getSession } from 'next-auth/react'
 import Header from "../components/Header";
-
+import Head from "next/head";
 export interface HelloWorldData {
   _id: string,
   title: string,
@@ -50,7 +50,15 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Header setSearchResults={setSearchResults} />
+    <Head>
+      <title>Hello World</title>
+      <meta content="Hello World Dashboard" />
+      <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png" />
+        <link rel="manifest" href="favicon_io/site.webmanifest"></link>
+    </Head>
+      <Header setSearchResults={setSearchResults} searchResults={searchResults}/>
       <HelloWorldContainer search={search} items={items} getItems={getItems} />
     </>
   );

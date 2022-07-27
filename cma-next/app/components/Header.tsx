@@ -14,11 +14,11 @@ import { signOut, useSession } from "next-auth/react";
 import styles from "../styles/Header.module.css";
 
 type HeaderProps = {
+  searchResults: string[],
   setSearchResults: Dispatch<SetStateAction<string[]>>;
 };
 
-const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
-  const SEARCH_VALUE = "search-value";
+const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
   const USER = 'hw-user';
   const [isSSR, setIsSSR] = useState(true);
   const { data: session } = useSession();
@@ -45,34 +45,46 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
       if (e.key === "Escape") {
         e.currentTarget.blur();
         setQuery("");
+        setSearchResults([])
+        if (inputRef?.current?.value) {
+          inputRef.current.value= ""
+        }
       }
     }
   };
 
-  const handleSearch = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/search/${query}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if(inputRef?.current?.value === query && query!=='') {
+        fetch(
+          `${process.env.NEXT_PUBLIC_HOST}/api/search/${query}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ).then((response) => {
+          if (response.status >= 400) {
+            setError({
+              isError: true,
+              message: `${response.status} - ${response.statusText}`,
+            });
+          }
+           return response.json();
+        }).then((data) => {
+          const array = data.brightspot_example_HelloWorldQuery?.items.map(
+            (item: { text: string; _id: string; title: string; _typename: string }) =>
+              item._id
+          );
+          setSearchResults(array);
+        })
       }
-    );
-    if (response.status >= 400) {
-      setError({
-        isError: true,
-        message: `${response.status} - ${response.statusText}`,
-      });
-    }
-    const result = await response.json();
-    const array = result?.brightspot_example_HelloWorldQuery?.items.map(
-      (item: { text: string; _id: string; title: string; _typename: string }) =>
-        item._id
-    );
-    setSearchResults(array);
-    setQuery("");
-  };
+    }, 500)
+      return () => {
+        clearTimeout(timer)
+      }
+  }, [query, inputRef, setSearchResults]);
 
   const logoutHandler = () => {
     signOut();
@@ -99,7 +111,6 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
             onClick={() => {
               setSearchResults([]);
               setQuery("");
-              sessionStorage.removeItem(SEARCH_VALUE)
             }}
           >
             <IoClose className={styles.clearIcon} />
@@ -107,8 +118,6 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              sessionStorage.setItem(SEARCH_VALUE, query)
-              handleSearch();
               inputRef?.current?.blur();
             }}
           >
@@ -134,9 +143,12 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults }) => {
             }
         </div>
       </div>
-      {!isSSR && sessionStorage.getItem(SEARCH_VALUE) && 
-      <span className={styles.searchValueText}>{`search results for "${sessionStorage.getItem(SEARCH_VALUE)}"`}</span>
-      }
+      {query && (
+      <span className={styles.searchValueText}>{`Number of search results for "${query}": `}</span>
+      )}
+    {query && searchResults &&  (
+      <span className={styles.searchValueText}>{searchResults.length}</span>
+      )}
     </header>
   );
 };
