@@ -1,0 +1,11 @@
+query GetArticles($path: String = "") {
+  Section(path: $path) {
+    name
+    Article_section_connection {
+      items {
+        url
+        headline
+      }
+    }
+  }
+}

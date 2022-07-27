@@ -1,0 +1,6 @@
+query GetArticle($path: String = "") {
+  Article(path: $path) {
+    headline
+    text
+  }
+}

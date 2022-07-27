@@ -1,0 +1,10 @@
+query GetSections($path: String = "") {
+  Page(path: $path) {
+    Section_page_connection {
+      items {
+        name
+        url
+      }
+    }
+  }
+}

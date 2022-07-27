@@ -1,0 +1,20 @@
+{
+  "possibleTypes": {
+    "Content": [
+      "Article",
+      "Page",
+      "Section"
+    ],
+    "Record_Interface": [
+      "Article",
+      "Page",
+      "Record",
+      "Section"
+    ],
+    "_Entry": [
+      "Article",
+      "Page",
+      "Section"
+    ]
+  }
+}
