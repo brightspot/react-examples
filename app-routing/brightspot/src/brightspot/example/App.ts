@@ -8,6 +8,8 @@ import DirectoryItem from "../../../brightspot-types/com/psddev/cms/db/Directory
 
 @JavaClass('brightspot.example.App')
 export default class App extends Content.implements(DirectoryItem) {
+
+ 
   
  @JavaRequired()
   @JavaField()
@@ -15,10 +17,20 @@ export default class App extends Content.implements(DirectoryItem) {
 
 
   @JavaField()
-  page?: Page
+   page1?: Page
+
+   @JavaField()
+   page2?: Page
+
+   @JavaField()
+   page3?: Page
+
+   @JavaField()
+   page4?: Page
 
   getLabel():string {
     return this.title
+
   }
 
   createPermalink(site: Site): string {
