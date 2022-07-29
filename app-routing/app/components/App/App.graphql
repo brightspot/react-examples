@@ -1,0 +1,14 @@
+query GetApp($path: String = "") {
+  App(path: $path) {
+    title
+    page {
+      title
+      _id
+      article {
+        body
+        headline
+        _id
+      }
+    }
+  }
+}

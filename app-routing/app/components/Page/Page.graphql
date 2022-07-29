@@ -1,0 +1,6 @@
+query GetPage($id: ID = "") {
+  Page(id: $id) {
+    title
+    _id
+  }
+}

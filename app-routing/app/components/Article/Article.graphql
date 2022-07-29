@@ -1,0 +1,7 @@
+query GetArticle($id: ID = "") {
+  Article(id: $id) {
+    headline
+    body
+    _id
+  }
+}
