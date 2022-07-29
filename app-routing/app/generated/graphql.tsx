@@ -14,25 +14,61 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: any;
+  Long: any;
 };
 
 export type App = Content & Record_Interface & {
   __typename?: 'App';
+  Page_app_connection?: Maybe<Page_App_Connection>;
   _id?: Maybe<Scalars['ID']>;
   cms_content?: Maybe<Content_ObjectModificationCmsContentField>;
-  page?: Maybe<Page>;
   title?: Maybe<Scalars['String']>;
+};
+
+
+export type AppPage_App_ConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Long']>;
+  sort?: InputMaybe<Page_Sort>;
 };
 
 export type Article = Content & Record_Interface & {
   __typename?: 'Article';
   _id?: Maybe<Scalars['ID']>;
-  app?: Maybe<App>;
   body?: Maybe<Scalars['String']>;
   cms_content?: Maybe<Content_ObjectModificationCmsContentField>;
   headline?: Maybe<Scalars['String']>;
   page?: Maybe<Page>;
 };
+
+export type Article_Page_Connection = {
+  __typename?: 'Article_page_connection';
+  items: Array<Article>;
+  pageInfo?: Maybe<PageInfo>;
+};
+
+export type Article_Sort = {
+  option: Article_Sort_Option;
+  order?: InputMaybe<SortOrder>;
+};
+
+export enum Article_Sort_Option {
+  AverageTimeOnPage = 'AVERAGE_TIME_ON_PAGE',
+  Bounces = 'BOUNCES',
+  BounceRate = 'BOUNCE_RATE',
+  CalendarDate = 'CALENDAR_DATE',
+  Date = 'DATE',
+  Entrances = 'ENTRANCES',
+  ExitRatePercent = 'EXIT_RATE_PERCENT',
+  Label = 'LABEL',
+  PageValue = 'PAGE_VALUE',
+  PageViews = 'PAGE_VIEWS',
+  PageViewsVsUniquePageViews = 'PAGE_VIEWS_VS_UNIQUE_PAGE_VIEWS',
+  PublishDate = 'PUBLISH_DATE',
+  Sessions = 'SESSIONS',
+  UniquePageViews = 'UNIQUE_PAGE_VIEWS',
+  UpdateDate = 'UPDATE_DATE'
+}
 
 /** Represents a generic content. */
 export type Content = {
@@ -47,12 +83,56 @@ export type Content_ObjectModificationCmsContentField = {
 
 export type Page = Content & Record_Interface & {
   __typename?: 'Page';
+  Article_page_connection?: Maybe<Article_Page_Connection>;
   _id?: Maybe<Scalars['ID']>;
   app?: Maybe<App>;
-  article?: Maybe<Article>;
   cms_content?: Maybe<Content_ObjectModificationCmsContentField>;
-  title?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
+
+
+export type PageArticle_Page_ConnectionArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Long']>;
+  sort?: InputMaybe<Article_Sort>;
+};
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  count?: Maybe<Scalars['Long']>;
+  hasNext?: Maybe<Scalars['Boolean']>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Long']>;
+};
+
+export type Page_App_Connection = {
+  __typename?: 'Page_app_connection';
+  items: Array<Page>;
+  pageInfo?: Maybe<PageInfo>;
+};
+
+export type Page_Sort = {
+  option: Page_Sort_Option;
+  order?: InputMaybe<SortOrder>;
+};
+
+export enum Page_Sort_Option {
+  AverageTimeOnPage = 'AVERAGE_TIME_ON_PAGE',
+  Bounces = 'BOUNCES',
+  BounceRate = 'BOUNCE_RATE',
+  CalendarDate = 'CALENDAR_DATE',
+  Date = 'DATE',
+  Entrances = 'ENTRANCES',
+  ExitRatePercent = 'EXIT_RATE_PERCENT',
+  Label = 'LABEL',
+  PageValue = 'PAGE_VALUE',
+  PageViews = 'PAGE_VIEWS',
+  PageViewsVsUniquePageViews = 'PAGE_VIEWS_VS_UNIQUE_PAGE_VIEWS',
+  PublishDate = 'PUBLISH_DATE',
+  Sessions = 'SESSIONS',
+  UniquePageViews = 'UNIQUE_PAGE_VIEWS',
+  UpdateDate = 'UPDATE_DATE'
+}
 
 export type Query = {
   __typename?: 'Query';
@@ -98,6 +178,11 @@ export type Record_Interface = {
   _id?: Maybe<Scalars['ID']>;
 };
 
+export enum SortOrder {
+  Ascending = 'ASCENDING',
+  Descending = 'DESCENDING'
+}
+
 export type _Entry = App | Article | Page;
 
 export type GetAppQueryVariables = Exact<{
@@ -105,10 +190,10 @@ export type GetAppQueryVariables = Exact<{
 }>;
 
 
-export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, page?: { __typename?: 'Page', title?: string | null, _id?: string | null, article?: { __typename?: 'Article', body?: string | null, headline?: string | null, _id?: string | null } | null } | null } | null };
+export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', name?: string | null, _id?: string | null }> } | null } | null };
 
 export type GetArticleQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
+  id1?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -119,19 +204,15 @@ export type GetPageQueryVariables = Exact<{
 }>;
 
 
-export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', title?: string | null, _id?: string | null } | null };
+export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', body?: string | null, headline?: string | null, _id?: string | null }> } | null } | null };
 
 
 export const GetAppDocument = gql`
-    query GetApp($path: String = "") {
+    query GetApp($path: String) {
   App(path: $path) {
-    title
-    page {
-      title
-      _id
-      article {
-        body
-        headline
+    Page_app_connection {
+      items {
+        name
         _id
       }
     }
@@ -167,8 +248,8 @@ export type GetAppQueryHookResult = ReturnType<typeof useGetAppQuery>;
 export type GetAppLazyQueryHookResult = ReturnType<typeof useGetAppLazyQuery>;
 export type GetAppQueryResult = Apollo.QueryResult<GetAppQuery, GetAppQueryVariables>;
 export const GetArticleDocument = gql`
-    query GetArticle($id: ID = "") {
-  Article(id: $id) {
+    query GetArticle($id1: ID = "") {
+  Article(id: $id1) {
     headline
     body
     _id
@@ -188,7 +269,7 @@ export const GetArticleDocument = gql`
  * @example
  * const { data, loading, error } = useGetArticleQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      id1: // value for 'id1'
  *   },
  * });
  */
@@ -206,8 +287,13 @@ export type GetArticleQueryResult = Apollo.QueryResult<GetArticleQuery, GetArtic
 export const GetPageDocument = gql`
     query GetPage($id: ID = "") {
   Page(id: $id) {
-    title
-    _id
+    Article_page_connection {
+      items {
+        body
+        headline
+        _id
+      }
+    }
   }
 }
     `;

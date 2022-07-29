@@ -1,3 +1,7 @@
 .navbarContainer {
     padding: 10px;
 }
+
+.logo {
+    color: var(--primaryRed)
+}

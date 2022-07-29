@@ -5,6 +5,7 @@ import { useGetAppQuery } from '../generated/graphql'
 import Layout from '../components/Layout/Layout'
 import Head from 'next/head'
 import Container from '../components/Container/Container'
+import List from '../components/List/List'
 
 const Home: NextPage = () => {
 
@@ -25,6 +26,7 @@ const Home: NextPage = () => {
       </Head>
       <Container>
       <h1>Welcome to App Routing!</h1>
+      <List />
       {/* <AppView page={data?.page} /> */}
       </Container>
     </Layout>

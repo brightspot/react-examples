@@ -1,6 +1,11 @@
 query GetPage($id: ID = "") {
   Page(id: $id) {
-    title
-    _id
+    Article_page_connection {
+      items {
+        body
+        headline
+        _id
+      }
+    }
   }
 }

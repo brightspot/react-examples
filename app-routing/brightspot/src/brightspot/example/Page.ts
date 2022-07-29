@@ -4,28 +4,28 @@ import JavaField from '../../../brightspot-types/JavaField'
 import DirectoryItem from "../../../brightspot-types/com/psddev/cms/db/Directory$Item"
 import App from './App'
 import Site from '../../../brightspot-types/com/psddev/cms/db/Site'
-import Article from './Article'
+import Indexed from '../../../brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 
 @JavaClass('brightspot.example.Page')
 export default class Page extends Content.implements(DirectoryItem) {
   
   @JavaField()
-  title?: string
+  name?: string
 
 
   @JavaField()
+  @Indexed()
   app?: App
 
-  @JavaField()
-  article?: Article 
-
   getLabel():string {
-    return this.title || ''
+    return this.name || ''
   }
+
+
 
   createPermalink(site: Site): string {
     const Utils = Java.type('com.psddev.dari.util.Utils')
-    return Utils.toNormalized(this.getTitle())
+    return Utils.toNormalized(this.getName())
   }
 }
 

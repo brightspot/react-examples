@@ -1,0 +1,10 @@
+.listGrid {
+    display: grid;
+    border: 1px solid var(--primaryTextColor);
+}
+
+.listItem {
+    border: 1px solid var(--primaryTextColor);
+    margin: 5px;
+    display: flex;
+}

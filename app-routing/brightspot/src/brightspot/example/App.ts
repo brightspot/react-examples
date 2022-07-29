@@ -9,29 +9,9 @@ import DirectoryItem from "../../../brightspot-types/com/psddev/cms/db/Directory
 @JavaClass('brightspot.example.App')
 export default class App extends Content.implements(DirectoryItem) {
 
- 
-  
  @JavaRequired()
   @JavaField()
-  title!: string
-
-
-  @JavaField()
-   page1?: Page
-
-   @JavaField()
-   page2?: Page
-
-   @JavaField()
-   page3?: Page
-
-   @JavaField()
-   page4?: Page
-
-  getLabel():string {
-    return this.title
-
-  }
+  title?: string
 
   createPermalink(site: Site): string {
     const Utils = Java.type('com.psddev.dari.util.Utils')

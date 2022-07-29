@@ -3,8 +3,8 @@ import DirectoryItem from "../../../brightspot-types/com/psddev/cms/db/Directory
 import JavaClass from "../../../brightspot-types/JavaClass";
 import JavaField from "../../../brightspot-types/JavaField";
 import Site from "../../../brightspot-types/com/psddev/cms/db/Site";
-import App from './App'
 import Page from './Page'
+import Indexed from "../../../brightspot-types/com/psddev/dari/db/Recordable$Indexed";
 
 
 @JavaClass('brightspot.example.Article')
@@ -17,9 +17,7 @@ export default class Article extends Content.implements(DirectoryItem) {
   body?: string
 
   @JavaField()
-  app?: App
-
-  @JavaField()
+  @Indexed()
   page?: Page 
 
   createPermalink(site: Site): string {

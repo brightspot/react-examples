@@ -1,12 +1,8 @@
-query GetApp($path: String = "") {
+query GetApp($path: String) {
   App(path: $path) {
-    title
-    page {
-      title
-      _id
-      article {
-        body
-        headline
+    Page_app_connection {
+      items {
+        name
         _id
       }
     }
