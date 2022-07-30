@@ -197,10 +197,10 @@ export type GetFirstArticlesQueryVariables = Exact<{
 }>;
 
 
-export type GetFirstArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', name?: string | null, Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', headline?: string | null }> } | null }> } | null } | null };
+export type GetFirstArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', name?: string | null, _id?: string | null, Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', headline?: string | null, _id?: string | null }> } | null }> } | null } | null };
 
 export type GetArticleQueryVariables = Exact<{
-  id1?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -211,7 +211,7 @@ export type GetPageQueryVariables = Exact<{
 }>;
 
 
-export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', body?: string | null, headline?: string | null, _id?: string | null }> } | null } | null };
+export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', _id?: string | null, name?: string | null, Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', _id?: string | null, headline?: string | null }> } | null } | null };
 
 
 export const GetAppDocument = gql`
@@ -260,9 +260,11 @@ export const GetFirstArticlesDocument = gql`
     Page_app_connection {
       items {
         name
+        _id
         Article_page_connection(limit: 1) {
           items {
             headline
+            _id
           }
         }
       }
@@ -299,8 +301,8 @@ export type GetFirstArticlesQueryHookResult = ReturnType<typeof useGetFirstArtic
 export type GetFirstArticlesLazyQueryHookResult = ReturnType<typeof useGetFirstArticlesLazyQuery>;
 export type GetFirstArticlesQueryResult = Apollo.QueryResult<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>;
 export const GetArticleDocument = gql`
-    query GetArticle($id1: ID = "") {
-  Article(id: $id1) {
+    query GetArticle($id: ID = "") {
+  Article(id: $id) {
     headline
     body
     _id
@@ -320,7 +322,7 @@ export const GetArticleDocument = gql`
  * @example
  * const { data, loading, error } = useGetArticleQuery({
  *   variables: {
- *      id1: // value for 'id1'
+ *      id: // value for 'id'
  *   },
  * });
  */
@@ -336,15 +338,16 @@ export type GetArticleQueryHookResult = ReturnType<typeof useGetArticleQuery>;
 export type GetArticleLazyQueryHookResult = ReturnType<typeof useGetArticleLazyQuery>;
 export type GetArticleQueryResult = Apollo.QueryResult<GetArticleQuery, GetArticleQueryVariables>;
 export const GetPageDocument = gql`
-    query GetPage($id: ID = "") {
+    query GetPage($id: ID) {
   Page(id: $id) {
     Article_page_connection {
       items {
-        body
-        headline
         _id
+        headline
       }
     }
+    _id
+    name
   }
 }
     `;

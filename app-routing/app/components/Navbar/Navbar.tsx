@@ -1,9 +1,20 @@
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 import { useState } from 'react'
+import { useGetAppQuery} from '../../generated/graphql'
 
 const Navbar = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
+    const { data, loading, error } = useGetAppQuery({
+      variables: {
+        path: '/news'
+      }
+    })
+
+    if (loading) return <div>Loading...</div>
+    if (error) console.log(error.message)
+
+  const pageList = data?.App?.Page_app_connection?.items
   return (
     <nav className={styles.navigation}>
       <h2 className={styles.logo}>
@@ -33,26 +44,15 @@ const Navbar = () => {
         </svg>
         </button>
         <ul>
-          <li>
-            <Link href="/business">
-              <a>Business</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/culture">
-              <a>Culture</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/tech">
-              <a>Tech</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/music">
-              <a>Music</a>
-            </Link>
-          </li>
+          {pageList?.map((item) => (
+             <li key={item._id} onClick={() => {
+              setIsNavExpanded(false)
+             }}>
+             <Link href={`/${item._id}`}>
+               <a>{item.name}</a>
+             </Link>
+           </li>
+          ))}
         </ul>
       </div>
     </nav>

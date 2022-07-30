@@ -1,11 +1,12 @@
-query GetPage($id: ID = "") {
+query GetPage($id: ID) {
   Page(id: $id) {
     Article_page_connection {
       items {
-        body
-        headline
         _id
+        headline
       }
     }
+    _id
+    name
   }
 }

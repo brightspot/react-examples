@@ -1,5 +1,5 @@
-query GetArticle($id1: ID = "") {
-  Article(id: $id1) {
+query GetArticle($id: ID = "") {
+  Article(id: $id) {
     headline
     body
     _id

@@ -15,9 +15,11 @@ query GetFirstArticles($path: String = "") {
     Page_app_connection {
       items {
         name
+        _id
         Article_page_connection(limit: 1) {
           items {
             headline
+            _id
           }
         }
       }

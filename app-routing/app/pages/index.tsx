@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
-import { useGetAppQuery, useGetFirstArticlesQuery } from '../generated/graphql'
-import Layout from '../components/Layout/Layout'
+import { useGetFirstArticlesQuery } from '../generated/graphql'
 import Head from 'next/head'
 import Container from '../components/Container/Container'
 import List from '../components/List/List'
@@ -8,41 +7,28 @@ import Banner from '../components/Banner/Banner'
 
 const Home: NextPage = () => {
 
-  const { data, loading, error } = useGetAppQuery({
-    variables: {
-      path: '/news'
-    }
-  })
-
-  const { data:firstArticlesData, loading: firstArticlesLoading, error: firstArticlesError } = useGetFirstArticlesQuery({
+  const { data, loading, error } = useGetFirstArticlesQuery({
     variables: {
       path: '/news'
     } 
   })
-
-  console.log('data', data, loading, error)
-  console.log('firstArticlesData', firstArticlesData, firstArticlesLoading, firstArticlesError)
-  if (loading) console.log(loading)
+ 
+  if (loading) return <div>Loading</div>
   if (error) console.log(error)
-  // if (!data?.App) return <div>404</div>
+  if (!data?.App) console.log('no data...')
 
-  const pagesArray = firstArticlesData?.App?.Page_app_connection?.items
-  console.log({ pagesArray })
+  const pagesAndArticlesArray = data?.App?.Page_app_connection?.items
 
-  const topArticles =  pagesArray?.map((item) => {
-    return item.Article_page_connection?.items[0]
-  })
-  console.log({ topArticles })
   return (
-    <Layout>
+    <>
       <Head>
         <title>News</title>
       </Head>
+      <Banner name="Home" />
       <Container>
-     <Banner />
-      <List />
+      <List pagesAndArticlesArray={pagesAndArticlesArray}/>
       </Container>
-    </Layout>
+    </>
   )
 }
 
