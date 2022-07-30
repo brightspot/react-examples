@@ -3,11 +3,9 @@ import styles from './Footer.module.css'
 const Footer = () => {
     return  (
         <footer>
-        <Container>
             <div className={styles.footerContainer}>
-            <h4>Footer</h4>
+            <h4>&copy; <a href='https://www.brightspot.com/' target='_blank' className={styles.name} rel="noreferrer">Brightspot</a> App Routing Tutorial</h4>
             </div>
-        </Container>
         </footer>
 
     )

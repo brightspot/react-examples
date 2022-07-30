@@ -4,9 +4,12 @@
 :root {
   --primaryRed: #ed1c24;
   --primaryTextColor: #757575;
+  --secondaryGrey: #eaeaea;
   --primaryBlue: #0477c9;
   --primaryBackground: #fff;
   --primaryBlack: #000;
+  --primaryBackground: #F9F9F9;
+  --secondaryBackground: #fff;
 }
 
 html,
@@ -15,8 +18,9 @@ body {
   margin: 0;
   font-family: 'Noto Sans', sans-serif;
   color: var(--primaryTextColor);
-  line-height: 1.7;
+  /* line-height: 1.7; */
   font-size: 1rem;
+  background: var(--primaryBackground)
 }
 
 a {

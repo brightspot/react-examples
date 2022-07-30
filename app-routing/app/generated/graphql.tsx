@@ -192,6 +192,13 @@ export type GetAppQueryVariables = Exact<{
 
 export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', name?: string | null, _id?: string | null }> } | null } | null };
 
+export type GetFirstArticlesQueryVariables = Exact<{
+  path?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetFirstArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', name?: string | null, Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', headline?: string | null }> } | null }> } | null } | null };
+
 export type GetArticleQueryVariables = Exact<{
   id1?: InputMaybe<Scalars['ID']>;
 }>;
@@ -247,6 +254,50 @@ export function useGetAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetAppQueryHookResult = ReturnType<typeof useGetAppQuery>;
 export type GetAppLazyQueryHookResult = ReturnType<typeof useGetAppLazyQuery>;
 export type GetAppQueryResult = Apollo.QueryResult<GetAppQuery, GetAppQueryVariables>;
+export const GetFirstArticlesDocument = gql`
+    query GetFirstArticles($path: String = "") {
+  App(path: $path) {
+    Page_app_connection {
+      items {
+        name
+        Article_page_connection(limit: 1) {
+          items {
+            headline
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetFirstArticlesQuery__
+ *
+ * To run a query within a React component, call `useGetFirstArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFirstArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFirstArticlesQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useGetFirstArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>(GetFirstArticlesDocument, options);
+      }
+export function useGetFirstArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>(GetFirstArticlesDocument, options);
+        }
+export type GetFirstArticlesQueryHookResult = ReturnType<typeof useGetFirstArticlesQuery>;
+export type GetFirstArticlesLazyQueryHookResult = ReturnType<typeof useGetFirstArticlesLazyQuery>;
+export type GetFirstArticlesQueryResult = Apollo.QueryResult<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>;
 export const GetArticleDocument = gql`
     query GetArticle($id1: ID = "") {
   Article(id: $id1) {

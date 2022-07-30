@@ -8,3 +8,19 @@ query GetApp($path: String) {
     }
   }
 }
+
+
+query GetFirstArticles($path: String = "") {
+  App(path: $path) {
+    Page_app_connection {
+      items {
+        name
+        Article_page_connection(limit: 1) {
+          items {
+            headline
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,11 +1,10 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
-import AppView from '../components/App/AppView'
-import { useGetAppQuery } from '../generated/graphql'
+import { useGetAppQuery, useGetFirstArticlesQuery } from '../generated/graphql'
 import Layout from '../components/Layout/Layout'
 import Head from 'next/head'
 import Container from '../components/Container/Container'
 import List from '../components/List/List'
+import Banner from '../components/Banner/Banner'
 
 const Home: NextPage = () => {
 
@@ -14,20 +13,34 @@ const Home: NextPage = () => {
       path: '/news'
     }
   })
+
+  const { data:firstArticlesData, loading: firstArticlesLoading, error: firstArticlesError } = useGetFirstArticlesQuery({
+    variables: {
+      path: '/news'
+    } 
+  })
+
   console.log('data', data, loading, error)
-  if (loading) return <div>Loading...</div>
+  console.log('firstArticlesData', firstArticlesData, firstArticlesLoading, firstArticlesError)
+  if (loading) console.log(loading)
   if (error) console.log(error)
-  if (!data?.App) return <div>404</div>
-  console.log('data', data)
+  // if (!data?.App) return <div>404</div>
+
+  const pagesArray = firstArticlesData?.App?.Page_app_connection?.items
+  console.log({ pagesArray })
+
+  const topArticles =  pagesArray?.map((item) => {
+    return item.Article_page_connection?.items[0]
+  })
+  console.log({ topArticles })
   return (
     <Layout>
       <Head>
         <title>News</title>
       </Head>
       <Container>
-      <h1>Welcome to App Routing!</h1>
+     <Banner />
       <List />
-      {/* <AppView page={data?.page} /> */}
       </Container>
     </Layout>
   )

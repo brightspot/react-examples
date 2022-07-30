@@ -1,10 +1,45 @@
 .listGrid {
     display: grid;
-    border: 1px solid var(--primaryTextColor);
+    grid-template-columns: 1fr;
+    row-gap: 10px;
 }
 
 .listItem {
-    border: 1px solid var(--primaryTextColor);
     margin: 5px;
     display: flex;
+    padding: 0.3rem;
+    box-shadow:  0 2px 0 rgb(0 0 0 / 5%);
+    background: var(--secondaryBackground);
+    border-radius: 2px;
+}
+
+.imageContainer {
+    height: 100%;
+}
+
+.sectionText {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+}
+
+.articleHeadline {
+    margin: 0;
+    color: red;
+    font-size: 1rem;
+}
+
+.textContainer {
+    padding: 5px;
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+    .listGrid {
+        grid-template-columns: 50% 50%;
+        grid-auto-rows: 1fr;
+    }
+    .articleHeadline{
+        font-size: 1.3rem;
+    }
 }
