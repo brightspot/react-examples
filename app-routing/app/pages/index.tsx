@@ -7,14 +7,14 @@ import Banner from '../components/Banner/Banner'
 
 const Home: NextPage = () => {
 
-  const { data, loading, error } = useGetFirstArticlesQuery({
+  // query that gets one article from each page
+  const { data, error } = useGetFirstArticlesQuery({
     variables: {
       path: '/news'
     } 
   })
  
-  if (loading) return <div>Loading</div>
-  if (error) console.log(error)
+  if (error) console.log(error.message)
   if (!data?.App) console.log('no data...')
 
   const pagesAndArticlesArray = data?.App?.Page_app_connection?.items

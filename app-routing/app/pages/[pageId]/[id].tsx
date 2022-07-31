@@ -7,13 +7,12 @@ const ArticlePage = () => {
   const router = useRouter();
   const id = router.query.id;
   const articleId = Array.isArray(id) ? id[0] : id;
-  const { data, loading, error } = useGetArticleQuery({
+  const { data, error } = useGetArticleQuery({
     variables: {
       id: articleId,
     },
   });
 
-  if (loading) return <div>Loading...</div>;
   if (error) console.log(error.message);
   return (
     <>

@@ -5,16 +5,22 @@ import { useGetAppQuery} from '../../generated/graphql'
 
 const Navbar = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
-    const { data, loading, error } = useGetAppQuery({
+    const { data, error } = useGetAppQuery({
       variables: {
         path: '/news'
       }
     })
 
-    if (loading) return <div>Loading...</div>
     if (error) console.log(error.message)
 
   const pageList = data?.App?.Page_app_connection?.items
+
+  function handleNavigation() {
+    setTimeout(() => {
+      setIsNavExpanded(false)
+    }, 1500)
+  }
+
   return (
     <nav className={styles.navigation}>
       <h2 className={styles.logo}>
@@ -38,17 +44,15 @@ const Navbar = () => {
         </svg>
       </button>
       <div className={isNavExpanded ? styles.navigationMenuExpanded: styles.navigationMenu}>
-        <button className={isNavExpanded ? styles.close: styles.closeHidden} onClick={() => setIsNavExpanded(false)}>
+        <button className={isNavExpanded ? styles.close: styles.closeHidden} onClick={handleNavigation}>
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
         </button>
         <ul>
           {pageList?.map((item) => (
-             <li key={item._id} onClick={() => {
-              setIsNavExpanded(false)
-             }}>
-             <Link href={`/${item._id}`}>
+             <li key={item._id} onClick={handleNavigation}>
+             <Link href={`/${item._id}`} as={`/${item.name}`}>
                <a>{item.name}</a>
              </Link>
            </li>

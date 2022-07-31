@@ -3,20 +3,35 @@ import Image from "next/image";
 import Link from "next/link";
 
 const imageArray = [
-  {image: '/tree.jpg', alt: 'Photo by Matthew Smith on Unsplash'},
-  {image: '/laugh.jpg', alt: 'photo by Felicia Buitenwerf on Unsplash'},
-  {image: '/flowers.jpg', alt: 'Photo by Henry Be on Unsplash'},
-  {image: '/ocean.jpg', alt: 'Photo by Quino Al on Unsplash'}
+  {image: '/balloons.png', alt: 'cropped photo by Al Soot on Unsplash'},
+  {image: '/laugh.jpg', alt: 'cropped photo by Felicia Buitenwerf on Unsplash'},
+  {image: '/flowers.png', alt: 'cropped photo by Henry Be on Unsplash'},
+  {image: '/ocean.png', alt: 'cropped photo by Quino Al on Unsplash'}
 ]
 
-const List = ({ pagesAndArticlesArray }: any) => {
+type PagesAndArticles = { 
+   __typename?: "Page" | undefined; 
+   name?: string | null | undefined; 
+   _id?: string | null | undefined; 
+   Article_page_connection?: { __typename?: string | undefined; 
+   items: {
+    __typename?: string | undefined | null;
+    headline?: string | undefined | null;
+    _id?: string | undefined | null;
+   }[]; 
+  } | null | undefined; }| undefined
+interface Props {
+  pagesAndArticlesArray: PagesAndArticles[] | undefined | null
+}
 
+
+const List= ({ pagesAndArticlesArray}: Props) => {
   const fourArticles = pagesAndArticlesArray?.slice(0, 4)
   return (
     <section>
       <div className={styles.listGrid}>
-        {fourArticles?.map((article: any, i: number) => (
-          <Link href={`/${article.name}/${article.Article_page_connection.items[0]._id}`} key={article.Article_page_connection.items[0]._id}>
+        {fourArticles?.map((article: PagesAndArticles, i: number) => (
+          <Link href={`/${article?.name}/${article?.Article_page_connection?.items[0]._id}`} key={article?.Article_page_connection?.items[0]._id}>
            <a>
            <div className={styles.listItem}>
              <div>
@@ -31,8 +46,8 @@ const List = ({ pagesAndArticlesArray }: any) => {
                </div>
              </div>
              <div className={styles.textContainer}>
-               <p className={styles.sectionText}>{article.name}</p>
-             <h4 className={styles.articleHeadline}>{article?.Article_page_connection.items[0].headline || ''}</h4>
+               <p className={styles.sectionText}>{article?.name}</p>
+             <h4 className={styles.articleHeadline}>{article?.Article_page_connection?.items[0].headline || ''}</h4>
              </div>
            </div>
            </a>
