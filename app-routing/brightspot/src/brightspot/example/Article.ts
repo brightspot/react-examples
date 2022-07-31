@@ -15,14 +15,18 @@ export default class Article extends Content.implements(DirectoryItem) {
 
   @JavaField()
   body?: string
-
+  
   @JavaField()
   @Indexed()
   page?: Page 
 
+  getLabel():string {
+    return this.headline || ''
+  }
+
   createPermalink(site: Site): string {
     const Utils = Java.type('com.psddev.dari.util.Utils')
-    return Utils.toNormalized(this.getHeadline())
+    return Utils.toNormalized(this.headline())
   }
 }
 

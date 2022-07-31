@@ -1,34 +1,27 @@
+# App Routing with Next.js and Brightspot
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+Follow the instructions for running the Brightspot instance. 
+
+Run the development server. CD into `app-routing/app` and run the following commands:
 
 ```bash
-npm run dev
-# or
-yarn dev
+yarn && yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Use ids for GraphQL queries with dynamic rouing
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+In the `app/pages` directory section you can see how section pages and their associated article pages are rendered dynamically. GraphQL queries use the id for the associated query item, but also use the `as` parameter to keep from showing the id argument in the url. 
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Example:
 
-## Learn More
+```
+<Link href={`/${data.Page?.name}/${item.headline}?article=${item._id}`} as={`/${data.Page?.name}/${item.headline}`} key={item._id}>
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Refer to the [Next/Router documentation](https://nextjs.org/docs/api-reference/next/router) and [Next/Link documentation](https://nextjs.org/docs/api-reference/next/link) for more information.

@@ -4,22 +4,23 @@ import Banner from "../../components/Banner/Banner";
 import { useGetPageQuery } from "../../generated/graphql";
 import Container from "../../components/Container/Container";
 import styles from "../../styles/pages.module.css";
+import Head from "next/head";
 
 const SectionPage = () => {
   const router = useRouter();
-  const pageName = router.asPath;
-  const id = router.query.pageId;
-  const pageId = Array.isArray(id) ? id[0] : id;
+  const queryId = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
   const { data, error } = useGetPageQuery({
     variables: {
-      id: pageId,
+      id: queryId,
     },
   });
 
   if (error) console.log(error.message);
-
   return (
     <>
+    <Head>
+    <title>News | {data?.Page?.name}</title>
+    </Head>
       <button className={styles.back} onClick={() => router.back()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +41,7 @@ const SectionPage = () => {
       <Container>
         {data?.Page?.Article_page_connection?.items.map((item) => {
           return (
-            <Link href={`${pageName}/${item._id}`} key={item._id}>
+            <Link href={`/${data.Page?.name}/${item.headline}?article=${item._id}`} as={`/${data.Page?.name}/${item.headline}`} key={item._id}>
               <a>{item.headline}</a>
             </Link>
           );

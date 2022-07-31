@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
-import { useGetArticleQuery } from "../../generated/graphql";
-import Container from "../../components/Container/Container";
-import styles from "../../styles/pages.module.css";
+import { useGetArticleQuery } from "../../../generated/graphql";
+import Container from "../../../components/Container/Container";
+import styles from '../../../styles/pages.module.css'
+import Head from "next/head";
 
 const ArticlePage = () => {
   const router = useRouter();
-  const id = router.query.id;
+  const id = router.query.article;
   const articleId = Array.isArray(id) ? id[0] : id;
   const { data, error } = useGetArticleQuery({
     variables: {
@@ -16,6 +17,9 @@ const ArticlePage = () => {
   if (error) console.log(error.message);
   return (
     <>
+    <Head>
+    <title>News | {data?.Article?.headline}</title>
+    </Head>
       <button className={styles.back} onClick={() => router.back()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
