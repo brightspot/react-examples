@@ -10,20 +10,11 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('SESSION', session)
     if (session) {
       router.replace("/");
     } else {
       setLoading(false)
     }
-    // getSession().then((session) => {
-    //   console.log('THERE IS A SESSION:', session, router)
-    //   if (session) {
-    //     router.replace("/");
-    //   } else {
-    //     setLoading(false);
-    //   }
-    // });
   }, [router, session]);
 
   if (loading) return <div>Loading..</div>;

@@ -23,7 +23,6 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [error, setError] = useState({ isError: false, message: "" });
   const [query, setQuery] = useState("");
-
   const userName: string | undefined | null = session?.user?.name
 
   useEffect(() => {
@@ -75,6 +74,9 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
           );
           setSearchResults(array);
         })
+      } if (!inputRef?.current?.value && query === '') {
+        setQuery("");
+        setSearchResults([])
       }
     }, 500)
       return () => {
