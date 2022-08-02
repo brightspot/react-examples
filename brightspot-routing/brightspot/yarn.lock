@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@brightspot/cli@^4.5.7-rc.4":
-  version "4.5.7-rc.4"
-  resolved "https://registry.yarnpkg.com/@brightspot/cli/-/cli-4.5.7-rc.4.tgz#e560515e52c2539830f28da7113df87add5231eb"
-  integrity sha512-SZVM8tokZZKldJY06eoI2HKj3bqRNSVjJJnzWK61auTEIwrQgeA1r+EkYSumlJT5iPK55aqUxqSPP7xiQPdc+w==
+"@brightspot/cli@^4.5.7-rc.5":
+  version "4.5.7-rc.5"
+  resolved "https://registry.yarnpkg.com/@brightspot/cli/-/cli-4.5.7-rc.5.tgz#c79b53dc0dabc26439ba1f55745efe38dd11828b"
+  integrity sha512-45LPF54VwqBqQwxm7QAWYmMd6suuZzDkboLgFQ4OTIfq9LynzeNKrWOlIAGMbnjwkHWoTOHX39iIhq4RB5RNrQ==
   dependencies:
     chokidar "^3.5.3"
     esbuild "^0.14.48"
