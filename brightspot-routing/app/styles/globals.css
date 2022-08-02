@@ -1,9 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+/* Variables */
+:root {
+  --primaryRed: #ed1c24;
+  --primaryTextColor: #757575;
+  --secondaryGrey: #eaeaea;
+  --primaryBlue: #0477c9;
+  --primaryBackground: #fff;
+  --primaryBlack: 	#232b2b;
+  --primaryBackground: #F9F9F9;
+  --secondaryBackground: #fff;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Noto Sans', sans-serif;
+  color: var(--primaryTextColor);
+  /* line-height: 1.7; */
+  font-size: 1rem;
+  background: var(--primaryBackground)
 }
 
 a {
