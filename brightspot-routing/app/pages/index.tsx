@@ -1,22 +1,22 @@
 import type { NextPage } from 'next'
-import HomeView from '../components/Home/HomeView'
-import { useGetSectionsQuery } from '../generated/graphql'
+import AppView from '../components/App/AppView'
+import { useGetAllPagesQuery } from '../generated/graphql'
 
 const Home: NextPage = () => {
 
-  const { data, loading, error } = useGetSectionsQuery({
+  const { data, loading, error } = useGetAllPagesQuery({
     variables: {
-      path: '/home'
+      path: '/app'
     }
   })
 
   if (loading) return <div>Loading</div>
   if (error) return <div>{error.message}</div>
-  if (!data?.Page) return <div>404</div>
+  if (!data?.App) return <div>404</div>
 
   return (
     <>
-      <HomeView page={data.Page}/>
+      <AppView app={data.App}/>
     </>
   )
 }
