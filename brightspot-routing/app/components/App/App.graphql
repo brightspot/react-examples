@@ -1,0 +1,24 @@
+query GetAllPages($path: String = "") {
+  App(path: $path) {
+    Page_app_connection {
+      items {
+        url
+        name
+        Article_page_connection(sort: {option: PUBLISH_DATE, order: DESCENDING}) {
+          items {
+            page {
+              url
+              name
+            }
+            url
+            headline
+            body
+            cms_content {
+              publishDate
+            }
+          }
+        }
+      }
+    }
+  }
+}

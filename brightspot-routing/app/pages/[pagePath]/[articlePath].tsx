@@ -6,11 +6,11 @@ import ArticleView from '../../components/Article/ArticleView'
 const ArticleContainer: NextPage = () => {
 
   const router = useRouter()
-  const { path } = router.query
+  const { articlePath } = router.query
 
   const { data, loading, error } = useGetArticleQuery({
     variables: {
-      path: `${path}`
+      path: `${articlePath}`
     }
   })
 

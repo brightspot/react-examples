@@ -1,0 +1,10 @@
+query GetAllArticles($path: String = "") {
+  Page(path: $path) {
+    Article_page_connection {
+      items {
+        url
+        headline
+      }
+    }
+  }
+}
