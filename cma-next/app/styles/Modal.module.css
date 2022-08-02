@@ -20,7 +20,7 @@
     margin-bottom: 2rem;
     color: var( --primaryTextColor);
     position: relative;
-    min-width: 30%;
+    width: 40%;
   }
 
   .noteForm {
@@ -28,26 +28,8 @@
     flex-direction: column;
   }
   
-  .noteFormInput {
-    min-height: var(--inputHeight);
-    border: none;
-    background: none;
-    font-size: 16px;
-    border-bottom: 1 px dashed var(--borderColor);
-    overflow-wrap: break-word;
-    max-width: 370px;
-  }
-
-  .inputField {
-    background-color: yellow;
-  }
-
   .inputField:focus {
-    background-color: pink;
-  }
-
-  .noteForm > input:hover {
-    cursor: pointer;
+   outline: 0;
   }
 
   .submitButton {
@@ -69,14 +51,6 @@
 
   .noteBottom {
     display: flex;
-  }
-
-  .noteSuccess {
-    color: var(--success);
-    position: absolute;
-    right: 81px;
-    bottom: 10px;
-    font-size: 12px;
   }
 
   .deleteButton {

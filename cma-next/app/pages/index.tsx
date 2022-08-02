@@ -34,7 +34,6 @@ const Home: NextPage = () => {
         });
       }
       res.json().then((res) => {
-        console.log('Completing getItems', res)
         setItems(res.brightspot_example_NoteQuery.items);
       });
     });

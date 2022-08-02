@@ -6,6 +6,16 @@
     margin-bottom: 2rem;
     color: var( --primaryTextColor);
     position: relative;
+    width: 100%;
+  }
+
+  .noteCard[data-hide="true"] {
+    opacity: 0;
+
+  }
+
+  .noteCard:hover {
+    cursor: pointer;
   }
 
   .noteForm {
@@ -13,16 +23,9 @@
     flex-direction: column;
   }
   
-  .noteForm > input {
-    height: var(--inputHeight);
-    border: none;
-    background: none;
-    font-size: 16px;
-    border-bottom: 1 px dashed var(--borderColor);
-  }
-
-  .noteForm > input:hover {
-    cursor: pointer;
+  .inputField {
+    width: 100%;
+    word-wrap: break-word;
   }
 
   .submitButton {
@@ -44,14 +47,7 @@
 
   .noteBottom {
     display: flex;
-  }
-
-  .noteSuccess {
-    color: var(--success);
-    position: absolute;
-    right: 81px;
-    bottom: 10px;
-    font-size: 12px;
+    margin-top: 2rem;
   }
 
   .deleteButton {
@@ -82,8 +78,4 @@
   
   .deleteIcon:hover {
     color: #fff;
-  }
-
-  .id {
-    font-size: 15px;
   }

@@ -1,5 +1,3 @@
-/* Create Hello World Form */
-
 .createNoteForm {
     max-width: 540px;
     background: #fff;
@@ -16,10 +14,11 @@
   
   .createNoteInput {
     width: 100%;
-    height: var(--inputHeight);
-    border: 1px solid var(--borderColor);
-    padding: 5px;
     font-size: 1rem;
+  }
+
+  .label {
+    margin: 0;
   }
   
   .submitButton {

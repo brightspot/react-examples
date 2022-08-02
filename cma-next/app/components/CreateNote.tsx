@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import styles from "../styles/CreateNote.module.css";
 import { useSession }  from 'next-auth/react'
 
@@ -8,25 +8,20 @@ type Props = {
 
 
 const CreateNote: React.FC<Props> = ({ getItems }) => {
-  const [error, setError] = useState({ isError: false, message: "" });
-  const titleRef = useRef<HTMLInputElement>(null);
-  const textRef = useRef<HTMLInputElement>(null);
   const { data: session } = useSession()
   const userName: string | undefined | null = session?.user?.name
+  const [error, setError] = useState({ isError: false, message: "" });
+  const [formState, setFormState] = useState({
+    id: '',
+    title: '',
+    text: '',
+    userName: userName
+  })
 
   const submitNewNote = async () => {
-    const text = textRef?.current?.value;
-    const title = titleRef?.current?.value;
-
-    const newNoteValues = {
-      text,
-      title,
-      userName,
-    };
-
     await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/newNote`, {
       method: "POST",
-      body: JSON.stringify(newNoteValues),
+      body: JSON.stringify(formState),
       headers: {
         "Content-Type": "application/json",
       },
@@ -38,10 +33,12 @@ const CreateNote: React.FC<Props> = ({ getItems }) => {
         });
       }
       res.json().then(() => {
-        if (titleRef?.current?.value && textRef?.current?.value) {
-          titleRef.current.value = "";
-          textRef.current.value = "";
-        }
+        setFormState({
+          id: '',
+          title: '',
+          text: '',
+          userName: userName
+        })
         getItems();
       });
     });
@@ -50,39 +47,44 @@ const CreateNote: React.FC<Props> = ({ getItems }) => {
   if (error.isError) return <div>{error.message}</div>;
 
   return (
-    <form
+    <div
       className={styles.createNoteForm}
-      onSubmit={(e) => {
+    >
+      <div className={styles.createNoteWrapper}>
+          <h4 className={styles.label}>Title</h4>
+          <div
+            contentEditable="true"
+            className={styles.createNoteInput}
+            aria-label="Title"
+            onBlur={(e) => {
+              setFormState({
+                ...formState,
+                title: e.currentTarget.innerText
+              })
+            }}
+          ></div>
+          <h4 className={styles.label}>Text</h4>
+          <div
+            contentEditable="true"
+            className={styles.createNoteInput}
+            aria-label="Title"
+            onBlur={(e) => {
+              setFormState({
+                ...formState,
+                text: e.currentTarget.innerText
+              })
+            }}            
+          ></div>
+      </div>
+      <button className={styles.submitButton} 
+      onClick={(e) => {
         e.preventDefault();
         submitNewNote();
       }}
-    >
-      <div className={styles.createNoteWrapper}>
-        <label>
-          <p>Title</p>
-          <input
-            className={styles.createNoteInput}
-            ref={titleRef}
-            type="text"
-            placeholder=""
-            required
-          />
-        </label>
-        <label>
-          <p>Text</p>
-          <input
-            className={styles.createNoteInput}
-            ref={textRef}
-            type="text"
-            placeholder=""
-            required
-          />
-        </label>
-      </div>
-      <button className={styles.submitButton} type="submit">
+      >
         Submit
       </button>
-    </form>
+    </div>
   );
 };
 

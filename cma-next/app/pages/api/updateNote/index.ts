@@ -1,11 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../lib/apollo-client";
 import { getSession } from "next-auth/react";
-import {
-  UPDATE_NOTE_TITLE_AND_TEXT,
-  UPDATE_NOTE_TITLE,
-  UPDATE_NOTE_TEXT,
-} from "../../../queries/UpdateNote";
+import { UPDATE_NOTE } from "../../../queries/UpdateNote";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,7 +12,7 @@ export default async function handler(
     return;
   }
 
-  // This is an example of how to protect api routes (by user role, etc)
+  // This is an example of how to protect api routes
   const session = await getSession({ req: req });
 
   if (!session) {
@@ -25,42 +21,21 @@ export default async function handler(
   }
 
   try {
-    if (req.body.title && req.body.text) {
-      const { data } = await client.mutate({
-        mutation: UPDATE_NOTE_TITLE_AND_TEXT,
-        fetchPolicy: "no-cache",
-        variables: {
-          title: req.body.title,
-          text: req.body.text,
-          id: req.body.id,
-          toolUser: req.body.toolUser
-        },
-      });
-      res.status(200).json(data);
-    } else if (req.body.title) {
-      const { data } = await client.mutate({
-        mutation: UPDATE_NOTE_TITLE,
-        fetchPolicy: "no-cache",
-        variables: {
-          title: req.body.title,
-          id: req.body.id,
-          toolUser: req.body.toolUser
-        },
-      });
-      res.status(200).json(data);
-    } else if (req.body.text) {
-      const { data } = await client.mutate({
-        mutation: UPDATE_NOTE_TEXT,
-        fetchPolicy: "no-cache",
-        variables: {
-          text: req.body.text,
-          id: req.body.id,
-          toolUser: req.body.toolUser
-        },
-      });
-      res.status(200).json(data);
+    let editVariables: any = {id: req.body.id, toolUser: req.body.toolUser}
+    if (req.body.title) {
+      editVariables.title = req.body.title
+    } 
+    if (req.body.text) {
+      editVariables.text = req.body.text
     }
-  } catch (error: any) {
+
+      const { data } = await client.mutate({
+        mutation: UPDATE_NOTE,
+        fetchPolicy: "no-cache",
+        variables: editVariables
+      });
+      res.status(200).json(data);
+    } catch (error: any) {
     console.error("error in updating note", error);
     if (error.networkError) {
       res.status(error.networkError.statusCode).json(error.message);
