@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { TiTimes } from "react-icons/ti";
-import styles from "../styles/HelloWorldCard.module.css";
+import styles from "../styles/NoteCard.module.css";
+import { useSession } from "next-auth/react";
+import Modal from './Modal'
 
-type HelloWorldCardProps = {
+type Props = {
   title: string;
   text: string;
   id: string;
@@ -16,42 +18,33 @@ type Result = {
   toolUser: string;
 };
 
-const HelloWorldCard: React.FC<HelloWorldCardProps> = ({
+const NoteCard: React.FC<Props> = ({
   title,
   text,
   id,
   getItems,
 }) => {
-  const USER = "hw-user";
-  const [isSSR, setIsSSR] = useState(true);
+  const { data: session } =useSession()
+  const userName: string | undefined | null = session?.user?.name
+  const [isOpen, setIsOpen] = useState(false)
   const [editFormState, setEditFormState] = useState({
     id: id,
     currentTitle: title,
     currentText: text,
     userName: "",
   });
-  const [showSucessMessage, setShowSuccessMessage] = useState(false);
+
   const [error, setError] = useState({ isError: false, message: "" });
 
   useEffect(() => {
-    setIsSSR(false);
     setEditFormState({
       ...editFormState,
-      userName: sessionStorage.getItem(USER) || "",
+      userName: userName || "",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [title, text, id]);
 
-  useEffect(() => {
-    const timeId = setTimeout(() => {
-      setShowSuccessMessage(false);
-    }, 3000);
-    return () => {
-      clearTimeout(timeId);
-    };
-  }, [showSucessMessage]);
-
-  const submitUpdatedHelloWorld = async () => {
+  const submitUpdatedNote = async () => {
     const dataToUpdate = () => {
       const result: Result = { id: id, toolUser: editFormState.userName };
       if (editFormState.currentTitle !== title) {
@@ -62,7 +55,7 @@ const HelloWorldCard: React.FC<HelloWorldCardProps> = ({
       }
       return result;
     };
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateHello`, {
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateNote`, {
       method: "PATCH",
       body: JSON.stringify(dataToUpdate()),
       headers: {
@@ -81,8 +74,8 @@ const HelloWorldCard: React.FC<HelloWorldCardProps> = ({
     });
   };
 
-  const submitDeleteHelloWorld = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/deleteHello`, {
+  const submitDeleteNote = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`, {
       method: "DELETE",
       body: JSON.stringify(editFormState),
       headers: {
@@ -110,15 +103,15 @@ const HelloWorldCard: React.FC<HelloWorldCardProps> = ({
   if (error.isError) return <div>{error.message}</div>;
 
   return (
-    <div className={styles.helloWorldCard} key={id}>
+    <>
+    <div className={styles.noteCard} key={id} onClick={() => setIsOpen(true)}>
       <form
-        className={styles.helloWorldForm}
+        className={styles.noteForm}
         onSubmit={(e) => {
           e.preventDefault();
-          submitUpdatedHelloWorld();
+          submitUpdatedNote();
         }}
       >
-        <label htmlFor="title">Title</label>
         <input
           type="text"
           id={`title for id ${id}`}
@@ -132,7 +125,6 @@ const HelloWorldCard: React.FC<HelloWorldCardProps> = ({
           }
           onKeyDown={onKeyDown}
         />
-        <label htmlFor="text">Text</label>
         <input
           type="text"
           id={`text for id ${id}`}
@@ -146,28 +138,33 @@ const HelloWorldCard: React.FC<HelloWorldCardProps> = ({
           }
           onKeyDown={onKeyDown}
         />
-        <p>ID:</p>
-        <p className={styles.id}>{id}</p>
-        <button className={styles.submitButton} type="submit">
+        {/* <button className={styles.submitButton} type="submit">
           Submit
-        </button>
+        </button> */}
       </form>
-      <div className={styles.helloWorldBottom}>
-        {showSucessMessage && (
-          <span className={styles.helloWorldSuccess}>Updated</span>
-        )}
+      <div className={styles.noteBottom}>
         <button
           className={styles.deleteButton}
           onClick={(e) => {
             e.stopPropagation();
-            submitDeleteHelloWorld();
+            submitDeleteNote();
           }}
         >
           <TiTimes title="delete" className={styles.deleteIcon} />
         </button>
       </div>
     </div>
+     <Modal 
+     handleClose={() => setIsOpen(false)} isOpen={isOpen}
+     title={title}
+     text={text}
+     id={id}
+     getItems={getItems}
+     setEditFormState={setEditFormState}
+     editFormState={editFormState}
+     />
+     </>
   );
 };
 
-export default HelloWorldCard;
+export default NoteCard;

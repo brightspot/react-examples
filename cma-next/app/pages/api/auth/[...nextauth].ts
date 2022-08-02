@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
+import { IoConstructOutline } from "react-icons/io5";
+
 
 export default NextAuth({
   providers: [
@@ -24,33 +26,37 @@ export default NextAuth({
           }
         );
         const data = await response.json();
+        console.log({ data })
         if (!response.ok) {
           throw new Error(data.message || "something went wrong....");
         }
-        // example of fetching various data for user
         const username =
           data?.com_psddev_cms_db_ToolUserQuery?.items[0]?.username;
-        const role =
-          data?.com_psddev_cms_db_ToolUserQuery?.items[0]?.getRoleName;
-        const avatar =
-          data?.com_psddev_cms_db_ToolUserQuery?.items[0]?.avatar?.publicUrl;
+
         if (!username) {
           throw new Error("no user found");
         }
 
-        return { username, role, avatar };
+        return { username };
       },
     }),
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
-      user && (token.user = user);
+      console.log('USER!!!!!!!!!!!!', user)
+      console.log('TOKEN!!!!', token)
+      // user will be defined upon initial login
+      if (user) {
+        token.user = user.username
+      }
       return token;
     },
-    session: async ({ session, token }) => {
-      if (session && session.user) {
-        session.user.name = token.user as string;
-      }
+    session: async ({ session, token}) => {
+      if (session && session.user && token) {
+          console.log('TOKEN!!!', token)
+            session.user.name = token.user
+            console.log('SESSION.USER.NAME', session.user.name)
+          }
       return session;
     },
   },

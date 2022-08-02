@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../lib/apollo-client";
-import HELLO_WORLD_NEW from "../../../queries/HelloWorldNew";
+import NEW_NOTE from "../../../queries/CreateNote";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +12,7 @@ export default async function handler(
   }
   try {
     const { data } = await client.mutate({
-      mutation: HELLO_WORLD_NEW,
+      mutation: NEW_NOTE,
       fetchPolicy: "no-cache",
       variables: {
         toolUser: req.body.userName,
@@ -22,7 +22,7 @@ export default async function handler(
     });
     res.status(200).json(data);
   } catch (error: any) {
-    console.error("error in creating new hello world", error);
+    console.error("error in creating new note", error);
     if (error.networkError) {
       res.status(error.networkError.statusCode).json(error.message);
       console.error(error);

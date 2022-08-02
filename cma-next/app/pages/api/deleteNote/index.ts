@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../lib/apollo-client";
 import { getSession } from "next-auth/react";
-import HELLO_WORLD_DELETE from "../../../queries/HelloWorldDelete";
+import HELLO_WORLD_DELETE from "../../../queries/DeleteNote";
 
 export default async function handler(
   req: NextApiRequest,

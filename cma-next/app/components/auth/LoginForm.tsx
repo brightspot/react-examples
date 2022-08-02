@@ -29,7 +29,6 @@ const LoginForm = () => {
     } else if (result?.error) {
       setError({ isError: true, message: 'An error occurred.'})
     } else if (!result?.error) {
-      sessionStorage.setItem('hw-user', enteredUserName!)
       router.replace("/");
     }
   };
@@ -40,7 +39,7 @@ const LoginForm = () => {
       <main className={styles.main}>
         <div className={styles.loginCard}>
           <div className={styles.loginHead}>
-            <h2>Hello World Login</h2>
+            <h2>Notes Login</h2>
             <p>New User? Signup in Brightspot</p>
             {error && 
             <span className={styles.errorMessage}>{error.message}</span>

@@ -1,6 +1,6 @@
 /* Create Hello World Form */
 
-.createHelloWorldForm {
+.createNoteForm {
     max-width: 540px;
     background: #fff;
     display: flex;
@@ -14,7 +14,7 @@
     margin: 0 auto;
   }
   
-  .createHelloWorldInput {
+  .createNoteInput {
     width: 100%;
     height: var(--inputHeight);
     border: 1px solid var(--borderColor);
@@ -39,7 +39,7 @@
     color: #fff;
   }
 
-  .createHelloWorldWrapper {
+  .createNoteWrapper {
     margin-bottom: 5px;
     width: 100%;
     padding: 5px 10px;

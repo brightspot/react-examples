@@ -2,10 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../lib/apollo-client";
 import { getSession } from "next-auth/react";
 import {
-  HELLO_WORLD_UPDATE_TITLE_AND_TEXT,
-  HELLO_WORLD_UPDATE_TITLE,
-  HELLO_WORLD_UPDATE_TEXT,
-} from "../../../queries/HelloWorldMutation";
+  UPDATE_NOTE_TITLE_AND_TEXT,
+  UPDATE_NOTE_TITLE,
+  UPDATE_NOTE_TEXT,
+} from "../../../queries/UpdateNote";
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,7 +27,7 @@ export default async function handler(
   try {
     if (req.body.title && req.body.text) {
       const { data } = await client.mutate({
-        mutation: HELLO_WORLD_UPDATE_TITLE_AND_TEXT,
+        mutation: UPDATE_NOTE_TITLE_AND_TEXT,
         fetchPolicy: "no-cache",
         variables: {
           title: req.body.title,
@@ -39,7 +39,7 @@ export default async function handler(
       res.status(200).json(data);
     } else if (req.body.title) {
       const { data } = await client.mutate({
-        mutation: HELLO_WORLD_UPDATE_TITLE,
+        mutation: UPDATE_NOTE_TITLE,
         fetchPolicy: "no-cache",
         variables: {
           title: req.body.title,
@@ -50,7 +50,7 @@ export default async function handler(
       res.status(200).json(data);
     } else if (req.body.text) {
       const { data } = await client.mutate({
-        mutation: HELLO_WORLD_UPDATE_TEXT,
+        mutation: UPDATE_NOTE_TEXT,
         fetchPolicy: "no-cache",
         variables: {
           text: req.body.text,
@@ -61,7 +61,7 @@ export default async function handler(
       res.status(200).json(data);
     }
   } catch (error: any) {
-    console.error("error in updating hello worlds", error);
+    console.error("error in updating note", error);
     if (error.networkError) {
       res.status(error.networkError.statusCode).json(error.message);
       console.error(error);

@@ -1,4 +1,4 @@
-import BrightspotClass from "../../../brightspot-types/BrightspotClass";
+import JavaClass from "../../../brightspot-types/JavaClass";
 import Singleton from "../../../brightspot-types/com/psddev/dari/db/Singleton";
 import ContentManagementEntryPointField from "../../../brightspot-types/com/psddev/graphql/cma/ContentManagementEntryPointField";
 import ArrayList from "../../../brightspot-types/java/util/ArrayList";
@@ -7,24 +7,21 @@ import ObjectType from "../../../brightspot-types/com/psddev/dari/db/ObjectType"
 import ContentManagementApiEndpoint from "../../../brightspot-types/com/psddev/graphql/cma/ContentManagementApiEndpoint";
 import GraphQLCorsConfiguration from "../../../brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration";
 
-
-const T = BrightspotClass.extend(ContentManagementApiEndpoint.class)
-.implement(Singleton.class)
-.build({})
-
-
-export default class extends T {
+@JavaClass('brightspot.example.AppEndpoint')
+export default class AppEndpoint extends ContentManagementApiEndpoint.implements(Singleton) {
     getPathSuffix(): string {
-        return '/hello'
-    }
+        return '/app'
+        }
     getEntryFields(): List<ContentManagementEntryPointField> {
         let fields = new ArrayList<ContentManagementEntryPointField>()
-        fields.add(new ContentManagementEntryPointField(ObjectType.getInstance('brightspot.example.HelloWorld'), true))
+        fields.add(new ContentManagementEntryPointField(ObjectType.getInstance('brightspot.example.Note'), true))
         fields.add(new ContentManagementEntryPointField(ObjectType.getInstance('com.psddev.cms.db.ToolUser'), true))
         return fields
     }
+
     updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
         corsConfiguration.addAllowedOrigin("localhost")
     }
 }
+
 

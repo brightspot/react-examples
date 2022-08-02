@@ -7,11 +7,11 @@ import React, {
   SetStateAction,
   useEffect,
 } from "react";
-import { IoEarth } from "react-icons/io5";
+import { BsPencilSquare } from "react-icons/bs";
 import { CgLogOut } from "react-icons/cg";
 import { signOut, useSession } from "next-auth/react";
-
 import styles from "../styles/Header.module.css";
+
 
 type HeaderProps = {
   searchResults: string[],
@@ -19,12 +19,12 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
-  const USER = 'hw-user';
-  const [isSSR, setIsSSR] = useState(true);
   const { data: session } = useSession();
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [error, setError] = useState({ isError: false, message: "" });
   const [query, setQuery] = useState("");
+
+  const userName: string | undefined | null = session?.user?.name
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -35,10 +35,6 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
       }
     }
   }, [setQuery]);
-
-  useEffect(() => {
-    setIsSSR(false)
-  }, [])
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
@@ -73,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
           }
            return response.json();
         }).then((data) => {
-          const array = data.brightspot_example_HelloWorldQuery?.items.map(
+          const array = data.brightspot_example_NoteQuery?.items.map(
             (item: { text: string; _id: string; title: string; _typename: string }) =>
               item._id
           );
@@ -88,7 +84,6 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
 
   const logoutHandler = () => {
     signOut();
-    sessionStorage.removeItem('hw-user')
   };
 
   if (error.isError) console.error(error.message);
@@ -97,8 +92,8 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <div className={styles.headerLogo}>
-          <IoEarth className={styles.earthIcon} />
-          <h2 className={styles.headerLogoTitle}>Hello World</h2>
+          <BsPencilSquare className={styles.pencilIcon} />
+          <h2 className={styles.headerLogoTitle}>Notes</h2>
           {session && (
             <button className={styles.logoutButton} onClick={logoutHandler}>
               <CgLogOut className={styles.logoutIcon} />
@@ -136,11 +131,11 @@ const Header: React.FC<HeaderProps> = ({ setSearchResults, searchResults }) => {
               />
             </div>
           </form>
-          {!isSSR && sessionStorage.getItem(USER) && 
+          {userName && ( 
           <div className={styles.user}>
-            <span>{sessionStorage.getItem('hw-user')?.charAt(0)}</span>
+            <span>{userName.charAt(0)}</span>
             </div>
-            }
+            )}
         </div>
       </div>
       {query && (

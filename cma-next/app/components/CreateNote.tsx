@@ -1,34 +1,32 @@
 import { useState, useEffect, useRef } from "react";
-import styles from "../styles/CreateHelloWorld.module.css";
+import styles from "../styles/CreateNote.module.css";
+import { useSession }  from 'next-auth/react'
 
-type CreateHelloWorldProps = {
+type Props = {
   getItems: Function;
 };
 
-const CreateHelloWorld: React.FC<CreateHelloWorldProps> = ({ getItems }) => {
-  const USER = "hw-user";
-  const [isSSR, setIsSSR] = useState(true);
+
+const CreateNote: React.FC<Props> = ({ getItems }) => {
   const [error, setError] = useState({ isError: false, message: "" });
   const titleRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLInputElement>(null);
+  const { data: session } = useSession()
+  const userName: string | undefined | null = session?.user?.name
 
-  useEffect(() => {
-    setIsSSR(false);
-  }, []);
-
-  const submitNewHelloWorld = async () => {
+  const submitNewNote = async () => {
     const text = textRef?.current?.value;
     const title = titleRef?.current?.value;
-    const userName = sessionStorage.getItem(USER);
 
-    const newHelloWorldValues = {
+    const newNoteValues = {
       text,
       title,
       userName,
     };
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/newHello`, {
+
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/newNote`, {
       method: "POST",
-      body: JSON.stringify(newHelloWorldValues),
+      body: JSON.stringify(newNoteValues),
       headers: {
         "Content-Type": "application/json",
       },
@@ -53,17 +51,17 @@ const CreateHelloWorld: React.FC<CreateHelloWorldProps> = ({ getItems }) => {
 
   return (
     <form
-      className={styles.createHelloWorldForm}
+      className={styles.createNoteForm}
       onSubmit={(e) => {
         e.preventDefault();
-        submitNewHelloWorld();
+        submitNewNote();
       }}
     >
-      <div className={styles.createHelloWorldWrapper}>
+      <div className={styles.createNoteWrapper}>
         <label>
           <p>Title</p>
           <input
-            className={styles.createHelloWorldInput}
+            className={styles.createNoteInput}
             ref={titleRef}
             type="text"
             placeholder=""
@@ -73,7 +71,7 @@ const CreateHelloWorld: React.FC<CreateHelloWorldProps> = ({ getItems }) => {
         <label>
           <p>Text</p>
           <input
-            className={styles.createHelloWorldInput}
+            className={styles.createNoteInput}
             ref={textRef}
             type="text"
             placeholder=""
@@ -88,4 +86,4 @@ const CreateHelloWorld: React.FC<CreateHelloWorldProps> = ({ getItems }) => {
   );
 };
 
-export default CreateHelloWorld;
+export default CreateNote;

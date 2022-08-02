@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import HELLO_WORLD from "../../../queries/HelloWorld";
+import GET_NOTES from "../../../queries/GetNotes";
 import client from "../../../lib/apollo-client";
 
 export default async function handler(
@@ -9,12 +9,12 @@ export default async function handler(
 ) {
   try {
     const { data } = await client.query({
-      query: HELLO_WORLD,
+      query: GET_NOTES,
       fetchPolicy: "no-cache",
     });
     res.status(200).json(data);
   } catch (error: any) {
-    console.error("error in getting hello worlds", error);
+    console.error("error in getting notes", error);
     if (error.networkError) {
       res.status(error.networkError.statusCode).json(error.message);
       console.error(error);
