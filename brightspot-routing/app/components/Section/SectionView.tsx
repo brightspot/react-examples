@@ -1,27 +1,43 @@
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import styles from '../../styles/Home.module.css'
-import { Section } from '../../generated/graphql'
+import Image from 'next/image'
+import styles from './Section.module.css'
+import { Page } from '../../generated/graphql'
 
-
-interface Props {
-  section: Section
+const image = { 
+  src: "/ocean.png", 
+  alt: "cropped photo by Quino Al on Unsplash" 
 }
 
-const SectionView: NextPage<Props> = ({ section }) => {
+interface Props {
+    page: Page | undefined
+}
 
-  const router = useRouter()
-
-  const mySection = router.query.section
-
+const SectionView: NextPage<Props> = ({ page }) => {
   return (
-    <div className={styles.grid}>
-      {section.Article_section_connection?.items.map((item, index) =>
-        <a href={`${process.env.NEXT_PUBLIC_HOST}/${mySection}${item.url}`} className={styles.card} key={index}>
-          <h2>{item.headline}</h2>
+    <section>
+      <div>
+        <a
+          href={`${process.env.NEXT_PUBLIC_HOST}${page?.url}${page?.Article_page_connection?.items[0].url}`}
+        >
+        <div className={styles.listItem}>
+          <div className={styles.sectionContainer}>
+            <h3 className={styles.sectionText}>{page?.name}</h3>
+          </div>
+          <div className={styles.imageContainer}>
+            <Image
+              src={image.src}
+              alt={image.alt}
+              layout='fill'
+            />
+          </div>
+          <div className={styles.textContainer}>
+              <h4 className={styles.articleHeadline}>{page?.Article_page_connection?.items[0].headline}</h4>
+            <p>{page?.Article_page_connection?.items[0].body?.slice(0, 10)}...</p>
+          </div>
+        </div>
         </a>
-      )}
-    </div>
+      </div>
+    </section>
   )
 }
 
