@@ -1,4 +1,3 @@
-import BrightspotClass from "../../../brightspot-types/BrightspotClass";
 import ObjectType from "../../../brightspot-types/com/psddev/dari/db/ObjectType";
 import Singleton from "../../../brightspot-types/com/psddev/dari/db/Singleton";
 import ContentDeliveryApiAccessOption from "../../../brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOption";
@@ -10,28 +9,32 @@ import RecordableDeliveryEntryPointField from "../../../brightspot-types/com/psd
 import GraphQLCorsConfiguration from "../../../brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration";
 import ArrayList from "../../../brightspot-types/java/util/ArrayList";
 import List from "../../../brightspot-types/java/util/List";
+import JavaClass from "../../../brightspot-types/JavaClass";
 
-const T = BrightspotClass.extend(ContentDeliveryApiEndpoint.class)
-  .implement(Singleton.class)
-  .build({})
 
-export default class extends T {
-  getPathSuffix(): string {
-    return '/page'
+@JavaClass('brightspot.example.AppEndpoint')
+export default class AppEndpoint extends ContentDeliveryApiEndpoint.implements(Singleton) {
+
+  getPathSuffix() {
+    return '/app'
   }
+
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
-    let fields = new ArrayList<ContentDeliveryEntryPointField>()
+    let fields =  new ArrayList<ContentDeliveryEntryPointField>()
     fields.add(new RecordableDeliveryEntryPointField(ObjectType.getInstance('brightspot.example.Article')))
-    fields.add(new RecordableDeliveryEntryPointField(ObjectType.getInstance('brightspot.example.Section')))
     fields.add(new RecordableDeliveryEntryPointField(ObjectType.getInstance('brightspot.example.Page')))
+    fields.add(new RecordableDeliveryEntryPointField(ObjectType.getInstance('brightspot.example.App')))
     return fields
   }
+
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
     corsConfiguration.addAllowedOrigin('localhost')
   }
+
   getAccessOption(): ContentDeliveryApiAccessOption {
     return new ContentDeliveryApiAccessOptionImplicit()
   }
+
   getOptions(): ContentDeliveryApiSchemaOptions {
     let options = new ContentDeliveryApiSchemaOptions()
     options.enable('inverseIndexes')
