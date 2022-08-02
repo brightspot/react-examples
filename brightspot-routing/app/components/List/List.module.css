@@ -1,0 +1,70 @@
+.listGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
+.listItem {
+  margin: 5px;
+  display: flex;
+  padding: 0.3rem;
+  box-shadow:  0 2px 0 rgb(0 0 0 / 5%);
+  background: var(--secondaryBackground);
+  border-radius: 2px;
+}
+
+.imageContainer {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  object-fit: fill;
+  margin-right: 1rem;
+}
+
+.sectionText {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.articleHeadline {
+  margin: 0;
+  color: var(--primaryBlack);
+  font-size: 1rem;
+}
+
+.textContainer {
+  padding: 5px;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 586px) {
+  .imageContainer {
+      height: 150px;
+      width: 150px;
+  }
+}
+@media (min-width: 768px) {
+  .listGrid {
+      grid-template-columns: 50% 50%;
+      grid-auto-rows: 1fr;
+  }
+  .articleHeadline{
+      font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .imageContainer {
+      height: 200px;
+      width: 200px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .imageContainer {
+      height: 270px;
+      width: 270px;
+      margin-right: 2rem;
+  }
+}

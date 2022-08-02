@@ -1,0 +1,17 @@
+.container {
+  margin: 0 auto;
+  padding: 1rem;
+  }
+  
+  
+  @media (min-width: 1024px) {
+      .container {
+        margin: 0 2rem 0 2rem
+      }
+  }
+  
+  @media (min-width: 1440px) {
+      .container {
+        margin: 0 10rem 0 10rem
+      }
+  }
