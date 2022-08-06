@@ -1,4 +1,4 @@
-.listSection {
+.section {
   margin-bottom: 4rem;
 }
 
@@ -6,26 +6,23 @@
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 10px;
-  grid-auto-rows: 1fr;
 }
 
 .listItem {
   margin: 5px;
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-auto-rows: 1fr;
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem;
   box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
   background: var(--secondaryBackground);
   border-radius: 2px;
 }
 
 .imageContainer {
-  height: 100px;
+  height: 300px;
   width: 100%;
   position: relative;
-  /* object-fit: fill; */
-  margin-bottom: 0;
-  padding: 0;
+  margin-bottom: 1rem;
 }
 
 .sectionText {
@@ -41,22 +38,16 @@
 }
 
 .textContainer {
-  padding: 10px;
+  padding: 5px;
   text-overflow: ellipsis;
-  min-height: 4rem;
 }
 
 @media (min-width: 768px) {
   .listGrid {
     grid-template-columns: 50% 50%;
+    grid-auto-rows: 1fr;
   }
   .articleHeadline {
-    font-size: 1.2rem;
-  }
-}
-
-@media (min-width: 1440px) {
-  .imageContainer {
-    margin-right: 2rem;
+    font-size: 1.3rem;
   }
 }

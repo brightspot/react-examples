@@ -1,11 +1,11 @@
 .footerContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    border-top: 1px solid var(--primaryTextColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  border-top: 1px solid var(--primaryTextColor);
 }
 
 .name {
-    color: var(--primaryRed)
+  color: var(--primaryRed);
 }

@@ -8,11 +8,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <Page>
-    <Component {...pageProps} />
-    </Page>
-   </ApolloProvider>
+        <Component {...pageProps} />
+      </Page>
+    </ApolloProvider>
   )
-
 }
 
 export default MyApp

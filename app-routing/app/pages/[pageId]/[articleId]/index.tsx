@@ -1,47 +1,69 @@
-import { useRouter } from "next/router";
-import { useGetArticleQuery } from "../../../generated/graphql";
-import Container from "../../../components/Container/Container";
-import styles from '../../../styles/pages.module.css'
-import Head from "next/head";
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
+import { useGetArticleQuery } from '../../../generated/graphql'
+import Container from '../../../components/Container/Container'
+import Article from '../../../components/Article/Article'
 
 const ArticlePage = () => {
-  const router = useRouter();
-  const id = router.query.article;
-  const articleId = Array.isArray(id) ? id[0] : id;
+  const [shouldSkip, setShouldSkip] = useState(true)
+  const [isSSSR, setIsSSR] = useState(false) // make sure sessionStorage is available
+  const router = useRouter()
+
+  useEffect(() => {
+    setIsSSR(true)
+  }, [])
+
+  let id = router.query.article
+
+  if (id && isSSSR) {
+    if (Array.isArray(id)) {
+      sessionStorage.setItem('article', id[0])
+    } else if (typeof id === 'string') {
+      sessionStorage.setItem('article', id)
+    }
+  }
+  if (id === undefined && isSSSR) {
+    id = sessionStorage.getItem('article') as string
+  }
+
+  useEffect(() => {
+    if (router.isReady) {
+      setShouldSkip(false)
+    }
+  }, [router.isReady])
+
+  const articleId = Array.isArray(id) ? id[0] : id
   const { data, error } = useGetArticleQuery({
     variables: {
       id: articleId,
     },
-  });
+    skip: shouldSkip,
+  })
 
-  if (error) console.log(error.message);
+  if (error) console.log(error.message)
+
+  const toDateTime = (secs: number) => {
+    const t = new Date(secs * 1000)
+    return t.toLocaleDateString('en-us', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
+  const publishDate = toDateTime(data?.Article?.cms_content?.publishDate)
+
   return (
     <>
-    <Head>
-    <title>News | {data?.Article?.headline}</title>
-    </Head>
-      <button className={styles.back} onClick={() => router.back()}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-          />
-        </svg>
-      </button>
       <Container>
-        <h1>{data?.Article?.headline}</h1>
-        <p>{data?.Article?.body}</p>
+        <Article
+          headline={data?.Article?.headline}
+          body={data?.Article?.body}
+          publishDate={publishDate}
+        />
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default ArticlePage;
+export default ArticlePage

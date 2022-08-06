@@ -5,10 +5,11 @@
   --primaryRed: #ed1c24;
   --primaryTextColor: #757575;
   --secondaryGrey: #eaeaea;
+  --tertiaryGrey: #f0f0f0;
   --primaryBlue: #0477c9;
   --primaryBackground: #fff;
-  --primaryBlack: 	#232b2b;
-  --primaryBackground: #F9F9F9;
+  --primaryBlack: #232b2b;
+  --primaryBackground: #f9f9f9;
   --secondaryBackground: #fff;
 }
 
@@ -20,7 +21,7 @@ body {
   color: var(--primaryTextColor);
   /* line-height: 1.7; */
   font-size: 1rem;
-  background: var(--primaryBackground)
+  background: var(--primaryBackground);
 }
 
 a {

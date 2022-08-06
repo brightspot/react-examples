@@ -192,26 +192,26 @@ export type GetAppQueryVariables = Exact<{
 
 export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', name?: string | null, _id?: string | null }> } | null } | null };
 
-export type GetFirstArticlesQueryVariables = Exact<{
+export type GetRecentArticlesQueryVariables = Exact<{
   path?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetFirstArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', name?: string | null, _id?: string | null, Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', headline?: string | null, _id?: string | null }> } | null }> } | null } | null };
+export type GetRecentArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', Page_app_connection?: { __typename?: 'Page_app_connection', items: Array<{ __typename?: 'Page', Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', headline?: string | null, _id?: string | null, page?: { __typename?: 'Page', name?: string | null, _id?: string | null } | null, cms_content?: { __typename?: 'Content_ObjectModificationCmsContentField', publishDate?: any | null } | null }> } | null }> } | null } | null };
 
 export type GetArticleQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
 
 
-export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', headline?: string | null, body?: string | null, _id?: string | null } | null };
+export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', headline?: string | null, body?: string | null, _id?: string | null, cms_content?: { __typename?: 'Content_ObjectModificationCmsContentField', publishDate?: any | null } | null } | null };
 
 export type GetPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
 
 
-export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', _id?: string | null, name?: string | null, Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', _id?: string | null, headline?: string | null }> } | null } | null };
+export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', _id?: string | null, headline?: string | null, page?: { __typename?: 'Page', name?: string | null } | null }> } | null } | null };
 
 
 export const GetAppDocument = gql`
@@ -254,17 +254,22 @@ export function useGetAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetAppQueryHookResult = ReturnType<typeof useGetAppQuery>;
 export type GetAppLazyQueryHookResult = ReturnType<typeof useGetAppLazyQuery>;
 export type GetAppQueryResult = Apollo.QueryResult<GetAppQuery, GetAppQueryVariables>;
-export const GetFirstArticlesDocument = gql`
-    query GetFirstArticles($path: String = "") {
+export const GetRecentArticlesDocument = gql`
+    query GetRecentArticles($path: String = "") {
   App(path: $path) {
     Page_app_connection {
       items {
-        name
-        _id
-        Article_page_connection(limit: 1) {
+        Article_page_connection {
           items {
             headline
             _id
+            page {
+              name
+              _id
+            }
+            cms_content {
+              publishDate
+            }
           }
         }
       }
@@ -274,38 +279,41 @@ export const GetFirstArticlesDocument = gql`
     `;
 
 /**
- * __useGetFirstArticlesQuery__
+ * __useGetRecentArticlesQuery__
  *
- * To run a query within a React component, call `useGetFirstArticlesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFirstArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetRecentArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFirstArticlesQuery({
+ * const { data, loading, error } = useGetRecentArticlesQuery({
  *   variables: {
  *      path: // value for 'path'
  *   },
  * });
  */
-export function useGetFirstArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>) {
+export function useGetRecentArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>(GetFirstArticlesDocument, options);
+        return Apollo.useQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
       }
-export function useGetFirstArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>) {
+export function useGetRecentArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>(GetFirstArticlesDocument, options);
+          return Apollo.useLazyQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
         }
-export type GetFirstArticlesQueryHookResult = ReturnType<typeof useGetFirstArticlesQuery>;
-export type GetFirstArticlesLazyQueryHookResult = ReturnType<typeof useGetFirstArticlesLazyQuery>;
-export type GetFirstArticlesQueryResult = Apollo.QueryResult<GetFirstArticlesQuery, GetFirstArticlesQueryVariables>;
+export type GetRecentArticlesQueryHookResult = ReturnType<typeof useGetRecentArticlesQuery>;
+export type GetRecentArticlesLazyQueryHookResult = ReturnType<typeof useGetRecentArticlesLazyQuery>;
+export type GetRecentArticlesQueryResult = Apollo.QueryResult<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>;
 export const GetArticleDocument = gql`
     query GetArticle($id: ID = "") {
   Article(id: $id) {
     headline
     body
     _id
+    cms_content {
+      publishDate
+    }
   }
 }
     `;
@@ -344,10 +352,11 @@ export const GetPageDocument = gql`
       items {
         _id
         headline
+        page {
+          name
+        }
       }
     }
-    _id
-    name
   }
 }
     `;

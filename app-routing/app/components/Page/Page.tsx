@@ -4,21 +4,20 @@ import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
 
 type Props = {
-    children: React.ReactNode
+  children: React.ReactNode
 }
 
-
-const Page =({children}: Props) => {
-return (
+const Page = ({ children }: Props) => {
+  return (
     <>
-    <Meta />
-    <Navbar />
-    <div className={styles.layout}>
+      <Meta />
+      <Navbar />
+      <div className={styles.layout}>
         <main>{children}</main>
-    </div>
-    <Footer />
+      </div>
+      <Footer />
     </>
-)
+  )
 }
 
 export default Page

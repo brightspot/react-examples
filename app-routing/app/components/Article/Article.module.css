@@ -1,0 +1,27 @@
+.articleBody {
+  line-height: 1.7;
+  font-size: 1.2rem;
+}
+
+.datePublished {
+  color: var(--primaryBlue);
+  font-style: italic;
+}
+
+.articleHeadline {
+  color: var(--primaryBlack);
+  font-size: 1.8rem;
+  margin: 4rem 0;
+}
+
+@media (min-width: 1024px) {
+  .articleBody {
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .articleHeadline {
+    font-size: 2rem;
+  }
+}

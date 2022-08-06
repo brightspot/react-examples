@@ -4,9 +4,10 @@ query GetPage($id: ID) {
       items {
         _id
         headline
+        page {
+          name
+        }
       }
     }
-    _id
-    name
   }
 }

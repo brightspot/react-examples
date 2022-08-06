@@ -1,54 +1,63 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Banner from "../../components/Banner/Banner";
-import { useGetPageQuery } from "../../generated/graphql";
-import Container from "../../components/Container/Container";
-import styles from "../../styles/pages.module.css";
-import Head from "next/head";
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import Banner from '../../components/Banner/Banner'
+import { useGetPageQuery } from '../../generated/graphql'
+import Container from '../../components/Container/Container'
+import List from '../../components/List/List'
 
 const SectionPage = () => {
-  const router = useRouter();
-  const queryId = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
+  const [shouldSkip, setShouldSkip] = useState(true)
+  const [isSSSR, setIsSSR] = useState(false) // make sure sessionStorage is available
+  const router = useRouter()
+
+  useEffect(() => {
+    setIsSSR(true)
+  }, [])
+
+  let queryId = Array.isArray(router.query.id)
+    ? router.query.id[0]
+    : router.query.id
+
+  if (queryId && isSSSR) {
+    if (Array.isArray(queryId)) {
+      sessionStorage.setItem('page', queryId[0])
+    } else if (typeof queryId === 'string') {
+      sessionStorage.setItem('page', queryId)
+    }
+  }
+  if (queryId === undefined && isSSSR) {
+    queryId = sessionStorage.getItem('page') as string
+  }
+
+  useEffect(() => {
+    if (router.isReady) {
+      setShouldSkip(false)
+    }
+  }, [router.isReady])
+
   const { data, error } = useGetPageQuery({
     variables: {
       id: queryId,
     },
-  });
+    skip: shouldSkip,
+  })
 
-  if (error) console.log(error.message);
+  if (error) console.log(error.message)
+
+  const pagesAndArticlesArray = data?.Page?.Article_page_connection?.items
+
   return (
     <>
-    <Head>
-    <title>News | {data?.Page?.name}</title>
-    </Head>
-      <button className={styles.back} onClick={() => router.back()}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-          />
-        </svg>
-      </button>
-      <Banner name={data?.Page?.name} />
+      <Banner
+        name={pagesAndArticlesArray ? pagesAndArticlesArray[0]?.page?.name : ''}
+      />
       <Container>
-        {data?.Page?.Article_page_connection?.items.map((item) => {
-          return (
-            <Link href={`/${data.Page?.name}/${item.headline}?article=${item._id}`} as={`/${data.Page?.name}/${item.headline}`} key={item._id}>
-              <a>{item.headline}</a>
-            </Link>
-          );
-        })}
+        <>
+          <List articles={pagesAndArticlesArray} />
+        </>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default SectionPage;
+export default SectionPage

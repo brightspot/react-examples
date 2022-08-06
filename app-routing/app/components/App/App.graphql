@@ -9,17 +9,21 @@ query GetApp($path: String) {
   }
 }
 
-
-query GetFirstArticles($path: String = "") {
+query GetRecentArticles($path: String = "") {
   App(path: $path) {
     Page_app_connection {
       items {
-        name
-        _id
-        Article_page_connection(limit: 1) {
+        Article_page_connection {
           items {
             headline
             _id
+            page {
+              name
+              _id
+            }
+            cms_content {
+              publishDate
+            }
           }
         }
       }

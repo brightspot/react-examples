@@ -3,5 +3,8 @@ query GetArticle($id: ID = "") {
     headline
     body
     _id
+    cms_content {
+      publishDate
+    }
   }
 }

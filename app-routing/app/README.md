@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-Follow the instructions for running the Brightspot instance. 
+Follow the instructions for running the Brightspot instance.
 
 Run the development server. CD into `app-routing/app` and run the following commands:
 
@@ -16,7 +16,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Use ids for GraphQL queries with dynamic rouing
 
-In the `app/pages` directory section you can see how section pages and their associated article pages are rendered dynamically. GraphQL queries use the id for the associated query item, but also use the `as` parameter to keep from showing the id argument in the url. 
+In the `app/pages` directory section you can see how section pages and their associated article pages are rendered dynamically. GraphQL queries use the id for the associated query item, but also use the `as` parameter to keep from showing the id argument in the url.
 
 Example:
 
