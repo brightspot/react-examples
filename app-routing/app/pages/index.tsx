@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import { useGetRecentArticlesQuery } from '../generated/graphql'
 import Meta from '../components/Meta'
 import Container from '../components/Container/Container'
@@ -7,16 +6,22 @@ import Banner from '../components/Banner/Banner'
 import Duo from '../components/Duo/Duo'
 import Promo from '../components/Promo/Promo'
 import { Article } from '../generated/graphql'
+import styles from '../styles/pages.module.css'
 
-const Home: NextPage = () => {
-  const { data, error } = useGetRecentArticlesQuery({
+const Home = () => {
+  const { data, error, loading } = useGetRecentArticlesQuery({
     variables: {
       path: '/news',
     },
   })
 
   if (error) console.log(error.message)
-  if (!data?.App) console.log('no data...')
+  if (!data?.App && !loading)
+    return (
+      <div className={styles.message}>
+        <h3>No data... 🤔</h3>
+      </div>
+    )
 
   const allArticles: Article[] = []
   data?.App?.Page_app_connection?.items.forEach((item) => {

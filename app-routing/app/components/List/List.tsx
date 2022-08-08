@@ -2,7 +2,6 @@ import styles from './List.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Article } from '../../generated/graphql'
-import type { NextPage } from 'next'
 
 const imageArray = [
   { image: '/balloons.png', alt: 'cropped photo by Al Soot on Unsplash' },
@@ -18,7 +17,7 @@ interface Props {
   articles?: Array<Article>
 }
 
-const List: NextPage<Props> = ({ articles }) => {
+const List = ({ articles }: Props) => {
   return (
     <section className={styles.listSection}>
       <div className={styles.listGrid}>

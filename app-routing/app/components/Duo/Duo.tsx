@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import styles from './Duo.module.css'
 import { Article } from '../../generated/graphql'
 import Image from 'next/image'
@@ -13,7 +12,7 @@ interface Props {
   articles: Array<Article>
 }
 
-const Duo: NextPage<Props> = ({ articles }) => {
+const Duo = ({ articles }: Props) => {
   return (
     <section className={styles.section}>
       <div className={styles.listGrid}>

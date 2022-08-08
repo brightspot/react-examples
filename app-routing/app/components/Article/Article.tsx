@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import styles from './Article.module.css'
 
 interface Props {
@@ -7,7 +6,7 @@ interface Props {
   publishDate: string | null | undefined
 }
 
-const Article: NextPage<Props> = ({ headline, body, publishDate }: Props) => {
+const Article = ({ headline, body, publishDate }: Props) => {
   return (
     <div className={styles.card}>
       <h1 className={styles.articleHeadline}>{headline}</h1>

@@ -4,6 +4,7 @@ import Banner from '../../components/Banner/Banner'
 import { useGetPageQuery } from '../../generated/graphql'
 import Container from '../../components/Container/Container'
 import List from '../../components/List/List'
+import styles from '../../styles/pages.module.css'
 
 const SectionPage = () => {
   const [shouldSkip, setShouldSkip] = useState(true)
@@ -35,7 +36,7 @@ const SectionPage = () => {
     }
   }, [router.isReady])
 
-  const { data, error } = useGetPageQuery({
+  const { data, error, loading } = useGetPageQuery({
     variables: {
       id: queryId,
     },
@@ -43,6 +44,12 @@ const SectionPage = () => {
   })
 
   if (error) console.log(error.message)
+  if (!data && !loading)
+    return (
+      <div className={styles.message}>
+        <h3>No articles... 🤔</h3>
+      </div>
+    )
 
   const pagesAndArticlesArray = data?.Page?.Article_page_connection?.items
 

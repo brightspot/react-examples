@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useGetArticleQuery } from '../../../generated/graphql'
 import Container from '../../../components/Container/Container'
 import Article from '../../../components/Article/Article'
+import styles from '../../../styles/pages.module.css'
 
 const ArticlePage = () => {
   const [shouldSkip, setShouldSkip] = useState(true)
@@ -33,7 +34,7 @@ const ArticlePage = () => {
   }, [router.isReady])
 
   const articleId = Array.isArray(id) ? id[0] : id
-  const { data, error } = useGetArticleQuery({
+  const { data, error, loading } = useGetArticleQuery({
     variables: {
       id: articleId,
     },
@@ -41,9 +42,15 @@ const ArticlePage = () => {
   })
 
   if (error) console.log(error.message)
+  if (!data && !loading)
+    return (
+      <div className={styles.message}>
+        <h3>No article... 🤔</h3>
+      </div>
+    )
 
   const toDateTime = (secs: number) => {
-    const t = new Date(secs * 1000)
+    const t = new Date(secs)
     return t.toLocaleDateString('en-us', {
       weekday: 'long',
       month: 'long',
