@@ -4,20 +4,18 @@ import JavaField from '../../../brightspot-types/JavaField'
 import App from './App'
 import Indexed from '../../../brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 
-@JavaClass('brightspot.example.Page')
-export default class Page extends Content.Of() {
-  
-  @JavaField()
+export default class Page extends JavaClass(
+  'brightspot.example.Page',
+  Content
+) {
+  @JavaField
   name?: string
 
-
-  @JavaField()
+  @JavaField
   @Indexed()
   app?: App
 
-  getLabel():string {
+  getLabel(): string {
     return this.name || ''
   }
 }
-
-
