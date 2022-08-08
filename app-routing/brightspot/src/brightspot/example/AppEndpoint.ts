@@ -10,6 +10,9 @@ import RecordableDeliveryEntryPointField from '../../../brightspot-types/com/psd
 import GraphQLCorsConfiguration from '../../../brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import ArrayList from '../../../brightspot-types/java/util/ArrayList'
 import List from '../../../brightspot-types/java/util/List'
+import App from './App'
+import Article from './Article'
+import Page from './Page'
 
 export default class AppEndpoint extends JavaClass(
   'brightspot.example.AppEndpoint',
@@ -23,19 +26,15 @@ export default class AppEndpoint extends JavaClass(
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
     let fields = new ArrayList<ContentDeliveryEntryPointField>()
     fields.add(
-      new RecordableDeliveryEntryPointField(
-        ObjectType.getInstance('brightspot.example.App')
-      )
+      new RecordableDeliveryEntryPointField(ObjectType.getInstance(App.class))
     )
     fields.add(
       new RecordableDeliveryEntryPointField(
-        ObjectType.getInstance('brightspot.example.Article')
+        ObjectType.getInstance(Article.class)
       )
     )
     fields.add(
-      new RecordableDeliveryEntryPointField(
-        ObjectType.getInstance('brightspot.example.Page')
-      )
+      new RecordableDeliveryEntryPointField(ObjectType.getInstance(Page.class))
     )
     return fields
   }

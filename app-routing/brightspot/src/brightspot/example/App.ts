@@ -6,7 +6,7 @@ import Site from '../../../brightspot-types/com/psddev/cms/db/Site'
 import DirectoryItem from '../../../brightspot-types/com/psddev/cms/db/Directory$Item'
 
 export default class App extends JavaClass(
-  'example.App',
+  'brightspot.example.App',
   Content,
   DirectoryItem
 ) {

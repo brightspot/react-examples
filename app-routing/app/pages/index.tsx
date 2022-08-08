@@ -41,7 +41,7 @@ const Home = () => {
       <Container>
         <Duo articles={allArticles.slice(0, 2)} />
         <List articles={allArticles.slice(2, 6)} />
-        <Promo article={allArticles[6]} />
+        <Promo article={allArticles[6] ? allArticles[6] : allArticles[0]} />
       </Container>
     </>
   )
