@@ -6,6 +6,7 @@ import List from '../../../brightspot-types/java/util/List'
 import ObjectType from '../../../brightspot-types/com/psddev/dari/db/ObjectType'
 import ContentManagementApiEndpoint from '../../../brightspot-types/com/psddev/graphql/cma/ContentManagementApiEndpoint'
 import GraphQLCorsConfiguration from '../../../brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
+import Note from './Note'
 
 export default class AppEndpoint extends JavaClass(
   'brightspot.example.AppEndpoint',
@@ -19,7 +20,7 @@ export default class AppEndpoint extends JavaClass(
     let fields = new ArrayList<ContentManagementEntryPointField>()
     fields.add(
       new ContentManagementEntryPointField(
-        ObjectType.getInstance('brightspot.example.Note'),
+        ObjectType.getInstance(Note.class),
         true
       )
     )
