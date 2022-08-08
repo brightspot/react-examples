@@ -1,30 +1,30 @@
-import styles from "../styles/Modal.module.css";
-import { useEffect, useState } from "react";
-import Portal from "./Portal";
-import { TiTimes } from "react-icons/ti";
-import FocusTrap from "focus-trap-react";
+import styles from '../styles/Modal.module.css'
+import { useEffect, useState } from 'react'
+import Portal from './Portal'
+import { TiTimes } from 'react-icons/ti'
+import FocusTrap from 'focus-trap-react'
 
 type Props = {
-  title: string;
-  text: string;
-  id: string;
-  isOpen: boolean;
-  handleClose: () => void;
-  getItems: Function;
-  setEditFormState: Function;
+  title: string
+  text: string
+  id: string
+  isOpen: boolean
+  handleClose: () => void
+  getItems: Function
+  setEditFormState: Function
   editFormState: {
-    id: string;
-    currentTitle: string;
-    currentText: string;
-    userName: string;
-  };
-};
+    id: string
+    currentTitle: string
+    currentText: string
+    userName: string
+  }
+}
 type Result = {
-  title?: string;
-  text?: string;
-  id: string;
-  toolUser: string;
-};
+  title?: string
+  text?: string
+  id: string
+  toolUser: string
+}
 
 function Modal({
   title,
@@ -38,84 +38,98 @@ function Modal({
 }: Props) {
   useEffect(() => {
     const closeOnEscapeKey = (e: { key: string }) =>
-      e.key === "Escape" ? handleClose() : null;
-    document.body.addEventListener("keydown", closeOnEscapeKey);
+      e.key === 'Escape' ? handleClose() : null
+    document.body.addEventListener('keydown', closeOnEscapeKey)
     return () => {
-      document.body.removeEventListener("keydown", closeOnEscapeKey);
-    };
-  }, [handleClose]);
+      document.body.removeEventListener('keydown', closeOnEscapeKey)
+    }
+  }, [handleClose])
 
-  const [error, setError] = useState({ isError: false, message: "" });
+  const [error, setError] = useState({ isError: false, message: '' })
 
   const submitUpdatedNote = async () => {
+    console.log(editFormState.currentText, editFormState.currentTitle)
+    if (!editFormState.currentTitle || !editFormState.currentText) {
+      alert('please verify there is a title and text for your note')
+      return
+    }
     const dataToUpdate = () => {
-      const result: Result = { id: id, toolUser: editFormState.userName };
+      const result: Result = { id: id, toolUser: editFormState.userName }
       if (editFormState.currentTitle !== title) {
-        result.title = editFormState.currentTitle || "";
+        result.title = editFormState.currentTitle
       }
       if (editFormState.currentText !== text) {
-        result.text = editFormState.currentText || "";
+        result.text = editFormState.currentText
       }
-      return result;
-    };
+      return result
+    }
     await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateNote`, {
-      method: "PATCH",
+      method: 'PATCH',
       body: JSON.stringify(dataToUpdate()),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    }).then((res) => {
-      if (res.status >= 400) {
-        setError({
-          isError: true,
-          message: `${res.status} - ${res.statusText}`,
-        });
-      }
-      res.json().then((res) => {
-        getItems();
-      });
-    });
-  };
+    })
+      .then((res) => {
+        if (res.status >= 400) {
+          setError({
+            isError: true,
+            message: `${res.status} - ${res.statusText}`,
+          })
+        }
+        res.json().then((res) => {
+          getItems()
+        })
+      })
+      .then(() => {
+        handleClose()
+      })
+  }
 
   const submitDeleteNote = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`, {
-      method: "DELETE",
+      method: 'DELETE',
       body: JSON.stringify(editFormState),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }).then((res) => {
       if (res.status >= 400) {
         setError({
           isError: true,
           message: `${res.status} - ${res.statusText}`,
-        });
+        })
       }
       res.json().then(() => {
-        getItems();
-      });
-    });
-  };
+        getItems()
+      })
+    })
+  }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.key === "Escape") {
-      e.currentTarget.blur();
+    if (e.key === 'Enter' || e.key === 'Escape') {
+      e.currentTarget.blur()
     }
-  };
+  }
 
-  if (error.isError) return <div>{error.message}</div>;
+  if (error.isError) return <div>{error.message}</div>
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
-    <Portal wrapperId="note-portal-modal-container">
+    <Portal wrapperId='note-portal-modal-container'>
       <FocusTrap active={isOpen}>
-        <div className={styles.modal}>
-          <div className={styles.noteCard}>
+        <div
+          className={styles.modal}
+          onClick={(e) => {
+            handleClose()
+          }}
+        >
+          <div className={styles.noteCard} onClick={(e) => e.stopPropagation()}>
             <div className={styles.noteForm}>
               <div
                 className={styles.inputField}
-                contentEditable="true"
+                contentEditable='true'
                 suppressContentEditableWarning={true}
                 id={`title for id ${id}`}
                 aria-label={`title for id ${id}`}
@@ -131,7 +145,7 @@ function Modal({
               </div>
               <div
                 className={styles.inputField}
-                contentEditable="true"
+                contentEditable='true'
                 suppressContentEditableWarning={true}
                 id={`text for id ${id}`}
                 aria-label={`text for id ${id}`}
@@ -139,7 +153,7 @@ function Modal({
                   setEditFormState({
                     ...editFormState,
                     currentText: e.target.innerText,
-                  });
+                  })
                 }}
                 onKeyDown={onKeyDown}
               >
@@ -149,9 +163,8 @@ function Modal({
                 <button
                   className={styles.submitButton}
                   onClick={(e) => {
-                    e.preventDefault();
-                    submitUpdatedNote();
-                    handleClose();
+                    e.preventDefault()
+                    submitUpdatedNote()
                   }}
                 >
                   Close
@@ -159,11 +172,11 @@ function Modal({
                 <button
                   className={styles.deleteButton}
                   onClick={(e) => {
-                    e.stopPropagation();
-                    submitDeleteNote();
+                    e.stopPropagation()
+                    submitDeleteNote()
                   }}
                 >
-                  <TiTimes title="delete" className={styles.deleteIcon} />
+                  <TiTimes title='delete' className={styles.deleteIcon} />
                 </button>
               </div>
             </div>
@@ -171,7 +184,7 @@ function Modal({
         </div>
       </FocusTrap>
     </Portal>
-  );
+  )
 }
 
-export default Modal;
+export default Modal
