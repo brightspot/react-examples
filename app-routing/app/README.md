@@ -20,7 +20,7 @@ Publish at a minimum the following content to display material in your front-end
 
 1. App: for this tutorial, use the title 'News' (that will generate a `/news` permalink used in `app/pages/index.tsx`).
 2. Page: publish four or more different pages that are linked to the News app.
-3. Article: publish at least one article per page. Make sure to add the correct page in the page section of the article (example: a world article would be linked to the world page).
+3. Article: publish at least two articles per page. Make sure to add the correct page in the page section of the article (example: a world article would be linked to the world page).
 
 ## Use ids for GraphQL queries with dynamic rouing
 
