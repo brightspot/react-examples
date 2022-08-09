@@ -7,29 +7,28 @@ import Site from "../../../brightspot-types/com/psddev/cms/db/Site";
 import Page from "./Page";
 import Indexed from "../../../brightspot-types/com/psddev/dari/db/Recordable$Indexed";
 
-@JavaClass('brightspot.example.Article')
-export default class Article extends Content.implements(DirectoryItem) {
+export default class Article extends JavaClass('brightspot.example.Article', Content, DirectoryItem) {
 
-  @JavaField()
+  @JavaField
   @Indexed()
   page?: Page
 
-  @JavaField()
+  @JavaField
   headline?: string
 
-  @JavaField()
+  @JavaField
   body?: string
 
-  @JavaField()
+  @JavaField
   @ToolUiReadOnly()
   url?: string
 
-  beforeCommit() {
-    this.setUrl(this.getPermalink())
+  beforeCommit():void {
+    this.url = this.getPermalink()
   }
 
   createPermalink(site: Site): string {
     const Utils = Java.type('com.psddev.dari.util.Utils')
-    return Utils.toNormalized(this.getHeadline())
+    return Utils.toNormalized(this.headline)
   }
 }

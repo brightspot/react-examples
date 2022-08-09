@@ -12,8 +12,7 @@ import List from "../../../brightspot-types/java/util/List";
 import JavaClass from "../../../brightspot-types/JavaClass";
 
 
-@JavaClass('brightspot.example.AppEndpoint')
-export default class AppEndpoint extends ContentDeliveryApiEndpoint.implements(Singleton) {
+export default class AppEndpoint extends JavaClass('brightspot.example.AppEndpoint', ContentDeliveryApiEndpoint, Singleton) {
 
   getPathSuffix() {
     return '/app'
