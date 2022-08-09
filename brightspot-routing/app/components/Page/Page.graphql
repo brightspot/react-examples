@@ -1,9 +1,18 @@
-query GetAllArticles($path: String = "") {
+query GetPageArticles($path: String = "") {
   Page(path: $path) {
+    name
     Article_page_connection {
       items {
+        page {
+          url
+          name
+        }
         url
         headline
+        body
+        cms_content {
+          publishDate
+        }
       }
     }
   }

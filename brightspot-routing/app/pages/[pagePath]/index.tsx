@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useGetAllArticlesQuery } from '../../generated/graphql'
+import { useGetPageArticlesQuery } from '../../generated/graphql'
 import PageView from '../../components/Page/PageView'
 
 const Example: NextPage = () => {
   const router = useRouter()
   const { pagePath } = router.query
 
-  const { data, loading, error } = useGetAllArticlesQuery({
+  const { data, loading, error } = useGetPageArticlesQuery({
     variables: {
       path: `${pagePath}`,
     },
