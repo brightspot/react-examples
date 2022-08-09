@@ -1,16 +1,16 @@
 import styles from './List.module.css'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Article } from '../../generated/graphql'
 
-const imageArray = [
-  { image: '/balloons.png', alt: 'cropped photo by Al Soot on Unsplash' },
-  {
-    image: '/laugh.jpg',
-    alt: 'cropped photo by Felicia Buitenwerf on Unsplash',
-  },
-  { image: '/flowers.png', alt: 'cropped photo by Henry Be on Unsplash' },
-  { image: '/ocean.png', alt: 'cropped photo by Quino Al on Unsplash' },
+const colorArray = [
+  '#2F8F9D',
+  '#34BE82',
+  '#3BACB6',
+  '#2F86A6',
+  '#82DBD8',
+  '#B3E8E5',
+  '#2FDD92',
+  '#F2F013',
 ]
 
 interface Props {
@@ -31,12 +31,16 @@ const List = ({ articles }: Props) => {
               <a>
                 <div className={styles.listItem}>
                   <div className={styles.imageContainer}>
-                    <Image
-                      src={imageArray[i].image}
-                      alt={imageArray[i].alt}
-                      layout='fill'
-                      objectFit='cover'
-                    />
+                    <div
+                      className={styles.fakeImage}
+                      style={{
+                        backgroundColor: `${
+                          colorArray[Math.floor(Math.random() * 7) + 1]
+                        }`,
+                      }}
+                    >
+                      <span>image</span>
+                    </div>
                   </div>
                   <div className={styles.textContainer}>
                     {article?.page?.name && (

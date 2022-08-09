@@ -23,11 +23,18 @@
   height: 100px;
   width: 100%;
   position: relative;
-  /* object-fit: fill; */
   margin-bottom: 0;
   padding: 0;
 }
 
+.fakeImage {
+  height: 100%;
+  width: 100%;
+  color: var(--primaryBlack);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .sectionText {
   margin: 0;
   text-transform: uppercase;
