@@ -4,7 +4,9 @@ query GetAllPages($path: String = "") {
       items {
         url
         name
-        Article_page_connection(sort: {option: PUBLISH_DATE, order: DESCENDING}) {
+        Article_page_connection(
+          sort: { option: PUBLISH_DATE, order: DESCENDING }
+        ) {
           items {
             page {
               url

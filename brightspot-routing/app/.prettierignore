@@ -1,0 +1,6 @@
+build
+generated
+.next
+node_modules
+brightspot-types
+brightspot-server

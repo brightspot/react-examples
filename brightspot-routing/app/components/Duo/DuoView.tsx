@@ -1,25 +1,28 @@
 import type { NextPage } from 'next'
 import styles from './Duo.module.css'
 import { Article } from '../../generated/graphql'
-import Image from 'next/image';
+import Image from 'next/image'
 
 const imageArray = [
-  { image: "/balloons.png", alt: "cropped photo by Al Soot on Unsplash" },
-  { image: "/laugh.jpg", alt: "cropped photo by Felicia Buitenwerf on Unsplash" },
-  { image: "/flowers.png", alt: "cropped photo by Henry Be on Unsplash" },
-  { image: "/ocean.png", alt: "cropped photo by Quino Al on Unsplash" },
+  { image: '/balloons.png', alt: 'cropped photo by Al Soot on Unsplash' },
+  {
+    image: '/laugh.jpg',
+    alt: 'cropped photo by Felicia Buitenwerf on Unsplash',
+  },
+  { image: '/flowers.png', alt: 'cropped photo by Henry Be on Unsplash' },
+  { image: '/ocean.png', alt: 'cropped photo by Quino Al on Unsplash' },
 ]
 
 interface Props {
-    articles: Array<Article>
+  articles: Array<Article>
 }
 
 const DuoView: NextPage<Props> = ({ articles }) => {
   return (
     <section>
       <div className={styles.listGrid}>
-        {articles?.map((article, index) =>
-          <a 
+        {articles?.map((article, index) => (
+          <a
             key={index}
             href={`${process.env.NEXT_PUBLIC_HOST}${article.page?.url}${article.url}`}
           >
@@ -39,7 +42,7 @@ const DuoView: NextPage<Props> = ({ articles }) => {
               </div>
             </div>
           </a>
-        )}
+        ))}
       </div>
     </section>
   )

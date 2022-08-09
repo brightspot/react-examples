@@ -4,22 +4,24 @@ import styles from './List.module.css'
 import { Article } from '../../generated/graphql'
 
 const imageArray = [
-  { image: "/balloons.png", alt: "cropped photo by Al Soot on Unsplash" },
-  { image: "/laugh.jpg", alt: "cropped photo by Felicia Buitenwerf on Unsplash" },
-  { image: "/flowers.png", alt: "cropped photo by Henry Be on Unsplash" },
-  { image: "/ocean.png", alt: "cropped photo by Quino Al on Unsplash" },
-];
+  { image: '/balloons.png', alt: 'cropped photo by Al Soot on Unsplash' },
+  {
+    image: '/laugh.jpg',
+    alt: 'cropped photo by Felicia Buitenwerf on Unsplash',
+  },
+  { image: '/flowers.png', alt: 'cropped photo by Henry Be on Unsplash' },
+  { image: '/ocean.png', alt: 'cropped photo by Quino Al on Unsplash' },
+]
 
 interface Props {
   articles: Array<Article>
 }
 
 const ListView: NextPage<Props> = ({ articles }) => {
-
   return (
     <section>
       <div className={styles.listGrid}>
-        {articles.map((article, index) =>
+        {articles.map((article, index) => (
           <a
             key={index}
             href={`${process.env.NEXT_PUBLIC_HOST}${article.page?.url}${article.url}`}
@@ -36,15 +38,13 @@ const ListView: NextPage<Props> = ({ articles }) => {
               </div>
               <div className={styles.textsContainer}>
                 <p className={styles.sectionText}>{article.page?.name}</p>
-                <h4 className={styles.articleHeadline}>
-                  {article.headline}
-                </h4>
-                <p>{article.body?.slice(0,10)}...</p>
+                <h4 className={styles.articleHeadline}>{article.headline}</h4>
+                <p>{article.body?.slice(0, 10)}...</p>
                 <p>READ MORE...</p>
               </div>
             </div>
           </a>
-        )}
+        ))}
       </div>
     </section>
   )

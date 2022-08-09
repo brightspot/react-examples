@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { Article } from '../../generated/graphql'
 
 interface Props {
-    article: Article
+  article: Article
 }
 
 const ArticleView: NextPage<Props> = ({ article }) => {

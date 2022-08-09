@@ -3,11 +3,10 @@ import AppView from '../components/App/AppView'
 import { useGetAllPagesQuery } from '../generated/graphql'
 
 const Home: NextPage = () => {
-
   const { data, loading, error } = useGetAllPagesQuery({
     variables: {
-      path: '/app'
-    }
+      path: '/app',
+    },
   })
 
   if (loading) return <div>Loading</div>
@@ -16,7 +15,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <AppView app={data.App}/>
+      <AppView app={data.App} />
     </>
   )
 }

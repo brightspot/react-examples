@@ -7,17 +7,19 @@ interface Props {
 }
 
 const PageView: NextPage<Props> = ({ page }) => {
-
   const router = useRouter()
   const { pagePath } = router.query
 
   return (
     <div>
-      {page.Article_page_connection?.items.map((item, index) => 
-        <a href={`${process.env.NEXT_PUBLIC_HOST}/${pagePath}${item.url}`} key={index}>
+      {page.Article_page_connection?.items.map((item, index) => (
+        <a
+          href={`${process.env.NEXT_PUBLIC_HOST}/${pagePath}${item.url}`}
+          key={index}
+        >
           <h2>{item.headline}</h2>
         </a>
-      )}
+      ))}
     </div>
   )
 }

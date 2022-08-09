@@ -4,14 +4,13 @@ import { useGetAllArticlesQuery } from '../../generated/graphql'
 import PageView from '../../components/Page/PageView'
 
 const Example: NextPage = () => {
-
   const router = useRouter()
   const { pagePath } = router.query
 
   const { data, loading, error } = useGetAllArticlesQuery({
     variables: {
-      path: `${pagePath}`
-    }
+      path: `${pagePath}`,
+    },
   })
 
   if (loading) return <div>Loading</div>
@@ -20,7 +19,7 @@ const Example: NextPage = () => {
 
   return (
     <>
-      <PageView page={data.Page}/>
+      <PageView page={data.Page} />
     </>
   )
 }
