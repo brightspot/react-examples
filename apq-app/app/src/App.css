@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  text-align: center;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: #fbf8f1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20vmin;
+  line-height: 17vmin;
+}
+
+h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 7vmin;
+  line-height: 7vmin;
+}
+
+.hello-world-text {
+  color: transparent;
+  background: linear-gradient(#2193b0, #6dd5ed);
+  background-size: 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  opacity: 0.6;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.hello-world-text:hover {
+  opacity: 1;
+}
