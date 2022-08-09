@@ -199,14 +199,14 @@ export type GetArticleQueryVariables = Exact<{
 }>;
 
 
-export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', headline?: string | null, body?: string | null } | null };
+export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', headline?: string | null, body?: string | null, cms_content?: { __typename?: 'Content_ObjectModificationCmsContentField', publishDate?: any | null } | null } | null };
 
-export type GetAllArticlesQueryVariables = Exact<{
+export type GetPageArticlesQueryVariables = Exact<{
   path?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetAllArticlesQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', url?: string | null, headline?: string | null }> } | null } | null };
+export type GetPageArticlesQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', name?: string | null, Article_page_connection?: { __typename?: 'Article_page_connection', items: Array<{ __typename?: 'Article', url?: string | null, headline?: string | null, body?: string | null, page?: { __typename?: 'Page', url?: string | null, name?: string | null } | null, cms_content?: { __typename?: 'Content_ObjectModificationCmsContentField', publishDate?: any | null } | null }> } | null } | null };
 
 
 export const GetAllPagesDocument = gql`
@@ -268,6 +268,9 @@ export const GetArticleDocument = gql`
   Article(path: $path) {
     headline
     body
+    cms_content {
+      publishDate
+    }
   }
 }
     `;
@@ -299,13 +302,22 @@ export function useGetArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetArticleQueryHookResult = ReturnType<typeof useGetArticleQuery>;
 export type GetArticleLazyQueryHookResult = ReturnType<typeof useGetArticleLazyQuery>;
 export type GetArticleQueryResult = Apollo.QueryResult<GetArticleQuery, GetArticleQueryVariables>;
-export const GetAllArticlesDocument = gql`
-    query GetAllArticles($path: String = "") {
+export const GetPageArticlesDocument = gql`
+    query GetPageArticles($path: String = "") {
   Page(path: $path) {
+    name
     Article_page_connection {
       items {
+        page {
+          url
+          name
+        }
         url
         headline
+        body
+        cms_content {
+          publishDate
+        }
       }
     }
   }
@@ -313,29 +325,29 @@ export const GetAllArticlesDocument = gql`
     `;
 
 /**
- * __useGetAllArticlesQuery__
+ * __useGetPageArticlesQuery__
  *
- * To run a query within a React component, call `useGetAllArticlesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetPageArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPageArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAllArticlesQuery({
+ * const { data, loading, error } = useGetPageArticlesQuery({
  *   variables: {
  *      path: // value for 'path'
  *   },
  * });
  */
-export function useGetAllArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>) {
+export function useGetPageArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetPageArticlesQuery, GetPageArticlesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
+        return Apollo.useQuery<GetPageArticlesQuery, GetPageArticlesQueryVariables>(GetPageArticlesDocument, options);
       }
-export function useGetAllArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>) {
+export function useGetPageArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPageArticlesQuery, GetPageArticlesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
+          return Apollo.useLazyQuery<GetPageArticlesQuery, GetPageArticlesQueryVariables>(GetPageArticlesDocument, options);
         }
-export type GetAllArticlesQueryHookResult = ReturnType<typeof useGetAllArticlesQuery>;
-export type GetAllArticlesLazyQueryHookResult = ReturnType<typeof useGetAllArticlesLazyQuery>;
-export type GetAllArticlesQueryResult = Apollo.QueryResult<GetAllArticlesQuery, GetAllArticlesQueryVariables>;
+export type GetPageArticlesQueryHookResult = ReturnType<typeof useGetPageArticlesQuery>;
+export type GetPageArticlesLazyQueryHookResult = ReturnType<typeof useGetPageArticlesLazyQuery>;
+export type GetPageArticlesQueryResult = Apollo.QueryResult<GetPageArticlesQuery, GetPageArticlesQueryVariables>;
