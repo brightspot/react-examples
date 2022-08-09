@@ -2,5 +2,8 @@ query GetArticle($path: String = "") {
   Article(path: $path) {
     headline
     body
+    cms_content {
+      publishDate
+    }
   }
 }
