@@ -1,25 +1,27 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { Page } from '../../generated/graphql'
+import BannerView from '../Banner/BannerView'
+import Container from '../Container/Container'
+import DuoView from '../Duo/DuoView'
+import ListView from '../List/ListView'
 
 interface Props {
   page: Page
 }
 
 const PageView: NextPage<Props> = ({ page }) => {
-  const router = useRouter()
-  const { pagePath } = router.query
-
   return (
     <div>
-      {page.Article_page_connection?.items.map((item, index) => (
-        <a
-          href={`${process.env.NEXT_PUBLIC_HOST}/${pagePath}${item.url}`}
-          key={index}
-        >
-          <h2>{item.headline}</h2>
-        </a>
-      ))}
+      <BannerView name={page.name} />
+      <Container>
+        <DuoView
+          articles={page.Article_page_connection?.items.slice(0, 2) || []}
+        />
+        <ListView
+          articles={page.Article_page_connection?.items.slice(2, 6) || []}
+        />
+      </Container>
     </div>
   )
 }
