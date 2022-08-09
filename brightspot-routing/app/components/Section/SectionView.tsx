@@ -17,7 +17,7 @@ const SectionView: NextPage<Props> = ({ page }) => {
     <section>
       <div>
         <a
-          href={`${process.env.NEXT_PUBLIC_HOST}${page?.url}${page?.Article_page_connection?.items[0].url}`}
+          href={`${process.env.NEXT_PUBLIC_HOST}${page?.url}${page?.Article_page_connection?.items[0]?.url}`}
         >
           <div className={styles.listItem}>
             <div className={styles.sectionContainer}>
@@ -28,10 +28,11 @@ const SectionView: NextPage<Props> = ({ page }) => {
             </div>
             <div className={styles.textContainer}>
               <h4 className={styles.articleHeadline}>
-                {page?.Article_page_connection?.items[0].headline}
+                {page?.Article_page_connection?.items[0]?.headline}
               </h4>
               <p>
-                {page?.Article_page_connection?.items[0].body?.slice(0, 10)}...
+                {page?.Article_page_connection?.items[0]?.body?.slice(0, 100)}
+                ...
               </p>
             </div>
           </div>
