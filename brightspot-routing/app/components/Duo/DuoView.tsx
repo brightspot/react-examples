@@ -37,7 +37,7 @@ const DuoView: NextPage<Props> = ({ articles }) => {
               <div className={styles.textContainer}>
                 <p className={styles.sectionText}>{article.page?.name}</p>
                 <h2 className={styles.articleHeadline}>{article.headline}</h2>
-                <p>{article.body?.slice(0, 10)}...</p>
+                <p>{article.body?.slice(0, 100)}...</p>
                 READ MORE...
               </div>
             </div>

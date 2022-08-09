@@ -39,7 +39,7 @@ const ListView: NextPage<Props> = ({ articles }) => {
               <div className={styles.textsContainer}>
                 <p className={styles.sectionText}>{article.page?.name}</p>
                 <h4 className={styles.articleHeadline}>{article.headline}</h4>
-                <p>{article.body?.slice(0, 10)}...</p>
+                <p>{article.body?.slice(0, 100)}...</p>
                 <p>READ MORE...</p>
               </div>
             </div>
