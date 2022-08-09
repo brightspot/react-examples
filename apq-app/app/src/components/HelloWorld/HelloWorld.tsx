@@ -1,0 +1,23 @@
+type Props = {
+  helloWorldContent: {
+    HelloWorld: {
+      title: string
+      text: string
+    }
+  }
+}
+
+const HelloWorld = ({ helloWorldContent }: Props) => {
+  if (!helloWorldContent.HelloWorld) return <div>404</div>
+
+  const { title, text } = helloWorldContent.HelloWorld
+
+  return (
+    <div>
+      <h1 className='hello-world-text'>{title}</h1>
+      <h3 className='hello-world-text'>{text}</h3>
+    </div>
+  )
+}
+
+export default HelloWorld
