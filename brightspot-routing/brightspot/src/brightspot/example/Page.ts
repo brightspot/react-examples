@@ -10,14 +10,14 @@ import Indexed from "../../../brightspot-types/com/psddev/dari/db/Recordable$Ind
 export default class Page extends JavaClass('brightspot.example.Page', Content, DirectoryItem) {
   
   @JavaField
-  @Indexed()
+  @Indexed
   app?: App
 
   @JavaField
   name?: string
 
   @JavaField
-  @ToolUiReadOnly()
+  @ToolUiReadOnly
   url?: string
 
   beforeCommit(): void {

@@ -10,7 +10,7 @@ import Indexed from "../../../brightspot-types/com/psddev/dari/db/Recordable$Ind
 export default class Article extends JavaClass('brightspot.example.Article', Content, DirectoryItem) {
 
   @JavaField
-  @Indexed()
+  @Indexed
   page?: Page
 
   @JavaField
@@ -20,7 +20,7 @@ export default class Article extends JavaClass('brightspot.example.Article', Con
   body?: string
 
   @JavaField
-  @ToolUiReadOnly()
+  @ToolUiReadOnly
   url?: string
 
   beforeCommit():void {
