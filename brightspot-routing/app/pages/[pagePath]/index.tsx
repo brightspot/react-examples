@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useGetPageArticlesQuery } from '../../generated/graphql'
-import PageView from '../../components/Page/PageView'
+import PageComponent from '../../components/Page/PageComponent'
 
-const Example: NextPage = () => {
+const PageContainer: NextPage = () => {
   const router = useRouter()
   const { pagePath } = router.query
 
@@ -19,9 +19,9 @@ const Example: NextPage = () => {
 
   return (
     <>
-      <PageView page={data.Page} />
+      <PageComponent page={data.Page} />
     </>
   )
 }
 
-export default Example
+export default PageContainer

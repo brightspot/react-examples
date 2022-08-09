@@ -6,7 +6,7 @@ interface Props {
   article: Article
 }
 
-const ArticleView: NextPage<Props> = ({ article }) => {
+const ArticleComponent: NextPage<Props> = ({ article }) => {
   return (
     <div className={styles.articleWrapper}>
       <h1 className={styles.articleHeadline}>{article.headline}</h1>
@@ -18,4 +18,4 @@ const ArticleView: NextPage<Props> = ({ article }) => {
   )
 }
 
-export default ArticleView
+export default ArticleComponent

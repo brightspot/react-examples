@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import AppView from '../components/App/AppView'
+import AppComponent from '../components/App/AppComponent'
 import { useGetAllPagesQuery } from '../generated/graphql'
 
 const Home: NextPage = () => {
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <AppView app={data.App} />
+      <AppComponent app={data.App} />
     </>
   )
 }

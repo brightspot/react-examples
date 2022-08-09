@@ -8,7 +8,7 @@ interface Props {
   pages: Array<Page>
 }
 
-const Navbar: NextPage<Props> = ({ pages }) => {
+const NavbarComponent: NextPage<Props> = ({ pages }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const handleNavigation = () => {
@@ -77,4 +77,4 @@ const Navbar: NextPage<Props> = ({ pages }) => {
   )
 }
 
-export default Navbar
+export default NavbarComponent

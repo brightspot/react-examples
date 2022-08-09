@@ -17,7 +17,7 @@ interface Props {
   articles: Array<Article>
 }
 
-const ListView: NextPage<Props> = ({ articles }) => {
+const ListComponent: NextPage<Props> = ({ articles }) => {
   return (
     <section>
       <div className={styles.listGrid}>
@@ -50,4 +50,4 @@ const ListView: NextPage<Props> = ({ articles }) => {
   )
 }
 
-export default ListView
+export default ListComponent

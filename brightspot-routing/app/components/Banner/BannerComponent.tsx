@@ -5,7 +5,7 @@ interface Props {
   name: string | undefined | null
 }
 
-const BannerView: NextPage<Props> = ({ name }) => {
+const BannerComponent: NextPage<Props> = ({ name }) => {
   return (
     <div className={styles.bannerContainer}>
       <h1 className={styles.bannerTitle}>{name}</h1>
@@ -13,4 +13,4 @@ const BannerView: NextPage<Props> = ({ name }) => {
   )
 }
 
-export default BannerView
+export default BannerComponent

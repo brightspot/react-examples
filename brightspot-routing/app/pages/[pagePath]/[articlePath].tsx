@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useGetArticleQuery } from '../../generated/graphql'
-import ArticleView from '../../components/Article/ArticleView'
+import ArticleComponent from '../../components/Article/ArticleComponent'
 
 const ArticleContainer: NextPage = () => {
   const router = useRouter()
@@ -19,7 +19,7 @@ const ArticleContainer: NextPage = () => {
 
   return (
     <>
-      <ArticleView article={data.Article} />
+      <ArticleComponent article={data.Article} />
     </>
   )
 }

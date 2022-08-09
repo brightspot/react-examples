@@ -12,7 +12,7 @@ interface Props {
   page: Page | undefined
 }
 
-const SectionView: NextPage<Props> = ({ page }) => {
+const SectionComponent: NextPage<Props> = ({ page }) => {
   return (
     <section>
       <div>
@@ -42,4 +42,4 @@ const SectionView: NextPage<Props> = ({ page }) => {
   )
 }
 
-export default SectionView
+export default SectionComponent

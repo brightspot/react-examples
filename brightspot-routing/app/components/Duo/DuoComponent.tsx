@@ -17,7 +17,7 @@ interface Props {
   articles: Array<Article>
 }
 
-const DuoView: NextPage<Props> = ({ articles }) => {
+const DuoComponent: NextPage<Props> = ({ articles }) => {
   return (
     <section>
       <div className={styles.listGrid}>
@@ -48,4 +48,4 @@ const DuoView: NextPage<Props> = ({ articles }) => {
   )
 }
 
-export default DuoView
+export default DuoComponent

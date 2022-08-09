@@ -1,29 +1,28 @@
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { Page } from '../../generated/graphql'
-import BannerView from '../Banner/BannerView'
-import Container from '../Container/Container'
-import DuoView from '../Duo/DuoView'
-import ListView from '../List/ListView'
+import BannerComponent from '../Banner/BannerComponent'
+import ContainerComponent from '../Container/ContainerComponent'
+import DuoComponent from '../Duo/DuoComponent'
+import ListComponent from '../List/ListComponent'
 
 interface Props {
   page: Page
 }
 
-const PageView: NextPage<Props> = ({ page }) => {
+const PageComponent: NextPage<Props> = ({ page }) => {
   return (
     <div>
-      <BannerView name={page.name} />
-      <Container>
-        <DuoView
+      <BannerComponent name={page.name} />
+      <ContainerComponent>
+        <DuoComponent
           articles={page.Article_page_connection?.items.slice(0, 2) || []}
         />
-        <ListView
+        <ListComponent
           articles={page.Article_page_connection?.items.slice(2, 6) || []}
         />
-      </Container>
+      </ContainerComponent>
     </div>
   )
 }
 
-export default PageView
+export default PageComponent

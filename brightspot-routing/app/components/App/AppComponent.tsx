@@ -1,17 +1,17 @@
 import type { NextPage } from 'next'
 import { App } from '../../generated/graphql'
-import Container from '../Container/Container'
-import DuoView from '../Duo/DuoView'
-import SectionView from '../Section/SectionView'
-import ListView from '../List/ListView'
-import Navbar from '../Navbar/Navbar'
+import ContainerComponent from '../Container/ContainerComponent'
+import DuoComponent from '../Duo/DuoComponent'
+import SectionComponent from '../Section/SectionComponent'
+import ListComponent from '../List/ListComponent'
+import NavbarComponent from '../Navbar/NavbarComponent'
 import { Article } from '../../generated/graphql'
 
 interface Props {
   app: App
 }
 
-const AppView: NextPage<Props> = ({ app }) => {
+const AppComponent: NextPage<Props> = ({ app }) => {
   const randPageIndex = Math.floor(
     Math.random() *
       (app.Page_app_connection?.items.length
@@ -32,14 +32,16 @@ const AppView: NextPage<Props> = ({ app }) => {
 
   return (
     <div>
-      <Navbar pages={app.Page_app_connection?.items || []} />
-      <Container>
-        <DuoView articles={allArticles.slice(0, 2)} />
-        <ListView articles={allArticles.slice(2, 6)} />
-        <SectionView page={app.Page_app_connection?.items[randPageIndex]} />
-      </Container>
+      <NavbarComponent pages={app.Page_app_connection?.items || []} />
+      <ContainerComponent>
+        <DuoComponent articles={allArticles.slice(0, 2)} />
+        <ListComponent articles={allArticles.slice(2, 6)} />
+        <SectionComponent
+          page={app.Page_app_connection?.items[randPageIndex]}
+        />
+      </ContainerComponent>
     </div>
   )
 }
 
-export default AppView
+export default AppComponent
