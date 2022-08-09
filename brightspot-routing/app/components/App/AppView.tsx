@@ -32,11 +32,7 @@ const AppView: NextPage<Props> = ({ app }) => {
 
   return (
     <div>
-      <Navbar
-        pages={
-          app.Page_app_connection?.items ? app.Page_app_connection.items : []
-        }
-      />
+      <Navbar pages={app.Page_app_connection?.items || []} />
       <Container>
         <DuoView articles={allArticles.slice(0, 2)} />
         <ListView articles={allArticles.slice(2, 6)} />
