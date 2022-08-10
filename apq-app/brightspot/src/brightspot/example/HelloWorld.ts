@@ -10,7 +10,7 @@ export default class App extends JavaClass(
   Content,
   DirectoryItem
 ) {
-  @JavaRequired()
+  @JavaRequired
   @JavaField
   title?: string
 

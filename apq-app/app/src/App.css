@@ -16,18 +16,25 @@ body {
 }
 
 body {
-  height: 100vh;
-  width: 100vw;
   background-color: #fff;
+}
 
+.hello-world-container {
+  margin-top: 10rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.hello-world-message {
+  margin-top: 10rem;
+  font-size: 1.2rem;
 }
 
 h1 {
   font-family: 'Poppins', sans-serif;
-  font-size: 20vmin;
+  font-size: 15vmin;
   line-height: 17vmin;
 }
 
