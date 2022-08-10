@@ -21,6 +21,7 @@ body {
 
 .hello-world-container {
   margin-top: 10rem;
+  padding: 0 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,6 +37,7 @@ h1 {
   font-family: 'Poppins', sans-serif;
   font-size: 15vmin;
   line-height: 17vmin;
+  margin-bottom: 2rem;
 }
 
 h3 {
