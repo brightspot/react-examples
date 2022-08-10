@@ -8,25 +8,13 @@ For more information on automatic persisted queries, refer to the Apollo [docume
 
 Follow the [instructions](https://github.com/brightspot/react-examples/tree/feature/cma-next) for running the Brightspot instance.
 
-Run the development server. CD into `apq-app/app` and run the following commands:
+Once the development server is running, CD into `apq-app/app` and run the following commands:
 
 ```
 yarn && yarn start
 ```
 
 Navigate to `http://localhost:3000` in your browser to see the result.
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.
-You will also see any lint errors in the console.
 
 ## Publish CMS Content
 
