@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Follow the [instructions](https://github.com/brightspot/react-examples/tree/feature/cma-next) for running the Brightspot instance.
 
-CD into `preview-app/app` in your terminal and run the following commands:
+Once the development server is running, CD into `preview-app/app` in your terminal and run the following commands:
 
 ```
 yarn && yarn start
