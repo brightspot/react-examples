@@ -11,7 +11,7 @@ import ContentDeliveryPreviewType from '../../../brightspot-types/com/psddev/gra
 import Preview from '../../../brightspot-types/com/psddev/cms/db/Preview'
 import PreviewTypeSupplier from '../../../brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
 
-export default class App extends JavaClass(
+export default class HelloWorld extends JavaClass(
   'brightspot.example.HelloWorld',
   Content,
   DirectoryItem,
@@ -23,6 +23,13 @@ export default class App extends JavaClass(
 
   @JavaField
   text?: string
+
+  getTitle(): string {
+    return this.title || ''
+  }
+  getText(): any {
+    return this.text || ''
+  }
 
   createPermalink(site: Site): string {
     const Utils = Java.type('com.psddev.dari.util.Utils')

@@ -1,41 +1,19 @@
-# Getting Started with Base React App
+# Brightspot Preview with React and Apollo Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is a base version for creating projects using React and TypeScript. 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+Follow the [instructions](https://github.com/brightspot/react-examples/tree/feature/cma-next) for running the Brightspot instance.
 
-### `yarn start`
+CD into `preview-app/app` in your terminal and run the following commands:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+yarn && yarn start
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Navigate to `http://localhost:3000` in your browser. The screen should be blank since you have not published a Hello World item yet.
 
-### `yarn build`
+## Publish CMS Content
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Publish a Hello World item in the CMS. For the title, use `Hello World` or change the path variable in `app/src/components/HelloWorldContainer.tsx` to the path you created (the permalink that is generated when you create a Hello World). Once you have hit the Publish Button in the CMS you will see a preview appear in the middle rail of the Hello World page in the CMS. Navigate back to your app in the browser and you should see your Hello World content.

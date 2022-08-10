@@ -16,9 +16,9 @@ const HelloWorldContainer: React.FC = () => {
   if (error) return <div>{`Error! ${error.message}`}</div>
 
   return (
-    <>
+    <div className='hello-world-container'>
       <HelloWorld helloWorldContent={data} />
-    </>
+    </div>
   )
 }
 
