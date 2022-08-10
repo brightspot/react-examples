@@ -27,6 +27,11 @@ body {
   flex-direction: column;
 }
 
+.hello-world-message {
+  margin-top: 10rem;
+  font-size: 1.2rem;
+}
+
 h1 {
   font-family: 'Poppins', sans-serif;
   font-size: 15vmin;

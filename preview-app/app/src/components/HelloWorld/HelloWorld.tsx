@@ -8,7 +8,7 @@ type Props = {
 }
 
 const HelloWorld = ({ helloWorldContent }: Props) => {
-  if (!helloWorldContent) return <div>404</div>
+  if (!helloWorldContent) return <div className='hello-world-message'>404</div>
 
   const { title, text } = helloWorldContent.HelloWorld
 
