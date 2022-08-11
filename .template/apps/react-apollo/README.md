@@ -1,6 +1,6 @@
 # Getting Started with Base React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is a base version for creating projects using React and TypeScript. 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is a base version for creating projects using React and TypeScript.
 
 ## Available Scripts
 

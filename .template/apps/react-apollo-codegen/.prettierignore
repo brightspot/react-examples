@@ -1,0 +1,4 @@
+node_modules
+brightspot-types
+brightspot-server
+generated.ts

@@ -1,4 +1,4 @@
-Each component and its supporting files will go into a folder matching the component name. 
+Each component and its supporting files will go into a folder matching the component name.
 
 ```
 - components
@@ -20,28 +20,27 @@ interface Props {
 }
 
 const ExampleComponent: React.FC<Props> = ({ title }) => {
-
   return (
     <div>
       <h1>{title}</h1>
     </div>
-  );
+  )
 }
 
-export default ExampleComponent;
+export default ExampleComponent
 ```
 
 _ExampleContainer.tsx_
 
 ```typescript
-import ExampleComponent from './ExampleComponent';
-import { useExampleQuery } from '../../generated';
+import ExampleComponent from './ExampleComponent'
+import { useExampleQuery } from '../../generated'
 
 const ExampleContainer: React.FC = () => {
-  const {loading, error, data} = useExampleQuery({
+  const { loading, error, data } = useExampleQuery({
     variables: {
-      path: '/example'
-    }
+      path: '/example',
+    },
   })
 
   if (loading) return <div>'Loading...'</div>
@@ -49,21 +48,20 @@ const ExampleContainer: React.FC = () => {
   const title = data?.Example?.title
   return (
     <div>
-        <ExampleComponent title={title} />
+      <ExampleComponent title={title} />
     </div>
-  );
+  )
 }
 
-export default ExampleContainer;
-
+export default ExampleContainer
 ```
 
 _ExampleQuery.graphql_
 
 ```graphql
 query Example($path: String) {
-    Example(path: $path) {
-        title
-    }
+  Example(path: $path) {
+    title
+  }
 }
 ```
