@@ -10,6 +10,8 @@ import ArrayList from '../../../brightspot-types/java/util/ArrayList'
 import ContentDeliveryPreviewType from '../../../brightspot-types/com/psddev/graphql/cda/ContentDeliveryPreviewType'
 import Preview from '../../../brightspot-types/com/psddev/cms/db/Preview'
 import PreviewTypeSupplier from '../../../brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
+import JavaMethodParameters from '../../../brightspot-types/JavaMethodParameters'
+import JavaMethodReturn from '../../../brightspot-types/JavaMethodReturn'
 
 export default class HelloWorld extends JavaClass(
   'brightspot.example.HelloWorld',
@@ -24,18 +26,28 @@ export default class HelloWorld extends JavaClass(
   @JavaField
   text?: string
 
+  // @JavaMethodParameters()
+  // @JavaMethodReturn(String)
   getTitle(): string {
+    console.log('YOU ARE IN THE HELLOWORLD CLASS: 🔥 🔥 🔥 🔥 🔥 🔥')
     return this.title || ''
   }
-  getText(): any {
+
+  // @JavaMethodParameters()
+  // @JavaMethodReturn(String)
+  getText(): string {
     return this.text || ''
   }
 
+  @JavaMethodParameters(Site)
+  @JavaMethodReturn(String)
   createPermalink(site: Site): string {
     const Utils = Java.type('com.psddev.dari.util.Utils')
     return Utils.toNormalized(this.title)
   }
 
+  @JavaMethodParameters(Preview)
+  @JavaMethodReturn(List)
   getPreviewTypes(preview: Preview): List<PreviewType> {
     let previewTypes = new ArrayList<PreviewType>()
     let myCDPT = new ContentDeliveryPreviewType()
