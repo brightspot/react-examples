@@ -15,7 +15,7 @@ npx brightspot config server http://localhost/cms
 npx brightspot login
 npx brightspot types download
 
-# create some files in src/brightspot/example directory
+# create some files in src/brightspot/example/apq_app directory
 
 npx brightspot types upload src
 ```
