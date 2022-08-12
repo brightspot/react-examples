@@ -9,14 +9,14 @@ const HelloWorldContainer: React.FC = () => {
     },
   })
 
-  if (loading) return <div className='hello-world-message'>Loading data...</div>
+  if (loading) return <div className="hello-world-message">Loading data...</div>
   if (error)
     return (
-      <div className='hello-world-message'>{`Error! ${error.message}`}</div>
+      <div className="hello-world-message">{`Error! ${error.message}`}</div>
     )
 
   return (
-    <div className='hello-world-container'>
+    <div className="hello-world-container">
       <HelloWorld helloWorldContent={data} />
     </div>
   )
