@@ -8,10 +8,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    console.log("HELLO!!! 🐱: ");
     const { data } = await client.query({
       query: GET_NOTES,
       fetchPolicy: "no-cache",
     });
+    console.log("DATA: 🐱: ", data);
     res.status(200).json(data);
   } catch (error: any) {
     console.error("error in getting notes", error);
