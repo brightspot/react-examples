@@ -3,7 +3,7 @@ import HelloWorldContainer from './components/HelloWorld/HelloWorldContainer'
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <HelloWorldContainer />
     </div>
   )

@@ -14,12 +14,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
+    "eject": "react-scripts eject",
+    "format": "npx prettier --write ."
   },
   "browserslist": {
     "production": [
@@ -32,5 +28,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "8.5.0",
+    "prettier": "2.7.1"
   }
 }

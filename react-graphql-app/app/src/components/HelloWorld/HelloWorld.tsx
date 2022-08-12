@@ -12,8 +12,8 @@ const HelloWorld = ({ helloWorldContent }: Props) => {
 
   return (
     <>
-      <h1 className='hello-world-text'>{title}</h1>
-      <h3 className='hello-world-text'>{text}</h3>
+      <h1 className="hello-world-text">{title}</h1>
+      <h3 className="hello-world-text">{text}</h3>
     </>
   )
 }

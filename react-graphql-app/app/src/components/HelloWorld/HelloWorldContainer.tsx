@@ -34,9 +34,9 @@ const HelloWorldContainer = () => {
       })
   }, [GRAPHQL])
 
-  if (error) return <div className='hello-world-message'>{error}</div>
+  if (error) return <div className="hello-world-message">{error}</div>
   return (
-    <div className='hello-world-container'>
+    <div className="hello-world-container">
       <HelloWorld helloWorldContent={helloWorldContent} />
     </div>
   )
