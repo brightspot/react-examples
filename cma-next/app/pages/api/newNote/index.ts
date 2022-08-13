@@ -26,6 +26,8 @@ export default async function handler(
     if (error.networkError) {
       res.status(error.networkError.statusCode).json(error.message);
       console.error(error);
+    } else {
+      res.status(400).json("bad request");
     }
   }
 }

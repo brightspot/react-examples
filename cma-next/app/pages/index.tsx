@@ -33,11 +33,12 @@ const Home: NextPage = () => {
         });
       }
       res.json().then((res) => {
-        setItems(res.brightspot_example_NoteQuery?.items);
+        console.log(res);
+        setItems(res.brightspot_example_cma_next_NoteQuery?.items);
       });
     });
   }
-
+  console.log("ITEMS!!!!: ", items);
   const search = (data: Data[]) => {
     if (data && data.length > 0 && searchResults.length > 0) {
       return data.filter((item: Data) => searchResults.includes(item._id));

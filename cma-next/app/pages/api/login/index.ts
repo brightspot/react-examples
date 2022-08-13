@@ -7,21 +7,27 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    console.log("USERNAME ", req.body.username);
+    console.log("USERNAME ", req.body.name);
     const { data } = await client.query({
       query: CHECK_USER,
       fetchPolicy: "no-cache",
       variables: {
-        arguments: req.body.username,
+        arguments: req.body.name,
       },
     });
-    console.log("DATA", data);
-    res.status(200).json(data);
+    console.log(
+      "DATA FOR LOGIN",
+      data.com_psddev_cms_db_ToolUserQuery.items[0].username
+    );
+    res
+      .status(200)
+      .json(data.com_psddev_cms_db_ToolUserQuery.items[0].username);
   } catch (error: any) {
     console.error("error finding user", error);
     if (error.networkError) {
       res.status(error.networkError.statusCode).json(error.message);
-      console.error(error);
+      console.error(error.message);
     }
+    return res.status(400).json("failed");
   }
 }

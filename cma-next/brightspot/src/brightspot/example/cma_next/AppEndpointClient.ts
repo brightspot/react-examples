@@ -22,7 +22,8 @@ export default class AppEndpointClient extends JavaClass(
     console.log("💛 💛 💛 💛 💛 💛 DISPLAYNAME: " + displayName);
     let clientId = UuidUtils.createVersion3Uuid(name);
     let clientSecret = UuidUtils.createVersion3Uuid(clientId.toString());
-
+    console.log(" CLIENT ID 💛 💛 💛 💛 💛 💛: " + clientId);
+    console.log("Client SECRET 💛 💛 💛 💛 💛 💛: " + clientSecret);
     let client = Query.findById(ApiClient.class, clientId);
     if (client == null) {
       client = new ApiClient();
@@ -46,6 +47,7 @@ export default class AppEndpointClient extends JavaClass(
       key.setValue(clientSecret.toString());
       key.setCreatedOn(new JavaDate());
       key.saveImmediately();
+      console.log("key 💛 💛 💛 💛 💛 💛: " + key);
     }
   }
 }
