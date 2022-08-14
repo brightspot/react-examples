@@ -20,13 +20,17 @@ If you create a CMA endpoint editorially, you will need to make one additional c
 
 ## API Client
 
-In the CMS, click on the burger menu then select APIs under Admin. Select New API Client under Clients. Input a name of your choice, and for endpoints select App Endpoint. Click on the clipboard icon next to Client ID and save that ID for future use. Click Add API Key under Keys to generate a unique API Key (you will only be able to see this once so make sure to copy it and save for future use). Click Save to save your new API Client.
+For this tutorial, an API Client is provided and therefore no further setup is needed.
+
+However, you can create your own as well. In the CMS, click on the burger menu then select APIs under Admin. Select New API Client under Clients. Input a name of your choice, and for endpoints select App Endpoint. Click on the clipboard icon next to Client ID and save that ID for future use. Click Add API Key under Keys to generate a unique API Key (you will only be able to see this once so make sure to copy it and save for future use). Click Save to save your new API Client.
 
 Now you can use your GraphQL CMA endpoint to perform CRUD operations.
 
 ## Using GraphQL queries and mutations in a Next.js Application
 
-Change directories to `cma-next/app`. Add your Client ID and Client Secret in their respective fields in the `.env` file in this directory:
+Change directories to `cma-next/app`. If you did not make a new API Client and are using the one pre-generated, you can skip this step.
+
+If you did create a new API Client in the CMS, add your Client ID and Client Secret in their respective fields in the `.env` file in this directory:
 
 ```
 NEXT_PUBLIC_HOST=http://localhost:3000
@@ -45,6 +49,4 @@ yarn && yarn run dev
 
 Go to `http://localhost:3000` in your browser. You will see a login page. Login with your user name (the name you used to login to Brightspot). You will be redirected to the Note dashboard. You will be able to perform all CRUD applications using this dashboard. After creating or editing notes, check the CMS to verify that your username is showing next to the Notes you created or edited.
 
-All GraphQL queries are located in the `cma-next/app/queries` directory. All api routes for using these queries are located in the `cma-next/app/pages/api` directory.
-
-This application use [Next Auth](https://next-auth.js.org/) for authentication and shows a simple example of how that can be implemented. This is only a starter example. Refer to the Next Auth documentation for more advanced implementation.
+This application use [NextAuth](https://next-auth.js.org/) for authentication and shows a simple example of how that can be implemented. This is only a starter example. Refer to the NextAuth documentation for more advanced implementation.
