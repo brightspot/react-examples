@@ -3,8 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["localhost"],
+    domains: ['localhost'],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 const SEARCH = gql`
   query Search($arguments: [String]) {
@@ -24,6 +24,6 @@ const SEARCH = gql`
       }
     }
   }
-`;
+`
 
-export default SEARCH;
+export default SEARCH

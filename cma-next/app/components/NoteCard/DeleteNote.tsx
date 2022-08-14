@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 const DELETE_NOTE = gql`
   mutation DeleteNote($id: ID = "") {
@@ -8,6 +8,6 @@ const DELETE_NOTE = gql`
       title
     }
   }
-`;
+`
 
-export default DELETE_NOTE;
+export default DELETE_NOTE

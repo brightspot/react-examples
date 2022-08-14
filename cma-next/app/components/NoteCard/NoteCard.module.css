@@ -9,7 +9,7 @@
   width: 100%;
 }
 
-.noteCard[data-hide="true"] {
+.noteCard[data-hide='true'] {
   opacity: 0;
 }
 

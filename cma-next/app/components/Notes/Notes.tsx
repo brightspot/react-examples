@@ -1,11 +1,11 @@
-import NoteCard from "../NoteCard/NoteCard";
-import styles from "./Notes.module.css";
-import { Data } from "../../pages/index";
+import NoteCard from '../NoteCard/NoteCard'
+import styles from './Notes.module.css'
+import { Data } from '../../pages/index'
 
 type Props = {
-  notes: Data[] | undefined;
-  getItems: () => void;
-};
+  notes: Data[] | undefined
+  getItems: () => void
+}
 
 const Notes = ({ notes, getItems }: Props) => {
   return (
@@ -37,7 +37,7 @@ const Notes = ({ notes, getItems }: Props) => {
           />
         ))}
     </div>
-  );
-};
+  )
+}
 
-export default Notes;
+export default Notes

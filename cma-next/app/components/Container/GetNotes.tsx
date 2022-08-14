@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 const GET_NOTES = gql`
   query GetNotes {
@@ -22,6 +22,6 @@ const GET_NOTES = gql`
       }
     }
   }
-`;
+`
 
-export default GET_NOTES;
+export default GET_NOTES

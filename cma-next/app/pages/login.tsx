@@ -1,23 +1,23 @@
-import LoginForm from "../components/auth/LoginForm";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
+import LoginForm from '../components/auth/LoginForm'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
+import Head from 'next/head'
 
 const LoginPage = () => {
-  const router = useRouter();
+  const router = useRouter()
   const { data: session } = useSession()
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (session) {
-      router.replace("/");
+      router.replace('/')
     } else {
       setLoading(false)
     }
-  }, [router, session]);
+  }, [router, session])
 
-  if (loading) return <div>Loading..</div>;
+  if (loading) return <div>Loading..</div>
   return (
     <>
       <Head>
@@ -26,7 +26,7 @@ const LoginPage = () => {
       </Head>
       <LoginForm />
     </>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

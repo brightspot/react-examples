@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { TiTimes } from "react-icons/ti";
-import styles from "./NoteCard.module.css";
-import { useSession } from "next-auth/react";
-import Modal from "../Modal/Modal";
+import { useState, useEffect } from 'react'
+import { TiTimes } from 'react-icons/ti'
+import styles from './NoteCard.module.css'
+import { useSession } from 'next-auth/react'
+import Modal from '../Modal/Modal'
 
 type Props = {
-  title: string;
-  text: string;
-  id: string;
-  publishUser: string;
-  getItems: () => void;
-  publishDate: number;
-  updateDate: number;
-  updateUser: string;
-};
+  title: string
+  text: string
+  id: string
+  publishUser: string
+  getItems: () => void
+  publishDate: number
+  updateDate: number
+  updateUser: string
+}
 
 const NoteCard = ({
   title,
@@ -25,9 +25,9 @@ const NoteCard = ({
   updateDate,
   updateUser,
 }: Props) => {
-  const { data: session } = useSession();
-  const userName: string | undefined | null = session?.user?.name;
-  const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession()
+  const userName: string | undefined | null = session?.user?.name
+  const [isOpen, setIsOpen] = useState(false)
   const [formData, setFormData] = useState({
     id: id,
     title: title,
@@ -37,30 +37,30 @@ const NoteCard = ({
     publishDate: publishDate,
     updateUser: updateUser,
     updateDate: updateDate,
-  });
+  })
   const [editFormState, setEditFormState] = useState({
     id: id,
     currentTitle: title,
     currentText: text,
-    userName: "",
-  });
-  const [error, setError] = useState({ isError: false, message: "" });
+    userName: '',
+  })
+  const [error, setError] = useState({ isError: false, message: '' })
 
   useEffect(() => {
     const timeId = setTimeout(() => {
-      setError({ isError: false, message: "" });
-    }, 3000);
+      setError({ isError: false, message: '' })
+    }, 3000)
     return () => {
-      clearTimeout(timeId);
-    };
-  }, [error.isError]);
+      clearTimeout(timeId)
+    }
+  }, [error.isError])
 
   const submitDeleteNote = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`, {
       body: JSON.stringify(editFormState),
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((response) => {
@@ -68,28 +68,28 @@ const NoteCard = ({
           setError({
             isError: true,
             message: `cannot delete`,
-          });
-          throw new Error();
+          })
+          throw new Error()
         }
-        return response.json();
+        return response.json()
       })
       .then(() => {
-        getItems();
+        getItems()
       })
-      .catch((error) => console.log(error));
-  };
+      .catch((error) => console.log(error))
+  }
 
   const toDateTime = (secs: number) => {
-    const t = new Date(secs);
-    return t.toLocaleDateString("en-us", {
-      year: "2-digit",
-      month: "2-digit",
-      day: "numeric",
-      weekday: "short",
-      hour: "numeric",
-      minute: "numeric",
-    });
-  };
+    const t = new Date(secs)
+    return t.toLocaleDateString('en-us', {
+      year: '2-digit',
+      month: '2-digit',
+      day: 'numeric',
+      weekday: 'short',
+      hour: 'numeric',
+      minute: 'numeric',
+    })
+  }
 
   return (
     <>
@@ -97,7 +97,7 @@ const NoteCard = ({
         className={styles.noteCard}
         key={id}
         onClick={() => {
-          setIsOpen(true);
+          setIsOpen(true)
         }}
         data-hide={isOpen ? true : null}
       >
@@ -121,8 +121,8 @@ const NoteCard = ({
           <button
             className={styles.deleteButton}
             onClick={(e) => {
-              e.stopPropagation();
-              submitDeleteNote();
+              e.stopPropagation()
+              submitDeleteNote()
             }}
           >
             <TiTimes title="delete" className={styles.deleteIcon} />
@@ -145,7 +145,7 @@ const NoteCard = ({
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default NoteCard;
+export default NoteCard

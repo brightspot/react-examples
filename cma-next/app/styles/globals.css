@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
 /* Variables */
 :root {
@@ -29,7 +29,7 @@
 }
 body {
   margin: 0 auto;
-  font-family: "Noto Sans", sans-serif;
+  font-family: 'Noto Sans', sans-serif;
   color: var(--primaryTextColor);
   background: var(--grayscaleTwo);
   line-height: 1.7;

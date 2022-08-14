@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 const CREATE_AND_UPDATE_NOTE = gql`
   mutation UpdateNoteTitleAndText(
@@ -32,6 +32,6 @@ const CREATE_AND_UPDATE_NOTE = gql`
       }
     }
   }
-`;
+`
 
-export default CREATE_AND_UPDATE_NOTE;
+export default CREATE_AND_UPDATE_NOTE

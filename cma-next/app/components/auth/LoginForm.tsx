@@ -1,37 +1,37 @@
-import styles from "./LoginForm.module.css";
-import { useRef, useState, useEffect } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
+import styles from './LoginForm.module.css'
+import { useRef, useState, useEffect } from 'react'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const LoginForm = () => {
-  const [error, setError] = useState({ isError: false, message: "" });
-  const userNameRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
+  const [error, setError] = useState({ isError: false, message: '' })
+  const userNameRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
 
   useEffect(() => {
     const timeId = setTimeout(() => {
-      setError({ isError: false, message: "" });
-    }, 3000);
+      setError({ isError: false, message: '' })
+    }, 3000)
     return () => {
-      clearTimeout(timeId);
-    };
-  }, [error.isError]);
+      clearTimeout(timeId)
+    }
+  }, [error.isError])
 
   const submitLoginForm = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    const enteredUserName = userNameRef?.current?.value;
-    const result = await signIn("credentials", {
+    e.preventDefault()
+    const enteredUserName = userNameRef?.current?.value
+    const result = await signIn('credentials', {
       redirect: false,
       username: enteredUserName,
-    });
+    })
     if (result?.status === 401) {
-      setError({ isError: true, message: "Invalid Username" });
+      setError({ isError: true, message: 'Invalid Username' })
     } else if (result?.error) {
-      setError({ isError: true, message: "An error occurred." });
+      setError({ isError: true, message: 'An error occurred.' })
     } else if (!result?.error) {
-      router.replace("/");
+      router.replace('/')
     }
-  };
+  }
 
   return (
     <div className={styles.container}>
@@ -64,7 +64,7 @@ const LoginForm = () => {
         </div>
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm
