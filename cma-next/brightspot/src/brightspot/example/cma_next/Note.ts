@@ -5,10 +5,10 @@ export default class Note extends JavaClass(
   "brightspot.example.cma_next.Note",
   Content
 ) {
-  @JavaField
+  @JavaField(String)
   title?: string;
 
-  @JavaField
+  @JavaField(String)
   text?: string;
 
   getLabel(): string {

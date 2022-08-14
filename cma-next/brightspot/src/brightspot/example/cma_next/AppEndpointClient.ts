@@ -8,6 +8,7 @@ import JavaDate from "../../../../brightspot-types/java/util/Date";
 import Modification from "../../../../brightspot-types/com/psddev/dari/db/Modification";
 import Query from "../../../../brightspot-types/com/psddev/dari/db/Query";
 import UuidUtils from "../../../../brightspot-types/com/psddev/dari/util/UuidUtils";
+import JavaSet from "../../../../brightspot-types/java/util/Set";
 
 export default class AppEndpointClient extends JavaClass(
   "brightspot.example.cma_next.AppEndpointClient",
@@ -31,7 +32,7 @@ export default class AppEndpointClient extends JavaClass(
       let endpoints = new ArrayList<ApiEndpoint>(client.getEndpoints());
       endpoints.add(original);
 
-      client.setEndpoints(endpoints);
+      client.setEndpoints(endpoints as unknown as JavaSet<ApiEndpoint>);
       client.saveImmediately();
     }
 
