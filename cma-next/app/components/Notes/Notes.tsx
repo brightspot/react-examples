@@ -4,7 +4,7 @@ import { Data } from "../../pages/index";
 
 type Props = {
   notes: Data[] | undefined;
-  getItems: Function;
+  getItems: () => void;
 };
 
 const Notes = ({ notes, getItems }: Props) => {

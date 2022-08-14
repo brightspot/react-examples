@@ -28,49 +28,63 @@ const Home: NextPage = () => {
   const [searchResults, setSearchResults] = useState<Array<string>>([]);
 
   useEffect(() => {
+    const timeId = setTimeout(() => {
+      setError({ isError: false, message: "" });
+    }, 3000);
+    return () => {
+      clearTimeout(timeId);
+    };
+  }, [error.isError]);
+
+  useEffect(() => {
     getItems();
   }, []);
 
-  function getItems() {
-    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/notes`, {
+  async function getItems() {
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/notes`, {
       headers: {
         "Content-Type": "application/json",
       },
       method: "GET",
-    }).then((res) => {
-      if (res.status >= 400) {
-        setError({
-          isError: true,
-          message: `There was an error fetching the data: ${res.statusText}`,
+    })
+      .then((res) => {
+        if (!res.ok) {
+          setError({
+            isError: true,
+            message: `There was an error fetching the data: ${res.statusText}`,
+          });
+          throw new Error();
+        }
+        res.json().then((res) => {
+          setItems(res.brightspot_example_cma_next_NoteQuery?.items);
         });
-      }
-      res.json().then((res) => {
-        setItems(res.brightspot_example_cma_next_NoteQuery?.items);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    });
   }
 
   const search = (data: Data[]) => {
-    if (data && data.length > 0 && searchResults.length > 0) {
+    if (data && data.length > 0 && searchResults && searchResults.length > 0) {
       return data.filter((item: Data) => searchResults.includes(item._id));
     } else {
       return data;
     }
   };
 
-  if (error.isError) return <div>{error.message}</div>;
-
   return (
     <>
       <Head>
         <title>Notes</title>
-        <meta content="Notes" />
+        <meta content="Note taking application powered by Brightspot" />
       </Head>
       <Navbar
         setSearchResults={setSearchResults}
         searchResults={searchResults}
       />
+
       <Container search={search} items={items} getItems={getItems} />
+      {error.isError && <div id="error">{error.message}</div>}
     </>
   );
 };

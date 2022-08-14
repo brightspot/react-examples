@@ -22,6 +22,10 @@ type Props = {
     title: string;
     text: string;
     userName: string | null | undefined;
+    publishUser: string;
+    publishDate: number;
+    updateUser: string;
+    updateDate: number;
   };
   setFormData: Function;
 };
@@ -44,6 +48,7 @@ function Modal({
   editFormState,
   setEditFormState,
 }: Props) {
+  const [error, setError] = useState({ isError: false, message: "" });
   useEffect(() => {
     const closeOnEscapeKey = (e: { key: string }) =>
       e.key === "Escape" ? handleClose() : null;
@@ -53,14 +58,33 @@ function Modal({
     };
   }, [handleClose]);
 
-  const [error, setError] = useState({ isError: false, message: "" });
-  const submitUpdatedNote = () => {
+  useEffect(() => {
+    if (error.isError) {
+      const timeId = setTimeout(() => {
+        setError({ isError: false, message: "" });
+        handleClose();
+      }, 3000);
+      return () => {
+        clearTimeout(timeId);
+      };
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error.isError]);
+
+  const submitUpdatedNote = async () => {
     if (!editFormState.currentTitle || !editFormState.currentText) {
       alert("please verify there is a title and text for your note");
       return;
     }
+    if (!userName) {
+      alert(
+        "check that your user icon is in the right of the navbar. If not, try logging out and logging in again."
+      );
+      return;
+    }
     const dataToUpdate = () => {
-      const result: Result = { id: id, toolUser: userName! };
+      const result: Result = { id: id, toolUser: userName };
       if (editFormState.currentTitle !== title) {
         result.title = editFormState.currentTitle;
       }
@@ -69,7 +93,7 @@ function Modal({
       }
       return result;
     };
-    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`, {
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`, {
       body: JSON.stringify(dataToUpdate()),
       method: "POST",
       headers: {
@@ -77,26 +101,46 @@ function Modal({
       },
     })
       .then((res) => {
-        if (res.status >= 400) {
+        if (!res.ok) {
           setError({
             isError: true,
-            message: `${res.status} - ${res.statusText}`,
+            message: `could not update: ${res.status} - ${res.statusText}`,
           });
+          throw new Error();
         }
         return res.json();
       })
       .then((data) => {
         if (data.brightspot_example_cma_next_NoteSave) {
+          console.log(
+            "data received ",
+            data.brightspot_example_cma_next_NoteSave
+          );
           setFormData({
             id: data?.brightspot_example_cma_next_NoteSave._id,
             title: data?.brightspot_example_cma_next_NoteSave.title,
             text: data?.brightspot_example_cma_next_NoteSave.text,
             userName: userName,
+            publishUser:
+              data.brightspot_example_cma_next_NoteSave._globals
+                .com_psddev_cms_db_Content_ObjectModification.publishUser
+                .username,
+            publishDate:
+              data.brightspot_example_cma_next_NoteSave._globals
+                .com_psddev_cms_db_Content_ObjectModification.publishDate,
+            updateUser:
+              data.brightspot_example_cma_next_NoteSave._globals
+                .com_psddev_cms_db_Content_ObjectModification.updateUser
+                .username,
+            updateDate:
+              data.brightspot_example_cma_next_NoteSave._globals
+                .com_psddev_cms_db_Content_ObjectModification.updateDate,
           });
           handleClose();
-        } else if (!data.brightspot_example_cma_next_NoteSave) {
-          alert("could not update data...");
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -106,8 +150,6 @@ function Modal({
     }
   };
 
-  if (error.isError) return <div>{error.message}</div>;
-
   if (!isOpen) return null;
 
   return (
@@ -115,7 +157,7 @@ function Modal({
       <FocusTrap active={isOpen}>
         <div
           className={styles.modal}
-          onClick={(e) => {
+          onClick={() => {
             handleClose();
           }}
         >
@@ -163,6 +205,9 @@ function Modal({
                 >
                   Save
                 </button>
+                {error.isError && (
+                  <span className={styles.error}>{error.message}</span>
+                )}
               </div>
             </div>
           </div>

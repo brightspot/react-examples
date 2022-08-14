@@ -9,7 +9,7 @@ type Props = {
   text: string;
   id: string;
   publishUser: string;
-  getItems: Function;
+  getItems: () => void;
   publishDate: number;
   updateDate: number;
   updateUser: string;
@@ -33,6 +33,10 @@ const NoteCard = ({
     title: title,
     text: text,
     userName: userName,
+    publishUser: publishUser,
+    publishDate: publishDate,
+    updateUser: updateUser,
+    updateDate: updateDate,
   });
   const [editFormState, setEditFormState] = useState({
     id: id,
@@ -49,15 +53,10 @@ const NoteCard = ({
     return () => {
       clearTimeout(timeId);
     };
-  }, [error]);
-
-  useEffect(() => {
-    getItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData]);
+  }, [error.isError]);
 
   const submitDeleteNote = async () => {
-    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`, {
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`, {
       body: JSON.stringify(editFormState),
       method: "DELETE",
       headers: {
@@ -70,9 +69,7 @@ const NoteCard = ({
             isError: true,
             message: `cannot delete`,
           });
-          throw new Error(
-            `there was an error: the status is ${response.status}`
-          );
+          throw new Error();
         }
         return response.json();
       })
@@ -99,7 +96,9 @@ const NoteCard = ({
       <div
         className={styles.noteCard}
         key={id}
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+        }}
         data-hide={isOpen ? true : null}
       >
         <div className={styles.noteForm}>
@@ -108,10 +107,14 @@ const NoteCard = ({
             {formData.text}
           </div>
           <div className={styles.inputFieldUserInfo}>
-            {`created: ${publishUser} \u2022 ${toDateTime(publishDate)}`}
+            {`created: ${formData.publishUser} \u2022 ${toDateTime(
+              formData.publishDate
+            )}`}
           </div>
           <div className={styles.inputFieldUserInfo}>
-            {`updated: ${updateUser} \u2022 ${toDateTime(updateDate)}`}
+            {`updated: ${formData.updateUser} \u2022 ${toDateTime(
+              formData.updateDate
+            )}`}
           </div>
         </div>
         <div className={styles.noteBottom}>

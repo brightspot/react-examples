@@ -15,7 +15,7 @@ const LoginForm = () => {
     return () => {
       clearTimeout(timeId);
     };
-  }, [error]);
+  }, [error.isError]);
 
   const submitLoginForm = async (e: { preventDefault: () => void }) => {
     e.preventDefault();

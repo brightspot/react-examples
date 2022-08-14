@@ -7,7 +7,7 @@
   align-items: center;
   color: var(--primaryTextColor);
   border-radius: 10px;
-  padding: 5px;
+  padding: 5px 5px 0 5px;
   box-shadow: var(--lightShadow);
   margin: 0 auto;
 }
@@ -32,11 +32,27 @@
   transition: all 0.3s ease-out;
 }
 
+.createNoteBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 3.2rem;
+}
+
 .submitButton:hover {
   cursor: pointer;
   background-color: var(--moduleBgColor);
 
   color: #fff;
+}
+
+.error {
+  font-size: 0.9rem;
+  color: var(--primaryRed);
+  font-style: italic;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  line-height: 1.1rem;
 }
 
 .createNoteWrapper {

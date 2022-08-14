@@ -15,9 +15,6 @@ export default async function handler(
     res.status(200).json(data);
   } catch (error: any) {
     console.error("error in getting notes", error);
-    if (error.networkError) {
-      res.status(error.networkError.statusCode).json(error.message);
-      console.error(error);
-    }
+    res.status(400).json(error.message);
   }
 }

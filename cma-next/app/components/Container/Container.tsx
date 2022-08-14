@@ -6,7 +6,7 @@ import { Data } from "../../pages/index";
 type Props = {
   search: (data: Data[]) => Data[] | undefined;
   items: Data[];
-  getItems: Function;
+  getItems: () => void;
 };
 
 const Container = ({ search, items, getItems }: Props) => {

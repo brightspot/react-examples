@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 
 /* Variables */
 :root {
@@ -9,7 +9,7 @@
   --grayscaleFive: #949494;
   --primaryTextColor: #4b4545;
   --secondaryTextColor: #787171;
-  --primaryRed: #E62A8F;
+  --primaryRed: #e62a8f;
   --moduleBgColor: #2a5975;
   --borderColor: #f1eced;
   --success: #28a745;
@@ -29,7 +29,7 @@
 }
 body {
   margin: 0 auto;
-  font-family: 'Noto Sans', sans-serif;
+  font-family: "Noto Sans", sans-serif;
   color: var(--primaryTextColor);
   background: var(--grayscaleTwo);
   line-height: 1.7;
@@ -51,3 +51,9 @@ p {
   padding: 0;
 }
 
+#error {
+  color: var(--primaryRed);
+  text-align: center;
+  font-size: 1.2rem;
+  font-style: italic;
+}

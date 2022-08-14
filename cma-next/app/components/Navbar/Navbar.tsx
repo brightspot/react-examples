@@ -36,6 +36,16 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
     }
   }, [setQuery]);
 
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setError({ isError: false, message: "" });
+      setQuery("");
+    }, 3000);
+    return () => {
+      clearTimeout(timeId);
+    };
+  }, [error.isError, userName]);
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
       if (e.key === "Escape") {
@@ -62,7 +72,7 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
             if (response.status >= 400) {
               setError({
                 isError: true,
-                message: `${response.status} - ${response.statusText}`,
+                message: `Problem with search: ${response.status} - ${response.statusText}`,
               });
             }
             return response.json();
@@ -94,7 +104,6 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
   };
 
   if (error.isError) console.error(error.message);
-
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
@@ -107,6 +116,7 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
             </button>
           )}
         </div>
+        {error.isError && <span className={styles.error}>{error.message}</span>}
         <div className={styles.searchItems}>
           <button
             className={styles.clearButton}

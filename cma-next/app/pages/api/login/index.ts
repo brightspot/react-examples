@@ -17,10 +17,6 @@ export default async function handler(
     res.status(200).json(data.com_psddev_cms_db_ToolUserQuery.items[0]);
   } catch (error: any) {
     console.error("error finding user", error);
-    if (error.networkError) {
-      res.status(error.networkError.statusCode).json(error.message);
-      console.error(error.message);
-    }
     return res.status(400).json("failed");
   }
 }
