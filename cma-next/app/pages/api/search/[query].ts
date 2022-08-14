@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import client from "../../../lib/apollo-client"
-import SEARCH from "../../../queries/Search";
+import client from "../../../lib/apollo-client";
+import SEARCH from "../../../components/Navbar/Search";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const { query } = req.query
+    const { query } = req.query;
     const { data } = await client.query({
       query: SEARCH,
       fetchPolicy: "no-cache",
@@ -17,9 +17,6 @@ export default async function handler(
     });
     res.status(200).json(data);
   } catch (error: any) {
-    if (error.networkError) {
-      res.status(error.networkError.statusCode).json(error.message);
-      console.error(error);
-    }
+    res.status(400).json(error.message);
   }
 }

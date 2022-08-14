@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import styles from "../styles/CreateNote.module.css";
+import styles from "./CreateNote.module.css";
 import { useSession } from "next-auth/react";
 
 type Props = {
@@ -10,43 +10,43 @@ const CreateNote: React.FC<Props> = ({ getItems }) => {
   const { data: session } = useSession();
   const titleRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  console.log("SESSION IN CREATE NOTE: ", session);
   const userName: string | undefined | null = session?.user?.name;
-  console.log("USERNAME!!!!!!!!!!!!!", userName);
   const [error, setError] = useState({ isError: false, message: "" });
   const [formState, setFormState] = useState({
     id: "",
     title: "",
     text: "",
-    userName: userName,
+    toolUser: userName,
   });
 
   const submitNewNote = async () => {
-    console.log({ titleRef, textRef });
     if (!titleRef.current?.innerText || !textRef.current?.innerText) {
       alert("please be sure your note has a title and text");
       return;
     }
-
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/newNote`, {
-      method: "POST",
+    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`, {
       body: JSON.stringify(formState),
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => {
-      if (res.status >= 400) {
-        setError({
-          isError: true,
-          message: `You did not create a note! ${res.status} - ${res.statusText}`,
-        });
-      }
-      res.json().then(() => {
+    })
+      .then((res) => {
+        if (res.status >= 400) {
+          setError({
+            isError: true,
+            message: `You did not create a note! ${res.status} - ${res.statusText}`,
+          });
+        }
+        return res.json();
+      })
+      .then(() => {
+        getItems();
         setFormState({
           id: "",
           title: "",
           text: "",
-          userName: userName,
+          toolUser: userName,
         });
         if (titleRef?.current?.innerText) {
           titleRef.current.innerText = "";
@@ -54,9 +54,7 @@ const CreateNote: React.FC<Props> = ({ getItems }) => {
         if (textRef?.current?.innerText) {
           textRef.current.innerText = "";
         }
-        getItems();
       });
-    });
   };
 
   if (error.isError) return <div>{error.message}</div>;

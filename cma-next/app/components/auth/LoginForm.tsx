@@ -1,4 +1,4 @@
-import styles from "../../styles/LoginForm.module.css";
+import styles from "./LoginForm.module.css";
 import { useRef, useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -10,12 +10,12 @@ const LoginForm = () => {
 
   useEffect(() => {
     const timeId = setTimeout(() => {
-        setError({isError: false, message: ""})
-    }, 3000)
+      setError({ isError: false, message: "" });
+    }, 3000);
     return () => {
-        clearTimeout(timeId)
-    }
-}, [error])
+      clearTimeout(timeId);
+    };
+  }, [error]);
 
   const submitLoginForm = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -25,14 +25,13 @@ const LoginForm = () => {
       username: enteredUserName,
     });
     if (result?.status === 401) {
-      setError({isError: true, message: 'Invalid Username'})
+      setError({ isError: true, message: "Invalid Username" });
     } else if (result?.error) {
-      setError({ isError: true, message: 'An error occurred.'})
+      setError({ isError: true, message: "An error occurred." });
     } else if (!result?.error) {
       router.replace("/");
     }
   };
-
 
   return (
     <div className={styles.container}>
@@ -41,9 +40,9 @@ const LoginForm = () => {
           <div className={styles.loginHead}>
             <h2>Notes Login</h2>
             <p>New User? Signup in Brightspot</p>
-            {error && 
-            <span className={styles.errorMessage}>{error.message}</span>
-            }
+            {error && (
+              <span className={styles.errorMessage}>{error.message}</span>
+            )}
           </div>
           <form className={styles.loginForm} onSubmit={submitLoginForm}>
             <input
@@ -54,6 +53,7 @@ const LoginForm = () => {
               name="username"
               placeholder="User Name"
               required
+              autoFocus
             />
             <input
               className={styles.loginSubmitButton}

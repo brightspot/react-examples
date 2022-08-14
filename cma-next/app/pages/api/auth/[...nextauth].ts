@@ -1,51 +1,47 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
-console.log("you are here", CredentialProvider, NextAuth);
+
 export default NextAuth({
   providers: [
     CredentialProvider({
+      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        username: {
+          label: "Username",
+          type: "text",
+          placeholder: "exampleuser",
+        },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         // Add logic here to look up the user from the credentials supplied
-        console.log("CREDENTIALS: ", credentials?.username);
         const enteredUser = { name: credentials?.username };
-        console.log("ENTEREDUSER: ", enteredUser);
-        async function login(url = "", data = {}) {
-          const response = await fetch(url, {
-            method: "POST",
-            mode: "no-cors",
-            cache: "no-cache",
-            credentials: "same-origin",
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_HOST}/api/login`,
+          {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
-          });
-          return response.json();
-        }
-
-        const finalResult = await login(
-          `${process.env.NEXT_PUBLIC_HOST}/api/login`,
-          enteredUser
-        ).then((data) => {
-          console.log("DATA RETURNED FROM LOGIN FUNCTION", data);
-          if (data === enteredUser.name) {
-            console.log(
-              "Congratulations! You are a verified user!!",
-              data,
-              enteredUser.name
-            );
-            return data;
-          } else {
-            return null;
+            body: JSON.stringify(enteredUser),
+            method: "POST",
           }
-        });
-        if (finalResult) {
-          return finalResult;
+        );
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "cannot login " + data);
+        }
+        const user = data;
+
+        if (user) {
+          // Any object returned will be saved in `user` property of the JWT
+          return user;
         } else {
+          // If you return null then an error will be displayed advising the user to check their details.
           return null;
         }
       },
@@ -54,19 +50,17 @@ export default NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       // user will be defined upon initial login
-      console.log("TOKEN: ", token, "USER: ", user);
       if (user) {
-        token.brightspotUser = user as unknown as string;
+        token.brightspotUser = user as unknown as any;
       }
       return token;
     },
     session: async ({ session, token }) => {
-      console.log("SESSION: ", session, "TOKEN: ", token);
       if (session.user) {
-        console.log("YOU have a user", session.user);
-        token.brightspotUser;
-        session.user.name = token.brightspotUser;
-        console.log("AFTER SETTING session.user.name: ", session.user.name);
+        session.user.name = token.brightspotUser.username;
+        if (token.brightspotUser?.avatar?.publicUrl) {
+          session.user.image = token.brightspotUser?.avatar?.publicUrl;
+        }
       }
       return session;
     },

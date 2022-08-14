@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import GET_NOTES from "../../../queries/GetNotes";
+import GET_NOTES from "../../../components/Container/GetNotes";
 import client from "../../../lib/apollo-client";
 
 export default async function handler(
@@ -12,7 +12,6 @@ export default async function handler(
       query: GET_NOTES,
       fetchPolicy: "no-cache",
     });
-    // console.log("DATA for getting notes: 🐱: ", data);
     res.status(200).json(data);
   } catch (error: any) {
     console.error("error in getting notes", error);

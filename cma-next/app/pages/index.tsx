@@ -1,13 +1,25 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import Container from "../components/Container";
+import Container from "../components/Container/Container";
 import { getSession } from "next-auth/react";
-import Header from "../components/Header";
+import Navbar from "../components/Navbar/Navbar";
 import Head from "next/head";
 export interface Data {
-  _id: string;
   title: string;
   text: string;
+  _id: string;
+  _globals: {
+    com_psddev_cms_db_Content_ObjectModification: {
+      publishDate: number;
+      publishUser: {
+        username: string;
+      };
+      updateDate: number;
+      updateUser: {
+        username: string;
+      };
+    };
+  };
 }
 
 const Home: NextPage = () => {
@@ -21,10 +33,10 @@ const Home: NextPage = () => {
 
   function getItems() {
     fetch(`${process.env.NEXT_PUBLIC_HOST}/api/notes`, {
-      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      method: "GET",
     }).then((res) => {
       if (res.status >= 400) {
         setError({
@@ -33,12 +45,11 @@ const Home: NextPage = () => {
         });
       }
       res.json().then((res) => {
-        console.log(res);
         setItems(res.brightspot_example_cma_next_NoteQuery?.items);
       });
     });
   }
-  console.log("ITEMS!!!!: ", items);
+
   const search = (data: Data[]) => {
     if (data && data.length > 0 && searchResults.length > 0) {
       return data.filter((item: Data) => searchResults.includes(item._id));
@@ -55,7 +66,7 @@ const Home: NextPage = () => {
         <title>Notes</title>
         <meta content="Notes" />
       </Head>
-      <Header
+      <Navbar
         setSearchResults={setSearchResults}
         searchResults={searchResults}
       />
