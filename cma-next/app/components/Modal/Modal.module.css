@@ -30,12 +30,12 @@
 }
 
 .inputFieldTitle {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
 .inputFieldText {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
 }
 
 .inputFieldTitle:focus,
@@ -44,9 +44,9 @@
 }
 
 .submitButton {
-  width: 150px;
-  height: 45px;
-  font-size: 1.7rem;
+  width: 100px;
+  height: var(--inputHeight);
+  font-size: 1.3rem;
   border-radius: var(--buttonBorderRadius);
   color: var(--moduleBgColor);
   border: 1px solid var(--moduleBgColor);
@@ -113,18 +113,8 @@
   .noteCard {
     width: 60%;
   }
-
   .submitButton {
-    height: 45px;
-    width: 10rem;
-    font-size: 1.5rem;
-  }
-
-  .inputFieldTitle {
-    font-size: 1.5rem;
-  }
-  .inputFieldText {
-    font-size: 1.3rem;
+    height: 40px;
   }
 }
 
