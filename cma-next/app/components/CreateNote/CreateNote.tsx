@@ -91,6 +91,7 @@ const CreateNote = ({ getItems }: Props) => {
           contentEditable="true"
           className={styles.createNoteInput}
           aria-label="Title"
+          role="textbox"
           ref={titleRef}
           onBlur={(e) => {
             setFormState({
@@ -104,6 +105,7 @@ const CreateNote = ({ getItems }: Props) => {
           contentEditable="true"
           className={styles.createNoteInput}
           aria-label="Text"
+          role="textbox"
           ref={textRef}
           onBlur={(e) => {
             setFormState({

@@ -8,6 +8,7 @@ export default async function handler(
 ) {
   try {
     const { query } = req.query
+    console.log('here is your query', query)
     const { data } = await client.query({
       query: SEARCH,
       fetchPolicy: 'no-cache',

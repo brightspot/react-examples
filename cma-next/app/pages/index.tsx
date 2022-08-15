@@ -41,7 +41,8 @@ const Home: NextPage = () => {
   }, [])
 
   async function getItems() {
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/notes`, {
+    const query = '*'
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/search/${query}`, {
       headers: {
         'Content-Type': 'application/json',
       },

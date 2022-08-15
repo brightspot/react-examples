@@ -169,6 +169,7 @@ function Modal({
                 suppressContentEditableWarning={true}
                 id={`title for id ${id}`}
                 aria-label={`title for id ${id}`}
+                role="textbox"
                 onBlur={(e) =>
                   setEditFormState({
                     ...editFormState,
@@ -185,6 +186,7 @@ function Modal({
                 suppressContentEditableWarning={true}
                 id={`text for id ${id}`}
                 aria-label={`text for id ${id}`}
+                role="textbox"
                 onBlur={(e) => {
                   setEditFormState({
                     ...editFormState,
