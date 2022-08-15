@@ -41,12 +41,12 @@ const Home: NextPage = () => {
   }, [])
 
   async function getItems() {
-    const query = '*'
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/search/${query}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/search`, {
       headers: {
         'Content-Type': 'application/json',
       },
       method: 'GET',
+      // body: JSON.stringify('*'),
     })
       .then((res) => {
         if (!res.ok) {

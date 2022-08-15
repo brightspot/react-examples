@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 const SEARCH = gql`
-  query Search($arguments: [String] = "*") {
+  query Search($arguments: [String]) {
     brightspot_example_cma_next_NoteQuery(
       where: { predicate: "* matches ?", arguments: $arguments }
     ) {

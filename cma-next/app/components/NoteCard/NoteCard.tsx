@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { TiTimes } from 'react-icons/ti'
+import { TiHeadphones, TiTimes } from 'react-icons/ti'
 import styles from './NoteCard.module.css'
 import { useSession } from 'next-auth/react'
 import Modal from '../Modal/Modal'
@@ -56,27 +56,29 @@ const NoteCard = ({
   }, [error.isError])
 
   const submitDeleteNote = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`, {
-      body: JSON.stringify(editFormState),
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          setError({
-            isError: true,
-            message: `cannot delete`,
-          })
-          throw new Error()
-        }
-        return response.json()
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`,
+      {
+        body: JSON.stringify(editFormState),
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    if (!response.ok) {
+      setError({
+        isError: true,
+        message: 'cannot delete',
       })
-      .then(() => {
+      throw new Error()
+    }
+    await response.json().then((response) => {
+      if (response) {
+        console.log('response', response)
         getItems()
-      })
-      .catch((error) => console.log(error))
+      }
+    })
   }
 
   const toDateTime = (secs: number) => {

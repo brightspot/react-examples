@@ -46,24 +46,26 @@ const CreateNote = ({ getItems }: Props) => {
       alert('please be sure your note has a title and text')
       return
     }
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`, {
-      body: JSON.stringify(formState),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => {
-        if (res.status >= 400) {
-          setError({
-            isError: true,
-            message: `You did not create a note! ${res.status} - ${res.statusText}`,
-          })
-          throw new Error()
-        }
-        return res.json()
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
+      {
+        body: JSON.stringify(formState),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    if (!response.ok) {
+      setError({
+        isError: true,
+        message: 'cannot create a note ' + response.statusText,
       })
-      .then(() => {
+      throw new Error()
+    }
+
+    await response.json().then((response) => {
+      if (response) {
         getItems()
         setFormState({
           id: '',
@@ -77,10 +79,8 @@ const CreateNote = ({ getItems }: Props) => {
         if (textRef?.current?.innerText) {
           textRef.current.innerText = ''
         }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      }
+    })
   }
 
   return (

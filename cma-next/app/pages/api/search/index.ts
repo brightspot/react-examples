@@ -7,8 +7,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { query } = req.query
-    console.log('here is your query', query)
+    let query
+    if (Object.keys(req.body).length === 0) {
+      query = '*'
+    } else {
+      query = req.body
+    }
     const { data } = await client.query({
       query: SEARCH,
       fetchPolicy: 'no-cache',

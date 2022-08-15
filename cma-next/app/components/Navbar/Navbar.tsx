@@ -12,6 +12,7 @@ import { CgLogOut } from 'react-icons/cg'
 import { signOut, useSession } from 'next-auth/react'
 import styles from './Navbar.module.css'
 import Image from 'next/image'
+import { responsePathAsArray } from 'graphql'
 
 type Props = {
   searchResults: string[]
@@ -60,24 +61,29 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       if (inputRef?.current?.value === query && query !== '') {
-        fetch(`${process.env.NEXT_PUBLIC_HOST}/api/search/${query}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'GET',
-        })
-          .then((response) => {
-            if (response.status >= 400) {
-              setError({
-                isError: true,
-                message: `Problem with search: ${response.status} - ${response.statusText}`,
-              })
-            }
-            return response.json()
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_HOST}/api/search`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify(query),
+          }
+        )
+
+        if (!response.ok) {
+          setError({
+            isError: true,
+            message: 'cannot search' + response.statusText,
           })
-          .then((data) => {
+          throw new Error()
+        }
+
+        await response.json().then((data) => {
+          if (data.brightspot_example_cma_next_NoteQuery) {
             const array = data.brightspot_example_cma_next_NoteQuery?.items.map(
               (item: {
                 text: string
@@ -87,7 +93,8 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
               }) => item._id
             )
             setSearchResults(array)
-          })
+          }
+        })
       }
       if (!inputRef?.current?.value && query === '') {
         setQuery('')

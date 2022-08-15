@@ -93,55 +93,48 @@ function Modal({
       }
       return result
     }
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`, {
-      body: JSON.stringify(dataToUpdate()),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
+      {
+        body: JSON.stringify(dataToUpdate()),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
+    if (!response.ok) {
+      setError({
+        isError: true,
+        message: 'cannot update note' + response.statusText,
+      })
+      throw new Error()
+    }
+    await response.json().then((data) => {
+      if (data.brightspot_example_cma_next_NoteSave) {
+        setFormData({
+          id: data?.brightspot_example_cma_next_NoteSave._id,
+          title: data?.brightspot_example_cma_next_NoteSave.title,
+          text: data?.brightspot_example_cma_next_NoteSave.text,
+          userName: userName,
+          publishUser:
+            data.brightspot_example_cma_next_NoteSave._globals
+              .com_psddev_cms_db_Content_ObjectModification.publishUser
+              .username,
+          publishDate:
+            data.brightspot_example_cma_next_NoteSave._globals
+              .com_psddev_cms_db_Content_ObjectModification.publishDate,
+          updateUser:
+            data.brightspot_example_cma_next_NoteSave._globals
+              .com_psddev_cms_db_Content_ObjectModification.updateUser.username,
+          updateDate:
+            data.brightspot_example_cma_next_NoteSave._globals
+              .com_psddev_cms_db_Content_ObjectModification.updateDate,
+        })
+        handleClose()
+      }
     })
-      .then((res) => {
-        if (!res.ok) {
-          setError({
-            isError: true,
-            message: `could not update: ${res.status} - ${res.statusText}`,
-          })
-          throw new Error()
-        }
-        return res.json()
-      })
-      .then((data) => {
-        if (data.brightspot_example_cma_next_NoteSave) {
-          console.log(
-            'data received ',
-            data.brightspot_example_cma_next_NoteSave
-          )
-          setFormData({
-            id: data?.brightspot_example_cma_next_NoteSave._id,
-            title: data?.brightspot_example_cma_next_NoteSave.title,
-            text: data?.brightspot_example_cma_next_NoteSave.text,
-            userName: userName,
-            publishUser:
-              data.brightspot_example_cma_next_NoteSave._globals
-                .com_psddev_cms_db_Content_ObjectModification.publishUser
-                .username,
-            publishDate:
-              data.brightspot_example_cma_next_NoteSave._globals
-                .com_psddev_cms_db_Content_ObjectModification.publishDate,
-            updateUser:
-              data.brightspot_example_cma_next_NoteSave._globals
-                .com_psddev_cms_db_Content_ObjectModification.updateUser
-                .username,
-            updateDate:
-              data.brightspot_example_cma_next_NoteSave._globals
-                .com_psddev_cms_db_Content_ObjectModification.updateDate,
-          })
-          handleClose()
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
