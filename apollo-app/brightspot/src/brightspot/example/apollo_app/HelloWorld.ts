@@ -11,10 +11,10 @@ export default class HelloWorld extends JavaClass(
   DirectoryItem
 ) {
   @JavaRequired
-  @JavaField
+  @JavaField(String)
   title?: string;
 
-  @JavaField
+  @JavaField(String)
   text?: string;
 
   createPermalink(site: Site): string {
