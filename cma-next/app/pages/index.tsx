@@ -46,7 +46,6 @@ const Home: NextPage = () => {
         'Content-Type': 'application/json',
       },
       method: 'GET',
-      // body: JSON.stringify('*'),
     })
       .then((res) => {
         if (!res.ok) {
