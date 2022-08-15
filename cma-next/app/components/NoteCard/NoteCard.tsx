@@ -102,8 +102,8 @@ const NoteCard = ({
         data-hide={isOpen ? true : null}
       >
         <div className={styles.noteForm}>
-          <div className={styles.inputField}>{formData.title}</div>
-          <div className={styles.inputField} id={`text for id ${id}`}>
+          <div className={styles.inputFieldTitle}>{formData.title}</div>
+          <div className={styles.inputFieldText} id={`text for id ${id}`}>
             {formData.text}
           </div>
           <div className={styles.inputFieldUserInfo}>

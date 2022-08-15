@@ -164,7 +164,7 @@ function Modal({
           <div className={styles.noteCard} onClick={(e) => e.stopPropagation()}>
             <div className={styles.noteForm}>
               <div
-                className={styles.inputField}
+                className={styles.inputFieldTitle}
                 contentEditable="true"
                 suppressContentEditableWarning={true}
                 id={`title for id ${id}`}
@@ -180,7 +180,7 @@ function Modal({
                 {formData.title}
               </div>
               <div
-                className={styles.inputField}
+                className={styles.inputFieldText}
                 contentEditable="true"
                 suppressContentEditableWarning={true}
                 id={`text for id ${id}`}

@@ -22,9 +22,18 @@
   flex-direction: column;
 }
 
-.inputField {
-  width: 100%;
+.inputFieldTitle {
+  max-width: 300px;
   word-wrap: break-word;
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.inputFieldText {
+  max-width: 300px;
+  word-wrap: break-word;
+  font-size: 1rem;
+  margin-bottom: 7px;
 }
 
 .inputFieldUserInfo {
