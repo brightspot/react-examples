@@ -12,7 +12,6 @@ import { CgLogOut } from 'react-icons/cg'
 import { signOut, useSession } from 'next-auth/react'
 import styles from './Navbar.module.css'
 import Image from 'next/image'
-import { responsePathAsArray } from 'graphql'
 
 type Props = {
   searchResults: string[]
@@ -64,7 +63,7 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
     const timer = setTimeout(async () => {
       if (inputRef?.current?.value === query && query !== '') {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_HOST}/api/search`,
+          `${process.env.NEXT_PUBLIC_HOST}/api/notes`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -82,19 +81,18 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
           throw new Error()
         }
 
-        await response.json().then((data) => {
-          if (data.brightspot_example_cma_next_NoteQuery) {
-            const array = data.brightspot_example_cma_next_NoteQuery?.items.map(
-              (item: {
-                text: string
-                _id: string
-                title: string
-                _typename: string
-              }) => item._id
-            )
-            setSearchResults(array)
-          }
-        })
+        const data = await response.json()
+        if (data.brightspot_example_cma_next_NoteQuery) {
+          const array = data.brightspot_example_cma_next_NoteQuery?.items.map(
+            (item: {
+              text: string
+              _id: string
+              title: string
+              _typename: string
+            }) => item._id
+          )
+          setSearchResults(array)
+        }
       }
       if (!inputRef?.current?.value && query === '') {
         setQuery('')

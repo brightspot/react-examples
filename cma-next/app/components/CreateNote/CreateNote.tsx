@@ -1,18 +1,20 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react'
 import styles from './CreateNote.module.css'
 import { useSession } from 'next-auth/react'
 import { Data } from '../../pages'
 
 type Props = {
-  getItems: () => void
+  items: Data[]
+  setItems: Dispatch<SetStateAction<Data[]>>
 }
 
-const CreateNote = ({ getItems }: Props) => {
+const CreateNote = ({ items, setItems }: Props) => {
   const { data: session } = useSession()
-  const titleRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLInputElement>(null)
+  const textRef = useRef<HTMLInputElement>(null)
   const userName: string | undefined | null = session?.user?.name
   const [error, setError] = useState({ isError: false, message: '' })
+
   const [formState, setFormState] = useState({
     id: '',
     title: '',
@@ -21,113 +23,104 @@ const CreateNote = ({ getItems }: Props) => {
   })
 
   useEffect(() => {
-    const timeId = setTimeout(() => {
-      setError({ isError: false, message: '' })
-      setFormState({
-        id: '',
-        title: '',
-        text: '',
-        toolUser: userName,
-      })
-      if (titleRef?.current?.innerText) {
-        titleRef.current.innerText = ''
-      }
-      if (textRef?.current?.innerText) {
-        textRef.current.innerText = ''
-      }
-    }, 3000)
-    return () => {
-      clearTimeout(timeId)
-    }
-  }, [error.isError, userName])
-
-  const submitNewNote = async () => {
-    if (!titleRef.current?.innerText || !textRef.current?.innerText) {
-      alert('please be sure your note has a title and text')
-      return
-    }
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
-      {
-        body: JSON.stringify(formState),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-    if (!response.ok) {
-      setError({
-        isError: true,
-        message: 'cannot create a note ' + response.statusText,
-      })
-      throw new Error()
-    }
-
-    await response.json().then((response) => {
-      if (response) {
-        getItems()
+    if (error.isError) {
+      const timeId = setTimeout(() => {
+        setError({ isError: false, message: '' })
         setFormState({
           id: '',
           title: '',
           text: '',
           toolUser: userName,
         })
-        if (titleRef?.current?.innerText) {
-          titleRef.current.innerText = ''
-        }
-        if (textRef?.current?.innerText) {
-          textRef.current.innerText = ''
-        }
+      }, 3000)
+      return () => {
+        clearTimeout(timeId)
       }
-    })
+    }
+  }, [error.isError, userName])
+
+  const submitNewNote = async () => {
+    console.log('formState to submit', formState)
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
+        {
+          body: JSON.stringify(formState),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (!response.ok) {
+        setError({
+          isError: true,
+          message: 'cannot create a note ' + response.statusText,
+        })
+        throw new Error()
+      }
+
+      const data = await response.json()
+      console.log('DATA!!', data)
+      if (data.brightspot_example_cma_next_NoteSave) {
+        const newItem = data.brightspot_example_cma_next_NoteSave
+        setItems([...items, newItem])
+        setFormState({
+          id: '',
+          title: '',
+          text: '',
+          toolUser: userName,
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
-    <div className={styles.createNoteForm}>
+    <form
+      className={styles.createNoteForm}
+      onSubmit={(e) => {
+        e.preventDefault()
+        submitNewNote()
+      }}
+    >
       <div className={styles.createNoteWrapper}>
         <h4 className={styles.label}>Title</h4>
-        <div
-          contentEditable="true"
+        <input
           className={styles.createNoteInput}
+          required
           aria-label="Title"
-          role="textbox"
           ref={titleRef}
-          onBlur={(e) => {
+          onChange={(e) => {
+            console.log(e.target.value)
             setFormState({
               ...formState,
-              title: e.currentTarget.innerText,
+              title: e.target.value,
             })
           }}
-        ></div>
+        />
         <h4 className={styles.label}>Text</h4>
-        <div
-          contentEditable="true"
+        <input
           className={styles.createNoteInput}
           aria-label="Text"
-          role="textbox"
           ref={textRef}
-          onBlur={(e) => {
+          required
+          onChange={(e) => {
             setFormState({
               ...formState,
-              text: e.currentTarget.innerText,
+              text: e.target.value,
             })
           }}
-        ></div>
+        />
       </div>
       <div className={styles.createNoteBottom}>
-        <button
-          className={styles.submitButton}
-          onClick={(e) => {
-            e.preventDefault()
-            submitNewNote()
-          }}
-        >
+        <button type="submit" className={styles.submitButton}>
           Submit
         </button>
         {error.isError && <div className={styles.error}>{error.message}</div>}
       </div>
-    </div>
+    </form>
   )
 }
 

@@ -1,8 +1,10 @@
 import { gql } from '@apollo/client'
 
 const GET_NOTES = gql`
-  query GetNotes {
-    brightspot_example_cma_next_NoteQuery {
+  query Search($arguments: [String]) {
+    brightspot_example_cma_next_NoteQuery(
+      where: { predicate: "* matches ?", arguments: $arguments }
+    ) {
       items {
         text
         _id

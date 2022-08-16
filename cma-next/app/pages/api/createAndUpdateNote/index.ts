@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import client from '../../../lib/apollo-client'
 import { getSession } from 'next-auth/react'
-import CREATE_AND_UPDATE_NOTE from '../../../components/CreateNote/CreateAndUpdateNote'
+import CREATE_AND_UPDATE_NOTE from '../../../components/CreateNote/CreateAndUpdateNoteQuery'
 
 export default async function handler(
   req: NextApiRequest,

@@ -16,6 +16,8 @@
   width: 100%;
   font-size: 1rem;
   border: 1px solid var(--grayscaleFive);
+  border-radius: 3px;
+  height: 1.7rem;
 }
 
 .label {

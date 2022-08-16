@@ -1,29 +1,32 @@
-import { useState, useEffect } from 'react'
-import { TiHeadphones, TiTimes } from 'react-icons/ti'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { TiTimes } from 'react-icons/ti'
 import styles from './NoteCard.module.css'
 import { useSession } from 'next-auth/react'
 import Modal from '../Modal/Modal'
+import { Data } from '../../pages'
 
 type Props = {
   title: string
   text: string
   id: string
   publishUser: string
-  getItems: () => void
   publishDate: number
   updateDate: number
   updateUser: string
+  items: Data[]
+  setItems: Dispatch<SetStateAction<Data[]>>
 }
 
 const NoteCard = ({
   title,
   text,
   id,
-  getItems,
   publishUser,
   publishDate,
   updateDate,
   updateUser,
+  items,
+  setItems,
 }: Props) => {
   const { data: session } = useSession()
   const userName: string | undefined | null = session?.user?.name
@@ -56,29 +59,36 @@ const NoteCard = ({
   }, [error.isError])
 
   const submitDeleteNote = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`,
-      {
-        body: JSON.stringify(editFormState),
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`,
+        {
+          body: JSON.stringify(editFormState),
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (!response.ok) {
+        setError({
+          isError: true,
+          message: 'cannot delete',
+        })
+        throw new Error()
       }
-    )
-    if (!response.ok) {
-      setError({
-        isError: true,
-        message: 'cannot delete',
-      })
-      throw new Error()
+      const data = await response.json()
+
+      if (data?.brightspot_example_cma_next_NoteDelete) {
+        const itemToRemoveId = data.brightspot_example_cma_next_NoteDelete?._id
+        const filteredItems = items.filter(
+          (item) => item._id !== itemToRemoveId
+        )
+        setItems(filteredItems)
+      }
+    } catch (error) {
+      console.log(error)
     }
-    await response.json().then((response) => {
-      if (response) {
-        console.log('response', response)
-        getItems()
-      }
-    })
   }
 
   const toDateTime = (secs: number) => {

@@ -93,26 +93,28 @@ function Modal({
       }
       return result
     }
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
-      {
-        body: JSON.stringify(dataToUpdate()),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
+        {
+          body: JSON.stringify(dataToUpdate()),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
 
-    if (!response.ok) {
-      setError({
-        isError: true,
-        message: 'cannot update note' + response.statusText,
-      })
-      throw new Error()
-    }
-    await response.json().then((data) => {
-      if (data.brightspot_example_cma_next_NoteSave) {
+      if (!response.ok) {
+        setError({
+          isError: true,
+          message: 'cannot update note' + response.statusText,
+        })
+        throw new Error()
+      }
+      const data = await response.json()
+
+      if (data?.brightspot_example_cma_next_NoteSave) {
         setFormData({
           id: data?.brightspot_example_cma_next_NoteSave._id,
           title: data?.brightspot_example_cma_next_NoteSave.title,
@@ -134,7 +136,9 @@ function Modal({
         })
         handleClose()
       }
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

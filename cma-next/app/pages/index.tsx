@@ -41,27 +41,31 @@ const Home: NextPage = () => {
   }, [])
 
   async function getItems() {
-    await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/search`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET',
-    })
-      .then((res) => {
-        if (!res.ok) {
-          setError({
-            isError: true,
-            message: `There was an error fetching the data: ${res.statusText}`,
-          })
-          throw new Error()
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/notes`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'GET',
         }
-        res.json().then((res) => {
-          setItems(res.brightspot_example_cma_next_NoteQuery?.items)
+      )
+      if (!response.ok) {
+        setError({
+          isError: true,
+          message: `There was an error fetching the data: ${response.statusText}`,
         })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+        throw new Error()
+      }
+      const data = await response.json()
+
+      if (data?.brightspot_example_cma_next_NoteQuery) {
+        setItems(data.brightspot_example_cma_next_NoteQuery?.items)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const search = (data: Data[]) => {
@@ -83,7 +87,7 @@ const Home: NextPage = () => {
         searchResults={searchResults}
       />
 
-      <Container search={search} items={items} getItems={getItems} />
+      <Container search={search} items={items} setItems={setItems} />
       {error.isError && <div id="error">{error.message}</div>}
     </>
   )
