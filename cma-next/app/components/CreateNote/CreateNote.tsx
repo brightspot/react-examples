@@ -15,23 +15,10 @@ const CreateNote = ({ items, setItems }: Props) => {
   const userName: string | undefined | null = session?.user?.name
   const [error, setError] = useState({ isError: false, message: '' })
 
-  const [formState, setFormState] = useState({
-    id: '',
-    title: '',
-    text: '',
-    toolUser: userName,
-  })
-
   useEffect(() => {
     if (error.isError) {
       const timeId = setTimeout(() => {
         setError({ isError: false, message: '' })
-        setFormState({
-          id: '',
-          title: '',
-          text: '',
-          toolUser: userName,
-        })
       }, 3000)
       return () => {
         clearTimeout(timeId)
@@ -40,12 +27,19 @@ const CreateNote = ({ items, setItems }: Props) => {
   }, [error.isError, userName])
 
   const submitNewNote = async () => {
-    console.log('formState to submit', formState)
+    const inputTitle = titleRef?.current?.value || null
+    const inputText = textRef?.current?.value || null
+    const dataToSubmit = {
+      title: inputTitle,
+      text: inputText,
+      toolUser: userName,
+    }
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
         {
-          body: JSON.stringify(formState),
+          body: JSON.stringify(dataToSubmit),
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -61,16 +55,15 @@ const CreateNote = ({ items, setItems }: Props) => {
       }
 
       const data = await response.json()
-      console.log('DATA!!', data)
       if (data.brightspot_example_cma_next_NoteSave) {
         const newItem = data.brightspot_example_cma_next_NoteSave
         setItems([...items, newItem])
-        setFormState({
-          id: '',
-          title: '',
-          text: '',
-          toolUser: userName,
-        })
+        if (titleRef?.current?.value) {
+          titleRef.current.value = ''
+        }
+        if (textRef?.current?.value) {
+          textRef.current.value = ''
+        }
       }
     } catch (error) {
       console.log(error)
@@ -92,13 +85,6 @@ const CreateNote = ({ items, setItems }: Props) => {
           required
           aria-label="Title"
           ref={titleRef}
-          onChange={(e) => {
-            console.log(e.target.value)
-            setFormState({
-              ...formState,
-              title: e.target.value,
-            })
-          }}
         />
         <h4 className={styles.label}>Text</h4>
         <input
@@ -106,12 +92,6 @@ const CreateNote = ({ items, setItems }: Props) => {
           aria-label="Text"
           ref={textRef}
           required
-          onChange={(e) => {
-            setFormState({
-              ...formState,
-              text: e.target.value,
-            })
-          }}
         />
       </div>
       <div className={styles.createNoteBottom}>

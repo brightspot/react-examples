@@ -41,12 +41,7 @@ const NoteCard = ({
     updateUser: updateUser,
     updateDate: updateDate,
   })
-  const [editFormState, setEditFormState] = useState({
-    id: id,
-    currentTitle: title,
-    currentText: text,
-    userName: '',
-  })
+
   const [error, setError] = useState({ isError: false, message: '' })
 
   useEffect(() => {
@@ -63,7 +58,7 @@ const NoteCard = ({
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`,
         {
-          body: JSON.stringify(editFormState),
+          body: JSON.stringify(formData),
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -115,9 +110,7 @@ const NoteCard = ({
       >
         <div className={styles.noteForm}>
           <div className={styles.inputFieldTitle}>{formData.title}</div>
-          <div className={styles.inputFieldText} id={`text for id ${id}`}>
-            {formData.text}
-          </div>
+          <div className={styles.inputFieldText}>{formData.text}</div>
           <div className={styles.inputFieldUserInfo}>
             {`created: ${formData.publishUser} \u2022 ${toDateTime(
               formData.publishDate
@@ -146,14 +139,12 @@ const NoteCard = ({
         <Modal
           handleClose={() => setIsOpen(false)}
           isOpen={isOpen}
-          title={title}
-          text={text}
           id={id}
-          setEditFormState={setEditFormState}
-          editFormState={editFormState}
           userName={userName}
           formData={formData}
           setFormData={setFormData}
+          title={title}
+          text={text}
         />
       )}
     </>

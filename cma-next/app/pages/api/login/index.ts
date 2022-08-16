@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import client from '../../../lib/apollo-client'
-import CHECK_USER from '../../../components/auth/Login'
+import CHECK_USER from '../../../components/auth/LoginQuery'
 
 export default async function handler(
   req: NextApiRequest,

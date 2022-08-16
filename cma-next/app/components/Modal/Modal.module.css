@@ -32,15 +32,12 @@
 .inputFieldTitle {
   font-size: 1.5rem;
   margin-bottom: 10px;
+  border: 0;
 }
 
 .inputFieldText {
   font-size: 1.3rem;
-}
-
-.inputFieldTitle:focus,
-.inputFieldText:focus {
-  outline: 0;
+  border: 0;
 }
 
 .submitButton {

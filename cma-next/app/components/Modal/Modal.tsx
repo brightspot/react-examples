@@ -1,22 +1,15 @@
 import styles from './Modal.module.css'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Portal from '../Portal/Portal'
 import FocusTrap from 'focus-trap-react'
 
 type Props = {
+  id: string
   title: string
   text: string
-  id: string
   isOpen: boolean
   handleClose: () => void
-  setEditFormState: Function
   userName: string | null | undefined
-  editFormState: {
-    id: string
-    currentTitle: string
-    currentText: string
-    userName: string
-  }
   formData: {
     id: string
     title: string
@@ -27,7 +20,18 @@ type Props = {
     updateUser: string
     updateDate: number
   }
-  setFormData: Function
+  setFormData: Dispatch<
+    SetStateAction<{
+      id: string
+      title: string
+      text: string
+      userName: string | null | undefined
+      publishUser: string
+      publishDate: number
+      updateUser: string
+      updateDate: number
+    }>
+  >
 }
 type Result = {
   title?: string
@@ -37,16 +41,14 @@ type Result = {
 }
 
 function Modal({
+  id,
   title,
   text,
-  id,
   isOpen,
   handleClose,
   userName,
   formData,
   setFormData,
-  editFormState,
-  setEditFormState,
 }: Props) {
   const [error, setError] = useState({ isError: false, message: '' })
   useEffect(() => {
@@ -73,10 +75,6 @@ function Modal({
   }, [error.isError])
 
   const submitUpdatedNote = async () => {
-    if (!editFormState.currentTitle || !editFormState.currentText) {
-      alert('please verify there is a title and text for your note')
-      return
-    }
     if (!userName) {
       alert(
         'check that your user icon is in the right of the navbar. If not, try logging out and logging in again.'
@@ -85,11 +83,11 @@ function Modal({
     }
     const dataToUpdate = () => {
       const result: Result = { id: id, toolUser: userName }
-      if (editFormState.currentTitle !== title) {
-        result.title = editFormState.currentTitle
+      if (formData.title) {
+        result.title = formData.title
       }
-      if (editFormState.currentText !== text) {
-        result.text = editFormState.currentText
+      if (formData.text) {
+        result.text = formData.text
       }
       return result
     }
@@ -109,6 +107,11 @@ function Modal({
         setError({
           isError: true,
           message: 'cannot update note' + response.statusText,
+        })
+        setFormData({
+          ...formData,
+          title: title,
+          text: text,
         })
         throw new Error()
       }
@@ -136,6 +139,13 @@ function Modal({
         })
         handleClose()
       }
+      if (!data?.brightspot_example_cma_next_NoteSave) {
+        setFormData({
+          ...formData,
+          title: title,
+          text: text,
+        })
+      }
     } catch (error) {
       console.log(error)
     }
@@ -159,56 +169,48 @@ function Modal({
           }}
         >
           <div className={styles.noteCard} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.noteForm}>
-              <div
+            <form
+              className={styles.noteForm}
+              onSubmit={(e) => {
+                e.preventDefault()
+                submitUpdatedNote()
+              }}
+            >
+              <input
+                required
                 className={styles.inputFieldTitle}
-                contentEditable="true"
-                suppressContentEditableWarning={true}
-                id={`title for id ${id}`}
+                value={formData.title}
                 aria-label={`title for id ${id}`}
-                role="textbox"
-                onBlur={(e) =>
-                  setEditFormState({
-                    ...editFormState,
-                    currentTitle: e.currentTarget.innerText,
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    title: e.target.value,
                   })
                 }
                 onKeyDown={onKeyDown}
-              >
-                {formData.title}
-              </div>
-              <div
+              />
+              <input
+                required
                 className={styles.inputFieldText}
-                contentEditable="true"
-                suppressContentEditableWarning={true}
-                id={`text for id ${id}`}
+                value={formData.text}
                 aria-label={`text for id ${id}`}
-                role="textbox"
-                onBlur={(e) => {
-                  setEditFormState({
-                    ...editFormState,
-                    currentText: e.target.innerText,
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    text: e.target.value,
                   })
                 }}
                 onKeyDown={onKeyDown}
-              >
-                {formData.text}
-              </div>
+              />
               <div className={styles.noteBottom}>
-                <button
-                  className={styles.submitButton}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    submitUpdatedNote()
-                  }}
-                >
+                <button className={styles.submitButton} type="submit">
                   Save
                 </button>
                 {error.isError && (
                   <span className={styles.error}>{error.message}</span>
                 )}
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </FocusTrap>
