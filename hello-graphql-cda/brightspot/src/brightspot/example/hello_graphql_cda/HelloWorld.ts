@@ -17,14 +17,6 @@ export default class HelloWorld extends JavaClass(
   @JavaField(String)
   text?: string;
 
-  getTitle(): string {
-    return this.title || "";
-  }
-
-  getText(): string {
-    return this.text || "";
-  }
-
   createPermalink(site: Site): string {
     const Utils = Java.type("com.psddev.dari.util.Utils");
     return Utils.toNormalized(this.title);
