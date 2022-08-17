@@ -60,6 +60,7 @@ body {
   border: 0;
   width: 100px;
   align-self: flex-end;
+  cursor: pointer;
 }
 
 h1 {

@@ -1,6 +1,6 @@
 const HelloWorld = `
-query HelloWorld($path: String = "") {
-  HelloWorl(path: $path) {
+query HelloWorld($id: ID = "") {
+  HelloWorld(id: $id) {
     title
     text
   }

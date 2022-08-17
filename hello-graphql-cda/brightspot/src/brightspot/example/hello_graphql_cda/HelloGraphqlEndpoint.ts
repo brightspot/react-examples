@@ -1,15 +1,15 @@
-import ObjectType from "../../../../brightspot-types/com/psddev/dari/db/ObjectType";
 import JavaClass from "../../../../brightspot-types/JavaClass";
 import Singleton from "../../../../brightspot-types/com/psddev/dari/db/Singleton";
 import ContentDeliveryApiAccessOption from "../../../../brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOption";
 import ContentDeliveryApiAccessOptionImplicit from "../../../../brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOptionImplicit";
 import ContentDeliveryApiEndpoint from "../../../../brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint";
 import ContentDeliveryEntryPointField from "../../../../brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField";
-import RecordableDeliveryEntryPointField from "../../../../brightspot-types/com/psddev/graphql/cda/rda/RecordableDeliveryEntryPointField";
 import GraphQLCorsConfiguration from "../../../../brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration";
 import ArrayList from "../../../../brightspot-types/java/util/ArrayList";
 import List from "../../../../brightspot-types/java/util/List";
 import HelloWorld from "./HelloWorld";
+import HelloWorldViewModel from "./HelloWorldViewModel";
+// import HelloWorldViewModel from "./HelloWorldViewModel";
 
 export default class HelloGraphqlEndpoint extends JavaClass(
   "brightspot.example.hello_graphql_cda.HelloGraphqlEndpoint",
@@ -22,11 +22,12 @@ export default class HelloGraphqlEndpoint extends JavaClass(
 
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
     let fields = new ArrayList<ContentDeliveryEntryPointField>();
-    fields.add(
-      new RecordableDeliveryEntryPointField(
-        ObjectType.getInstance(HelloWorld.class)
-      )
+    let item = new ContentDeliveryEntryPointField(
+      HelloWorldViewModel.class,
+      "HelloWorld",
+      "Say Hello World"
     );
+    fields.add(item);
     return fields;
   }
 

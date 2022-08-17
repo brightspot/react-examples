@@ -1,6 +1,6 @@
 import HelloWorldQuery from './HelloWorldQuery'
 import HelloWorld from './HelloWorld'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 type Props = {
   helloWorldContent: any
   setHelloWorldContent: Function
@@ -13,12 +13,9 @@ const HelloWorldContainer = ({
   const [error, setError] = useState({ isError: false, message: '' })
   const inputRef = useRef<HTMLInputElement>(null)
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
-  const handleSubmit = async () => {
-    let enteredPathname
-    console.log('submitting data')
-    if (inputRef?.current?.value) {
-      enteredPathname = inputRef.current.value
-    }
+
+  let enteredPathname: null | string = null
+  const getHelloWorld = async () => {
     try {
       const response = await fetch(GRAPHQL, {
         method: 'POST',
@@ -28,13 +25,13 @@ const HelloWorldContainer = ({
         body: JSON.stringify({
           query: HelloWorldQuery,
           variables: {
-            path: `/${enteredPathname}`,
+            id: enteredPathname
+              ? `/${enteredPathname}`
+              : sessionStorage.getItem('hello-world'),
           },
         }),
       })
-
       if (!response.ok) {
-        console.log('response is NOT ok')
         setError({
           isError: true,
           message:
@@ -49,20 +46,32 @@ const HelloWorldContainer = ({
           title: data.data.HelloWorld.title,
           text: data.data.HelloWorld.text,
         })
-        sessionStorage.setItem('title', data.data.HelloWorld.title)
-        sessionStorage.setItem('text', data.data.HelloWorld.text)
+
         if (inputRef.current?.value) {
           inputRef.current.value = ''
         }
       }
 
       if (data.errors) {
-        console.log('your errors!!', data.errors)
         setError({ isError: true, message: data.errors[0].message })
       }
     } catch (error) {
       console.log(error)
     }
+  }
+
+  useEffect(() => {
+    getHelloWorld()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleSubmit = () => {
+    if (inputRef?.current?.value) {
+      console.log('there is a inputRef.current.value')
+      enteredPathname = inputRef.current.value
+      sessionStorage.setItem('hello-world', enteredPathname)
+    }
+    getHelloWorld()
   }
 
   return (

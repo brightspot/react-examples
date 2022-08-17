@@ -4,8 +4,8 @@ import HelloWorldContainer from './components/HelloWorld/HelloWorldContainer'
 
 function App() {
   const [helloWorldContent, setHelloWorldContent] = useState({
-    title: sessionStorage.getItem('title'),
-    text: sessionStorage.getItem('text'),
+    title: '',
+    text: '',
   })
   return (
     <div className="App">
