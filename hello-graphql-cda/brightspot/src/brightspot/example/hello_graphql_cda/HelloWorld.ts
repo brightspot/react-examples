@@ -6,7 +6,7 @@ import Site from "../../../../brightspot-types/com/psddev/cms/db/Site";
 import DirectoryItem from "../../../../brightspot-types/com/psddev/cms/db/Directory$Item";
 
 export default class HelloWorld extends JavaClass(
-  "brightspot.example.HelloWorld",
+  "brightspot.example.hello_graphql_cda.HelloWorld",
   Content,
   DirectoryItem
 ) {

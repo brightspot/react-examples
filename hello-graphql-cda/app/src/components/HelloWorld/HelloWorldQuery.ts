@@ -1,6 +1,6 @@
 const HelloWorld = `
 query HelloWorld($path: String = "") {
-  HelloWorld(path: $path) {
+  HelloWorl(path: $path) {
     title
     text
   }

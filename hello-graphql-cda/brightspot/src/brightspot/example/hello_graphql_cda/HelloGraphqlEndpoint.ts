@@ -11,8 +11,8 @@ import ArrayList from "../../../../brightspot-types/java/util/ArrayList";
 import List from "../../../../brightspot-types/java/util/List";
 import HelloWorld from "./HelloWorld";
 
-export default class AppEndpoint extends JavaClass(
-  "brightspot.example.AppEndpoint",
+export default class HelloGraphqlEndpoint extends JavaClass(
+  "brightspot.example.hello_graphql_cda.HelloGraphqlEndpoint",
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
