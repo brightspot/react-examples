@@ -16,4 +16,4 @@ Navigate to `http://localhost:3000` in your browser to see the result.
 
 ## Publish CMS Content
 
-Publish a Hello World item in the CMS. For the title, use `Hello World` or change the path variable in `app/src/components/HelloWorldContainer.tsx` to the path you created (the permalink that is generated when you create a Hello World).
+Publish a Hello World item in the CMS. Use the permalink created in the CMS to search for your Hello World in the frontend React app. This example show how simple it is to use Brightspot to power your application.

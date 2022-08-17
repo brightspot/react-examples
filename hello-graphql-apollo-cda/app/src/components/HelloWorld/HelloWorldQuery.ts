@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client'
 
 const HelloWorld = gql`
-  query HelloWorld($path: String = "") {
-    HelloWorld(path: $path) {
+  query HelloWorld($id: ID = "") {
+    HelloWorld(id: $id) {
       title
-      text
+      description
     }
   }
 `

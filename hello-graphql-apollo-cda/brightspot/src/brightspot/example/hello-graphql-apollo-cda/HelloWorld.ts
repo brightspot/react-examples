@@ -4,9 +4,11 @@ import JavaField from "../../../../brightspot-types/JavaField";
 import JavaRequired from "../../../../brightspot-types/com/psddev/dari/db/Recordable$Required";
 import Site from "../../../../brightspot-types/com/psddev/cms/db/Site";
 import DirectoryItem from "../../../../brightspot-types/com/psddev/cms/db/Directory$Item";
+import DisplayName from "../../../../brightspot-types/com/psddev/dari/db/Recordable$DisplayName";
 
+@DisplayName({ value: "Hello GraphQL Apollo CDA" })
 export default class HelloWorld extends JavaClass(
-  "brightspot.example.apollo_app.HelloWorld",
+  "brightspot.example.hello_graphql_apollo_cda.HelloWorld",
   Content,
   DirectoryItem
 ) {
@@ -15,7 +17,7 @@ export default class HelloWorld extends JavaClass(
   title?: string;
 
   @JavaField(String)
-  text?: string;
+  description?: string;
 
   createPermalink(site: Site): string {
     const Utils = Java.type("com.psddev.dari.util.Utils");

@@ -1,4 +1,4 @@
-To initialize a project from scratch:
+# Initialize a project from scratch:
 
 ```
 npm init -y

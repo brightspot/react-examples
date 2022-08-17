@@ -5,7 +5,7 @@ Each component and its supporting files will go into a folder matching the compo
 |   - HelloWorld
 |   | - HelloWorldComponent.tsx
 |   | - HelloWorldContainer.tsx
-|   | - HelloWorldQuery.tsx
+|   | - HelloWorldQuery.ts
 ```
 
 Typical pattern will follow an MVC flow where the `*Container.tsx` is the controller, `*Query.graphql` is the model, and `*Component.tsx` is the view.
@@ -62,7 +62,7 @@ const HelloWorldContainer: React.FC = () => {
 export default HelloWorldContainer
 ```
 
-_HelloWorldQuery.tsx_
+_HelloWorldQuery.ts_
 
 ```graphql
 import { gql } from '@apollo/client'
