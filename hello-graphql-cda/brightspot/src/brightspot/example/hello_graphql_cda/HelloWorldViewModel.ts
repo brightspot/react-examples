@@ -1,4 +1,3 @@
-
 import ViewModel from '../../../../brightspot-types/com/psddev/cms/view/ViewModel'
 import HelloWorld from './HelloWorld'
 import JavaClass from '../../../../brightspot-types/JavaClass'
@@ -9,7 +8,7 @@ import JavaMethodReturn from '../../../../brightspot-types/JavaMethodReturn'
 
 @ViewInterface
 export default class HelloWorldViewModel extends JavaClass(
-  'brightspot.example.HelloWorldViewModel',
+  'brightspot.example.hello_graphql_cda.HelloWorldViewModel',
   ViewModel<HelloWorld>,
   PageEntryView
 ) {
