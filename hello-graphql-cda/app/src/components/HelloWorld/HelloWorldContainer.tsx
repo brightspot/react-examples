@@ -19,7 +19,10 @@ const HelloWorldContainer = ({
   setHelloWorldContent,
 }: Props) => {
   const [error, setError] = useState({ isError: false, message: '' })
-  const [helloWorldNotFound, setHelloWorldNotFound] = useState(false)
+  const [helloWorldNotFound, setHelloWorldNotFound] = useState({
+    notFound: false,
+    message: '',
+  })
 
   const inputRef = useRef<HTMLInputElement>(null)
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
@@ -48,6 +51,14 @@ const HelloWorldContainer = ({
         throw new Error()
       }
       const data = await response.json()
+      if (data?.errors) {
+        setError({
+          isError: true,
+          message:
+            'there was a problem fetching data: ' + data.errors[0].message,
+        })
+        throw new Error()
+      }
       if (
         data?.data?.HelloWorld?.title &&
         data?.data?.HelloWorld?.description
@@ -57,7 +68,11 @@ const HelloWorldContainer = ({
           description: data.data.HelloWorld.description,
         })
       } else if (data?.data?.HelloWorld === null) {
-        setHelloWorldNotFound(true)
+        setHelloWorldNotFound({
+          notFound: true,
+          message: `did not find HelloWorld with permalink: "${inputRef?.current?.value}" 😔`,
+        })
+        setHelloWorldContent({ title: '', description: '' })
       }
 
       if (inputRef.current?.value) {
@@ -74,12 +89,14 @@ const HelloWorldContainer = ({
 
   const handleSubmit = () => {
     setError({ isError: false, message: '' })
+    setHelloWorldContent({ title: '', description: '' })
+    setHelloWorldNotFound({ notFound: false, message: '' })
     if (inputRef?.current?.value) {
       enteredPathname = inputRef.current.value
       if (enteredPathname) {
         getHelloWorld()
       } else {
-        console.log('there was a problem getting the input')
+        console.log('there was a problem getting the input value')
       }
     }
   }
@@ -107,10 +124,8 @@ const HelloWorldContainer = ({
           title={helloWorldContent.title}
           description={helloWorldContent.description}
         />
-      ) : helloWorldNotFound ? (
-        <div className="hello-world-404">
-          No HelloWorld found with that permalink 😔
-        </div>
+      ) : helloWorldNotFound.notFound ? (
+        <div className="hello-world-404">{helloWorldNotFound.message}</div>
       ) : null}
     </div>
   )

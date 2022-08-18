@@ -97,6 +97,7 @@ h3 {
 .hello-world-error {
   color: rgb(238, 1, 32);
   font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
   text-align: center;
 }
 
