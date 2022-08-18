@@ -20,6 +20,7 @@ export default NextAuth({
       async authorize(credentials) {
         // Add logic here to look up the user from the credentials supplied
         const enteredUser = { name: credentials?.username }
+        console.log('ENTERED USER', enteredUser)
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_HOST}/api/login`,
           {
@@ -31,12 +32,12 @@ export default NextAuth({
           }
         )
         const data = await response.json()
-
+        console.log({ data })
         if (!response.ok) {
           throw new Error(data.message || 'cannot login ' + data)
         }
         const user = data
-
+        console.log('USER', user)
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user

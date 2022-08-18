@@ -82,30 +82,31 @@ const Home: NextPage = () => {
         <title>Notes</title>
         <meta content="Note taking application powered by Brightspot" />
       </Head>
-      <Navbar
+      <h1>hello</h1>
+      {/* <Navbar
         setSearchResults={setSearchResults}
         searchResults={searchResults}
       />
 
       <Container search={search} items={items} setItems={setItems} />
-      {error.isError && <div id="error">{error.message}</div>}
+  {error.isError && <div id="error">{error.message}</div>} */}
     </>
   )
 }
 
-export async function getServerSideProps(context: { req: any }) {
-  const session = await getSession({ req: context.req })
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
-  return {
-    props: { session },
-  }
-}
+// export async function getServerSideProps(context: { req: any }) {
+//   const session = await getSession({ req: context.req })
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false,
+//       },
+//     }
+//   }
+//   return {
+//     props: { session },
+//   }
+// }
 
 export default Home

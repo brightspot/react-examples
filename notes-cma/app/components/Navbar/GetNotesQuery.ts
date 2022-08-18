@@ -6,18 +6,13 @@ const GET_NOTES = gql`
       where: { predicate: "* matches ?", arguments: $arguments }
     ) {
       items {
-        text
+        description
         _id
         title
         _globals {
           com_psddev_cms_db_Content_ObjectModification {
-            publishUser {
-              username
-            }
             publishDate
-            updateUser {
-              username
-            }
+
             updateDate
           }
         }

@@ -1,21 +1,23 @@
-import JavaClass from '../../../../brightspot-types/JavaClass'
-import Singleton from '../../../../brightspot-types/com/psddev/dari/db/Singleton'
-import ContentManagementEntryPointField from '../../../../brightspot-types/com/psddev/graphql/cma/ContentManagementEntryPointField'
-import ArrayList from '../../../../brightspot-types/java/util/ArrayList'
-import List from '../../../../brightspot-types/java/util/List'
-import ObjectType from '../../../../brightspot-types/com/psddev/dari/db/ObjectType'
-import ContentManagementApiEndpoint from '../../../../brightspot-types/com/psddev/graphql/cma/ContentManagementApiEndpoint'
-import GraphQLCorsConfiguration from '../../../../brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
+import JavaClass from 'brightspot-types/JavaClass'
+import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
+import ContentManagementEntryPointField from 'brightspot-types/com/psddev/graphql/cma/ContentManagementEntryPointField'
+import ArrayList from 'brightspot-types/java/util/ArrayList'
+import List from 'brightspot-types/java/util/List'
+import ObjectType from 'brightspot-types/com/psddev/dari/db/ObjectType'
+import ContentManagementApiEndpoint from 'brightspot-types/com/psddev/graphql/cma/ContentManagementApiEndpoint'
+import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Note from './Note'
+import JavaSet from 'brightspot-types/java/util/Set'
 
 export default class NotesEndpoint extends JavaClass(
   'brightspot.example.notes_cma.NotesEndpoint',
   ContentManagementApiEndpoint,
   Singleton
 ) {
-  getPathSuffix(): string {
-    return '/notes-cma/app'
+  getPaths(): JavaSet<string> {
+    return ['/notes-cma/app'] as unknown as JavaSet<string>
   }
+
   getEntryFields(): List<ContentManagementEntryPointField> {
     let fields = new ArrayList<ContentManagementEntryPointField>()
     fields.add(
