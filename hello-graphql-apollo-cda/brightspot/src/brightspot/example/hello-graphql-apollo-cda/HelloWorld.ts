@@ -1,26 +1,26 @@
-import JavaClass from "../../../../brightspot-types/JavaClass";
-import Content from "../../../../brightspot-types/com/psddev/cms/db/Content";
-import JavaField from "../../../../brightspot-types/JavaField";
-import JavaRequired from "../../../../brightspot-types/com/psddev/dari/db/Recordable$Required";
-import Site from "../../../../brightspot-types/com/psddev/cms/db/Site";
-import DirectoryItem from "../../../../brightspot-types/com/psddev/cms/db/Directory$Item";
-import DisplayName from "../../../../brightspot-types/com/psddev/dari/db/Recordable$DisplayName";
+import JavaClass from '../../../../brightspot-types/JavaClass'
+import Content from '../../../../brightspot-types/com/psddev/cms/db/Content'
+import JavaField from '../../../../brightspot-types/JavaField'
+import JavaRequired from '../../../../brightspot-types/com/psddev/dari/db/Recordable$Required'
+import Site from '../../../../brightspot-types/com/psddev/cms/db/Site'
+import DirectoryItem from '../../../../brightspot-types/com/psddev/cms/db/Directory$Item'
+import DisplayName from '../../../../brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 
-@DisplayName({ value: "Hello GraphQL Apollo CDA" })
+@DisplayName({ value: 'Hello GraphQL Apollo CDA' })
 export default class HelloWorld extends JavaClass(
-  "brightspot.example.hello_graphql_apollo_cda.HelloWorld",
+  'brightspot.example.hello_graphql_apollo_cda.HelloWorld',
   Content,
   DirectoryItem
 ) {
   @JavaRequired
   @JavaField(String)
-  title?: string;
+  title?: string
 
   @JavaField(String)
-  description?: string;
+  description?: string
 
   createPermalink(site: Site): string {
-    const Utils = Java.type("com.psddev.dari.util.Utils");
-    return Utils.toNormalized(this.title);
+    const Utils = Java.type('com.psddev.dari.util.Utils')
+    return Utils.toNormalized(this.title)
   }
 }
