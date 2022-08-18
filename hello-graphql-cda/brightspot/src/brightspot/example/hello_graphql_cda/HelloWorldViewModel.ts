@@ -1,4 +1,3 @@
-
 import ViewModel from '../../../../brightspot-types/com/psddev/cms/view/ViewModel'
 import HelloWorld from './HelloWorld'
 import JavaClass from '../../../../brightspot-types/JavaClass'
@@ -10,7 +9,7 @@ import JavaMethodReturn from '../../../../brightspot-types/JavaMethodReturn'
 @ViewInterface
 export default class HelloWorldViewModel extends JavaClass(
   'brightspot.example.HelloWorldViewModel',
-  ViewModel<HelloWorld>,
+  ViewModel.Of(HelloWorld),
   PageEntryView
 ) {
   @JavaMethodParameters()
@@ -21,7 +20,7 @@ export default class HelloWorldViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getText(): string {
-    return this.model.text as unknown as string
+  getDescription(): string {
+    return this.model.description as unknown as string
   }
 }

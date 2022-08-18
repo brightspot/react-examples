@@ -94,9 +94,16 @@ h3 {
   align-items: center;
 }
 
-.hello-world-message {
+.hello-world-error {
   color: rgb(238, 1, 32);
   font-size: 1.1rem;
+  text-align: center;
+}
+
+.hello-world-404 {
+  font-size: 1.4rem;
+  color: #202124;
+  font-family: 'Poppins', sans-serif;
   text-align: center;
 }
 

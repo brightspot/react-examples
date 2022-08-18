@@ -1,9 +1,17 @@
 import HelloWorldQuery from './HelloWorldQuery'
 import HelloWorld from './HelloWorld'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 type Props = {
-  helloWorldContent: any
-  setHelloWorldContent: Function
+  helloWorldContent: {
+    title: string
+    description: string
+  }
+  setHelloWorldContent: React.Dispatch<
+    React.SetStateAction<{
+      title: string
+      description: string
+    }>
+  >
 }
 
 const HelloWorldContainer = ({
@@ -11,6 +19,8 @@ const HelloWorldContainer = ({
   setHelloWorldContent,
 }: Props) => {
   const [error, setError] = useState({ isError: false, message: '' })
+  const [helloWorldNotFound, setHelloWorldNotFound] = useState(false)
+
   const inputRef = useRef<HTMLInputElement>(null)
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
@@ -25,9 +35,7 @@ const HelloWorldContainer = ({
         body: JSON.stringify({
           query: HelloWorldQuery,
           variables: {
-            id: enteredPathname
-              ? `/${enteredPathname}`
-              : sessionStorage.getItem('hello-world'),
+            id: `/${enteredPathname}`,
           },
         }),
       })
@@ -40,16 +48,20 @@ const HelloWorldContainer = ({
         throw new Error()
       }
       const data = await response.json()
-      console.log('Your DATA!!!', data)
-      if (data.data) {
+      if (
+        data?.data?.HelloWorld?.title &&
+        data?.data?.HelloWorld?.description
+      ) {
         setHelloWorldContent({
           title: data.data.HelloWorld.title,
-          text: data.data.HelloWorld.text,
+          description: data.data.HelloWorld.description,
         })
+      } else if (data?.data?.HelloWorld === null) {
+        setHelloWorldNotFound(true)
+      }
 
-        if (inputRef.current?.value) {
-          inputRef.current.value = ''
-        }
+      if (inputRef.current?.value) {
+        inputRef.current.value = ''
       }
 
       if (data.errors) {
@@ -60,18 +72,16 @@ const HelloWorldContainer = ({
     }
   }
 
-  useEffect(() => {
-    getHelloWorld()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const handleSubmit = () => {
+    setError({ isError: false, message: '' })
     if (inputRef?.current?.value) {
-      console.log('there is a inputRef.current.value')
       enteredPathname = inputRef.current.value
-      sessionStorage.setItem('hello-world', enteredPathname)
+      if (enteredPathname) {
+        getHelloWorld()
+      } else {
+        console.log('there was a problem getting the input')
+      }
     }
-    getHelloWorld()
   }
 
   return (
@@ -90,12 +100,18 @@ const HelloWorldContainer = ({
         </button>
       </form>
       {error.isError && (
-        <span className="hello-world-message">{error.message}</span>
+        <span className="hello-world-error">{error.message}</span>
       )}
-      <HelloWorld
-        title={helloWorldContent.title}
-        text={helloWorldContent.text}
-      />
+      {helloWorldContent.title && helloWorldContent.description ? (
+        <HelloWorld
+          title={helloWorldContent.title}
+          description={helloWorldContent.description}
+        />
+      ) : helloWorldNotFound ? (
+        <div className="hello-world-404">
+          No HelloWorld found with that permalink 😔
+        </div>
+      ) : null}
     </div>
   )
 }

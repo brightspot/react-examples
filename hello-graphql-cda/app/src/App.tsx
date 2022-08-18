@@ -5,7 +5,7 @@ import HelloWorldContainer from './components/HelloWorld/HelloWorldContainer'
 function App() {
   const [helloWorldContent, setHelloWorldContent] = useState({
     title: '',
-    text: '',
+    description: '',
   })
   return (
     <div className="App">
