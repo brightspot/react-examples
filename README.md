@@ -5,7 +5,7 @@ Collection of React examples demonstrating various Brightspot functionality and 
 ## Installation
 Clone or download this repository. Make sure you have [Docker](https://www.docker.com/) installed. If you do not, follow the instructions on the [Docker Getting Started Page](https://www.docker.com/get-started/) to download Docker for your OS and then install the package to get the Docker daemon up and running on your machine.
 
-You will need [Node](https://nodejs.org/en/) version 16 for these tutorials.
+You will need [Node](https://nodejs.org/en/) version 16 or higher for these tutorials.
 
 
 ## Running Brightspot
