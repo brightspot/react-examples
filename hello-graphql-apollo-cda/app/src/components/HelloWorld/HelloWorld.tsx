@@ -4,7 +4,6 @@ type Props = {
 }
 
 const HelloWorld = ({ title, description }: Props) => {
-  console.log({ title, description })
   return (
     <div className="hello-world-output">
       <h1 className="hello-world-text">{title}</h1>
