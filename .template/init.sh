@@ -49,11 +49,23 @@ cd $GIT_DIR/$NEW_FOLDER/$NEW_FOLDER-brightspot
 npm init -y
 yarn add --dev typescript
 yarn add --dev @brightspot/cli
+yarn add --dev prettier
 cd -
 mv $GIT_DIR/$NEW_FOLDER/$NEW_FOLDER-brightspot $GIT_DIR/$NEW_FOLDER/brightspot
 
 # create brightspot src folder
 mkdir -p $GIT_DIR/$NEW_FOLDER/brightspot/src/brightspot/example/$PACKAGE_NAME
+
+# add prettier 
+echo '{
+  "semi": false,
+  "singleQuote": true
+}' > $GIT_DIR/$NEW_FOLDER/brightspot/.prettierrc.json 
+
+echo "brightspot-server
+brightspot-types
+node_modules" > $GIT_DIR/$NEW_FOLDER/brightspot/.prettierignore
+
 
 # copy brightspot default files
 cp $GIT_DIR/.template/brightspot/brightspot.json $GIT_DIR/$NEW_FOLDER/brightspot
