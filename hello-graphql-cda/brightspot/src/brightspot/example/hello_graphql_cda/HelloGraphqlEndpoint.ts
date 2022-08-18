@@ -8,7 +8,6 @@ import GraphQLCorsConfiguration from '../../../../brightspot-types/com/psddev/gr
 import ArrayList from '../../../../brightspot-types/java/util/ArrayList'
 import List from '../../../../brightspot-types/java/util/List'
 import HelloWorldViewModel from './HelloWorldViewModel'
-
 export default class HelloGraphqlEndpoint extends JavaClass(
   'brightspot.example.hello_graphql_cda.HelloGraphqlEndpoint',
   ContentDeliveryApiEndpoint,

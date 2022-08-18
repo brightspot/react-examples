@@ -8,7 +8,7 @@ import JavaMethodReturn from '../../../../brightspot-types/JavaMethodReturn'
 
 @ViewInterface
 export default class HelloWorldViewModel extends JavaClass(
-  'brightspot.example.HelloWorldViewModel',
+  'brightspot.example.hello_graphql_cda.HelloWorldViewModel',
   ViewModel.Of(HelloWorld),
   PageEntryView
 ) {
