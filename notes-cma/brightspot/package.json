@@ -1,16 +1,18 @@
 {
-  "name": "brightspot",
+  "name": "notes-cma-brightspot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "npx prettier --write ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@brightspot/cli": "^4.5.7-rc.6",
+    "prettier": "^2.7.1",
     "typescript": "^4.7.4"
   }
 }
