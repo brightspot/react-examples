@@ -1,0 +1,6 @@
+query Brightspot($path: String) {
+  Article(path: $path) {
+    headline
+    subheadline
+  }
+}
