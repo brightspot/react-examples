@@ -1,12 +1,14 @@
-# Brightspot with React and GraphQL
+# Brightspot with React, Apollo Client, and GraphQL
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This example highlights how simple it is to use the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) for generating a GraphQL Content Delivery API endpoint (CDA). Simply create an endpoint (`brightspot/src/brightspot/example/hello_graphql_apollo_cda/HelloGraphqlEndpoint.ts`), and add the path for the endpoint to your frontend(`app/.env`).
 
 ## Getting Started
 
-Follow the [instructions](https://github.com/brightspot/react-examples/tree/feature/cma-next) for running the Brightspot instance.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Once the development server is running, CD into `apollo-app/app` and run the following commands:
+Follow the [instructions](../../README.md) for running the Brightspot instance.
+
+Once the development server is running, CD into `hello-graphql-apollo-cda/app` and run the following commands:
 
 ```
 yarn && yarn start
@@ -16,4 +18,4 @@ Navigate to `http://localhost:3000` in your browser to see the result.
 
 ## Publish CMS Content
 
-Publish a Hello World item in the CMS. Use the permalink created in the CMS to search for your Hello World in the frontend React app. This example show how simple it is to use Brightspot to power your application.
+Publish a Hello World item in the CMS. Enter the permalink generated when you publish the HelloWorld in your frontend application.

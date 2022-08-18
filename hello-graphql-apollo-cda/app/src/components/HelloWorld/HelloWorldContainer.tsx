@@ -1,10 +1,14 @@
 import HelloWorldQuery from './HelloWorldQuery'
 import HelloWorld from './HelloWorld'
 import { useLazyQuery } from '@apollo/client'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 const HelloWorldContainer = () => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const [helloWorldNotFound, setHelloWorldNotFound] = useState({
+    notFound: false,
+    message: '',
+  })
 
   const [getHelloWorld, { error, data }] = useLazyQuery(HelloWorldQuery, {
     variables: {
@@ -12,7 +16,13 @@ const HelloWorldContainer = () => {
     },
   })
 
-  if (data?.HelloWorld?.title && inputRef?.current?.value) {
+  if (data && inputRef?.current?.value) {
+    if (!data?.HelloWorld) {
+      setHelloWorldNotFound({
+        notFound: true,
+        message: `did not find HelloWorld with permalink: "${inputRef?.current?.value}" 😔`,
+      })
+    }
     inputRef.current.value = ''
   }
   return (
@@ -38,10 +48,8 @@ const HelloWorldContainer = () => {
           title={data.HelloWorld.title}
           description={data.HelloWorld.description}
         />
-      ) : data?.HelloWorld === null ? (
-        <div className="hello-world-404">
-          No HelloWorld found with that permalink 😔
-        </div>
+      ) : helloWorldNotFound.notFound ? (
+        <div className="hello-world-404">{helloWorldNotFound.message}</div>
       ) : null}
     </div>
   )
