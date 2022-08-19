@@ -51,18 +51,6 @@ body {
   border: 1px solid #dadce0;
 }
 
-.hello-world-form-button {
-  border-radius: 4px;
-  background-color: #2193b0;
-  color: #fff;
-  padding: 5px 15px 5px 15px;
-  font-size: 1.1rem;
-  border: 0;
-  width: 100px;
-  align-self: flex-end;
-  cursor: pointer;
-}
-
 h1 {
   font-family: 'Poppins', sans-serif;
   font-size: 5rem;

@@ -1,34 +1,22 @@
 import HelloWorldQuery from './HelloWorldQuery'
 import HelloWorld from './HelloWorld'
-import { useState, useRef } from 'react'
-type Props = {
-  helloWorldContent: {
-    title: string
-    description: string
-  }
-  setHelloWorldContent: React.Dispatch<
-    React.SetStateAction<{
-      title: string
-      description: string
-    }>
-  >
-}
+import { useState } from 'react'
 
-const HelloWorldContainer = ({
-  helloWorldContent,
-  setHelloWorldContent,
-}: Props) => {
+const HelloWorldContainer = () => {
   const [error, setError] = useState({ isError: false, message: '' })
-  const [helloWorldNotFound, setHelloWorldNotFound] = useState({
-    notFound: false,
-    message: '',
+  // const [helloWorldNotFound, setHelloWorldNotFound] = useState({
+  //   notFound: false,
+  //   message: '',
+  // })
+  const [helloWorldContent, setHelloWorldContent] = useState({
+    title: '',
+    description: '',
   })
 
-  const inputRef = useRef<HTMLInputElement>(null)
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
-  let enteredPathname: null | string = null
-  const getHelloWorld = async () => {
+  // let enteredPathname: null | string = null
+  const getHelloWorld = async (input: string) => {
     try {
       const response = await fetch(GRAPHQL, {
         method: 'POST',
@@ -38,7 +26,7 @@ const HelloWorldContainer = ({
         body: JSON.stringify({
           query: HelloWorldQuery,
           variables: {
-            id: `/${enteredPathname}`,
+            id: `/${input}`,
           },
         }),
       })
@@ -51,6 +39,7 @@ const HelloWorldContainer = ({
         throw new Error()
       }
       const data = await response.json()
+      console.log({ data })
       if (data?.errors) {
         setError({
           isError: true,
@@ -63,20 +52,20 @@ const HelloWorldContainer = ({
         data?.data?.HelloWorld?.title &&
         data?.data?.HelloWorld?.description
       ) {
+        console.log(
+          'DATA: ',
+          data?.data?.HelloWorld?.title,
+          data?.data?.HelloWorld?.description
+        )
         setHelloWorldContent({
           title: data.data.HelloWorld.title,
           description: data.data.HelloWorld.description,
         })
-      } else if (data?.data?.HelloWorld === null) {
-        setHelloWorldNotFound({
-          notFound: true,
-          message: `did not find HelloWorld with permalink: "${inputRef?.current?.value}" 😔`,
+      } else {
+        setHelloWorldContent({
+          title: '',
+          description: '',
         })
-        setHelloWorldContent({ title: '', description: '' })
-      }
-
-      if (inputRef.current?.value) {
-        inputRef.current.value = ''
       }
 
       if (data.errors) {
@@ -87,29 +76,9 @@ const HelloWorldContainer = ({
     }
   }
 
-  const handleSubmit = () => {
-    setError({ isError: false, message: '' })
-    setHelloWorldContent({ title: '', description: '' })
-    setHelloWorldNotFound({ notFound: false, message: '' })
-    if (inputRef?.current?.value) {
-      enteredPathname = inputRef.current.value
-      if (enteredPathname) {
-        getHelloWorld()
-      } else {
-        console.log('there was a problem getting the input value')
-      }
-    }
-  }
-
   return (
     <div className="hello-world-container">
-      <form
-        className="hello-world-form"
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleSubmit()
-        }}
-      >
+      <div className="hello-world-form">
         <label htmlFor="permalink" className="hello-world-form-text">
           Enter your HelloWorld permalink
         </label>
@@ -117,23 +86,22 @@ const HelloWorldContainer = ({
           required
           name="permalink"
           className="hello-world-form-input"
-          ref={inputRef}
+          onChange={(e) => {
+            e.preventDefault()
+            console.log('e.target.value: ', e.target.value)
+            getHelloWorld(e.target.value)
+          }}
         />
-        <button className="hello-world-form-button" type="submit">
-          Submit
-        </button>
-      </form>
+      </div>
       {error.isError && (
         <span className="hello-world-error">{error.message}</span>
       )}
-      {helloWorldContent.title && helloWorldContent.description ? (
+      {helloWorldContent.title && helloWorldContent.description && (
         <HelloWorld
           title={helloWorldContent.title}
           description={helloWorldContent.description}
         />
-      ) : helloWorldNotFound.notFound ? (
-        <div className="hello-world-404">{helloWorldNotFound.message}</div>
-      ) : null}
+      )}
     </div>
   )
 }
