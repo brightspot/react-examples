@@ -1,0 +1,35 @@
+version: '3.0'
+services:
+  mysql:
+    image: brightspot/mysql:mysql5.6
+    volumes:
+      - mysql-data:/var/lib/mysql
+  solr:
+    image: brightspot/solr:8
+    ports:
+      - 8180:8180
+    volumes:
+      - solr-data:/var/solr
+  tomcat:
+    image: brightspot/tomcat-brightspot-examples:develop
+    ports:
+      - 8080:8080
+      - 5005:5005
+    volumes:
+      - storage-data:/servers/tomcat/storage
+    depends_on:
+      - apache
+      - mysql
+      - solr
+  apache:
+    image: brightspot/apache:2-dims3
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - storage-data:/var/www/localhost/htdocs/storage
+volumes:
+  mysql-data:
+  solr-data:
+  storage-data:
+
