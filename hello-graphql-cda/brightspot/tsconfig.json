@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "brightspot-types/*": ["brightspot-types/*"]
+    },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "target": "es2022",
@@ -7,6 +11,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "strictNullChecks": false,
     "skipLibCheck": true
   }
 }
