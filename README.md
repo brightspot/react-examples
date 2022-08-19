@@ -1,14 +1,14 @@
 # react-examples
 
-Collection of React examples demonstrating various Brightspot functionality and use cases.
+This repository is a collection of React examples demonstrating various Brightspot functionality and use cases.
 
-each example application is comprised of the following:
+Each example application directory is comprised of the following:
 
 - `app`: frontend application
 - `brightspot`: JS Classes for Brightspot
 - `README.md`: Explanation and instructions for the example app
 
-After starting Brightspot (see the instructions below), refer to the README for the example application for further information on uploading JS Classes and running the frontend application.
+After starting Brightspot (see the instructions below), refer to the README located in the example application directory of your choice for further information on uploading JS Classes and running the frontend application.
 
 ## Requirements for running example applications
 
