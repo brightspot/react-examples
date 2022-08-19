@@ -26,8 +26,8 @@ docker-compose up -d
 
 Other helpful docker-compose commands:
 
-`docker-compose start`: start container
-`docker-compose stop`: stop container
-`docker-compose down`: delete container
-`docker-compose up`: to run container without detaching to run it in the background
-`docker-compose down -v`: delete container and volumes
+- `docker-compose start`: start container
+- `docker-compose stop`: stop container
+- `docker-compose down`: delete container
+- `docker-compose up`: to run container without detaching to run it in the background
+- `docker-compose down -v`: delete container and volumes
