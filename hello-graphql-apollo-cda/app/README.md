@@ -6,7 +6,23 @@ This example highlights how simple it is to use the [Brightspot GraphQL API](htt
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Follow the [instructions](../../README.md) for running the Brightspot instance.
+You will need [Docker](https://docs.docker.com/) and Docker Compose to run the Brightspot CMS. If you install Docker Desktop/Toolbox for Windows or Mac, Docker Compose is also [installed](https://docs.docker.com/get-started/08_using_compose/). If you are on a linux machine, you will need to [install](https://docs.docker.com/compose/install/) Docker Compose.
+
+Make sure you are in the root of the react-examples repository, and run
+
+```
+docker-compose up
+```
+
+To stop the docker instance, enter `CTRL + C`.
+
+To remove the instance:
+
+```
+docker-compose down
+```
+
+Once your Docker instance is running, follow the [instructions](../brightspot/README.md) for uploading JS Classes to your Brightspot instance.
 
 Once the development server is running, CD into `hello-graphql-apollo-cda/app` and run the following commands:
 

@@ -36,8 +36,15 @@ const HelloWorldContainer = () => {
           }
         }}
       >
-        <p className="hello-world-form-text">Enter your HelloWorld permalink</p>
-        <input required className="hello-world-form-input" ref={inputRef} />
+        <label htmlFor="permalink" className="hello-world-form-text">
+          Enter your HelloWorld permalink
+        </label>
+        <input
+          required
+          name="permalink"
+          className="hello-world-form-input"
+          ref={inputRef}
+        />
         <button className="hello-world-form-button" type="submit">
           Submit
         </button>
