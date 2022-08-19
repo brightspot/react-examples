@@ -1,41 +1,19 @@
 import HelloWorldQuery from './HelloWorldQuery'
 import HelloWorld from './HelloWorld'
 import { useLazyQuery } from '@apollo/client'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 const HelloWorldContainer = () => {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [helloWorldNotFound, setHelloWorldNotFound] = useState({
-    notFound: false,
-    message: '',
-  })
-
+  const [permalink, setPermalink] = useState('')
   const [getHelloWorld, { error, data }] = useLazyQuery(HelloWorldQuery, {
     variables: {
-      id: `/${inputRef?.current?.value}`,
+      id: `/${permalink}`,
     },
   })
 
-  if (data && inputRef?.current?.value) {
-    if (!data?.HelloWorld) {
-      setHelloWorldNotFound({
-        notFound: true,
-        message: `did not find HelloWorld with permalink: "${inputRef?.current?.value}" 😔`,
-      })
-    }
-    inputRef.current.value = ''
-  }
   return (
     <div className="hello-world-container">
-      <form
-        className="hello-world-form"
-        onSubmit={(e) => {
-          e.preventDefault()
-          if (inputRef?.current?.value) {
-            getHelloWorld()
-          }
-        }}
-      >
+      <div className="hello-world-form">
         <label htmlFor="permalink" className="hello-world-form-text">
           Enter your HelloWorld permalink
         </label>
@@ -43,21 +21,21 @@ const HelloWorldContainer = () => {
           required
           name="permalink"
           className="hello-world-form-input"
-          ref={inputRef}
+          onChange={(e) => {
+            e.preventDefault()
+            setPermalink(e.target.value)
+            console.log(permalink)
+            getHelloWorld()
+          }}
         />
-        <button className="hello-world-form-button" type="submit">
-          Submit
-        </button>
-      </form>
+      </div>
       {error && <span className="hello-world-error">{error.message}</span>}
-      {data?.HelloWorld?.title && data?.HelloWorld?.description ? (
+      {data?.HelloWorld?.title && data?.HelloWorld?.description && (
         <HelloWorld
           title={data.HelloWorld.title}
           description={data.HelloWorld.description}
         />
-      ) : helloWorldNotFound.notFound ? (
-        <div className="hello-world-404">{helloWorldNotFound.message}</div>
-      ) : null}
+      )}
     </div>
   )
 }
