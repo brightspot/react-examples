@@ -15,7 +15,7 @@ export default class NotesEndpoint extends JavaClass(
   Singleton
 ) {
   getPaths(): JavaSet<string> {
-    return ['/notes-cma/app'] as unknown as JavaSet<string>
+    return ['/graphql/management/notes-cma/app'] as unknown as JavaSet<string>
   }
 
   getEntryFields(): List<ContentManagementEntryPointField> {
