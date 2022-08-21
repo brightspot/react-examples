@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import Container from '../components/Container/Container'
-import { getSession } from 'next-auth/react'
 import Navbar from '../components/Navbar/Navbar'
 import Head from 'next/head'
+
 export interface Data {
   title: string
-  text: string
+  description: string
   _id: string
   _globals: {
     com_psddev_cms_db_Content_ObjectModification: {
@@ -82,31 +82,15 @@ const Home: NextPage = () => {
         <title>Notes</title>
         <meta content="Note taking application powered by Brightspot" />
       </Head>
-      <h1>hello</h1>
-      {/* <Navbar
+      <Navbar
         setSearchResults={setSearchResults}
         searchResults={searchResults}
       />
 
       <Container search={search} items={items} setItems={setItems} />
-  {error.isError && <div id="error">{error.message}</div>} */}
+      {error.isError && <div id="error">{error.message}</div>}
     </>
   )
 }
-
-// export async function getServerSideProps(context: { req: any }) {
-//   const session = await getSession({ req: context.req })
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     }
-//   }
-//   return {
-//     props: { session },
-//   }
-// }
 
 export default Home

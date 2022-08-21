@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react'
 import styles from './CreateNote.module.css'
-import { useSession } from 'next-auth/react'
 import { Data } from '../../pages'
 
 type Props = {
@@ -9,10 +8,9 @@ type Props = {
 }
 
 const CreateNote = ({ items, setItems }: Props) => {
-  const { data: session } = useSession()
   const titleRef = useRef<HTMLInputElement>(null)
-  const textRef = useRef<HTMLInputElement>(null)
-  const userName: string | undefined | null = session?.user?.name
+  const descriptionRef = useRef<HTMLInputElement>(null)
+  const usernameRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState({ isError: false, message: '' })
 
   useEffect(() => {
@@ -24,20 +22,21 @@ const CreateNote = ({ items, setItems }: Props) => {
         clearTimeout(timeId)
       }
     }
-  }, [error.isError, userName])
+  }, [error.isError])
 
   const submitNewNote = async () => {
     const inputTitle = titleRef?.current?.value || null
-    const inputText = textRef?.current?.value || null
+    const inputDescription = descriptionRef?.current?.value || null
+    const inputUsername = usernameRef?.current?.value || null
     const dataToSubmit = {
       title: inputTitle,
-      text: inputText,
-      toolUser: userName,
+      description: inputDescription,
+      toolUser: inputUsername,
     }
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
+        `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`,
         {
           body: JSON.stringify(dataToSubmit),
           method: 'POST',
@@ -46,23 +45,29 @@ const CreateNote = ({ items, setItems }: Props) => {
           },
         }
       )
-      if (!response.ok) {
+      if (response.status >= 400) {
+        console.log(response.text)
         setError({
           isError: true,
-          message: 'cannot create a note ' + response.statusText,
+          message:
+            'Cannot create note. First, confirm Username in Brightspot... ',
         })
         throw new Error()
       }
 
       const data = await response.json()
+      console.log({ data })
       if (data.brightspot_example_cma_next_NoteSave) {
         const newItem = data.brightspot_example_cma_next_NoteSave
         setItems([...items, newItem])
         if (titleRef?.current?.value) {
           titleRef.current.value = ''
         }
-        if (textRef?.current?.value) {
-          textRef.current.value = ''
+        if (descriptionRef?.current?.value) {
+          descriptionRef.current.value = ''
+        }
+        if (usernameRef?.current?.value) {
+          usernameRef.current.value = ''
         }
       }
     } catch (error) {
@@ -79,19 +84,35 @@ const CreateNote = ({ items, setItems }: Props) => {
       }}
     >
       <div className={styles.createNoteWrapper}>
-        <h4 className={styles.label}>Title</h4>
+        <label htmlFor="title" className={styles.label}>
+          Title
+        </label>
         <input
           className={styles.createNoteInput}
           required
+          name="title"
           aria-label="Title"
           ref={titleRef}
         />
-        <h4 className={styles.label}>Text</h4>
+        <label htmlFor="description" className={styles.label}>
+          Description
+        </label>
         <input
           className={styles.createNoteInput}
-          aria-label="Text"
-          ref={textRef}
+          aria-label="Description"
+          ref={descriptionRef}
           required
+          name="description"
+        />
+        <label htmlFor="username" className={styles.label}>
+          Username
+        </label>
+        <input
+          className={styles.createNoteInput}
+          aria-label="User name"
+          ref={usernameRef}
+          required
+          name="username"
         />
       </div>
       <div className={styles.createNoteBottom}>

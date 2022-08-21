@@ -8,10 +8,7 @@ import React, {
   useEffect,
 } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
-import { CgLogOut } from 'react-icons/cg'
-import { signOut, useSession } from 'next-auth/react'
 import styles from './Navbar.module.css'
-import Image from 'next/image'
 
 type Props = {
   searchResults: string[]
@@ -19,12 +16,9 @@ type Props = {
 }
 
 const Header = ({ setSearchResults, searchResults }: Props) => {
-  const { data: session } = useSession()
   const inputRef = useRef<null | HTMLInputElement>(null)
   const [error, setError] = useState({ isError: false, message: '' })
   const [query, setQuery] = useState('')
-  const userName: string | undefined | null = session?.user?.name
-  const userAvatar: string | undefined | null = session?.user?.image
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside)
@@ -44,7 +38,7 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
     return () => {
       clearTimeout(timeId)
     }
-  }, [error.isError, userName])
+  }, [error.isError])
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
@@ -63,7 +57,7 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
     const timer = setTimeout(async () => {
       if (inputRef?.current?.value === query && query !== '') {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_HOST}/api/notes`,
+          `${process.env.NEXT_PUBLIC_HOST}/api/notes/${query}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -104,10 +98,6 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
     }
   }, [query, inputRef, setSearchResults])
 
-  const logoutHandler = () => {
-    signOut()
-  }
-
   if (error.isError) console.error(error.message)
   return (
     <header className={styles.header}>
@@ -115,11 +105,6 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
         <div className={styles.headerLogo}>
           <BsPencilSquare className={styles.pencilIcon} />
           <h2 className={styles.headerLogoTitle}>Notes</h2>
-          {session && (
-            <button className={styles.logoutButton} onClick={logoutHandler}>
-              <CgLogOut className={styles.logoutIcon} />
-            </button>
-          )}
         </div>
         {error.isError && <span className={styles.error}>{error.message}</span>}
         <div className={styles.searchItems}>
@@ -153,20 +138,6 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
               />
             </div>
           </form>
-          {userName && (
-            <div className={styles.user}>
-              {userAvatar ? (
-                <Image
-                  src={userAvatar}
-                  alt="user avatar"
-                  height={50}
-                  width={50}
-                />
-              ) : (
-                <span>{userName.charAt(0)}</span>
-              )}
-            </div>
-          )}
         </div>
       </div>
       {query && (

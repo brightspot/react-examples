@@ -18,7 +18,7 @@ const Notes = ({ notes, items, setItems }: Props) => {
             items={items}
             setItems={setItems}
             title={item.title}
-            text={item.text}
+            description={item.description}
             id={item._id}
             key={item._id}
             publishUser={

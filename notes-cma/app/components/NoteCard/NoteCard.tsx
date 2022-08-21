@@ -1,13 +1,12 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { TiTimes } from 'react-icons/ti'
 import styles from './NoteCard.module.css'
-import { useSession } from 'next-auth/react'
 import Modal from '../Modal/Modal'
 import { Data } from '../../pages'
 
 type Props = {
   title: string
-  text: string
+  description: string
   id: string
   publishUser: string
   publishDate: number
@@ -19,7 +18,7 @@ type Props = {
 
 const NoteCard = ({
   title,
-  text,
+  description,
   id,
   publishUser,
   publishDate,
@@ -28,14 +27,13 @@ const NoteCard = ({
   items,
   setItems,
 }: Props) => {
-  const { data: session } = useSession()
-  const userName: string | undefined | null = session?.user?.name
+  console.log({ description })
   const [isOpen, setIsOpen] = useState(false)
   const [formData, setFormData] = useState({
     id: id,
     title: title,
-    text: text,
-    userName: userName,
+    description: description,
+    username: '',
     publishUser: publishUser,
     publishDate: publishDate,
     updateUser: updateUser,
@@ -56,9 +54,9 @@ const NoteCard = ({
   const submitDeleteNote = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/deleteNote`,
+        `${process.env.NEXT_PUBLIC_HOST}/api/notes/delete`,
         {
-          body: JSON.stringify(formData),
+          body: JSON.stringify(formData.id),
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -110,7 +108,7 @@ const NoteCard = ({
       >
         <div className={styles.noteForm}>
           <div className={styles.inputFieldTitle}>{formData.title}</div>
-          <div className={styles.inputFieldText}>{formData.text}</div>
+          <div className={styles.inputFieldText}>{formData.description}</div>
           <div className={styles.inputFieldUserInfo}>
             {`created: ${formData.publishUser} \u2022 ${toDateTime(
               formData.publishDate
@@ -140,11 +138,10 @@ const NoteCard = ({
           handleClose={() => setIsOpen(false)}
           isOpen={isOpen}
           id={id}
-          userName={userName}
           formData={formData}
           setFormData={setFormData}
           title={title}
-          text={text}
+          description={description}
         />
       )}
     </>

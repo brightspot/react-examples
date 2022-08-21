@@ -6,15 +6,14 @@ import FocusTrap from 'focus-trap-react'
 type Props = {
   id: string
   title: string
-  text: string
+  description: string
   isOpen: boolean
   handleClose: () => void
-  userName: string | null | undefined
   formData: {
     id: string
     title: string
-    text: string
-    userName: string | null | undefined
+    description: string
+    username: string
     publishUser: string
     publishDate: number
     updateUser: string
@@ -24,8 +23,8 @@ type Props = {
     SetStateAction<{
       id: string
       title: string
-      text: string
-      userName: string | null | undefined
+      description: string
+      username: string
       publishUser: string
       publishDate: number
       updateUser: string
@@ -35,7 +34,7 @@ type Props = {
 }
 type Result = {
   title?: string
-  text?: string
+  description?: string
   id: string
   toolUser: string
 }
@@ -43,10 +42,9 @@ type Result = {
 function Modal({
   id,
   title,
-  text,
+  description,
   isOpen,
   handleClose,
-  userName,
   formData,
   setFormData,
 }: Props) {
@@ -75,25 +73,19 @@ function Modal({
   }, [error.isError])
 
   const submitUpdatedNote = async () => {
-    if (!userName) {
-      alert(
-        'check that your user icon is in the right of the navbar. If not, try logging out and logging in again.'
-      )
-      return
-    }
     const dataToUpdate = () => {
-      const result: Result = { id: id, toolUser: userName }
+      const result: Result = { id: id, toolUser: formData.username }
       if (formData.title) {
         result.title = formData.title
       }
-      if (formData.text) {
-        result.text = formData.text
+      if (formData.description) {
+        result.description = formData.description
       }
       return result
     }
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/createAndUpdateNote`,
+        `${process.env.NEXT_PUBLIC_HOST}/api/notes/update`,
         {
           body: JSON.stringify(dataToUpdate()),
           method: 'POST',
@@ -103,26 +95,30 @@ function Modal({
         }
       )
 
-      if (!response.ok) {
+      if (response.status >= 400) {
+        console.log('there is an issue')
         setError({
           isError: true,
-          message: 'cannot update note' + response.statusText,
+          message: 'cannot update... Verify username is correct.',
         })
         setFormData({
           ...formData,
           title: title,
-          text: text,
+          description: description,
         })
         throw new Error()
       }
+
       const data = await response.json()
 
       if (data?.brightspot_example_cma_next_NoteSave) {
         setFormData({
           id: data?.brightspot_example_cma_next_NoteSave._id,
           title: data?.brightspot_example_cma_next_NoteSave.title,
-          text: data?.brightspot_example_cma_next_NoteSave.text,
-          userName: userName,
+          description: data?.brightspot_example_cma_next_NoteSave.description,
+          username:
+            data.brightspot_example_cma_next_NoteSave._globals
+              .com_psddev_cms_db_Content_ObjectModification.updateUser.username,
           publishUser:
             data.brightspot_example_cma_next_NoteSave._globals
               .com_psddev_cms_db_Content_ObjectModification.publishUser
@@ -143,7 +139,7 @@ function Modal({
         setFormData({
           ...formData,
           title: title,
-          text: text,
+          description: description,
         })
       }
     } catch (error) {
@@ -192,12 +188,26 @@ function Modal({
               <input
                 required
                 className={styles.inputFieldText}
-                value={formData.text}
-                aria-label={`text for id ${id}`}
+                value={formData.description}
+                aria-label={`description for id ${id}`}
                 onChange={(e) => {
                   setFormData({
                     ...formData,
-                    text: e.target.value,
+                    description: e.target.value,
+                  })
+                }}
+                onKeyDown={onKeyDown}
+              />
+              <input
+                required
+                className={styles.inputFieldText}
+                value={formData.username}
+                placeholder="enter user name to update...."
+                aria-label="username input"
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    username: e.target.value,
                   })
                 }}
                 onKeyDown={onKeyDown}

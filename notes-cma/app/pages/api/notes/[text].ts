@@ -8,7 +8,15 @@ export default async function handler(
 ) {
   res.setHeader('Cache-Control', 'no-store')
   try {
-    const query = '*'
+    console.log('req.query', req.query.text)
+    let query
+    if (req.query) {
+      query = req.query.text
+    } else {
+      return
+    }
+
+    console.log({ query })
     const { data } = await client.query({
       query: GET_NOTES,
       fetchPolicy: 'no-cache',
