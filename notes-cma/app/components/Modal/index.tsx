@@ -1,6 +1,6 @@
 import styles from './Modal.module.css'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import Portal from '../Portal/Portal'
+import Portal from '../Portal'
 import FocusTrap from 'focus-trap-react'
 
 type Props = {

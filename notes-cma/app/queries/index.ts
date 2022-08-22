@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 const CREATE_AND_UPDATE_NOTE = gql`
-  mutation UpdateNoteTitleAndText(
+  mutation CreateAndUpdateNote(
     $toolUser: ToolUser
     $id: DiffId
     $description: String
@@ -38,9 +38,12 @@ const CREATE_AND_UPDATE_NOTE = gql`
 `
 
 const GET_NOTES = gql`
-  query Search($arguments: [String]) {
+  query GetNotes($arguments: [String], $offset: Long = 0) {
     brightspot_example_cma_next_NoteQuery(
       where: { predicate: "* matches ?", arguments: $arguments }
+      sorts: { order: descending, options: "title" }
+      offset: $offset
+      limit: 2
     ) {
       items {
         description
@@ -58,6 +61,11 @@ const GET_NOTES = gql`
             }
           }
         }
+      }
+      pageInfo {
+        count
+        hasNext
+        limit
       }
     }
   }

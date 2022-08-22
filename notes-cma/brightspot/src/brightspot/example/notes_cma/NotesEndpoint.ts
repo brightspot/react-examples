@@ -22,11 +22,12 @@ export default class NotesEndpoint extends JavaClass(
     let noteClass = Note.class as Class<Note>
     let toolUser = ToolUser.class as Class<ToolUser>
 
-    let entryField1 = new ContentManagementEntryPointField(noteClass, true)
-    let entryField2 = new ContentManagementEntryPointField(toolUser, false)
+    let entryPointField1 = new ContentManagementEntryPointField(noteClass, true)
+    let entryPointField2 = new ContentManagementEntryPointField(toolUser, false)
+
     return [
-      entryField1,
-      entryField2,
+      entryPointField1,
+      entryPointField2,
     ] as unknown as List<ContentManagementEntryPointField>
   }
 

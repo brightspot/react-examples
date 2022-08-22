@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { TiTimes } from 'react-icons/ti'
 import styles from './NoteCard.module.css'
-import Modal from '../Modal/Modal'
+import Modal from '../Modal'
 import { Data } from '../../pages'
 
 type Props = {
@@ -27,7 +27,6 @@ const NoteCard = ({
   items,
   setItems,
 }: Props) => {
-  console.log({ description })
   const [isOpen, setIsOpen] = useState(false)
   const [formData, setFormData] = useState({
     id: id,

@@ -9,31 +9,34 @@ import React, {
 } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import styles from './Navbar.module.css'
+import { Data } from '../../pages'
 
 type Props = {
-  searchResults: string[]
-  setSearchResults: Dispatch<SetStateAction<string[]>>
+  setNumberPages: Dispatch<SetStateAction<number>>
+  setItems: Dispatch<SetStateAction<Data[]>>
+  getItems: Function
 }
 
-const Header = ({ setSearchResults, searchResults }: Props) => {
+const Navbar = ({ setNumberPages, setItems, getItems }: Props) => {
   const inputRef = useRef<null | HTMLInputElement>(null)
   const [error, setError] = useState({ isError: false, message: '' })
-  const [query, setQuery] = useState('')
+  const [queryItem, setQueryItem] = useState('')
+  const [numResults, setNumResults] = useState(null)
 
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside)
-    return () => document.removeEventListener('click', handleClickOutside)
-    function handleClickOutside(e: MouseEvent) {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setQuery('')
-      }
-    }
-  }, [setQuery])
+  // useEffect(() => {
+  //   document.addEventListener('click', handleClickOutside)
+  //   return () => document.removeEventListener('click', handleClickOutside)
+  //   function handleClickOutside(e: MouseEvent) {
+  //     if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
+  //       setQueryItem('')
+  //     }
+  //   }
+  // }, [setQueryItem])
 
   useEffect(() => {
     const timeId = setTimeout(() => {
       setError({ isError: false, message: '' })
-      setQuery('')
+      setQueryItem('')
     }, 3000)
     return () => {
       clearTimeout(timeId)
@@ -44,8 +47,8 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
     if (e.key === 'Escape') {
       if (e.key === 'Escape') {
         e.currentTarget.blur()
-        setQuery('')
-        setSearchResults([])
+        setQueryItem('')
+        setNumResults(null)
         if (inputRef?.current?.value) {
           inputRef.current.value = ''
         }
@@ -54,16 +57,18 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
   }
 
   useEffect(() => {
+    if (!inputRef?.current?.value) {
+      getItems()
+    }
     const timer = setTimeout(async () => {
-      if (inputRef?.current?.value === query && query !== '') {
+      if (inputRef?.current?.value && queryItem !== '') {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_HOST}/api/notes/${query}`,
+          `${process.env.NEXT_PUBLIC_HOST}/api/notes/${queryItem}`,
           {
             headers: {
               'Content-Type': 'application/json',
             },
             method: 'POST',
-            body: JSON.stringify(query),
           }
         )
 
@@ -76,27 +81,27 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
         }
 
         const data = await response.json()
-        if (data.brightspot_example_cma_next_NoteQuery) {
-          const array = data.brightspot_example_cma_next_NoteQuery?.items.map(
-            (item: {
-              text: string
-              _id: string
-              title: string
-              _typename: string
-            }) => item._id
+        if (data?.brightspot_example_cma_next_NoteQuery) {
+          setItems(data.brightspot_example_cma_next_NoteQuery?.items)
+          sessionStorage.setItem('query', queryItem)
+        }
+        if (data?.brightspot_example_cma_next_NoteQuery?.pageInfo) {
+          const { count, limit } =
+            data?.brightspot_example_cma_next_NoteQuery?.pageInfo
+          setNumberPages(Math.ceil(count / limit))
+          setNumResults(
+            data?.brightspot_example_cma_next_NoteQuery?.pageInfo?.count
           )
-          setSearchResults(array)
         }
       }
-      if (!inputRef?.current?.value && query === '') {
-        setQuery('')
-        setSearchResults([])
+      if (!inputRef?.current?.value && queryItem === '') {
+        setQueryItem('')
       }
     }, 500)
     return () => {
       clearTimeout(timer)
     }
-  }, [query, inputRef, setSearchResults])
+  }, [queryItem, setItems, setNumberPages])
 
   if (error.isError) console.error(error.message)
   return (
@@ -111,8 +116,9 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
           <button
             className={styles.clearButton}
             onClick={() => {
-              setSearchResults([])
-              setQuery('')
+              setNumResults(null)
+              setQueryItem('')
+              getItems()
             }}
           >
             <IoClose className={styles.clearIcon} />
@@ -132,24 +138,26 @@ const Header = ({ setSearchResults, searchResults }: Props) => {
                 name="title"
                 id="title"
                 placeholder="Search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                value={queryItem}
+                onChange={(e) => {
+                  setQueryItem(e.target.value)
+                }}
                 onKeyDown={onKeyDown}
               />
             </div>
           </form>
         </div>
       </div>
-      {query && (
+      {queryItem && (
         <span
           className={styles.searchValueText}
-        >{`Number of search results for "${query}": `}</span>
+        >{`Number of search results for "${queryItem}": `}</span>
       )}
-      {query && searchResults && (
-        <span className={styles.searchValueText}>{searchResults.length}</span>
+      {queryItem && numResults && (
+        <span className={styles.searchValueText}>{numResults}</span>
       )}
     </header>
   )
 }
 
-export default Header
+export default Navbar

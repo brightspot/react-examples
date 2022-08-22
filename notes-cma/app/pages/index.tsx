@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import Container from '../components/Container/Container'
-import Navbar from '../components/Navbar/Navbar'
+import Container from '../components/Container'
+import Navbar from '../components/Navbar'
 import Head from 'next/head'
+import PaginationBar from '../components/PaginationBar'
 
 export interface Data {
   title: string
@@ -25,7 +26,8 @@ export interface Data {
 const Home: NextPage = () => {
   const [items, setItems] = useState<Data[]>([])
   const [error, setError] = useState({ isError: false, message: '' })
-  const [searchResults, setSearchResults] = useState<Array<string>>([])
+  const [numberPages, setNumberPages] = useState(0)
+  const [pageNumber, setPageNumber] = useState(1)
 
   useEffect(() => {
     const timeId = setTimeout(() => {
@@ -38,12 +40,14 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     getItems()
-  }, [])
+  }, [pageNumber])
 
   async function getItems() {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/notes`,
+        `${process.env.NEXT_PUBLIC_HOST}/api/notes/?pagenumber=${
+          pageNumber - 1
+        }`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -59,20 +63,17 @@ const Home: NextPage = () => {
         throw new Error()
       }
       const data = await response.json()
-
       if (data?.brightspot_example_cma_next_NoteQuery) {
-        setItems(data.brightspot_example_cma_next_NoteQuery?.items)
+        setItems(data?.brightspot_example_cma_next_NoteQuery?.items)
+      }
+
+      if (data?.brightspot_example_cma_next_NoteQuery?.pageInfo) {
+        const { count, limit } =
+          data?.brightspot_example_cma_next_NoteQuery?.pageInfo
+        setNumberPages(Math.ceil(count / limit))
       }
     } catch (error) {
       console.log(error)
-    }
-  }
-
-  const search = (data: Data[]) => {
-    if (data && data.length > 0 && searchResults && searchResults.length > 0) {
-      return data.filter((item: Data) => searchResults.includes(item._id))
-    } else {
-      return data
     }
   }
 
@@ -83,11 +84,17 @@ const Home: NextPage = () => {
         <meta content="Note taking application powered by Brightspot" />
       </Head>
       <Navbar
-        setSearchResults={setSearchResults}
-        searchResults={searchResults}
+        setNumberPages={setNumberPages}
+        setItems={setItems}
+        getItems={getItems}
       />
 
-      <Container search={search} items={items} setItems={setItems} />
+      <Container items={items} setItems={setItems} />
+      <PaginationBar
+        numberPages={numberPages}
+        setPageNumber={setPageNumber}
+        pageNumber={pageNumber}
+      />
       {error.isError && <div id="error">{error.message}</div>}
     </>
   )

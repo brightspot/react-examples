@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react'
-import styles from './CreateNote.module.css'
+import styles from './CreateNoteForm.module.css'
 import { Data } from '../../pages'
 
 type Props = {
@@ -46,7 +46,6 @@ const CreateNote = ({ items, setItems }: Props) => {
         }
       )
       if (response.status >= 400) {
-        console.log(response.text)
         setError({
           isError: true,
           message:
@@ -56,7 +55,6 @@ const CreateNote = ({ items, setItems }: Props) => {
       }
 
       const data = await response.json()
-      console.log({ data })
       if (data.brightspot_example_cma_next_NoteSave) {
         const newItem = data.brightspot_example_cma_next_NoteSave
         setItems([...items, newItem])
