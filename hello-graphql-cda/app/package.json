@@ -17,6 +17,12 @@
     "eject": "react-scripts eject",
     "format": "npx prettier --write ."
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "prettier"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
