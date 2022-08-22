@@ -14,7 +14,6 @@ export default class HelloWorldViewModel extends JavaClass(
   ViewModel.Of(HelloWorld),
   PageEntryView
 ) {
-
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getTitle(): string {

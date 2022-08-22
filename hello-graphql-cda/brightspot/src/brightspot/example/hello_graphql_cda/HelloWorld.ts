@@ -15,7 +15,6 @@ export default class HelloWorld extends JavaClass(
   Content,
   DirectoryItem
 ) {
-
   @JavaRequired
   @JavaField(String)
   title?: string

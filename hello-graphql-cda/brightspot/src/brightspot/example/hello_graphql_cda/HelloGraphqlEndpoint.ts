@@ -18,7 +18,6 @@ export default class HelloGraphqlEndpoint extends JavaClass(
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
-
   getPaths(): JavaSet<string> {
     return [
       '/graphql/delivery/hello-graphql-cda/app',
@@ -26,10 +25,8 @@ export default class HelloGraphqlEndpoint extends JavaClass(
   }
 
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
-    return [
-      HelloWorldViewModel.class as Class<HelloWorldViewModel>,
-    ].map(
-      c => new ContentDeliveryEntryPointField(c)
+    return [HelloWorldViewModel.class as Class<HelloWorldViewModel>].map(
+      (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
 
