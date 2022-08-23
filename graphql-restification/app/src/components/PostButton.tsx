@@ -10,12 +10,12 @@ const PostButton = ({fetchBrightspot, isClicked}: ButtonProps) => {
 
 const styles: { [key: string]: React.CSSProperties } = {
     container: {
-      border: "none",
-      borderRadius: "12px",
-      padding: "10px",
-      backgroundColor: "#ee0120",
-      color: "white",
-      fontWeight: "bold",
+      border: 'none',
+      borderRadius: '12px',
+      padding: '10px',
+      backgroundColor: '#ee0120',
+      color: 'white',
+      fontWeight: 'bold',
     }
   };
 
