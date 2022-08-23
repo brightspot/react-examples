@@ -5,12 +5,13 @@ import ContentDeliveryApiAccessOptionImplicit from 'brightspot-types/com/psddev/
 import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
-import ArrayList from 'brightspot-types/java/util/ArrayList'
 import List from 'brightspot-types/java/util/List'
 import HelloWorldViewModel from './HelloWorldViewModel'
 import JavaSet from 'brightspot-types/java/util/Set'
-export default class HelloGraphqlEndpoint extends JavaClass(
-  'brightspot.example.hello_graphql_cda.HelloGraphqlEndpoint',
+import Class from 'brightspot-types/java/lang/Class'
+
+export default class HelloWorldGraphqlEndpoint extends JavaClass(
+  'brightspot.example.hello_graphql_cda.HelloWorldGraphqlEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
@@ -21,11 +22,20 @@ export default class HelloGraphqlEndpoint extends JavaClass(
   }
 
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
-    let fields = new ArrayList<ContentDeliveryEntryPointField>()
-    // @ts-ignore
-    let item = new ContentDeliveryEntryPointField(HelloWorldViewModel.class)
-    fields.add(item)
-    return fields
+    return [
+      {
+        vmClass: HelloWorldViewModel.class as Class<HelloWorldViewModel>,
+        name: 'HelloWorld',
+        docs: 'Hi there!',
+      },
+    ].map(
+      (field) =>
+        new ContentDeliveryEntryPointField(
+          field.vmClass,
+          field.name,
+          field.docs
+        )
+    ) as unknown as List<ContentDeliveryEntryPointField>
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {

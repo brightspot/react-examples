@@ -1,13 +1,21 @@
-import HelloWorldQuery from './HelloWorldQuery'
-import HelloWorld from './HelloWorld'
 import { useState } from 'react'
 
-const HelloWorldContainer = () => {
+const HelloWorldQuery = `
+query HelloWorld($id: ID) {
+  HelloWorld(id: $id) {
+    title
+    description
+  }
+}
+`
+
+type HelloWorldData = {
+  title?: string
+  description?: string
+}
+
+const HelloWorld = () => {
   const [error, setError] = useState({ isError: false, message: '' })
-  // const [helloWorldNotFound, setHelloWorldNotFound] = useState({
-  //   notFound: false,
-  //   message: '',
-  // })
   const [helloWorldContent, setHelloWorldContent] = useState({
     title: '',
     description: '',
@@ -15,7 +23,6 @@ const HelloWorldContainer = () => {
 
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
-  // let enteredPathname: null | string = null
   const getHelloWorld = async (input: string) => {
     try {
       const response = await fetch(GRAPHQL, {
@@ -26,7 +33,7 @@ const HelloWorldContainer = () => {
         body: JSON.stringify({
           query: HelloWorldQuery,
           variables: {
-            id: `/${input}`,
+            id: `${input}`,
           },
         }),
       })
@@ -38,28 +45,18 @@ const HelloWorldContainer = () => {
         })
         throw new Error()
       }
+
       const data = await response.json()
-      console.log({ data })
-      if (data?.errors) {
+      const helloWorldData: HelloWorldData = data?.data?.HelloWorld
+      if (helloWorldData?.title && helloWorldData?.description) {
+        setHelloWorldContent({
+          title: helloWorldData.title,
+          description: helloWorldData.description,
+        })
+      } else if (data.errors) {
         setError({
           isError: true,
-          message:
-            'there was a problem fetching data: ' + data.errors[0].message,
-        })
-        throw new Error()
-      }
-      if (
-        data?.data?.HelloWorld?.title &&
-        data?.data?.HelloWorld?.description
-      ) {
-        console.log(
-          'DATA: ',
-          data?.data?.HelloWorld?.title,
-          data?.data?.HelloWorld?.description
-        )
-        setHelloWorldContent({
-          title: data.data.HelloWorld.title,
-          description: data.data.HelloWorld.description,
+          message: data.errors[0]?.message || 'error with graphql request',
         })
       } else {
         setHelloWorldContent({
@@ -67,20 +64,20 @@ const HelloWorldContainer = () => {
           description: '',
         })
       }
-
-      if (data.errors) {
-        setError({ isError: true, message: data.errors[0].message })
-      }
     } catch (error) {
       console.log(error)
     }
+  }
+
+  if (error.isError) {
+    alert(error.message)
   }
 
   return (
     <div className="hello-world-container">
       <div className="hello-world-form">
         <label htmlFor="permalink" className="hello-world-form-text">
-          Enter your HelloWorld permalink
+          Enter your Hello World GraphQL CDA ID or URL:
         </label>
         <input
           required
@@ -88,22 +85,20 @@ const HelloWorldContainer = () => {
           className="hello-world-form-input"
           onChange={(e) => {
             e.preventDefault()
-            console.log('e.target.value: ', e.target.value)
-            getHelloWorld(e.target.value)
+            if (e.target.value && e.target.value.trim() !== '') {
+              getHelloWorld(e.target.value)
+            }
           }}
         />
       </div>
-      {error.isError && (
-        <span className="hello-world-error">{error.message}</span>
-      )}
       {helloWorldContent.title && helloWorldContent.description && (
-        <HelloWorld
-          title={helloWorldContent.title}
-          description={helloWorldContent.description}
-        />
+        <div className="hello-world-output">
+          <h1 className="hello-world-text">{helloWorldContent.title}</h1>
+          <h3 className="hello-world-text">{helloWorldContent.description}</h3>
+        </div>
       )}
     </div>
   )
 }
 
-export default HelloWorldContainer
+export default HelloWorld

@@ -1,10 +1,10 @@
 import './App.css'
-import HelloWorldContainer from './components/HelloWorld/HelloWorldContainer'
+import HelloWorld from './components/HelloWorld'
 
 function App() {
   return (
     <div className="App">
-      <HelloWorldContainer />
+      <HelloWorld />
     </div>
   )
 }
