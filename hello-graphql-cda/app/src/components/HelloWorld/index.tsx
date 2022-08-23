@@ -16,10 +16,9 @@ type HelloWorldData = {
 
 const HelloWorld = () => {
   const [error, setError] = useState({ isError: false, message: '' })
-  const [helloWorldContent, setHelloWorldContent] = useState({
-    title: '',
-    description: '',
-  })
+  const [helloWorldContent, setHelloWorldContent] = useState(
+    {} as HelloWorldData
+  )
 
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
@@ -69,10 +68,6 @@ const HelloWorld = () => {
     }
   }
 
-  if (error.isError) {
-    alert(error.message)
-  }
-
   return (
     <div className="hello-world-container">
       <div className="hello-world-form">
@@ -85,6 +80,7 @@ const HelloWorld = () => {
           className="hello-world-form-input"
           onChange={(e) => {
             e.preventDefault()
+            setError({ isError: false, message: '' })
             if (e.target.value && e.target.value.trim() !== '') {
               getHelloWorld(e.target.value)
             }
@@ -97,6 +93,7 @@ const HelloWorld = () => {
           <h3 className="hello-world-text">{helloWorldContent.description}</h3>
         </div>
       )}
+      {error.isError && <p className="hello-world-error">{error.message}</p>}
     </div>
   )
 }
