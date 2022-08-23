@@ -9,34 +9,20 @@ import React, {
 } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import styles from './Navbar.module.css'
-import { Data } from '../../pages'
 
 type Props = {
-  setNumberPages: Dispatch<SetStateAction<number>>
-  setItems: Dispatch<SetStateAction<Data[]>>
   getItems: Function
+  numResults: number | null
+  setNumResults: Dispatch<SetStateAction<null>>
 }
 
-const Navbar = ({ setNumberPages, setItems, getItems }: Props) => {
+const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
   const inputRef = useRef<null | HTMLInputElement>(null)
   const [error, setError] = useState({ isError: false, message: '' })
-  const [queryItem, setQueryItem] = useState('')
-  const [numResults, setNumResults] = useState(null)
-
-  // useEffect(() => {
-  //   document.addEventListener('click', handleClickOutside)
-  //   return () => document.removeEventListener('click', handleClickOutside)
-  //   function handleClickOutside(e: MouseEvent) {
-  //     if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-  //       setQueryItem('')
-  //     }
-  //   }
-  // }, [setQueryItem])
 
   useEffect(() => {
     const timeId = setTimeout(() => {
       setError({ isError: false, message: '' })
-      setQueryItem('')
     }, 3000)
     return () => {
       clearTimeout(timeId)
@@ -47,7 +33,6 @@ const Navbar = ({ setNumberPages, setItems, getItems }: Props) => {
     if (e.key === 'Escape') {
       if (e.key === 'Escape') {
         e.currentTarget.blur()
-        setQueryItem('')
         setNumResults(null)
         if (inputRef?.current?.value) {
           inputRef.current.value = ''
@@ -56,52 +41,20 @@ const Navbar = ({ setNumberPages, setItems, getItems }: Props) => {
     }
   }
 
-  useEffect(() => {
+  const handleSearch = () => {
     if (!inputRef?.current?.value) {
       getItems()
     }
     const timer = setTimeout(async () => {
-      if (inputRef?.current?.value && queryItem !== '') {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_HOST}/api/notes/${queryItem}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
-          }
-        )
-
-        if (!response.ok) {
-          setError({
-            isError: true,
-            message: 'cannot search' + response.statusText,
-          })
-          throw new Error()
-        }
-
-        const data = await response.json()
-        if (data?.brightspot_example_cma_next_NoteQuery) {
-          setItems(data.brightspot_example_cma_next_NoteQuery?.items)
-          sessionStorage.setItem('query', queryItem)
-        }
-        if (data?.brightspot_example_cma_next_NoteQuery?.pageInfo) {
-          const { count, limit } =
-            data?.brightspot_example_cma_next_NoteQuery?.pageInfo
-          setNumberPages(Math.ceil(count / limit))
-          setNumResults(
-            data?.brightspot_example_cma_next_NoteQuery?.pageInfo?.count
-          )
-        }
+      if (inputRef?.current?.value) {
+        console.log('you are here!! running use effect')
+        getItems(inputRef?.current?.value)
       }
-      if (!inputRef?.current?.value && queryItem === '') {
-        setQueryItem('')
-      }
-    }, 500)
+    }, 700)
     return () => {
       clearTimeout(timer)
     }
-  }, [queryItem, setItems, setNumberPages])
+  }
 
   if (error.isError) console.error(error.message)
   return (
@@ -117,8 +70,10 @@ const Navbar = ({ setNumberPages, setItems, getItems }: Props) => {
             className={styles.clearButton}
             onClick={() => {
               setNumResults(null)
-              setQueryItem('')
-              getItems()
+              if (inputRef?.current?.value) {
+                inputRef.current.value = ''
+                getItems()
+              }
             }}
           >
             <IoClose className={styles.clearIcon} />
@@ -138,22 +93,19 @@ const Navbar = ({ setNumberPages, setItems, getItems }: Props) => {
                 name="title"
                 id="title"
                 placeholder="Search"
-                value={queryItem}
-                onChange={(e) => {
-                  setQueryItem(e.target.value)
-                }}
+                onChange={handleSearch}
                 onKeyDown={onKeyDown}
               />
             </div>
           </form>
         </div>
       </div>
-      {queryItem && (
+      {inputRef?.current?.value && (
         <span
           className={styles.searchValueText}
-        >{`Number of search results for "${queryItem}": `}</span>
+        >{`Number of search results for "${inputRef?.current?.value}": `}</span>
       )}
-      {queryItem && numResults && (
+      {inputRef?.current?.value && numResults && (
         <span className={styles.searchValueText}>{numResults}</span>
       )}
     </header>

@@ -24,6 +24,16 @@ const CreateNote = ({ items, setItems }: Props) => {
     }
   }, [error.isError])
 
+  // Refer to Stack Overflow response: https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index-javascript
+  const insertItem = (arr: Data[], index: number, newItem: Data) => [
+    /// pat of the array before the specified index
+    ...arr.slice(0, index),
+    // inserted item
+    newItem,
+    // part of the array after specified index
+    ...arr.slice(index),
+  ]
+
   const submitNewNote = async () => {
     const inputTitle = titleRef?.current?.value || null
     const inputDescription = descriptionRef?.current?.value || null
@@ -57,7 +67,7 @@ const CreateNote = ({ items, setItems }: Props) => {
       const data = await response.json()
       if (data.brightspot_example_cma_next_NoteSave) {
         const newItem = data.brightspot_example_cma_next_NoteSave
-        setItems([...items, newItem])
+        setItems(insertItem(items, 0, newItem))
         if (titleRef?.current?.value) {
           titleRef.current.value = ''
         }

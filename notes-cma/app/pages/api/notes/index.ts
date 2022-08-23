@@ -7,14 +7,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   res.setHeader('Cache-Control', 'no-store')
+  console.log('req.query', req.query)
   try {
-    const queryAll = '*'
     const { data } = await client.query({
       query: GET_NOTES,
       fetchPolicy: 'no-cache',
       variables: {
-        arguments: queryAll,
-        offset: req.query.pagenumber,
+        arguments: req.query.q || '*',
+        offset: req.query.page,
       },
     })
     res.status(200).json(data)

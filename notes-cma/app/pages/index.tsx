@@ -28,6 +28,8 @@ const Home: NextPage = () => {
   const [error, setError] = useState({ isError: false, message: '' })
   const [numberPages, setNumberPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
+  const [numResults, setNumResults] = useState(null)
+  const [limit, setLimit] = useState(null)
 
   useEffect(() => {
     const timeId = setTimeout(() => {
@@ -42,19 +44,40 @@ const Home: NextPage = () => {
     getItems()
   }, [pageNumber])
 
-  async function getItems() {
+  function getPageNumber(pageNumber: number): number {
+    let updatedPageNumber = 0
+    if (limit) {
+      const index = pageNumber - 1
+      updatedPageNumber = limit * index
+    } else {
+      console.log('no limit was provided')
+    }
+    return updatedPageNumber
+  }
+
+  function urlBuilder(queryItem: string): string {
+    let url = ''
+    if (queryItem) {
+      console.log('querItem in urlBuilder: ', queryItem)
+      url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?page=${getPageNumber(
+        pageNumber
+      )}&q=${queryItem}`
+    } else if (!queryItem) {
+      url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?page=${getPageNumber(
+        pageNumber
+      )}`
+    }
+    return url
+  }
+
+  async function getItems(queryItem: string = '') {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/notes/?pagenumber=${
-          pageNumber - 1
-        }`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'GET',
-        }
-      )
+      const response = await fetch(urlBuilder(queryItem), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'GET',
+      })
       if (!response.ok) {
         setError({
           isError: true,
@@ -71,6 +94,8 @@ const Home: NextPage = () => {
         const { count, limit } =
           data?.brightspot_example_cma_next_NoteQuery?.pageInfo
         setNumberPages(Math.ceil(count / limit))
+        setNumResults(count)
+        setLimit(limit)
       }
     } catch (error) {
       console.log(error)
@@ -84,9 +109,9 @@ const Home: NextPage = () => {
         <meta content="Note taking application powered by Brightspot" />
       </Head>
       <Navbar
-        setNumberPages={setNumberPages}
-        setItems={setItems}
         getItems={getItems}
+        numResults={numResults}
+        setNumResults={setNumResults}
       />
 
       <Container items={items} setItems={setItems} />

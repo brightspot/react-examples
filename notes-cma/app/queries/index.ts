@@ -38,12 +38,12 @@ const CREATE_AND_UPDATE_NOTE = gql`
 `
 
 const GET_NOTES = gql`
-  query GetNotes($arguments: [String], $offset: Long = 0) {
+  query GetNotes($arguments: [String], $offset: Long = 0, $limit: Int = 6) {
     brightspot_example_cma_next_NoteQuery(
       where: { predicate: "* matches ?", arguments: $arguments }
-      sorts: { order: descending, options: "title" }
+      sorts: { order: descending, options: "cms.content.updateDate" }
       offset: $offset
-      limit: 2
+      limit: $limit
     ) {
       items {
         description
