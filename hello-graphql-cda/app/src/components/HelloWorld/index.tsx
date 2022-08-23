@@ -44,8 +44,8 @@ const HelloWorld = () => {
       .then((data) => {
         if (data?.data?.HelloWorld) {
           setHelloWorldContent({
-            title: data.data.HelloWorld.title || '',
-            description: data.data.HelloWorld.description || '',
+            title: data.data.HelloWorld.title,
+            description: data.data.HelloWorld.description,
           })
         } else if (data.errors) {
           setError({
@@ -78,7 +78,7 @@ const HelloWorld = () => {
           }}
         />
       </div>
-      {helloWorldContent.title && helloWorldContent.description && (
+      {helloWorldContent.title && (
         <div className="content-container">
           <h1 className="content-text">{helloWorldContent.title}</h1>
           <h3 className="content-text">{helloWorldContent.description}</h3>

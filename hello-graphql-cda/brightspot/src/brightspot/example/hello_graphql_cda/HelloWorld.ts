@@ -4,7 +4,7 @@ import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayN
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 
-@DisplayName({ value: 'Hello GraphQL CDA' })
+@DisplayName({ value: 'Hello World GraphQL CDA' })
 export default class HelloWorld extends JavaClass(
   'brightspot.example.hello_graphql_cda.HelloWorld',
   Content
