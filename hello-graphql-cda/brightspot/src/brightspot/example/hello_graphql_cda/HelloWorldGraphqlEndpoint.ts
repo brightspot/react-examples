@@ -25,16 +25,9 @@ export default class HelloWorldGraphqlEndpoint extends JavaClass(
     return [
       {
         vmClass: HelloWorldViewModel.class as Class<HelloWorldViewModel>,
-        name: 'HelloWorld',
-        docs: 'Hi there!',
       },
     ].map(
-      (field) =>
-        new ContentDeliveryEntryPointField(
-          field.vmClass,
-          field.name,
-          field.docs
-        )
+      (field) => new ContentDeliveryEntryPointField(field.vmClass)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
 
