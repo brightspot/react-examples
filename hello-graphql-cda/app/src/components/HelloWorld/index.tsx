@@ -14,86 +14,77 @@ type HelloWorldData = {
   description?: string
 }
 
+type ErrorData = {
+  isError: boolean
+  message: string
+}
+
 const HelloWorld = () => {
-  const [error, setError] = useState({ isError: false, message: '' })
+  const [error, setError] = useState({} as ErrorData)
   const [helloWorldContent, setHelloWorldContent] = useState(
     {} as HelloWorldData
   )
 
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
-  const getHelloWorld = async (input: string) => {
-    try {
-      const response = await fetch(GRAPHQL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+  const fetchandSetContent = (input: string) => {
+    fetch(GRAPHQL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: HelloWorldQuery,
+        variables: {
+          id: `${input}`,
         },
-        body: JSON.stringify({
-          query: HelloWorldQuery,
-          variables: {
-            id: `${input}`,
-          },
-        }),
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data?.HelloWorld) {
+          setHelloWorldContent({
+            title: data.data.HelloWorld.title || '',
+            description: data.data.HelloWorld.description || '',
+          })
+        } else if (data.errors) {
+          setError({
+            isError: true,
+            message: data.errors[0]?.message || 'an error occurred',
+          })
+        }
       })
-      if (!response.ok) {
-        setError({
-          isError: true,
-          message:
-            'there was a problem fetching data... ' + response.statusText,
-        })
-        throw new Error()
-      }
-
-      const data = await response.json()
-      const helloWorldData: HelloWorldData = data?.data?.HelloWorld
-      if (helloWorldData?.title && helloWorldData?.description) {
-        setHelloWorldContent({
-          title: helloWorldData.title,
-          description: helloWorldData.description,
-        })
-      } else if (data.errors) {
-        setError({
-          isError: true,
-          message: data.errors[0]?.message || 'error with graphql request',
-        })
-      } else {
-        setHelloWorldContent({
-          title: '',
-          description: '',
-        })
-      }
-    } catch (error) {
-      console.log(error)
-    }
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   return (
-    <div className="hello-world-container">
-      <div className="hello-world-form">
-        <label htmlFor="permalink" className="hello-world-form-text">
+    <div className="container">
+      <div className="input-wrapper">
+        <label htmlFor="permalink">
           Enter your Hello World GraphQL CDA ID or URL:
         </label>
         <input
           required
           name="permalink"
-          className="hello-world-form-input"
           onChange={(e) => {
             e.preventDefault()
             setError({ isError: false, message: '' })
+            setHelloWorldContent({ title: '', description: '' })
             if (e.target.value && e.target.value.trim() !== '') {
-              getHelloWorld(e.target.value)
+              fetchandSetContent(e.target.value)
             }
           }}
         />
       </div>
       {helloWorldContent.title && helloWorldContent.description && (
-        <div className="hello-world-output">
-          <h1 className="hello-world-text">{helloWorldContent.title}</h1>
-          <h3 className="hello-world-text">{helloWorldContent.description}</h3>
+        <div className="content-container">
+          <h1 className="content-text">{helloWorldContent.title}</h1>
+          <h3 className="content-text">{helloWorldContent.description}</h3>
         </div>
       )}
-      {error.isError && <p className="hello-world-error">{error.message}</p>}
+      {error.isError && <p className="error">{error.message}</p>}
     </div>
   )
 }

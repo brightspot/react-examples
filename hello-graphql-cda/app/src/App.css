@@ -15,7 +15,7 @@ body {
   background-color: #fff;
 }
 
-.hello-world-container {
+.container {
   margin-top: 4rem;
   display: flex;
   align-items: center;
@@ -23,11 +23,10 @@ body {
   flex-direction: column;
 }
 
-.hello-world-form {
+.input-wrapper {
   margin-bottom: 4rem;
   border: 1px solid #dadce0;
   border-radius: 8px;
-
   min-width: 320px;
   display: flex;
   justify-content: center;
@@ -37,19 +36,19 @@ body {
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
-.hello-world-form-text {
+label {
   font-size: 1.2rem;
   color: #202124;
   font-family: 'Poppins', sans-serif;
   margin-bottom: 1rem;
 }
 
-.hello-world-form-input {
+input {
   margin-bottom: 1rem;
   line-height: 1.75;
   font-size: 1rem;
   border: 1px solid #dadce0;
-  padding-left: 8px;
+  padding-left: 3px;
 }
 
 h1 {
@@ -62,7 +61,7 @@ h3 {
   font-size: 2.5rem;
 }
 
-.hello-world-text {
+.content-text {
   background: -webkit-linear-gradient(#2193b0, #6dd5ed);
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -71,11 +70,11 @@ h3 {
   padding: 0 20px;
 }
 
-.hello-world-text:hover {
+.content-text:hover {
   opacity: 1;
 }
 
-.hello-world-output {
+.content-container {
   width: 90vw;
   word-break: break-all;
   display: flex;
@@ -83,22 +82,15 @@ h3 {
   align-items: center;
 }
 
-.hello-world-error {
+.error {
   color: rgb(238, 1, 32);
   font-size: 1.1rem;
   font-family: 'Poppins', sans-serif;
   text-align: center;
 }
 
-.hello-world-404 {
-  font-size: 1.4rem;
-  color: #202124;
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-}
-
 @media (min-width: 1024px) {
-  .hello-world-form {
+  .input-wrapper {
     padding: 30px;
     align-self: center;
   }
