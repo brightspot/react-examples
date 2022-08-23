@@ -16,7 +16,7 @@ npx brightspot types download
 npx brightspot types upload src
 ```
 
-> ℹ️ **_Note_** If there is already a `brightspot.json` file you can skip the `npx brightspot config server http://localhost/cms` command.
+> **_Note_** If there is already a `brightspot.json` file you can skip the `npx brightspot config server http://localhost/cms` command.
 
 In this example, the following has been created with JS Classes:
 
