@@ -1,4 +1,3 @@
-import JavaClass from 'brightspot-types/JavaClass'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import ContentDeliveryApiAccessOption from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOption'
 import ContentDeliveryApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOptionImplicit'
@@ -9,6 +8,7 @@ import List from 'brightspot-types/java/util/List'
 import HelloWorldViewModel from './HelloWorldViewModel'
 import JavaSet from 'brightspot-types/java/util/Set'
 import Class from 'brightspot-types/java/lang/Class'
+import JavaClass from 'brightspot-types/JavaClass'
 
 export default class HelloWorldGraphqlEndpoint extends JavaClass(
   'brightspot.example.hello_graphql_cda.HelloWorldGraphqlEndpoint',

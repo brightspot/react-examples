@@ -1,8 +1,8 @@
 import JavaClass from 'brightspot-types/JavaClass'
-import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import JavaField from 'brightspot-types/JavaField'
-import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
+import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
+import Content from 'brightspot-types/com/psddev/cms/db/Content'
 
 @DisplayName({ value: 'Hello GraphQL CDA' })
 export default class HelloWorld extends JavaClass(

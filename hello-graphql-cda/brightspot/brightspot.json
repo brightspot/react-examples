@@ -1,3 +1,4 @@
 {
-  "server": "http://localhost/cms"
+  "server": "http://localhost/cms",
+  "downloadTypes": ["com.psddev.dari.util.Utils"]
 }

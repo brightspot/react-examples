@@ -49,6 +49,7 @@ body {
   line-height: 1.75;
   font-size: 1rem;
   border: 1px solid #dadce0;
+  padding-left: 8px;
 }
 
 h1 {
