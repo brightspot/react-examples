@@ -3,33 +3,31 @@ import PostButton from '../components/PostButton';
 import GET_HELLO from '../api/GET_HELLO';
 import POST_BRIGHTSPOT from '../api/POST_BRIGHTSPOT';
 import { useState, useEffect } from 'react';
+import {Article} from '../generated/graphql'
+
+interface ContainerData {
+    article: Article,
+    isClicked: boolean
+}
 
 const HelloWorldContainer = () => {
 
-    const [data, setData] = useState({
-        Article: {
-            headline: '',
-            subheadline: ''
-        },
-        isClicked: false
-    })
+    const [data, setData] = useState({} as ContainerData)
 
     const fetchBrightspotData = async () => {
-        let response
         if (!data.isClicked) {
-            response = await POST_BRIGHTSPOT()
-            setData({Article: response.Article, isClicked: !data.isClicked})
+            const response = await POST_BRIGHTSPOT()
+            setData({article: response.Article, isClicked: !data.isClicked})
         } else {
-            response = await GET_HELLO()
-            setData({Article: response.Article, isClicked: !data.isClicked})
+            const response = await GET_HELLO()
+            setData({article: response.Article, isClicked: !data.isClicked})
         }
     }
 
     useEffect(() => {
         const fetchData = async () => {
-            let response
-            response = await GET_HELLO()
-            setData({...data, Article: response.Article})
+            const response = await GET_HELLO()
+            setData({...data, article: response.Article})
         }
         fetchData()
       }, [])
@@ -37,7 +35,7 @@ const HelloWorldContainer = () => {
     return (
         <>
             <div className="hello-world-container">
-                <HelloWorld headline={data.Article.headline} subheadline={data.Article.subheadline}/>
+                <HelloWorld article={data.article}/>
             </div>
             <PostButton fetchBrightspot={fetchBrightspotData} isClicked={data.isClicked} />
         </>
