@@ -20,8 +20,8 @@ npx brightspot types upload src
 
 In this example, the following has been created with JS Classes:
 
-- A CDA endpoint: note the GraphQL endpoint is added to (`app/.env`) of the frontend application your frontend. This url is created in the JS Class `HelloWorldGraphqlEndpoint.ts`.
-- A HelloWorld Class and HelloWorld View Model to publish content.
+- A CDA endpoint: note the GraphQL endpoint is added to (`app/.env`) of the frontend application your frontend. This url is created in the JS Class `HelloGraphqlReactEndpoint.ts`.
+- A HelloGraphqlReact Class and View Model to publish content.
 
 ## Running the frontend application
 
@@ -35,6 +35,6 @@ The frontend application will open automatically in your browser.
 
 ## Publish CMS Content
 
-Publish a Hello World item in the CMS. Either create a permalink for the HelloWorld item you create, or copy the HelloWorld content id found by clicking the three ellipses next to the PUBLISH button, then selecting `tools`, and then the `FOR DEVELOPERS` tab.
+Publish a Hello GraphQl React item in the CMS. Either create a permalink for the item you create, or copy the id found by clicking the three ellipses next to the PUBLISH button, then selecting `tools`, and then the `FOR DEVELOPERS` tab.
 
-Input either the permalink or id in your frontend application to see your HelloWorld content.
+Input either the permalink or id in your frontend application to see your published content.

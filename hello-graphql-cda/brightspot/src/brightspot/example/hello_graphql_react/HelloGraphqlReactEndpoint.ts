@@ -5,26 +5,27 @@ import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import List from 'brightspot-types/java/util/List'
-import HelloWorldViewModel from './HelloWorldViewModel'
+import HelloGraphqlReactViewModel from './HelloGraphqlReactViewModel'
 import JavaSet from 'brightspot-types/java/util/Set'
 import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
 
-export default class HelloWorldGraphqlEndpoint extends JavaClass(
-  'brightspot.example.hello_graphql_cda.HelloWorldGraphqlEndpoint',
+export default class HelloGraphqlReactEndpoint extends JavaClass(
+  'brightspot.example.hello_graphql_react.HelloGraphqlReactEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
     return [
-      '/graphql/delivery/hello-graphql-cda/app',
+      '/graphql/delivery/hello-graphql-react',
     ] as unknown as JavaSet<string>
   }
 
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
     return [
       {
-        vmClass: HelloWorldViewModel.class as Class<HelloWorldViewModel>,
+        vmClass:
+          HelloGraphqlReactViewModel.class as Class<HelloGraphqlReactViewModel>,
       },
     ].map(
       (field) => new ContentDeliveryEntryPointField(field.vmClass)
@@ -32,7 +33,6 @@ export default class HelloWorldGraphqlEndpoint extends JavaClass(
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
-    super.updateCorsConfiguration(corsConfiguration)
     corsConfiguration.addAllowedOrigin('localhost')
   }
 

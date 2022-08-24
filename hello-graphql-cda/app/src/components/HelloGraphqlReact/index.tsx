@@ -1,29 +1,27 @@
 import { useState } from 'react'
 
-const HelloWorldQuery = `
-query HelloWorld($id: ID) {
-  HelloWorld(id: $id) {
+const HelloQuery = `
+query HelloGraphqlReact($id: ID) {
+  HelloGraphqlReact(id: $id) {
     title
     description
   }
 }
 `
 
-type HelloWorldData = {
+type HelloData = {
   title?: string
   description?: string
 }
 
-type ErrorData = {
+type HelloError = {
   isError: boolean
   message: string
 }
 
-const HelloWorld = () => {
-  const [error, setError] = useState({} as ErrorData)
-  const [helloWorldContent, setHelloWorldContent] = useState(
-    {} as HelloWorldData
-  )
+const HelloGraphqlReact = () => {
+  const [error, setError] = useState({} as HelloError)
+  const [helloContent, setHelloContent] = useState({} as HelloData)
 
   const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
@@ -34,7 +32,7 @@ const HelloWorld = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: HelloWorldQuery,
+        query: HelloQuery,
         variables: {
           id: `${input}`,
         },
@@ -42,10 +40,10 @@ const HelloWorld = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data?.data?.HelloWorld) {
-          setHelloWorldContent({
-            title: data.data.HelloWorld.title,
-            description: data.data.HelloWorld.description,
+        if (data?.data?.HelloGraphqlReact) {
+          setHelloContent({
+            title: data.data.HelloGraphqlReact.title,
+            description: data.data.HelloGraphqlReact.description,
           })
         } else if (data.errors) {
           setError({
@@ -63,25 +61,26 @@ const HelloWorld = () => {
     <div className="container">
       <div className="input-wrapper">
         <label htmlFor="permalink">
-          Enter your Hello World GraphQL CDA ID or URL:
+          Enter your Hello GraphQL React ID or URL:
         </label>
         <input
           required
-          name="permalink"
+          name="permalink-id"
+          maxLength={30}
           onChange={(e) => {
             e.preventDefault()
             setError({ isError: false, message: '' })
-            setHelloWorldContent({ title: '', description: '' })
+            setHelloContent({ title: '', description: '' })
             if (e.target.value && e.target.value.trim() !== '') {
               fetchandSetContent(e.target.value)
             }
           }}
         />
       </div>
-      {helloWorldContent.title && (
+      {helloContent.title && (
         <div className="content-container">
-          <h1 className="content-text">{helloWorldContent.title}</h1>
-          <h3 className="content-text">{helloWorldContent.description}</h3>
+          <h1 className="content-text">{helloContent.title}</h1>
+          <h3 className="content-text">{helloContent.description}</h3>
         </div>
       )}
       {error.isError && <p className="error">{error.message}</p>}
@@ -89,4 +88,4 @@ const HelloWorld = () => {
   )
 }
 
-export default HelloWorld
+export default HelloGraphqlReact

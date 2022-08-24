@@ -6,12 +6,12 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
 
-import HelloWorld from './HelloWorld'
+import HelloGraphqlReact from './HelloGraphqlReact'
 
 @ViewInterface
-export default class HelloWorldViewModel extends JavaClass(
-  'brightspot.example.hello_graphql_cda.HelloWorldViewModel',
-  ViewModel.Of(HelloWorld),
+export default class HelloGraphqlReactViewModel extends JavaClass(
+  'brightspot.example.hello_graphql_react.HelloGraphqlReactViewModel',
+  ViewModel.Of(HelloGraphqlReact),
   PageEntryView
 ) {
   @JavaMethodParameters()
