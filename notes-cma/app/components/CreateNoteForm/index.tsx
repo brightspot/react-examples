@@ -9,9 +9,10 @@ type Props = {
 
 const CreateNote = ({ items, setItems }: Props) => {
   const titleRef = useRef<HTMLInputElement>(null)
-  const descriptionRef = useRef<HTMLInputElement>(null)
+  const descriptionRef = useRef<HTMLTextAreaElement>(null)
   const usernameRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState({ isError: false, message: '' })
+  const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
     if (error.isError) {
@@ -82,52 +83,74 @@ const CreateNote = ({ items, setItems }: Props) => {
       console.log(error)
     }
   }
-
+  console.log({ expanded })
   return (
     <form
       className={styles.createNoteForm}
       onSubmit={(e) => {
+        console.log('you are submitting')
         e.preventDefault()
         submitNewNote()
       }}
     >
-      <div className={styles.createNoteWrapper}>
-        <label htmlFor="title" className={styles.label}>
-          Title
-        </label>
+      <div
+        className={styles.createNoteWrapper}
+        onClick={(e) => setExpanded(true)}
+      >
         <input
           className={styles.createNoteInput}
           required
           name="title"
           aria-label="Title"
           ref={titleRef}
+          placeholder="Title"
         />
-        <label htmlFor="description" className={styles.label}>
-          Description
-        </label>
-        <input
-          className={styles.createNoteInput}
-          aria-label="Description"
-          ref={descriptionRef}
-          required
-          name="description"
-        />
-        <label htmlFor="username" className={styles.label}>
-          Username
-        </label>
-        <input
-          className={styles.createNoteInput}
-          aria-label="User name"
-          ref={usernameRef}
-          required
-          name="username"
-        />
+        <div className={`${expanded ? styles.notCollapsed : styles.collapsed}`}>
+          <textarea
+            className={styles.createNoteInput}
+            aria-label="Description"
+            ref={descriptionRef}
+            required
+            name="description"
+            placeholder="Description..."
+          />
+          <input
+            className={styles.createNoteInput}
+            aria-label="User name"
+            ref={usernameRef}
+            required
+            name="username"
+            placeholder="Username"
+          />
+        </div>
       </div>
-      <div className={styles.createNoteBottom}>
-        <button type="submit" className={styles.submitButton}>
+      <div
+        className={`${styles.createNoteBottom} ${
+          expanded ? styles.notCollapsedInline : styles.collapsed
+        }`}
+      >
+        {error.isError && (
+          <span
+            className={styles.error}
+          >{`There is an error! ${error.message}`}</span>
+        )}
+        <button
+          type="submit"
+          className={`${styles.formButton} ${
+            expanded ? styles.notCollapsedInlne : styles.collapsed
+          }`}
+        >
           Submit
         </button>
-        {error.isError && <div className={styles.error}>{error.message}</div>}
+        <button
+          type="button"
+          onClick={() => setExpanded(false)}
+          className={`${styles.formButton} ${
+            expanded ? styles.notCollapsedInline : styles.collapsed
+          }`}
+        >
+          Close
+        </button>
       </div>
     </form>
   )

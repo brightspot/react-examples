@@ -1,8 +1,8 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
-import { TiTimes } from 'react-icons/ti'
 import styles from './NoteCard.module.css'
 import Modal from '../Modal'
 import { Data } from '../../pages'
+import { IoEllipsisVertical } from 'react-icons/io5'
 
 type Props = {
   title: string
@@ -28,6 +28,7 @@ const NoteCard = ({
   setItems,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [showOptions, setShowOptions] = useState(false)
   const [formData, setFormData] = useState({
     id: id,
     title: title,
@@ -121,14 +122,23 @@ const NoteCard = ({
         </div>
         <div className={styles.noteBottom}>
           <button
-            className={styles.deleteButton}
+            className={styles.optionsButton}
             onClick={(e) => {
               e.stopPropagation()
-              submitDeleteNote()
+              setShowOptions(true)
+              // submitDeleteNote()
             }}
           >
-            <TiTimes title="delete" className={styles.deleteIcon} />
+            <IoEllipsisVertical className={styles.optionsIcon} />
           </button>
+          {showOptions && (
+            <div className={styles.optionsContainer}>
+              <ul>
+                <li>Update</li>
+                <li>Delete</li>
+              </ul>
+            </div>
+          )}
           {error && <span className={styles.error}>{error.message}</span>}
         </div>
       </div>

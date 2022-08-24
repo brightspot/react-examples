@@ -12,49 +12,59 @@
   margin: 0 auto;
 }
 
+.inputWrapper {
+  transition-property: background-color;
+  transition-duration: 5s;
+  transition-timing-function: linear;
+}
+
+.notCollapsed {
+  display: block;
+}
+
+.collapsed {
+  display: none;
+}
+
+.notCollapsedInline {
+  display: inline-block;
+}
 .createNoteInput {
   width: 100%;
   font-size: 1rem;
-  border: 1px solid var(--grayscaleFive);
+  border: 0;
   border-radius: 3px;
-  height: 1.7rem;
+  min-height: 1.7rem;
   padding: 5px;
+  margin-bottom: 7px;
+  font-family: 'Noto Sans', sans-serif;
 }
 
-.label {
-  margin: 0;
-}
-
-.submitButton {
-  width: 100px;
-  height: var(--inputHeight);
-  border-radius: var(--buttonBorderRadius);
+.formButton {
+  font-size: 1rem;
+  padding: 5px;
+  margin-right: 10px;
   color: var(--moduleBgColor);
-  border: 1px solid var(--moduleBgColor);
-  background-color: #fff;
-  transition: all 0.3s ease-out;
+  border: 0;
+  background-color: transparent;
 }
 
 .createNoteBottom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 3.2rem;
+  width: 100%;
+  min-height: 30px;
+  text-align: end;
 }
 
-.submitButton:hover {
+.formButton:hover {
   cursor: pointer;
-  background-color: var(--moduleBgColor);
-
-  color: #fff;
+  color: #1d79aa;
 }
 
 .error {
   font-size: 0.9rem;
   color: var(--primaryRed);
   font-style: italic;
-  padding-bottom: 0;
-  margin-bottom: 0;
+  margin-right: 20px;
   line-height: 1.1rem;
 }
 
