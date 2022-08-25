@@ -10,21 +10,21 @@ query HelloGraphqlReact($id: ID) {
 `
 
 type HelloData = {
-  title?: string | null
-  description?: string | null
+  title?: string
+  description?: string
 }
 
 type HelloResponse = {
   helloData?: HelloData
-  error?: string | null
+  errors?: string[]
 }
 
 const HelloGraphqlReact = () => {
   const [helloResponse, setHelloResponse] = useState<HelloResponse>()
   const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
-  const fetchAndSetContent = (input: string) => {
-    fetch(GRAPHQL_URL, {
+  const dataRequestParams = (input: string) => {
+    return {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,33 +35,45 @@ const HelloGraphqlReact = () => {
           id: `${input}`,
         },
       }),
+    }
+  }
+
+  const handleResponse = (res: any) => {
+    if (res?.data?.HelloGraphqlReact) {
+      setHelloResponse({
+        helloData: {
+          title: res.data.HelloGraphqlReact.title,
+          description: res.data.HelloGraphqlReact.description,
+        },
+      })
+    } else if (res.errors) {
+      let errorArray = []
+      for (let item of res.errors) {
+        errorArray.push(item.message)
+      }
+      setHelloResponse({ errors: [...errorArray] })
+    } else if (!res.errors && !res?.data?.HelloGraphqlReact) {
+      setHelloResponse({
+        helloData: {
+          title: '',
+          description: '',
+        },
+        errors: [],
+      })
+    }
+  }
+
+  const handleErrors = (error: Error) => {
+    setHelloResponse({
+      errors: [error.message],
     })
+  }
+
+  function fetchAndSetContent(input: string) {
+    fetch(GRAPHQL_URL, dataRequestParams(input))
       .then((res) => res.json())
-      .then((data) => {
-        if (data?.data?.HelloGraphqlReact) {
-          setHelloResponse({
-            helloData: {
-              title: data.data.HelloGraphqlReact.title,
-              description: data.data.HelloGraphqlReact.description,
-            },
-          })
-        } else if (data.errors) {
-          throw new Error('check the network response for errors')
-        } else if (!data.errors && !data?.data?.HelloGraphqlReact) {
-          setHelloResponse({
-            helloData: {
-              title: null,
-              description: null,
-            },
-            error: null,
-          })
-        }
-      })
-      .catch((error: Error) => {
-        setHelloResponse({
-          error: error.message,
-        })
-      })
+      .then((res) => handleResponse(res))
+      .catch((error: Error) => handleErrors(error))
   }
 
   return (
@@ -93,7 +105,15 @@ const HelloGraphqlReact = () => {
           )}
         </div>
       )}
-      {helloResponse?.error && <p className="error">{helloResponse.error}</p>}
+      {helloResponse?.errors &&
+        helloResponse.errors.length > 0 &&
+        helloResponse.errors.map((error, i) => {
+          return (
+            <p className="error" key={i}>
+              {error}
+            </p>
+          )
+        })}
     </div>
   )
 }
