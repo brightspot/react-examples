@@ -11,7 +11,7 @@ import UuidUtils from 'brightspot-types/com/psddev/dari/util/UuidUtils'
 import JavaSet from 'brightspot-types/java/util/Set'
 
 export default class NotesEndpointClient extends JavaClass(
-  'brightspot.example.notes_cma.NotesEndpointClient',
+  'brightspot.example.notes.NotesEndpointClient',
   Modification.Of(AppEndpoint)
 ) {
   afterSave(): void {

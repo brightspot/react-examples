@@ -10,12 +10,12 @@ import Class from 'brightspot-types/java/lang/Class'
 import ToolUser from 'brightspot-types/com/psddev/cms/db/ToolUser'
 
 export default class NotesEndpoint extends JavaClass(
-  'brightspot.example.notes_cma.NotesEndpoint',
+  'brightspot.example.notes.NotesEndpoint',
   ContentManagementApiEndpoint,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
-    return ['/graphql/management/notes-cma/app'] as unknown as JavaSet<string>
+    return ['/graphql/management/notes'] as unknown as JavaSet<string>
   }
 
   getEntryFields(): List<ContentManagementEntryPointField> {
@@ -32,7 +32,7 @@ export default class NotesEndpoint extends JavaClass(
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
-    super.updateCorsConfiguration(corsConfiguration)
+    // TODO: super.updateCorsConfiguration(corsConfiguration)
     corsConfiguration.addAllowedOrigin('localhost')
   }
 }

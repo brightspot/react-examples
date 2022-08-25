@@ -5,7 +5,7 @@ import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Require
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 
 export default class Note extends JavaClass(
-  'brightspot.example.cma_next.Note',
+  'brightspot.example.notes.Note',
   Content
 ) {
   @JavaField(String)

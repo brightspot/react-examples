@@ -1,11 +1,11 @@
 {
-  "name": "notes-cma-brightspot",
+  "name": "notes-brightspot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write src"
   },
   "keywords": [],
   "author": "",
