@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction, useRef } from 'react'
 import styles from './NoteCard.module.css'
 import Modal from '../Modal'
 import { Data } from '../../pages'
@@ -29,6 +29,7 @@ const NoteCard = ({
   items,
   setItems,
 }: Props) => {
+  const optionsRef = useRef<HTMLUListElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
   const [formData, setFormData] = useState({
@@ -44,13 +45,27 @@ const NoteCard = ({
 
   const [error, setError] = useState({ isError: false, message: '' })
   useEffect(() => {
-    const closeOnEscapeKey = (e: { key: string }) =>
-      e.key === 'Escape' ? setShowOptions(false) : null
-    document.body.addEventListener('keydown', closeOnEscapeKey)
-    return () => {
-      document.body.removeEventListener('keydown', closeOnEscapeKey)
+    const closeOnEscape = (e: any) => {
+      if (showOptions && e.key === 'Escape') {
+        setShowOptions(false)
+      }
     }
-  }, [])
+    const closeOnMouseClickOutside = (e) => {
+      if (
+        showOptions &&
+        optionsRef.current &&
+        !optionsRef.current.contains(e.target)
+      ) {
+        setShowOptions(false)
+      }
+    }
+    document.body.addEventListener('keydown', closeOnEscape)
+    document.body.addEventListener('mousedown', closeOnMouseClickOutside)
+    return () => {
+      document.body.removeEventListener('keydown', closeOnEscape)
+      document.body.removeEventListener('mousedown', closeOnMouseClickOutside)
+    }
+  }, [showOptions])
 
   useEffect(() => {
     const timeId = setTimeout(() => {
@@ -133,13 +148,12 @@ const NoteCard = ({
             onClick={(e) => {
               e.stopPropagation()
               setShowOptions(true)
-              // submitDeleteNote()
             }}
           >
             <IoEllipsisVertical className={styles.optionsIcon} />
           </button>
           {showOptions && (
-            <ul className={styles.optionsList}>
+            <ul className={styles.optionsList} ref={optionsRef}>
               <li
                 onClick={() => {
                   setIsOpen(true)

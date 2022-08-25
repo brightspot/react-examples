@@ -11,6 +11,7 @@ const CreateNote = ({ items, setItems }: Props) => {
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
   const usernameRef = useRef<HTMLInputElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
   const [error, setError] = useState({ isError: false, message: '' })
   const [expanded, setExpanded] = useState(false)
 
@@ -24,6 +25,25 @@ const CreateNote = ({ items, setItems }: Props) => {
       }
     }
   }, [error.isError])
+
+  useEffect(() => {
+    const closeOnEscape = (e: any) => {
+      if (expanded && e.key === 'Escape') {
+        setExpanded(false)
+      }
+    }
+    const closeOnMouseClickOutside = (e) => {
+      if (expanded && formRef.current && !formRef.current.contains(e.target)) {
+        setExpanded(false)
+      }
+    }
+    document.body.addEventListener('keydown', closeOnEscape)
+    document.body.addEventListener('mousedown', closeOnMouseClickOutside)
+    return () => {
+      document.body.removeEventListener('keydown', closeOnEscape)
+      document.body.removeEventListener('mousedown', closeOnMouseClickOutside)
+    }
+  }, [expanded])
 
   // Refer to Stack Overflow response: https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index-javascript
   const insertItem = (arr: Data[], index: number, newItem: Data) => [
@@ -83,13 +103,14 @@ const CreateNote = ({ items, setItems }: Props) => {
       console.log(error)
     }
   }
-  console.log({ expanded })
+
   return (
     <form
       className={styles.createNoteForm}
+      ref={formRef}
       onSubmit={(e) => {
-        console.log('you are submitting')
         e.preventDefault()
+        setExpanded(false)
         submitNewNote()
       }}
     >

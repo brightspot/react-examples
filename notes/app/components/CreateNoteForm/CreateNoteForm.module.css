@@ -12,13 +12,7 @@
   margin: 0 auto;
 }
 
-.inputWrapper {
-  transition-property: background-color;
-  transition-duration: 5s;
-  transition-timing-function: linear;
-}
-
-.notCollapsed {
+.noteCollapsed {
   display: block;
 }
 
@@ -26,9 +20,10 @@
   display: none;
 }
 
-.notCollapsedInline {
+.noteCollapsedInline {
   display: inline-block;
 }
+
 .createNoteInput {
   width: 100%;
   font-size: 1rem;
@@ -53,6 +48,7 @@
   width: 100%;
   min-height: 30px;
   text-align: end;
+  margin-bottom: 4px;
 }
 
 .formButton:hover {

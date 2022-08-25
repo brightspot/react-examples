@@ -16,7 +16,7 @@
   --success: #28a745;
   --mainTransition: all 0.3s linear;
   --mainSpacing: 0.3rem;
-  --lightShadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+  --lightShadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
   --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
   --mainBorderRadius: 5px;
   --buttonBorderRadius: 22px;
