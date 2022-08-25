@@ -86,13 +86,13 @@ const Home: NextPage = () => {
         throw new Error()
       }
       const data = await response.json()
-      if (data?.brightspot_example_cma_next_NoteQuery) {
-        setItems(data?.brightspot_example_cma_next_NoteQuery?.items)
+      if (data?.brightspot_example_notes_NoteQuery) {
+        setItems(data?.brightspot_example_notes_NoteQuery?.items)
       }
 
-      if (data?.brightspot_example_cma_next_NoteQuery?.pageInfo) {
+      if (data?.brightspot_example_notes_NoteQuery?.pageInfo) {
         const { count, limit } =
-          data?.brightspot_example_cma_next_NoteQuery?.pageInfo
+          data?.brightspot_example_notes_NoteQuery?.pageInfo
         setNumberPages(Math.ceil(count / limit))
         setNumResults(count)
         setLimit(limit)
@@ -101,7 +101,7 @@ const Home: NextPage = () => {
       console.log(error)
     }
   }
-
+  console.log('items at the top: ', items)
   return (
     <>
       <Head>

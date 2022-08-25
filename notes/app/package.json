@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node openBrowser.js && next dev",
+    "dev": "node openBrowser.js && next dev",
     "build": "next build",
-    "start-next": "next start",
+    "start": "next start",
     "lint": "next lint",
     "format": "npx prettier --write src"
   },

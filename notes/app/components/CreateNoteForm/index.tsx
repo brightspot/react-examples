@@ -66,8 +66,8 @@ const CreateNote = ({ items, setItems }: Props) => {
       }
 
       const data = await response.json()
-      if (data.brightspot_example_cma_next_NoteSave) {
-        const newItem = data.brightspot_example_cma_next_NoteSave
+      if (data.brightspot_example_notes_NoteSave) {
+        const newItem = data.brightspot_example_notes_NoteSave
         setItems(insertItem(items, 0, newItem))
         if (titleRef?.current?.value) {
           titleRef.current.value = ''

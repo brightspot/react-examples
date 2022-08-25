@@ -3,6 +3,8 @@ import styles from './NoteCard.module.css'
 import Modal from '../Modal'
 import { Data } from '../../pages'
 import { IoEllipsisVertical } from 'react-icons/io5'
+import { RiDeleteBinLine } from 'react-icons/ri'
+import { MdOutlineEdit } from 'react-icons/md'
 
 type Props = {
   title: string
@@ -41,6 +43,14 @@ const NoteCard = ({
   })
 
   const [error, setError] = useState({ isError: false, message: '' })
+  useEffect(() => {
+    const closeOnEscapeKey = (e: { key: string }) =>
+      e.key === 'Escape' ? setShowOptions(false) : null
+    document.body.addEventListener('keydown', closeOnEscapeKey)
+    return () => {
+      document.body.removeEventListener('keydown', closeOnEscapeKey)
+    }
+  }, [])
 
   useEffect(() => {
     const timeId = setTimeout(() => {
@@ -72,8 +82,8 @@ const NoteCard = ({
       }
       const data = await response.json()
 
-      if (data?.brightspot_example_cma_next_NoteDelete) {
-        const itemToRemoveId = data.brightspot_example_cma_next_NoteDelete?._id
+      if (data?.brightspot_example_notes_NoteDelete) {
+        const itemToRemoveId = data.brightspot_example_notes_NoteDelete?._id
         const filteredItems = items.filter(
           (item) => item._id !== itemToRemoveId
         )
@@ -101,9 +111,6 @@ const NoteCard = ({
       <div
         className={styles.noteCard}
         key={id}
-        onClick={() => {
-          setIsOpen(true)
-        }}
         data-hide={isOpen ? true : null}
       >
         <div className={styles.noteForm}>
@@ -132,12 +139,24 @@ const NoteCard = ({
             <IoEllipsisVertical className={styles.optionsIcon} />
           </button>
           {showOptions && (
-            <div className={styles.optionsContainer}>
-              <ul>
-                <li>Update</li>
-                <li>Delete</li>
-              </ul>
-            </div>
+            <ul className={styles.optionsList}>
+              <li
+                onClick={() => {
+                  setIsOpen(true)
+                }}
+              >
+                <RiDeleteBinLine />
+                <span>Update</span>
+              </li>
+              <li
+                onClick={() => {
+                  submitDeleteNote()
+                }}
+              >
+                <MdOutlineEdit />
+                <span>Delete</span>
+              </li>
+            </ul>
           )}
           {error && <span className={styles.error}>{error.message}</span>}
         </div>

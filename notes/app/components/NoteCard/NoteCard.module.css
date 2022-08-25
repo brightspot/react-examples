@@ -72,32 +72,42 @@
   font-style: italic;
 }
 
-.deleteButton {
+.optionsList {
+  list-style-type: none;
+  position: absolute;
+  right: 07px;
+  bottom: 27px;
+  box-shadow: var(--lightShadow);
+  border-radius: var(--mainBorderRadius);
+  padding: 10px 1rem;
+  line-height: 2;
+}
+
+.optionsList span {
+  margin-left: 7px;
+}
+
+.optionsButton {
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 25px;
   height: 25px;
-  border: 1px solid var(--primaryRed);
-  background-color: #fff;
+  border: 0;
+  background-color: transparent;
   transition: all 0.5s ease-out;
   position: absolute;
   right: 10px;
   bottom: 10px;
 }
 
-.deleteButton:hover {
+.optionsButton:hover {
   cursor: pointer;
-  background-color: var(--primaryRed);
 }
 
-.deleteIcon {
+.optionsIcon {
   color: var(--primaryRed);
   width: 20px;
   height: 20px;
-}
-
-.deleteIcon:hover {
-  color: #fff;
 }

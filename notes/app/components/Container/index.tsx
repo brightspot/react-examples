@@ -10,6 +10,7 @@ type Props = {
 }
 
 const Container = ({ items, setItems }: Props) => {
+  console.log('items in container: ', items)
   return (
     <section className={styles.section}>
       <CreateNote items={items} setItems={setItems} />

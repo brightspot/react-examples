@@ -7,11 +7,11 @@ const CREATE_AND_UPDATE_NOTE = gql`
     $description: String
     $title: String
   ) {
-    brightspot_example_cma_next_NoteSave(
+    brightspot_example_notes_NoteSave(
       toolUser: $toolUser
       diffs: {
         id: $id
-        brightspot_example_cma_next_NoteDiff: {
+        brightspot_example_notes_NoteDiff: {
           description: $description
           title: $title
         }
@@ -39,20 +39,20 @@ const CREATE_AND_UPDATE_NOTE = gql`
 
 const GET_NOTES = gql`
   query GetNotes($arguments: [String], $offset: Long = 0, $limit: Int = 6) {
-    brightspot_example_cma_next_NoteQuery(
-      where: { predicate: "* matches ?", arguments: $arguments }
+    brightspot_example_notes_NoteQuery(
       sorts: { order: descending, options: "cms.content.updateDate" }
+      where: { predicate: "* matches ?", arguments: $arguments }
       offset: $offset
       limit: $limit
     ) {
       items {
+        title
         description
         _id
-        title
         _globals {
           com_psddev_cms_db_Content_ObjectModification {
-            publishDate
             updateDate
+            publishDate
             publishUser {
               username
             }
@@ -73,7 +73,7 @@ const GET_NOTES = gql`
 
 const DELETE_NOTE = gql`
   mutation DeleteNote($id: ID = "") {
-    brightspot_example_cma_next_NoteDelete(id: $id, permanently: true) {
+    brightspot_example_notes_NoteDelete(id: $id, permanently: true) {
       _id
       description
       title

@@ -111,31 +111,31 @@ function Modal({
 
       const data = await response.json()
 
-      if (data?.brightspot_example_cma_next_NoteSave) {
+      if (data?.brightspot_example_notes_NoteSave) {
         setFormData({
-          id: data?.brightspot_example_cma_next_NoteSave._id,
-          title: data?.brightspot_example_cma_next_NoteSave.title,
-          description: data?.brightspot_example_cma_next_NoteSave.description,
+          id: data?.brightspot_example_notes_NoteSave._id,
+          title: data?.brightspot_example_notes_NoteSave.title,
+          description: data?.brightspot_example_notes_NoteSave.description,
           username:
-            data.brightspot_example_cma_next_NoteSave._globals
+            data.brightspot_example_notes_NoteSave._globals
               .com_psddev_cms_db_Content_ObjectModification.updateUser.username,
           publishUser:
-            data.brightspot_example_cma_next_NoteSave._globals
+            data.brightspot_example_notes_NoteSave._globals
               .com_psddev_cms_db_Content_ObjectModification.publishUser
               .username,
           publishDate:
-            data.brightspot_example_cma_next_NoteSave._globals
+            data.brightspot_example_notes_NoteSave._globals
               .com_psddev_cms_db_Content_ObjectModification.publishDate,
           updateUser:
-            data.brightspot_example_cma_next_NoteSave._globals
+            data.brightspot_example_notes_NoteSave._globals
               .com_psddev_cms_db_Content_ObjectModification.updateUser.username,
           updateDate:
-            data.brightspot_example_cma_next_NoteSave._globals
+            data.brightspot_example_notes_NoteSave._globals
               .com_psddev_cms_db_Content_ObjectModification.updateDate,
         })
         handleClose()
       }
-      if (!data?.brightspot_example_cma_next_NoteSave) {
+      if (!data?.brightspot_example_notes_NoteSave) {
         setFormData({
           ...formData,
           title: title,
