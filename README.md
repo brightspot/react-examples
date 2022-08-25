@@ -1,26 +1,33 @@
 # react-examples
-Collection of React examples demonstrating various Brightspot functionality and use cases.
 
+This repository is a collection of React examples demonstrating various Brightspot functionality and use cases.
 
-## Installation
-Clone or download this repository. Make sure you have [Docker](https://www.docker.com/) installed. If you do not, follow the instructions on the [Docker Getting Started Page](https://www.docker.com/get-started/) to download Docker for your OS and then install the package to get the Docker daemon up and running on your machine.
+Each example application directory is comprised of the following:
 
-You will need [Node](https://nodejs.org/en/) version 16 or higher for these tutorials.
+- `app`: frontend application
+- `brightspot`: JS Classes for Brightspot
+- `README.md`: Explanation and instructions for the example app
 
+After starting Brightspot (see the instructions below), refer to the README located in the example application directory of your choice for further information on uploading JS Classes and running the frontend application.
 
-## Running Brightspot
-Change directories (cd) to the tutorial directory of your choice. Then cd into `brightspot` and run
-```bash
-./brightspot-server-install.sh
+## Requirements for running example applications
+
+- [Node](https://nodejs.org/en/) version 16 or higher
+- [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/)
+
+## Starting Brightspot
+
+1. Clone the `react-examples` repository.
+2. In the root of the repository, run
+
+```
+docker-compose up -d
 ```
 
-Next,  cd into `brightspot-server` -> `<tutorial directory name>`. To initialize the docker instance, run `docker/up`. To start and stop the docker instance thereafter run `docker/start` or `docker/stop`. To completely remove the docker instance run `docker/down`. You can also restart the container with `docker/restart`.
+Other helpful docker-compose commands:
 
-Once the docker instance is running, navigate to `http://localhost/cms` in your browser. Login with the username and password of your choosing. 
-
-
-## Installing JS Classes
-In a separate terminal window, start at the root of the repository, cd into `<tutorial directory name>` -> `brightspot`.  then run `yarn`. Next, run `npx brightspot login` to login. After logging in, run `npx brightspot types download`. Finally, run `npx brightspot types upload src`. Navigate to the cms (http://localhost/cms) and verify that the content successfully uploaded. You can verify which content to expect by checking the `src/brightspot/example` directory.  
-
-
-Once complete, return to the README for the tutorial to continue.
+- `docker-compose start`: start container
+- `docker-compose stop`: stop container
+- `docker-compose down`: delete container
+- `docker-compose up`: to run container without detaching to run it in the background
+- `docker-compose down -v`: delete container and volumes
