@@ -23,16 +23,14 @@ export default class HelloGraphqlReactEndpoint extends JavaClass(
 
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
     return [
-      {
-        vmClass:
-          HelloGraphqlReactViewModel.class as Class<HelloGraphqlReactViewModel>,
-      },
+      HelloGraphqlReactViewModel.class as Class<HelloGraphqlReactViewModel>,
     ].map(
-      (field) => new ContentDeliveryEntryPointField(field.vmClass)
+      (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
+    // TODO: super.updateCorsConfiguration(corsConfiguration)
     corsConfiguration.addAllowedOrigin('localhost')
   }
 

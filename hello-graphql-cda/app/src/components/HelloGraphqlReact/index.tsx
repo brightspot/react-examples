@@ -10,23 +10,21 @@ query HelloGraphqlReact($id: ID) {
 `
 
 type HelloData = {
-  title?: string
-  description?: string
+  title?: string | null
+  description?: string | null
 }
 
-type HelloError = {
-  isError: boolean
-  message: string
+type HelloResponse = {
+  helloData?: HelloData
+  error?: string | null
 }
 
 const HelloGraphqlReact = () => {
-  const [error, setError] = useState({} as HelloError)
-  const [helloContent, setHelloContent] = useState({} as HelloData)
+  const [helloResponse, setHelloResponse] = useState<HelloResponse>()
+  const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
-  const GRAPHQL = process.env.REACT_APP_GRAPHQL_URL ?? ''
-
-  const fetchandSetContent = (input: string) => {
-    fetch(GRAPHQL, {
+  const fetchAndSetContent = (input: string) => {
+    fetch(GRAPHQL_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,49 +39,61 @@ const HelloGraphqlReact = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data?.data?.HelloGraphqlReact) {
-          setHelloContent({
-            title: data.data.HelloGraphqlReact.title,
-            description: data.data.HelloGraphqlReact.description,
+          setHelloResponse({
+            helloData: {
+              title: data.data.HelloGraphqlReact.title,
+              description: data.data.HelloGraphqlReact.description,
+            },
           })
         } else if (data.errors) {
-          setError({
-            isError: true,
-            message: data.errors[0]?.message || 'an error occurred',
+          throw new Error('check the network response for errors')
+        } else if (!data.errors && !data?.data?.HelloGraphqlReact) {
+          setHelloResponse({
+            helloData: {
+              title: null,
+              description: null,
+            },
+            error: null,
           })
         }
       })
-      .catch((error) => {
-        console.log(error)
+      .catch((error: Error) => {
+        setHelloResponse({
+          error: error.message,
+        })
       })
   }
 
   return (
     <div className="container">
       <div className="input-wrapper">
-        <label htmlFor="permalink">
+        <label htmlFor="id-url">
           Enter your Hello GraphQL React ID or URL:
         </label>
         <input
           required
-          name="permalink-id"
-          maxLength={30}
+          name="id-url"
           onChange={(e) => {
             e.preventDefault()
-            setError({ isError: false, message: '' })
-            setHelloContent({ title: '', description: '' })
             if (e.target.value && e.target.value.trim() !== '') {
-              fetchandSetContent(e.target.value)
+              fetchAndSetContent(e.target.value)
             }
           }}
         />
       </div>
-      {helloContent.title && (
+      {helloResponse?.helloData && (
         <div className="content-container">
-          <h1 className="content-text">{helloContent.title}</h1>
-          <h3 className="content-text">{helloContent.description}</h3>
+          {helloResponse.helloData.title && (
+            <h1 className="content-text">{helloResponse.helloData.title}</h1>
+          )}
+          {helloResponse.helloData.description && (
+            <h3 className="content-text">
+              {helloResponse.helloData.description}
+            </h3>
+          )}
         </div>
       )}
-      {error.isError && <p className="error">{error.message}</p>}
+      {helloResponse?.error && <p className="error">{helloResponse.error}</p>}
     </div>
   )
 }
