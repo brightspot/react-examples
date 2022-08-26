@@ -12,7 +12,7 @@ const CreateNote = ({ items, setItems }: Props) => {
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
   const usernameRef = useRef<HTMLInputElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
-  const [error, setError] = useState({ isError: false, message: '' })
+  const [error, setError] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
 
   // refer to Stack Overflow response: https://stackoverflow.com/questions/71193818/react-onclick-argument-of-type-eventtarget-is-not-assignable-to-parameter-of-t
@@ -23,16 +23,16 @@ const CreateNote = ({ items, setItems }: Props) => {
   }
 
   useEffect(() => {
-    if (error.isError) {
+    if (error) {
       const timeId = setTimeout(() => {
-        setError({ isError: false, message: '' })
+        setError(null)
       }, 3000)
       return () => {
         clearTimeout(timeId)
       }
     }
-  }, [error.isError])
-
+  }, [error, expanded])
+  console.log(error)
   useEffect(() => {
     const closeOnEscape = (e: any) => {
       if (expanded && e.key === 'Escape') {
@@ -86,16 +86,13 @@ const CreateNote = ({ items, setItems }: Props) => {
           },
         }
       )
-      if (response.status >= 400) {
-        setError({
-          isError: true,
-          message:
-            'Cannot create note. First, confirm Username in Brightspot... ',
-        })
+      if (response.status === 401) {
+        setError('Check that Username is accurate and exists in Brightspot')
         throw new Error()
       }
 
       const data = await response.json()
+      console.log({ data })
       if (data.brightspot_example_notes_NoteSave) {
         const newItem = data.brightspot_example_notes_NoteSave
         setItems(insertItem(items, 0, newItem))
@@ -108,6 +105,7 @@ const CreateNote = ({ items, setItems }: Props) => {
         if (usernameRef?.current?.value) {
           usernameRef.current.value = ''
         }
+        setExpanded(false)
       }
     } catch (error) {
       console.log(error)
@@ -120,7 +118,6 @@ const CreateNote = ({ items, setItems }: Props) => {
       ref={formRef}
       onSubmit={(e) => {
         e.preventDefault()
-        setExpanded(false)
         submitNewNote()
       }}
     >
@@ -155,16 +152,12 @@ const CreateNote = ({ items, setItems }: Props) => {
           />
         </div>
       </div>
+      {error && <p className={styles.error}>{error}</p>}
       <div
         className={`${styles.createNoteBottom} ${
           expanded ? styles.notCollapsedInline : styles.collapsed
         }`}
       >
-        {error.isError && (
-          <span
-            className={styles.error}
-          >{`There is an error! ${error.message}`}</span>
-        )}
         <button
           type="submit"
           className={`${styles.formButton} ${
@@ -175,7 +168,13 @@ const CreateNote = ({ items, setItems }: Props) => {
         </button>
         <button
           type="button"
-          onClick={() => setExpanded(false)}
+          onClick={() => {
+            setExpanded(false)
+            if (titleRef?.current?.value) titleRef.current.value = ''
+            if (descriptionRef?.current?.value)
+              descriptionRef.current.value = ''
+            if (usernameRef?.current?.value) usernameRef.current.value = ''
+          }}
           className={`${styles.formButton} ${
             expanded ? styles.notCollapsedInline : styles.collapsed
           }`}

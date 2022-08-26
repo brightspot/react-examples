@@ -44,7 +44,6 @@ const Home: NextPage = () => {
   const [limit, setLimit] = useState<number | null>(null)
 
   useEffect(() => {
-    console.log('running fetch to get base notes')
     const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
     fetch(baseUrl, dataRequestParams())
       .then((res) => res.json())
@@ -100,7 +99,6 @@ const Home: NextPage = () => {
   }
 
   const handleError = (error: string) => {
-    console.log(error)
     setError('an unexpected error occurred')
   }
 
