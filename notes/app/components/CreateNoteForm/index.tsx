@@ -32,7 +32,7 @@ const CreateNote = ({ items, setItems }: Props) => {
       }
     }
   }, [error, expanded])
-  console.log(error)
+
   useEffect(() => {
     const closeOnEscape = (e: any) => {
       if (expanded && e.key === 'Escape') {
@@ -75,42 +75,55 @@ const CreateNote = ({ items, setItems }: Props) => {
       toolUser: inputUsername,
     }
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`,
-        {
-          body: JSON.stringify(dataToSubmit),
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      if (response.status === 401) {
-        setError('Check that Username is accurate and exists in Brightspot')
-        throw new Error()
-      }
-
-      const data = await response.json()
-      console.log({ data })
-      if (data.brightspot_example_notes_NoteSave) {
-        const newItem = data.brightspot_example_notes_NoteSave
-        setItems(insertItem(items, 0, newItem))
-        if (titleRef?.current?.value) {
-          titleRef.current.value = ''
-        }
-        if (descriptionRef?.current?.value) {
-          descriptionRef.current.value = ''
-        }
-        if (usernameRef?.current?.value) {
-          usernameRef.current.value = ''
-        }
-        setExpanded(false)
-      }
-    } catch (error) {
-      console.log(error)
+    const url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`
+    const params = {
+      body: JSON.stringify(dataToSubmit),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
+
+    // TODO
+    const processResponse = (res: any) => {
+      console.log(res)
+    }
+
+    fetch(url, params)
+      .then((res) => res.json())
+      .then((res) => processResponse(res))
   }
+
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`,
+
+  //     )
+  //     if (response.status === 401) {
+  //       setError('Check that Username is accurate and exists in Brightspot')
+  //       throw new Error()
+  //     }
+
+  //     const data = await response.json()
+  //     console.log({ data })
+  //     if (data.brightspot_example_notes_NoteSave) {
+  //       const newItem = data.brightspot_example_notes_NoteSave
+  //       setItems(insertItem(items, 0, newItem))
+  //       if (titleRef?.current?.value) {
+  //         titleRef.current.value = ''
+  //       }
+  //       if (descriptionRef?.current?.value) {
+  //         descriptionRef.current.value = ''
+  //       }
+  //       if (usernameRef?.current?.value) {
+  //         usernameRef.current.value = ''
+  //       }
+  //       setExpanded(false)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <form
