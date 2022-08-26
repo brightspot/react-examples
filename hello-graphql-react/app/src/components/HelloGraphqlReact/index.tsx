@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const HelloQuery = `
 query HelloGraphqlReact($id: ID) {
-  HelloGraphqlReact(id: $id) {
+  HelloGraphqlReac(id: $id) {
     title
     description
   }
@@ -41,6 +41,7 @@ const HelloGraphqlReact = () => {
   const handleResponse = (res: any) => {
     if (res?.data?.HelloGraphqlReact) {
       setHelloResponse({
+        ...handleResponse,
         helloData: {
           title: res.data.HelloGraphqlReact.title,
           description: res.data.HelloGraphqlReact.description,
@@ -48,16 +49,20 @@ const HelloGraphqlReact = () => {
       })
     }
     if (res.errors) {
-      let errorArray = []
+      let errorMessages = []
       for (let item of res.errors) {
-        errorArray.push(item.message)
+        errorMessages.push(item.message)
       }
-      setHelloResponse({ errors: [...errorArray] })
+      setHelloResponse({
+        ...handleResponse,
+        errors: [...errorMessages],
+      })
     }
   }
 
   const handleError = (error: Error) => {
     setHelloResponse({
+      ...handleResponse,
       errors: [error.message],
     })
   }
