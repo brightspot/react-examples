@@ -16,7 +16,7 @@ type HelloData = {
 
 type HelloResponse = {
   helloData?: HelloData
-  errors?: string[] | null
+  errors?: string[]
 }
 
 const HelloGraphqlReact = () => {
@@ -53,14 +53,6 @@ const HelloGraphqlReact = () => {
         errorArray.push(item.message)
       }
       setHelloResponse({ errors: [...errorArray] })
-    } else if (!res.errors && !res?.data?.HelloGraphqlReact) {
-      setHelloResponse({
-        helloData: {
-          title: '',
-          description: '',
-        },
-        errors: null,
-      })
     }
   }
 
@@ -90,6 +82,8 @@ const HelloGraphqlReact = () => {
             e.preventDefault()
             if (e.target.value && e.target.value.trim() !== '') {
               fetchAndSetContent(e.target.value)
+            } else {
+              setHelloResponse({})
             }
           }}
         />
