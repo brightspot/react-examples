@@ -9,7 +9,7 @@ type Props = {
 }
 
 const Notes = ({ items, setItems }: Props) => {
-  console.log({ items })
+  console.log('items in Notes component: ', items)
   return (
     <div className={styles.container}>
       {items &&

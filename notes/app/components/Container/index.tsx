@@ -1,5 +1,5 @@
 import Notes from '../Notes'
-import CreateNote from '../CreateNoteForm'
+import CreateNoteForm from '../CreateNoteForm'
 import styles from './Container.module.css'
 import { Data } from '../../pages/index'
 import { Dispatch, SetStateAction } from 'react'
@@ -12,7 +12,7 @@ type Props = {
 const Container = ({ items, setItems }: Props) => {
   return (
     <section className={styles.section}>
-      <CreateNote items={items} setItems={setItems} />
+      <CreateNoteForm items={items} setItems={setItems} />
       <Notes setItems={setItems} items={items} />
     </section>
   )

@@ -14,11 +14,16 @@ export default async function handler(
       fetchPolicy: 'no-cache',
       variables: {
         arguments: req.query.q || '*',
-        offset: req.query.page,
+        offset: req.query.offset,
       },
     })
     res.status(200).json(data)
   } catch (error: any) {
-    res.status(400).json(error.message)
+    if (error.message) {
+      console.log('there is an error.message ', error.message)
+      res.status(400).json({ error: error.message })
+    } else {
+      res.status(400).json(error)
+    }
   }
 }

@@ -11,9 +11,9 @@ import { BsPencilSquare } from 'react-icons/bs'
 import styles from './Navbar.module.css'
 
 type Props = {
-  getItems: Function
+  getItems: (queryItem?: string, pageNumber?: number) => void
   numResults: number | null
-  setNumResults: Dispatch<SetStateAction<null>>
+  setNumResults: Dispatch<SetStateAction<number | null>>
 }
 
 const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
@@ -44,10 +44,11 @@ const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
   const handleSearch = () => {
     if (!inputRef?.current?.value) {
       getItems()
+      return
     }
     const timer = setTimeout(async () => {
       if (inputRef?.current?.value) {
-        console.log('you are here!! running use effect')
+        console.log('you are here!! running use effect in NavBar to getItems()')
         getItems(inputRef?.current?.value)
       }
     }, 700)

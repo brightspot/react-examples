@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 import Head from 'next/head'
 import PaginationBar from '../components/PaginationBar'
 
-export interface Data {
+export type Data = {
   title: string
   description: string
   _id: string
@@ -23,85 +23,94 @@ export interface Data {
   }
 }
 
+type PageInfo = {
+  count: number
+  limit: number
+}
+
+type QueryResponse = {
+  error?: string
+  brightspot_example_notes_NoteQuery: {
+    items?: Data[]
+    pageInfo?: PageInfo
+  }
+}
+
 const Home: NextPage = () => {
   const [items, setItems] = useState<Data[]>([])
-  const [error, setError] = useState({ isError: false, message: '' })
+  const [error, setError] = useState<string | null>(null)
   const [numberPages, setNumberPages] = useState(0)
-  const [pageNumber, setPageNumber] = useState(1)
-  const [numResults, setNumResults] = useState(null)
-  const [limit, setLimit] = useState(null)
+  const [numResults, setNumResults] = useState<number | null>(null)
+  const [limit, setLimit] = useState<number | null>(null)
 
   useEffect(() => {
-    const timeId = setTimeout(() => {
-      setError({ isError: false, message: '' })
-    }, 3000)
-    return () => {
-      clearTimeout(timeId)
-    }
-  }, [error.isError])
+    console.log('running fetch to get base notes')
+    const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
+    fetch(baseUrl, dataRequestParams())
+      .then((res) => res.json())
+      .then((res) => processResponse(res))
+      .catch((error) => handleError(error))
+  }, [])
 
-  useEffect(() => {
-    getItems()
-  }, [pageNumber])
-
-  function getPageNumber(pageNumber: number): number {
+  function calculateOffset(pageNumber: number): number {
     let updatedPageNumber = 0
     if (limit) {
       const index = pageNumber - 1
       updatedPageNumber = limit * index
-    } else {
-      console.log('no limit was provided')
     }
     return updatedPageNumber
   }
 
-  function urlBuilder(queryItem: string): string {
+  function urlBuilder(pageNumber: number, queryItem?: string): string {
     let url = ''
     if (queryItem) {
-      console.log('querItem in urlBuilder: ', queryItem)
-      url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?page=${getPageNumber(
-        pageNumber
-      )}&q=${queryItem}`
+      url = `${
+        process.env.NEXT_PUBLIC_HOST
+      }/api/notes/?offset=${calculateOffset(pageNumber)}&q=${queryItem}`
     } else if (!queryItem) {
-      url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?page=${getPageNumber(
-        pageNumber
-      )}`
+      url = `${
+        process.env.NEXT_PUBLIC_HOST
+      }/api/notes/?offset=${calculateOffset(pageNumber)}`
     }
     return url
   }
 
-  async function getItems(queryItem: string = '') {
-    try {
-      const response = await fetch(urlBuilder(queryItem), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'GET',
-      })
-      if (!response.ok) {
-        setError({
-          isError: true,
-          message: `There was an error fetching the data: ${response.statusText}`,
-        })
-        throw new Error()
-      }
-      const data = await response.json()
-      if (data?.brightspot_example_notes_NoteQuery) {
-        setItems(data?.brightspot_example_notes_NoteQuery?.items)
-      }
-
-      if (data?.brightspot_example_notes_NoteQuery?.pageInfo) {
-        const { count, limit } =
-          data?.brightspot_example_notes_NoteQuery?.pageInfo
-        setNumberPages(Math.ceil(count / limit))
-        setNumResults(count)
-        setLimit(limit)
-      }
-    } catch (error) {
-      console.log(error)
+  const dataRequestParams = () => {
+    return {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
     }
   }
-  console.log('items at the top: ', items)
+
+  const processResponse = (res: QueryResponse): void => {
+    if (res.error) {
+      setError(res.error)
+    }
+    if (res?.brightspot_example_notes_NoteQuery?.items) {
+      setItems(res.brightspot_example_notes_NoteQuery.items)
+    }
+    if (res?.brightspot_example_notes_NoteQuery?.pageInfo) {
+      const { count, limit } = res.brightspot_example_notes_NoteQuery.pageInfo
+      setNumberPages(Math.ceil(count / limit))
+      setNumResults(count)
+      setLimit(limit)
+    }
+  }
+
+  const handleError = (error: string) => {
+    console.log(error)
+    setError('an unexpected error occurred')
+  }
+
+  function getItems(queryItem: string = '', pageNumber: number = 0) {
+    fetch(urlBuilder(pageNumber, queryItem), dataRequestParams())
+      .then((res) => res.json())
+      .then((res) => processResponse(res))
+      .catch((error) => handleError(error))
+  }
+
   return (
     <>
       <Head>
@@ -115,12 +124,8 @@ const Home: NextPage = () => {
       />
 
       <Container items={items} setItems={setItems} />
-      <PaginationBar
-        numberPages={numberPages}
-        setPageNumber={setPageNumber}
-        pageNumber={pageNumber}
-      />
-      {error.isError && <div id="error">{error.message}</div>}
+      <PaginationBar getItems={getItems} numberPages={numberPages} />
+      {error && <div id="error">{error}</div>}
     </>
   )
 }

@@ -1,36 +1,38 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import styles from './PaginationBar.module.css'
 import { FiChevronRight } from 'react-icons/fi'
 import { FiChevronLeft } from 'react-icons/fi'
 
 type Props = {
   numberPages: number
-  pageNumber: number
-  setPageNumber: Dispatch<SetStateAction<number>>
+  getItems: (queryItem?: string, pageNumber?: number) => void
 }
 
-const PaginationBar = ({ numberPages, pageNumber, setPageNumber }: Props) => {
-  const pages = Array.from(new Array(numberPages), (x, i) => i + 1)
-
+const PaginationBar = ({ numberPages, getItems }: Props) => {
+  const pages = Array.from(new Array(numberPages), (_, i) => i + 1)
+  const [pageNumber, setPageNumber] = useState(1)
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
   const pageNumberList = 5
 
-  const handleNextBtn = () => {
-    setPageNumber(pageNumber + 1)
-    if (pageNumber + 1 > maxPageNumberLimit) {
+  const handleNextBtn = (num: number) => {
+    setPageNumber(num)
+    if (num > maxPageNumberLimit) {
       setMaxPageNumberLimit(maxPageNumberLimit + pageNumberList)
       setMinPageNumberLimit(minPageNumberLimit + pageNumberList)
     }
+    getItems('', num)
   }
 
-  const handlePrevBtn = () => {
-    setPageNumber(pageNumber - 1)
-    if ((pageNumber - 1) % pageNumberList === 0) {
+  const handlePrevBtn = (num: number) => {
+    setPageNumber(num)
+    if (num % pageNumberList === 0) {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberList)
       setMinPageNumberLimit(minPageNumberLimit - pageNumberList)
     }
+    getItems('', num)
   }
+
   return (
     <div className={styles.paginationBarContainer}>
       {numberPages > 1 && (
@@ -39,7 +41,10 @@ const PaginationBar = ({ numberPages, pageNumber, setPageNumber }: Props) => {
             <button
               className={styles.prevNextBtn}
               disabled={pageNumber === pages[0]}
-              onClick={handlePrevBtn}
+              onClick={() => {
+                console.log('current page number: ', pageNumber)
+                handlePrevBtn(pageNumber - 1)
+              }}
             >
               <FiChevronLeft />
             </button>
@@ -62,6 +67,7 @@ const PaginationBar = ({ numberPages, pageNumber, setPageNumber }: Props) => {
                   key={number}
                   onClick={(e) => {
                     setPageNumber(number)
+                    getItems('', number)
                   }}
                 >
                   {number}
@@ -77,7 +83,7 @@ const PaginationBar = ({ numberPages, pageNumber, setPageNumber }: Props) => {
           <li className={styles.pageNumberItem}>
             <button
               className={styles.prevNextBtn}
-              onClick={handleNextBtn}
+              onClick={() => handleNextBtn(pageNumber + 1)}
               disabled={pageNumber === pages[pages.length - 1]}
             >
               <FiChevronRight />

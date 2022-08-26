@@ -15,6 +15,13 @@ const CreateNote = ({ items, setItems }: Props) => {
   const [error, setError] = useState({ isError: false, message: '' })
   const [expanded, setExpanded] = useState(false)
 
+  // refer to Stack Overflow response: https://stackoverflow.com/questions/71193818/react-onclick-argument-of-type-eventtarget-is-not-assignable-to-parameter-of-t
+  function assertIsNode(e: EventTarget | null): asserts e is Node {
+    if (!e || !('nodeType' in e)) {
+      throw new Error(`Node expected`)
+    }
+  }
+
   useEffect(() => {
     if (error.isError) {
       const timeId = setTimeout(() => {
@@ -32,8 +39,11 @@ const CreateNote = ({ items, setItems }: Props) => {
         setExpanded(false)
       }
     }
-    const closeOnMouseClickOutside = (e) => {
-      if (expanded && formRef.current && !formRef.current.contains(e.target)) {
+    const closeOnMouseClickOutside = ({
+      target,
+    }: MouseEvent | KeyboardEvent) => {
+      assertIsNode(target)
+      if (expanded && formRef.current && !formRef.current.contains(target)) {
         setExpanded(false)
       }
     }

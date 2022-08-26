@@ -34,13 +34,18 @@
   border: 1.5px solid var(--moduleBgColor);
   padding: 10px;
   font-size: 1rem;
-  cursor: pointer;
   color: var(--moduleBgColor);
 }
 
-.prevNextBtn:hover {
+.prevNextBtn:hover:enabled {
   background-color: var(--moduleBgColor);
   color: #fff;
+  cursor: pointer;
+}
+
+.prevNextBtn:disabled {
+  border: 1px solid var(--grayscaleFive);
+  color: var(--grayscaleFive);
 }
 
 .ellipses {
