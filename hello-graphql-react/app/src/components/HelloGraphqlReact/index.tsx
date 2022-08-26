@@ -16,7 +16,7 @@ type HelloData = {
 
 type HelloResponse = {
   helloData?: HelloData
-  errors?: string[]
+  errors?: string[] | null
 }
 
 const HelloGraphqlReact = () => {
@@ -46,7 +46,8 @@ const HelloGraphqlReact = () => {
           description: res.data.HelloGraphqlReact.description,
         },
       })
-    } else if (res.errors) {
+    }
+    if (res.errors) {
       let errorArray = []
       for (let item of res.errors) {
         errorArray.push(item.message)
@@ -58,12 +59,12 @@ const HelloGraphqlReact = () => {
           title: '',
           description: '',
         },
-        errors: [],
+        errors: null,
       })
     }
   }
 
-  const handleErrors = (error: Error) => {
+  const handleError = (error: Error) => {
     setHelloResponse({
       errors: [error.message],
     })
@@ -73,7 +74,7 @@ const HelloGraphqlReact = () => {
     fetch(GRAPHQL_URL, dataRequestParams(input))
       .then((res) => res.json())
       .then((res) => handleResponse(res))
-      .catch((error: Error) => handleErrors(error))
+      .catch((error: Error) => handleError(error))
   }
 
   return (
@@ -106,7 +107,6 @@ const HelloGraphqlReact = () => {
         </div>
       )}
       {helloResponse?.errors &&
-        helloResponse.errors.length > 0 &&
         helloResponse.errors.map((error, i) => {
           return (
             <p className="error" key={i}>
