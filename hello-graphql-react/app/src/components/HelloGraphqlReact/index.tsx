@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const HelloQuery = `
 query HelloGraphqlReact($id: ID) {
-  HelloGraphqlReac(id: $id) {
+  HelloGraphqlReact(id: $id) {
     title
     description
   }
