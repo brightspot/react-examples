@@ -1,129 +1,95 @@
 import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react'
 import styles from './CreateNoteForm.module.css'
 import { Data } from '../../pages'
+import { assertIsNode, runErrorWithTimeout } from '../../lib/utils'
 
 type Props = {
-  items: Data[]
-  setItems: Dispatch<SetStateAction<Data[]>>
+  getItems: (
+    pageNumber: number,
+    predicate: boolean,
+    queryItem?: string,
+    newItem?: Data
+  ) => void
+  pageNumber: number
 }
 
-const CreateNote = ({ items, setItems }: Props) => {
+type SubmittedData = {
+  title?: string
+  description?: string
+  toolUser?: string
+}
+
+const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
   const usernameRef = useRef<HTMLInputElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const [error, setError] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
-
-  // refer to Stack Overflow response: https://stackoverflow.com/questions/71193818/react-onclick-argument-of-type-eventtarget-is-not-assignable-to-parameter-of-t
-  function assertIsNode(e: EventTarget | null): asserts e is Node {
-    if (!e || !('nodeType' in e)) {
-      throw new Error(`Node expected`)
+  const url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`
+  const params = (data: SubmittedData) => {
+    return {
+      body: JSON.stringify(data),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
   }
 
   useEffect(() => {
-    if (error) {
-      const timeId = setTimeout(() => {
-        setError(null)
-      }, 3000)
-      return () => {
-        clearTimeout(timeId)
-      }
-    }
-  }, [error, expanded])
+    runErrorWithTimeout(error, setError, 1000)
+  }, [error])
 
   useEffect(() => {
-    const closeOnEscape = (e: any) => {
-      if (expanded && e.key === 'Escape') {
-        setExpanded(false)
-      }
-    }
-    const closeOnMouseClickOutside = ({
-      target,
-    }: MouseEvent | KeyboardEvent) => {
+    const closeOnMouseClickOutside = ({ target }: MouseEvent) => {
       assertIsNode(target)
-      if (expanded && formRef.current && !formRef.current.contains(target)) {
+      if (expanded && formRef && !formRef?.current?.contains(target)) {
         setExpanded(false)
       }
     }
-    document.body.addEventListener('keydown', closeOnEscape)
+
     document.body.addEventListener('mousedown', closeOnMouseClickOutside)
     return () => {
-      document.body.removeEventListener('keydown', closeOnEscape)
       document.body.removeEventListener('mousedown', closeOnMouseClickOutside)
     }
   }, [expanded])
 
-  // Refer to Stack Overflow response: https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index-javascript
-  const insertItem = (arr: Data[], index: number, newItem: Data) => [
-    /// pat of the array before the specified index
-    ...arr.slice(0, index),
-    // inserted item
-    newItem,
-    // part of the array after specified index
-    ...arr.slice(index),
-  ]
+  const processResponse = (res: any) => {
+    if (res.brightspot_example_notes_NoteSave) {
+      const newItem = res.brightspot_example_notes_NoteSave
+      console.log('pageNumber for new item form: ', pageNumber)
+      getItems(pageNumber, false, '', newItem)
+      if (titleRef?.current?.value) {
+        titleRef.current.value = ''
+      }
+      if (descriptionRef?.current?.value) {
+        descriptionRef.current.value = ''
+      }
+      if (usernameRef?.current?.value) {
+        usernameRef.current.value = ''
+      }
+      setExpanded(false)
+    } else if (res.error) {
+      setError(res.error)
+    }
+  }
 
   const submitNewNote = async () => {
-    const inputTitle = titleRef?.current?.value || null
-    const inputDescription = descriptionRef?.current?.value || null
-    const inputUsername = usernameRef?.current?.value || null
+    const inputTitle = titleRef?.current?.value
+    const inputDescription = descriptionRef?.current?.value
+    const inputUsername = usernameRef?.current?.value
     const dataToSubmit = {
       title: inputTitle,
       description: inputDescription,
       toolUser: inputUsername,
     }
 
-    const url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`
-    const params = {
-      body: JSON.stringify(dataToSubmit),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
-    // TODO
-    const processResponse = (res: any) => {
-      console.log(res)
-    }
-
-    fetch(url, params)
+    fetch(url, params(dataToSubmit))
       .then((res) => res.json())
       .then((res) => processResponse(res))
+      .catch((error: Error) => setError(error.message))
   }
-
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`,
-
-  //     )
-  //     if (response.status === 401) {
-  //       setError('Check that Username is accurate and exists in Brightspot')
-  //       throw new Error()
-  //     }
-
-  //     const data = await response.json()
-  //     console.log({ data })
-  //     if (data.brightspot_example_notes_NoteSave) {
-  //       const newItem = data.brightspot_example_notes_NoteSave
-  //       setItems(insertItem(items, 0, newItem))
-  //       if (titleRef?.current?.value) {
-  //         titleRef.current.value = ''
-  //       }
-  //       if (descriptionRef?.current?.value) {
-  //         descriptionRef.current.value = ''
-  //       }
-  //       if (usernameRef?.current?.value) {
-  //         usernameRef.current.value = ''
-  //       }
-  //       setExpanded(false)
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   return (
     <form
@@ -136,7 +102,15 @@ const CreateNote = ({ items, setItems }: Props) => {
     >
       <div
         className={styles.createNoteWrapper}
-        onClick={(e) => setExpanded(true)}
+        onClick={() => setExpanded(true)}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !expanded) {
+            setExpanded(true)
+          } else if (e.key === 'Escape' && expanded) {
+            setExpanded(false)
+          }
+        }}
       >
         <input
           className={styles.createNoteInput}
@@ -199,4 +173,4 @@ const CreateNote = ({ items, setItems }: Props) => {
   )
 }
 
-export default CreateNote
+export default CreateNoteForm

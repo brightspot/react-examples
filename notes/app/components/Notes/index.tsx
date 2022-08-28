@@ -5,17 +5,26 @@ import { Dispatch, SetStateAction } from 'react'
 
 type Props = {
   items: Data[]
-  setItems: Dispatch<SetStateAction<Data[]>>
+  getItems: (
+    pageNumber: number,
+    predicate: boolean,
+    queryItem?: string,
+    newItem?: Data
+  ) => void
+  pageNumber: number
+  setPageNumber: Dispatch<SetStateAction<number>>
 }
 
-const Notes = ({ items, setItems }: Props) => {
+const Notes = ({ items, getItems, pageNumber, setPageNumber }: Props) => {
   return (
     <div className={styles.container}>
       {items &&
         items.map((item: Data) => (
           <NoteCard
             items={items}
-            setItems={setItems}
+            getItems={getItems}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
             title={item.title}
             description={item.description}
             id={item._id}

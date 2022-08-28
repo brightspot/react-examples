@@ -8,26 +8,33 @@ import React, {
   useEffect,
 } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
+import { Data } from '../../pages'
 import styles from './Navbar.module.css'
 
 type Props = {
-  getItems: (queryItem?: string, pageNumber?: number) => void
+  getItems: (
+    pageNumber: number,
+    predicate: boolean,
+    queryItem?: string,
+    newItem?: Data
+  ) => void
   numResults: number | null
+  pageNumber: number
   setNumResults: Dispatch<SetStateAction<number | null>>
 }
 
-const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
+const Navbar = ({ getItems, numResults, setNumResults, pageNumber }: Props) => {
   const inputRef = useRef<null | HTMLInputElement>(null)
-  const [error, setError] = useState({ isError: false, message: '' })
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const timeId = setTimeout(() => {
-      setError({ isError: false, message: '' })
+      setError(null)
     }, 3000)
     return () => {
       clearTimeout(timeId)
     }
-  }, [error.isError])
+  }, [error])
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
@@ -43,13 +50,12 @@ const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
 
   const handleSearch = () => {
     if (!inputRef?.current?.value) {
-      getItems()
+      getItems(0, false)
       return
     }
     const timer = setTimeout(async () => {
       if (inputRef?.current?.value) {
-        console.log('you are here!! running use effect in NavBar to getItems()')
-        getItems(inputRef?.current?.value)
+        getItems(0, false, inputRef?.current?.value)
       }
     }, 700)
     return () => {
@@ -57,7 +63,6 @@ const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
     }
   }
 
-  if (error.isError) console.error(error.message)
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
@@ -65,7 +70,7 @@ const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
           <BsPencilSquare className={styles.pencilIcon} />
           <h2 className={styles.headerLogoTitle}>Notes</h2>
         </div>
-        {error.isError && <span className={styles.error}>{error.message}</span>}
+        {error && <span className={styles.error}>{error}</span>}
         <div className={styles.searchItems}>
           <button
             className={styles.clearButton}
@@ -73,7 +78,7 @@ const Navbar = ({ getItems, numResults, setNumResults }: Props) => {
               setNumResults(null)
               if (inputRef?.current?.value) {
                 inputRef.current.value = ''
-                getItems()
+                getItems(pageNumber, false)
               }
             }}
           >

@@ -37,11 +37,18 @@
 
 .formButton {
   font-size: 1rem;
-  padding: 5px;
+  padding: 7px;
   margin-right: 10px;
   color: var(--moduleBgColor);
+  font-weight: 700;
   border: 0;
   background-color: transparent;
+  border-radius: var(--mainBorderRadius);
+}
+
+.formButton:hover {
+  cursor: pointer;
+  background-color: var(--grayscaleFour);
 }
 
 .createNoteBottom {
@@ -49,11 +56,6 @@
   min-height: 30px;
   text-align: end;
   margin-bottom: 4px;
-}
-
-.formButton:hover {
-  cursor: pointer;
-  color: #1d79aa;
 }
 
 .error {

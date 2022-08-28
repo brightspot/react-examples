@@ -10,14 +10,15 @@
   --primaryTextColor: #4b4545;
   --secondaryTextColor: #787171;
   --primaryRed: #e62a8f;
-  --moduleBgColor: #2a5975;
-  --moduleBgColorHover: #1d79aa;
+  --moduleBgColor: #4285f4;
+  --moduleBgColorHover: #2764c5;
   --borderColor: #f1eced;
   --success: #28a745;
   --mainTransition: all 0.3s linear;
   --mainSpacing: 0.3rem;
   --lightShadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-  --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+  --navNotesShadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   --mainBorderRadius: 5px;
   --buttonBorderRadius: 22px;
   --inputHeight: 30px;
@@ -38,7 +39,8 @@ body {
   margin: 0 auto;
   font-family: 'Noto Sans', sans-serif;
   color: var(--primaryTextColor);
-  background: var(--grayscaleTwo);
+  /* background: var(--grayscaleTwo); */
+  background: #fff;
   line-height: 1.7;
   font-size: 16px;
   min-height: 100%;

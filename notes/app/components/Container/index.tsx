@@ -7,13 +7,32 @@ import { Dispatch, SetStateAction } from 'react'
 type Props = {
   items: Data[]
   setItems: Dispatch<SetStateAction<Data[]>>
+  getItems: (
+    pageNumber: number,
+    predicate: boolean,
+    queryItem?: string,
+    newItem?: Data
+  ) => void
+  pageNumber: number
+  setPageNumber: Dispatch<SetStateAction<number>>
 }
 
-const Container = ({ items, setItems }: Props) => {
+const Container = ({
+  items,
+  setItems,
+  getItems,
+  pageNumber,
+  setPageNumber,
+}: Props) => {
   return (
     <section className={styles.section}>
-      <CreateNoteForm items={items} setItems={setItems} />
-      <Notes setItems={setItems} items={items} />
+      <CreateNoteForm getItems={getItems} pageNumber={pageNumber} />
+      <Notes
+        getItems={getItems}
+        items={items}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+      />
     </section>
   )
 }

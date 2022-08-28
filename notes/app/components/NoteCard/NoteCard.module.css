@@ -1,8 +1,7 @@
 .noteCard {
   padding: 0.5rem;
   background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: var(--navNotesShadow);
   border-radius: var(--mainBorderRadius);
   margin-bottom: 1rem;
   color: var(--primaryTextColor);
@@ -12,8 +11,6 @@
 }
 
 .noteCard:hover {
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   box-shadow: var(--lightShadow);
 }
 .noteCard[data-hide='true'] {
@@ -82,9 +79,19 @@
   bottom: 27px;
   box-shadow: var(--lightShadow);
   border-radius: var(--mainBorderRadius);
-  padding: 10px 1rem;
+  padding: 10px 0;
   line-height: 2;
   background-color: #fff;
+  min-width: 7rem;
+  text-align: center;
+}
+
+.optionsList:hover {
+  cursor: pointer;
+}
+
+.optionsList li:hover {
+  background-color: var(--grayscaleFour);
 }
 
 .optionsList span {

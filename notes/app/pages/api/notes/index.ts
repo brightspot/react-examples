@@ -15,15 +15,11 @@ export default async function handler(
       variables: {
         arguments: req.query.q || '*',
         offset: req.query.offset,
+        predicate: req.query.p ? 'not _id matches ?' : undefined,
       },
     })
     res.status(200).json(data)
   } catch (error: any) {
-    if (error.message) {
-      console.log('there is an error.message ', error.message)
-      res.status(400).json({ error: error.message })
-    } else {
-      res.status(400).json(error)
-    }
+    res.status(400).json({ error: error.message })
   }
 }

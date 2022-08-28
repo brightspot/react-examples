@@ -1,30 +1,27 @@
 import styles from './Modal.module.css'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react'
 import Portal from '../Portal'
 import FocusTrap from 'focus-trap-react'
+import { runErrorWithTimeout } from '../../lib/utils'
 
 type Props = {
-  id: string
-  title: string
-  description: string
   isOpen: boolean
-  handleClose: () => void
+  setIsOpen: Dispatch<SetStateAction<boolean>>
   formData: {
     id: string
-    title: string
-    description: string
-    username: string
+    title?: string
+    description?: string
     publishUser: string
     publishDate: number
     updateUser: string
     updateDate: number
   }
+
   setFormData: Dispatch<
     SetStateAction<{
       id: string
       title: string
       description: string
-      username: string
       publishUser: string
       publishDate: number
       updateUser: string
@@ -32,124 +29,87 @@ type Props = {
     }>
   >
 }
-type Result = {
+
+type DataToSubmit = {
+  id: string
   title?: string
   description?: string
-  id: string
-  toolUser: string
+  toolUser?: string
 }
 
-function Modal({
-  id,
-  title,
-  description,
-  isOpen,
-  handleClose,
-  formData,
-  setFormData,
-}: Props) {
-  const [error, setError] = useState({ isError: false, message: '' })
-  useEffect(() => {
-    const closeOnEscapeKey = (e: { key: string }) =>
-      e.key === 'Escape' ? handleClose() : null
-    document.body.addEventListener('keydown', closeOnEscapeKey)
-    return () => {
-      document.body.removeEventListener('keydown', closeOnEscapeKey)
-    }
-  }, [handleClose])
+function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
+  const [error, setError] = useState<string | null>(null)
+
+  const outerModalRef = useRef<HTMLDivElement>(null)
+  const usernameRef = useRef<HTMLInputElement>(null)
+  const titleRef = useRef<HTMLInputElement>(null)
+  const descriptionRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (error.isError) {
-      const timeId = setTimeout(() => {
-        setError({ isError: false, message: '' })
-        handleClose()
-      }, 3000)
-      return () => {
-        clearTimeout(timeId)
-      }
+    runErrorWithTimeout(error, setError, 5000)
+  }, [error])
+
+  const url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/update`
+
+  const params = () => {
+    let dataToSubmit: DataToSubmit = { id: formData.id }
+    if (titleRef?.current?.value !== formData.title) {
+      dataToSubmit.title = titleRef?.current?.value
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error.isError])
-
-  const submitUpdatedNote = async () => {
-    const dataToUpdate = () => {
-      const result: Result = { id: id, toolUser: formData.username }
-      if (formData.title) {
-        result.title = formData.title
-      }
-      if (formData.description) {
-        result.description = formData.description
-      }
-      return result
+    if (descriptionRef?.current?.value !== formData.description) {
+      dataToSubmit.description = descriptionRef?.current?.value
     }
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/notes/update`,
-        {
-          body: JSON.stringify(dataToUpdate()),
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-
-      if (response.status >= 400) {
-        console.log('there is an issue')
-        setError({
-          isError: true,
-          message: 'cannot update... Verify username is correct.',
-        })
-        setFormData({
-          ...formData,
-          title: title,
-          description: description,
-        })
-        throw new Error()
-      }
-
-      const data = await response.json()
-
-      if (data?.brightspot_example_notes_NoteSave) {
-        setFormData({
-          id: data?.brightspot_example_notes_NoteSave._id,
-          title: data?.brightspot_example_notes_NoteSave.title,
-          description: data?.brightspot_example_notes_NoteSave.description,
-          username:
-            data.brightspot_example_notes_NoteSave._globals
-              .com_psddev_cms_db_Content_ObjectModification.updateUser.username,
-          publishUser:
-            data.brightspot_example_notes_NoteSave._globals
-              .com_psddev_cms_db_Content_ObjectModification.publishUser
-              .username,
-          publishDate:
-            data.brightspot_example_notes_NoteSave._globals
-              .com_psddev_cms_db_Content_ObjectModification.publishDate,
-          updateUser:
-            data.brightspot_example_notes_NoteSave._globals
-              .com_psddev_cms_db_Content_ObjectModification.updateUser.username,
-          updateDate:
-            data.brightspot_example_notes_NoteSave._globals
-              .com_psddev_cms_db_Content_ObjectModification.updateDate,
-        })
-        handleClose()
-      }
-      if (!data?.brightspot_example_notes_NoteSave) {
-        setFormData({
-          ...formData,
-          title: title,
-          description: description,
-        })
-      }
-    } catch (error) {
-      console.log(error)
+    if (usernameRef?.current?.value) {
+      dataToSubmit.toolUser = usernameRef?.current?.value
+    }
+    return {
+      body: JSON.stringify(dataToSubmit),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
   }
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' || e.key === 'Escape') {
-      e.currentTarget.blur()
+  const processResponse = (res: any) => {
+    if (res?.brightspot_example_notes_NoteSave) {
+      setFormData({
+        id: res?.brightspot_example_notes_NoteSave._id,
+        title: res?.brightspot_example_notes_NoteSave.title,
+        description: res?.brightspot_example_notes_NoteSave.description,
+        publishUser:
+          res.brightspot_example_notes_NoteSave._globals
+            .com_psddev_cms_db_Content_ObjectModification.publishUser.username,
+        publishDate:
+          res.brightspot_example_notes_NoteSave._globals
+            .com_psddev_cms_db_Content_ObjectModification.publishDate,
+        updateUser:
+          res.brightspot_example_notes_NoteSave._globals
+            .com_psddev_cms_db_Content_ObjectModification.updateUser.username,
+        updateDate:
+          res.brightspot_example_notes_NoteSave._globals
+            .com_psddev_cms_db_Content_ObjectModification.updateDate,
+      })
+      setIsOpen(false)
+    } else if (res.error) {
+      setError(res.error)
+    }
+  }
+
+  const submitUpdatedNote = async () => {
+    if (
+      titleRef?.current?.value !== formData.title ||
+      descriptionRef?.current?.value !== formData.description
+    ) {
+      fetch(url, params())
+        .then((res) => {
+          console.log(res)
+          return res.json()
+        })
+        .then((res) => processResponse(res))
+        .catch((error: Error) => setError(error.message))
+    } else {
+      setIsOpen(false)
     }
   }
 
@@ -160,8 +120,9 @@ function Modal({
       <FocusTrap active={isOpen}>
         <div
           className={styles.modal}
+          ref={outerModalRef}
           onClick={() => {
-            handleClose()
+            setIsOpen(false)
           }}
         >
           <div className={styles.noteCard} onClick={(e) => e.stopPropagation()}>
@@ -175,50 +136,36 @@ function Modal({
               <input
                 required
                 className={styles.inputFieldTitle}
-                value={formData.title}
-                aria-label={`title for id ${id}`}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    title: e.target.value,
-                  })
-                }
-                onKeyDown={onKeyDown}
+                defaultValue={formData.title}
+                aria-label={`title for id ${formData.id}`}
+                ref={titleRef}
               />
               <input
                 required
                 className={styles.inputFieldText}
-                value={formData.description}
-                aria-label={`description for id ${id}`}
-                onChange={(e) => {
-                  setFormData({
-                    ...formData,
-                    description: e.target.value,
-                  })
-                }}
-                onKeyDown={onKeyDown}
+                defaultValue={formData.description}
+                aria-label={`description for id ${formData.id}`}
+                ref={descriptionRef}
               />
               <input
                 required
                 className={styles.inputFieldText}
-                value={formData.username}
                 placeholder="enter user name to update...."
                 aria-label="username input"
-                onChange={(e) => {
-                  setFormData({
-                    ...formData,
-                    username: e.target.value,
-                  })
-                }}
-                onKeyDown={onKeyDown}
+                ref={usernameRef}
               />
               <div className={styles.noteBottom}>
-                <button className={styles.submitButton} type="submit">
+                {error && <span className={styles.error}>{error}</span>}
+                <button
+                  type="button"
+                  className={styles.button}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Close
+                </button>
+                <button type="submit" className={styles.button}>
                   Save
                 </button>
-                {error.isError && (
-                  <span className={styles.error}>{error.message}</span>
-                )}
               </div>
             </form>
           </div>

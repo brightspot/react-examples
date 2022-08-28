@@ -4,6 +4,7 @@
   z-index: 50;
   height: 75px;
   background-color: #fff;
+  box-shadow: var(--navNotesShadow);
 }
 
 .headerContainer {
@@ -51,33 +52,25 @@
   font-size: 1rem;
 }
 
-.logoutButton,
 .clearButton {
   border: 0;
   background-color: transparent;
 }
 
-.logoutButton {
-  margin-left: 10px;
-  margin-top: 2px;
-}
-
-.logoutButton:hover,
 .clearButton:hover {
   cursor: pointer;
   color: var(--moduleBgColor);
 }
 
-.logoutIcon,
 .clearIcon {
-  height: 21px;
-  width: 21px;
+  height: 25px;
+  width: 25px;
 }
 
 .clearButton {
   position: absolute;
   left: -24px;
-  top: 4px;
+  top: 11px;
 }
 /* Search */
 
@@ -87,19 +80,21 @@
 }
 .searchContainer {
   margin-right: 10px;
-  width: 11rem;
-  height: var(--inputHeight);
+  width: 17rem;
+  min-height: 35px;
   display: flex;
   align-items: flex-end;
   position: relative;
 }
 
 .searchInput {
-  height: var(--inputHeight);
+  min-height: 35px;
   width: 100%;
-  border: 1px solid var(--borderColor);
+  background-color: var(--grayscaleFour);
   padding: 10px 0 10px 37px;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  border-radius: var(--mainBorderRadius);
+  border: 0;
 }
 
 .searchIcon {
@@ -108,7 +103,7 @@
   width: 20px;
   position: absolute;
   left: 4px;
-  bottom: 5px;
+  bottom: 12px;
 }
 
 .searchValueText {
@@ -116,16 +111,7 @@
 }
 
 @media (min-width: 568px) {
-  .logoutButton {
-    margin-left: 15px;
-  }
-}
-
-@media (min-width: 768px) {
   .headerLogoTitle {
     display: block;
-  }
-  .searchContainer {
-    width: 17rem;
   }
 }

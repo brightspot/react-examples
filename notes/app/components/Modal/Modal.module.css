@@ -43,87 +43,44 @@
   margin-bottom: 7px;
 }
 
-.submitButton {
-  width: 100px;
-  height: var(--inputHeight);
-  font-size: 1.3rem;
-  border-radius: var(--buttonBorderRadius);
+.button {
+  font-size: 1rem;
+  padding: 7px;
+  font-weight: 700;
   color: var(--moduleBgColor);
-  border: 1px solid var(--moduleBgColor);
-  background-color: #fff;
-  transition: all 0.3s ease-out;
-  margin-top: 1rem;
+  border: 0;
+  background-color: transparent;
+  border-radius: var(--mainBorderRadius);
+  margin-right: 4px;
 }
 
-.submitButton:hover {
+.button:hover {
   cursor: pointer;
-  background-color: var(--moduleBgColor);
-  color: #fff;
+  background-color: var(--grayscaleFour);
 }
 
 .noteBottom {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
-  margin: 18px;
+  justify-content: flex-end;
 }
 
 .error {
   color: var(--primaryRed);
-  text-align: center;
   font-size: 0.9rem;
   font-style: italic;
-}
-
-.deleteButton {
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 25px;
-  height: 25px;
-  border: 1px solid var(--primaryRed);
-  background-color: #fff;
-  transition: all 0.5s ease-out;
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-}
-
-.deleteButton:hover {
-  cursor: pointer;
-  background-color: var(--primaryRed);
-}
-
-.deleteIcon {
-  color: var(--primaryRed);
-  width: 20px;
-  height: 20px;
-}
-
-.deleteIcon:hover {
-  color: #fff;
-}
-
-.id {
-  font-size: 15px;
+  max-width: 85%;
+  margin-right: 7px;
 }
 
 @media (min-width: 1024px) {
   .noteCard {
     width: 60%;
   }
-  .submitButton {
-    height: 40px;
-  }
 }
 
 @media (min-width: 1440px) {
   .noteCard {
     width: 40%;
-  }
-
-  .submitButton {
-    height: 45px;
   }
 }

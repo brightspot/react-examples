@@ -15,7 +15,7 @@ export default async function handler(
     if (req.body.description) {
       editVariables.description = req.body.description
     }
-    // id will be generated on creation
+    // id generated on creation
 
     const { data } = await client.mutate({
       mutation: CREATE_AND_UPDATE_NOTE,
@@ -25,7 +25,9 @@ export default async function handler(
     res.status(200).json(data)
   } catch (error: any) {
     if (error.message.includes(`Variable 'toolUser' has an invalid value`)) {
-      return res.status(401).json('verify Username exists in Brightspot CMS')
+      return res
+        .status(401)
+        .json({ error: 'verify Username exists in Brightspot CMS' })
     } else {
       return res.status(400).json({ error: error.mesage })
     }

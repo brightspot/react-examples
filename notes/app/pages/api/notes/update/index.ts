@@ -14,31 +14,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    let editVariables: Variables = {
-      toolUser: req.body.toolUser,
-      id: req.body.id,
-    }
-
-    if (!editVariables.toolUser) {
-      res.status(401).json('userName required')
-    }
-    if (!editVariables.id) {
-      res.status(400).json('id not included with network request 🤔')
-    }
-    if (req.body.title) {
-      editVariables.title = req.body.title
-    }
-    if (req.body.description) {
-      editVariables.description = req.body.description
-    }
-
     const { data } = await client.mutate({
       mutation: CREATE_AND_UPDATE_NOTE,
       fetchPolicy: 'no-cache',
-      variables: editVariables,
+      variables: req.body,
     })
     res.status(200).json(data)
   } catch (error: any) {
-    res.status(400).json({ error: error.mesage })
+    console.log('error ', error.message)
+    return res.status(400).json({ error: error.message })
   }
 }
