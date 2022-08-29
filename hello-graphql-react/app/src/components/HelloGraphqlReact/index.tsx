@@ -40,7 +40,7 @@ const HelloGraphqlReact = () => {
 
   const handleResponse = (res: any) => {
     let helloData: HelloData | undefined
-    let errorMessages: string[] | undefined
+    let errors: string[] | undefined
     if (res?.data?.HelloGraphqlReact) {
       helloData = {
         title: res.data.HelloGraphqlReact.title,
@@ -48,14 +48,14 @@ const HelloGraphqlReact = () => {
       }
     }
     if (res.errors) {
-      errorMessages = []
+      errors = []
       for (let error of res.errors) {
-        errorMessages.push(error.message)
+        errors.push(error.message)
       }
     }
     setHelloResponse({
       helloData: helloData,
-      errors: errorMessages,
+      errors: errors,
     })
   }
 
