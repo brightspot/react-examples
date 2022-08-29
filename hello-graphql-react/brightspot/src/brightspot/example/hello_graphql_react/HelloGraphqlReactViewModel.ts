@@ -22,6 +22,8 @@ export default class HelloGraphqlReactViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getMessage(): string {
-    return this.model.message
+    return this.model.name === 'Brightspot' && !this.model.message
+      ? 'The most complete CMS solution available today'
+      : this.model.message
   }
 }
