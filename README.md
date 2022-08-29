@@ -28,7 +28,7 @@ Enter `CTRL c` to stop the docker containers.
 
 ## Uploading Content to Brightspot 📤
 
-JS Classes make it possible to create and modify Brightspot CMS content with JavaScript (TypeScript).
+JS Classes make it possible to create and modify Brightspot content with JavaScript (TypeScript).
 
 Run the following commands in the example application `brightspot` directory:
 
@@ -73,7 +73,7 @@ The frontend application will open automatically in your browser.
 
 1. My endpoint schema has not updated after making changes in the JS Class.
 
-   - In the CMS, navigate to `Admin`, `APIs`, select the endpoint you have updated, and click `SAVE`.
+   - In Brightspot, navigate to `Admin`, `APIs`, select the endpoint you have updated, and click `SAVE`.
 
 2. I want to remove all data and start fresh.
 
@@ -84,4 +84,4 @@ The frontend application will open automatically in your browser.
    - This is to be expected. You should only encounter this situation if you run `docker-compose down` and then start running docker again. Just follow the terminal prompts (i.e. login if prompted), then re-run the previous command (`npx brightspot types download` or `npx brightspot types upload src`).
 
 4. I am getting a `failed to fetch` error in my frontend application.
-   - Make sure you have the Brightspot docker container running. If you are using the default command, `docker-compose up` to run the container, check the logs for any possible errors. Finally, try to query for the content using GraphQL Explorer in the CMS to make sure the CMS successfully provides data.
+   - Make sure the Brightspot docker containers are running. If you are using the default command, `docker-compose up` to run the containers, check the logs for any possible errors. Finally, try to query for the content using GraphQL Explorer in Brightspot to make sure the GraphQL endpoint is working as expected.
