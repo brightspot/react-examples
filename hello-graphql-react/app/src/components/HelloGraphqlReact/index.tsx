@@ -91,16 +91,10 @@ const HelloGraphqlReact = () => {
           }}
         />
       </div>
-      {helloResponse?.helloData && (
-        <div className="content-container">
-          {helloResponse.helloData.name && (
-            <h1 className="content-text">{helloResponse.helloData.name}</h1>
-          )}
-          {helloResponse.helloData.message && (
-            <h3 className="content-text">{helloResponse.helloData.message}</h3>
-          )}
-        </div>
-      )}
+      <div className="content-container">
+        <h1 className="content-text">{helloResponse?.helloData?.name}</h1>
+        <h3 className="content-text">{helloResponse?.helloData?.message}</h3>
+      </div>
       {helloResponse?.errors?.map((error, i) => {
         return (
           <p className="error" key={i}>
