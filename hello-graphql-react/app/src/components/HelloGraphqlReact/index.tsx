@@ -1,13 +1,12 @@
 import { useState } from 'react'
 
-const HelloQuery = `
+const HelloQuery = `\
 query HelloGraphqlReact($id: ID) {
   HelloGraphqlReact(id: $id) {
     name
     message
   }
-}
-`
+}`
 
 type HelloData = {
   name?: string
