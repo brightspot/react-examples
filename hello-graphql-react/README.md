@@ -1,40 +1,39 @@
-# Brightspot with React and GraphQL
+# Hello React and GraphQL: powered by Brightspot
 
-This example highlights how simple it is to use the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) for generating a GraphQL Content Delivery API endpoint (CDA).
+This example highlights how simple it is to use JS Classes and the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) for generating a GraphQL Content Delivery API endpoint (CDA).
 
-## Using JS Classes
+## Running the example application
 
-JS Classes make it possible to create and modify Brightspot CMS content with JavaScript (TypeScript).
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. If you have run an example application before, here are the quick-start steps:
 
-Run the following commands in the `brightspot` directory:
+1. Make sure you have the docker instance running (`docker-compose up`).
+2. Cd into the `brightspot` directory, run `yarn`, `npx brightspot types download`, then `npx brightspot types upload src`.
+3. Cd into the `app` directory, run `yarn`, then `yarn start`. The frontend application will automatically open in your browser.
 
-```
-yarn
-npx brightspot config server http://localhost/cms
-npx brightspot login
-npx brightspot types download
-npx brightspot types upload src
-```
+## Using the example application
 
-> **_Note_** If there is already a `brightspot.json` file you can skip the `npx brightspot config server http://localhost/cms` command.
+In Brightspot, create a Hello GraphQL React item. Add your name and a mesage. You can create a permalink as well if you like. After publishing that content, make note of either the permalink or the name, and use that in the frontend application input field. You should see `Hello <your name>` name appear along with the message you entered in Brightspot.
 
-In this example, the following is generated with JS Classes:
+## How everything works
 
-- A CDA endpoint: note the GraphQL endpoint is added to (`app/.env`) of the frontend application your frontend. This url is created in the JS Class `HelloGraphqlReactEndpoint.ts`.
-- A HelloGraphqlReact Class and View Model to publish content.
+Brightspot makes it incredibly easy to create content that you can then query for using the GraphQL API. In addition, you can change the schema that your GraphQL endpoint provides with ease. While you can do this all editorially, JS Classes make it incredibly simple to create content and schema programatically.
 
-## Running the frontend application
+Take a look at the `brightspot` directory. There you will find a directory `hello_graphql_react`. That is where you add all content that you wish to upload to Brightspot. The `HelloGraphqlReact.ts` file is the initial class (see the fields `name` and `message`? Those are the fields available for that content in Brightspot). `HelloGraphqlReactViewModel.ts` is the view model for the class. Finally, the custom endpoint is created with `HelloGraphqlReactEndpoint.ts`.
 
-In the `app` directory run the following command:
+Pause and look closely at the methods in the endpoint file. You will notice how the CORS configuration is set, as well as the access option to implicit (meaning no API key is needed). In just a few lines of code, you are able to customize your endpoint. You will also notice the path is configured. You can add that path to your `app/.env` file as the endpoint for client access.
 
-```
-yarn && yarn start
-```
+## Try it yourself
 
-The frontend application will open automatically in your browser.
+The following are suggestions for learning more about JS Classes and Brightspot:
 
-## Publish CMS Content
+1. Add a new field for your Hello Graphql React content: add a color value and use that value to change the color of your content on the front end. Try adding other fields.
 
-Publish a Hello GraphQL React item in the CMS. Either create a permalink for the item you create, or copy the id found by clicking the three ellipses next to the `PUBLISH` button, then selecting `tools`, and then the `FOR DEVELOPERS` tab.
+2. Add the ` @JavaRequired` decorator above the field of your choice to make the field required. See what happens when you try to leave that field blank in Brightspot.
 
-Input either the permalink or id in your frontend application to see your published content.
+3. Try changing the path and then check in Brightspot: navigate to `Admin`, `APIs`, and then your endpoint. You will see the endpoint listed there. Make sure to add the new path in your `app/.env` file!
+
+4. Create a Hello Graphql React item with the name `Brightspot` and no message. Look at the `HelloGraphqlReactViewModel.ts` file. Guess what you will see if you enter that name in the frontend input field!
+
+## Troubleshooting
+
+Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
