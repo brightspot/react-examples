@@ -24,7 +24,7 @@ After starting Brightspot and your frontend application, refer to the README loc
 docker-compose up
 ```
 
-Enter `CTRL c` to stop the docker container.
+Enter `CTRL c` to stop the docker containers.
 
 ## Uploading Content to Brightspot 📤
 
@@ -40,7 +40,7 @@ npx brightspot types download
 npx brightspot types upload src
 ```
 
-> **_Note_** If there is already a `brightspot.json` file you can skip the `npx brightspot config server http://localhost/cms` command.
+> **_Note_** If there is already a `brightspot.json` file you can skip the `npx brightspot config server` command.
 
 ## Running the frontend application 👟
 
