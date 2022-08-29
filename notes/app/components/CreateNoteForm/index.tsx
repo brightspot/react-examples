@@ -19,6 +19,27 @@ type SubmittedData = {
   toolUser?: string
 }
 
+type QueryResponse = {
+  error?: string
+  brightspot_example_notes_NoteSave?: {
+    _id: string
+    title: string
+    description: string
+    _globals: {
+      com_psddev_cms_db_Content_ObjectModification: {
+        publishDate: number
+        publishUser: {
+          username: string
+        }
+        updateDate: number
+        updateUser: {
+          username: string
+        }
+      }
+    }
+  }
+}
+
 const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
@@ -55,10 +76,9 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
     }
   }, [expanded])
 
-  const processResponse = (res: any) => {
+  const processResponse = (res: QueryResponse) => {
     if (res.brightspot_example_notes_NoteSave) {
       const newItem = res.brightspot_example_notes_NoteSave
-      console.log('pageNumber for new item form: ', pageNumber)
       getItems(pageNumber, false, '', newItem)
       if (titleRef?.current?.value) {
         titleRef.current.value = ''
@@ -93,7 +113,7 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
 
   return (
     <form
-      className={styles.createNoteForm}
+      className={styles.form}
       ref={formRef}
       onSubmit={(e) => {
         e.preventDefault()
@@ -101,7 +121,7 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
       }}
     >
       <div
-        className={styles.createNoteWrapper}
+        className={styles.wrapper}
         onClick={() => setExpanded(true)}
         tabIndex={0}
         onKeyDown={(e) => {
@@ -113,42 +133,45 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
         }}
       >
         <input
-          className={styles.createNoteInput}
+          className={styles.input}
           required
           name="title"
           aria-label="Title"
           ref={titleRef}
           placeholder="Title"
+          title="Title"
         />
         <div className={`${expanded ? styles.notCollapsed : styles.collapsed}`}>
           <textarea
-            className={styles.createNoteInput}
+            className={styles.input}
             aria-label="Description"
             ref={descriptionRef}
             required
             name="description"
             placeholder="Description..."
+            title="Description"
           />
           <input
-            className={styles.createNoteInput}
+            className={styles.input}
             aria-label="User name"
             ref={usernameRef}
             required
             name="username"
             placeholder="Username"
+            title="User name"
           />
         </div>
+        {error && <p className={styles.error}>{error}</p>}
       </div>
-      {error && <p className={styles.error}>{error}</p>}
       <div
-        className={`${styles.createNoteBottom} ${
-          expanded ? styles.notCollapsedInline : styles.collapsed
+        className={`${styles.bottom} ${
+          expanded ? styles.notCollapsed : styles.collapsed
         }`}
       >
         <button
           type="submit"
-          className={`${styles.formButton} ${
-            expanded ? styles.notCollapsedInlne : styles.collapsed
+          className={`${styles.button} ${
+            expanded ? styles.notCollapsed : styles.collapsed
           }`}
         >
           Submit
@@ -162,8 +185,8 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
               descriptionRef.current.value = ''
             if (usernameRef?.current?.value) usernameRef.current.value = ''
           }}
-          className={`${styles.formButton} ${
-            expanded ? styles.notCollapsedInline : styles.collapsed
+          className={`${styles.button} ${
+            expanded ? styles.notCollapsed : styles.collapsed
           }`}
         >
           Close

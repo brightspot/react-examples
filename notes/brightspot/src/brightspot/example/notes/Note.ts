@@ -11,13 +11,13 @@ export default class Note extends JavaClass(
   @JavaField(String)
   @JavaRequired
   @Indexed
-  title?: string
+  title: string
 
   @JavaField(String)
   @JavaRequired
-  description?: string
+  description: string
 
   getLabel(): string {
-    return this.title || ''
+    return this.title
   }
 }

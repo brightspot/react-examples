@@ -31,7 +31,7 @@ type PageInfo = {
 
 type QueryResponse = {
   error?: string
-  brightspot_example_notes_NoteQuery: {
+  brightspot_example_notes_NoteQuery?: {
     items?: Data[]
     pageInfo?: PageInfo
   }
@@ -47,17 +47,28 @@ const Home: NextPage = () => {
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
   const pageNumberList = 5
+  const dataRequestParams = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  }
 
-  useEffect(() => {
-    const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
-    fetch(baseUrl, dataRequestParams())
-      .then((res) => res.json())
-      .then((res) => processResponse(res, pageNumber))
-      .catch((error: Error) => setError(error.message))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // useEffect(() => {
+  //   const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
+  //   fetch(baseUrl, {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     method: 'GET'
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => processResponse(res, pageNumber))
+  //     .catch((error: Error) => setError(error.message))
 
-  function calculateOffset(pageNumber: number): number {
+  // }, [pageNumber])
+
+  const calculateOffset = (pageNumber: number): number => {
     let offset = 0
     if (limit && pageNumber > 0) {
       const index = pageNumber - 1
@@ -66,11 +77,11 @@ const Home: NextPage = () => {
     return offset
   }
 
-  function urlBuilder(
+  const urlBuilder = (
     pageNumber: number,
     predicate: boolean,
     queryItem?: string
-  ): string {
+  ): string => {
     let url = ''
     if (queryItem) {
       if (predicate) {
@@ -90,15 +101,6 @@ const Home: NextPage = () => {
       }/api/notes/?offset=${calculateOffset(pageNumber)}`
     }
     return url
-  }
-
-  const dataRequestParams = () => {
-    return {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET',
-    }
   }
 
   const checkPagination = (num: number) => {
@@ -126,6 +128,7 @@ const Home: NextPage = () => {
       setError(res.error)
     }
     if (res?.brightspot_example_notes_NoteQuery?.items) {
+      console.log('getItems at index for pages', res, pageNum, newItem)
       checkPagination(pageNum)
       if (newItem) {
         if (limit && items.length >= limit) {
@@ -157,7 +160,6 @@ const Home: NextPage = () => {
       setLimit(limit)
     } else if (res?.brightspot_example_notes_NoteQuery?.pageInfo && !newItem) {
       const { count, limit } = res.brightspot_example_notes_NoteQuery.pageInfo
-      console.log({ count, limit })
       setNumberPages(Math.ceil(count / limit))
       setNumResults(count)
       setLimit(limit)
@@ -170,23 +172,18 @@ const Home: NextPage = () => {
     queryItem?: string,
     newItem?: Data
   ) {
-    fetch(urlBuilder(pageNumber, predicate, queryItem), dataRequestParams())
+    fetch(urlBuilder(pageNumber, predicate, queryItem), dataRequestParams)
       .then((res) => res.json())
       .then((res) => processResponse(res, pageNumber, newItem))
       .catch((error: Error) => setError(error.message))
   }
-  console.log(
-    'page info after fetch: ',
-    'numberPages',
-    numberPages,
-    'numResults',
-    numResults
-  )
+
   return (
     <>
       <Head>
         <title>Notes</title>
         <meta content="Note taking application powered by Brightspot" />
+        <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
       <Navbar
         getItems={getItems}
@@ -197,7 +194,6 @@ const Home: NextPage = () => {
 
       <Container
         items={items}
-        setItems={setItems}
         getItems={getItems}
         pageNumber={pageNumber}
         setPageNumber={setPageNumber}

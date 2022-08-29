@@ -30,6 +30,15 @@ type Props = {
   setPageNumber: Dispatch<SetStateAction<number>>
 }
 
+type QueryResponse = {
+  error?: string
+  brightspot_example_notes_NoteDelete?: {
+    title: string
+    description: string
+    _id: string
+  }
+}
+
 const NoteCard = ({
   title,
   description,
@@ -84,8 +93,8 @@ const NoteCard = ({
     runErrorWithTimeout(error, setError, 2000)
   }, [error])
 
-  const processResponse = (res: any) => {
-    if (res?.brightspot_example_notes_NoteDelete._id) {
+  const processResponse = (res: QueryResponse) => {
+    if (res?.brightspot_example_notes_NoteDelete?._id) {
       const id = res?.brightspot_example_notes_NoteDelete._id
       return id
     } else if (res.error) {
@@ -93,12 +102,14 @@ const NoteCard = ({
     }
   }
 
-  const updatePageItems = (id: string) => {
-    if (items.length === 1 && pageNumber > 1) {
+  const updatePageItems = (id?: string) => {
+    if (id && items.length === 1 && pageNumber > 1) {
       getItems(pageNumber - 1, true, id)
       setPageNumber(pageNumber - 1)
-    } else {
+    } else if (id) {
       getItems(pageNumber, true, id)
+    } else {
+      setError('no id was returned from delete response')
     }
   }
 
@@ -162,15 +173,12 @@ const NoteCard = ({
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    console.log(
-                      'you clicked enter for updating, setting open to true'
-                    )
                     setIsOpen(true)
                     setShowOptions(false)
                   }
                 }}
               >
-                <RiDeleteBinLine />
+                <RiDeleteBinLine className={styles.listIcon} />
                 <span>Update</span>
               </li>
               <li
@@ -178,9 +186,6 @@ const NoteCard = ({
                 role="menuitem"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    console.log(
-                      'you clicked enter for deleting, setting open to true'
-                    )
                     submitDeleteNote()
                     setShowOptions(false)
                   }
@@ -190,7 +195,7 @@ const NoteCard = ({
                   setShowOptions(false)
                 }}
               >
-                <MdOutlineEdit />
+                <MdOutlineEdit className={styles.listIcon} />
                 <span>Delete</span>
               </li>
             </ul>

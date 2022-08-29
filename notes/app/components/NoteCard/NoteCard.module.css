@@ -90,12 +90,21 @@
   cursor: pointer;
 }
 
+.optionsList li {
+  color: var(--moduleBgColor);
+  font-weight: 800;
+}
 .optionsList li:hover {
   background-color: var(--grayscaleFour);
 }
 
 .optionsList span {
   margin-left: 7px;
+}
+
+.listIcon {
+  width: 20px;
+  height: 20px;
 }
 
 .optionsButton {

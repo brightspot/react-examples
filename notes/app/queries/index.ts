@@ -42,7 +42,7 @@ const GET_NOTES = gql`
     $arguments: [String]
     $predicate: String = "* matches ?"
     $offset: Long = 0
-    $limit: Int = 20
+    $limit: Int = 2
   ) {
     brightspot_example_notes_NoteQuery(
       sorts: { order: descending, options: "cms.content.updateDate" }

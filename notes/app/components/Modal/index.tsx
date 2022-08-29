@@ -37,6 +37,27 @@ type DataToSubmit = {
   toolUser?: string
 }
 
+type QueryResponse = {
+  error?: string
+  brightspot_example_notes_NoteSave?: {
+    _id: string
+    title: string
+    description: string
+    _globals: {
+      com_psddev_cms_db_Content_ObjectModification: {
+        updateDate: number
+        updateUser: {
+          username: string
+        }
+        publishDate: number
+        publishUser: {
+          username: string
+        }
+      }
+    }
+  }
+}
+
 function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
   const [error, setError] = useState<string | null>(null)
 
@@ -71,7 +92,7 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
     }
   }
 
-  const processResponse = (res: any) => {
+  const processResponse = (res: QueryResponse) => {
     if (res?.brightspot_example_notes_NoteSave) {
       setFormData({
         id: res?.brightspot_example_notes_NoteSave._id,
@@ -102,10 +123,7 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
       descriptionRef?.current?.value !== formData.description
     ) {
       fetch(url, params())
-        .then((res) => {
-          console.log(res)
-          return res.json()
-        })
+        .then((res) => res.json())
         .then((res) => processResponse(res))
         .catch((error: Error) => setError(error.message))
     } else {
@@ -125,9 +143,9 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
             setIsOpen(false)
           }}
         >
-          <div className={styles.noteCard} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.card} onClick={(e) => e.stopPropagation()}>
             <form
-              className={styles.noteForm}
+              className={styles.form}
               onSubmit={(e) => {
                 e.preventDefault()
                 submitUpdatedNote()
@@ -135,26 +153,26 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
             >
               <input
                 required
-                className={styles.inputFieldTitle}
+                className={styles.titleInput}
                 defaultValue={formData.title}
                 aria-label={`title for id ${formData.id}`}
                 ref={titleRef}
               />
               <input
                 required
-                className={styles.inputFieldText}
+                className={styles.textInput}
                 defaultValue={formData.description}
                 aria-label={`description for id ${formData.id}`}
                 ref={descriptionRef}
               />
               <input
                 required
-                className={styles.inputFieldText}
+                className={styles.textInput}
                 placeholder="enter user name to update...."
                 aria-label="username input"
                 ref={usernameRef}
               />
-              <div className={styles.noteBottom}>
+              <div className={styles.bottom}>
                 {error && <span className={styles.error}>{error}</span>}
                 <button
                   type="button"

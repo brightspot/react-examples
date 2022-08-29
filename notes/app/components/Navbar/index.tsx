@@ -9,6 +9,7 @@ import React, {
 } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
 import { Data } from '../../pages'
+import useDebounce from '../../lib/useDebounce'
 import styles from './Navbar.module.css'
 
 type Props = {
@@ -27,6 +28,20 @@ const Navbar = ({ getItems, numResults, setNumResults, pageNumber }: Props) => {
   const inputRef = useRef<null | HTMLInputElement>(null)
   const [error, setError] = useState<string | null>(null)
 
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const debouncedSearchTerm: string = useDebounce<string>(searchTerm, 500)
+
+  useEffect(() => {
+    console.log('running useEffect on load navbar', getItems, pageNumber)
+    if (debouncedSearchTerm) {
+      console.log('hi there, you have a debounced search term')
+      getItems(1, false, debouncedSearchTerm)
+    } else if (!debouncedSearchTerm) {
+      getItems(pageNumber, false)
+    }
+    //TODO: getItems with useCallback
+  }, [debouncedSearchTerm])
+
   useEffect(() => {
     const timeId = setTimeout(() => {
       setError(null)
@@ -35,33 +50,6 @@ const Navbar = ({ getItems, numResults, setNumResults, pageNumber }: Props) => {
       clearTimeout(timeId)
     }
   }, [error])
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape') {
-      if (e.key === 'Escape') {
-        e.currentTarget.blur()
-        setNumResults(null)
-        if (inputRef?.current?.value) {
-          inputRef.current.value = ''
-        }
-      }
-    }
-  }
-
-  const handleSearch = () => {
-    if (!inputRef?.current?.value) {
-      getItems(0, false)
-      return
-    }
-    const timer = setTimeout(async () => {
-      if (inputRef?.current?.value) {
-        getItems(0, false, inputRef?.current?.value)
-      }
-    }, 700)
-    return () => {
-      clearTimeout(timer)
-    }
-  }
 
   return (
     <header className={styles.header}>
@@ -76,42 +64,35 @@ const Navbar = ({ getItems, numResults, setNumResults, pageNumber }: Props) => {
             className={styles.clearButton}
             onClick={() => {
               setNumResults(null)
+              getItems(pageNumber, false)
+              setSearchTerm('')
               if (inputRef?.current?.value) {
                 inputRef.current.value = ''
-                getItems(pageNumber, false)
               }
             }}
           >
             <IoClose className={styles.clearIcon} />
           </button>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              inputRef?.current?.blur()
-            }}
-          >
-            <div className={styles.searchContainer}>
-              <FiSearch className={styles.searchIcon} />
-              <input
-                ref={inputRef}
-                className={styles.searchInput}
-                type="text"
-                name="title"
-                id="title"
-                placeholder="Search"
-                onChange={handleSearch}
-                onKeyDown={onKeyDown}
-              />
-            </div>
-          </form>
+          <div className={styles.searchContainer}>
+            <FiSearch className={styles.searchIcon} />
+            <input
+              ref={inputRef}
+              className={styles.searchInput}
+              type="text"
+              name="search"
+              aria-label="Search"
+              placeholder="Search"
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
         </div>
       </div>
-      {inputRef?.current?.value && (
+      {searchTerm && (
         <span
           className={styles.searchValueText}
-        >{`Number of search results for "${inputRef?.current?.value}": `}</span>
+        >{`Number of search results for "${searchTerm}": `}</span>
       )}
-      {inputRef?.current?.value && numResults && (
+      {searchTerm && numResults && (
         <span className={styles.searchValueText}>{numResults}</span>
       )}
     </header>

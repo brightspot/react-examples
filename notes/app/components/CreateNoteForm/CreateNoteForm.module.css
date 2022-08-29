@@ -1,4 +1,4 @@
-.createNoteForm {
+.form {
   max-width: 540px;
   background: #fff;
   display: flex;
@@ -7,24 +7,19 @@
   align-items: center;
   color: var(--primaryTextColor);
   border-radius: 10px;
-  padding: 5px 5px 0 5px;
   box-shadow: var(--lightShadow);
   margin: 0 auto;
-}
-
-.noteCollapsed {
-  display: block;
 }
 
 .collapsed {
   display: none;
 }
 
-.noteCollapsedInline {
-  display: inline-block;
+.notCollapsed {
+  display: unset;
 }
 
-.createNoteInput {
+.input {
   width: 100%;
   font-size: 1rem;
   border: 0;
@@ -35,7 +30,7 @@
   font-family: 'Noto Sans', sans-serif;
 }
 
-.formButton {
+.button {
   font-size: 1rem;
   padding: 7px;
   margin-right: 10px;
@@ -46,12 +41,12 @@
   border-radius: var(--mainBorderRadius);
 }
 
-.formButton:hover {
+.button:hover {
   cursor: pointer;
   background-color: var(--grayscaleFour);
 }
 
-.createNoteBottom {
+.bottom {
   width: 100%;
   min-height: 30px;
   text-align: end;
@@ -62,11 +57,9 @@
   font-size: 0.9rem;
   color: var(--primaryRed);
   font-style: italic;
-  margin-right: 20px;
-  line-height: 1.1rem;
 }
 
-.createNoteWrapper {
+.wrapper {
   margin-bottom: 5px;
   width: 100%;
   padding: 5px 10px;

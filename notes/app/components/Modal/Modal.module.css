@@ -12,7 +12,7 @@
   padding: 40px 20px 20px;
 }
 
-.noteCard {
+.card {
   padding: 0.5rem;
   background-color: #fff;
   box-shadow: var(--lightShadow);
@@ -24,19 +24,19 @@
   max-width: 600px;
 }
 
-.noteForm {
+.form {
   display: flex;
   flex-direction: column;
 }
 
-.inputFieldTitle {
+.titleInput {
   font-size: 1.5rem;
   margin-bottom: 10px;
   border: 0;
   padding: 5px;
 }
 
-.inputFieldText {
+.textInput {
   font-size: 1.3rem;
   border: 0;
   padding: 5px;
@@ -59,7 +59,7 @@
   background-color: var(--grayscaleFour);
 }
 
-.noteBottom {
+.bottom {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -74,13 +74,13 @@
 }
 
 @media (min-width: 1024px) {
-  .noteCard {
+  .card {
     width: 60%;
   }
 }
 
 @media (min-width: 1440px) {
-  .noteCard {
+  .card {
     width: 40%;
   }
 }

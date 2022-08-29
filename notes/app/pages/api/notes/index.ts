@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   res.setHeader('Cache-Control', 'no-store')
-  console.log('req.query', req.query)
   try {
     const { data } = await client.query({
       query: GET_NOTES,
