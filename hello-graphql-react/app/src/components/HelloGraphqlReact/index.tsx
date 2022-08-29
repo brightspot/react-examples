@@ -66,6 +66,7 @@ const HelloGraphqlReact = () => {
   function fetchAndSetContent(input: string) {
     if (!input || input.trim() === '') {
       setHelloResponse({})
+      return
     }
 
     fetch(GRAPHQL_URL, dataRequestParams(input))
