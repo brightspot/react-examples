@@ -8,14 +8,14 @@ Each example application directory is comprised of the following:
 - `brightspot`: JS Classes for Brightspot
 - `README.md`: Explanation and instructions for the example app
 
-After starting Brightspot (see the instructions below), refer to the README located in the example application directory of your choice for further information on uploading JS Classes and running the frontend application.
+After starting Brightspot and your frontend application, refer to the README located in the example application directory for further information.
 
-## Requirements for running an example application
+## Requirements for running an example application ✅
 
 - [Node](https://nodejs.org/en/) version 16 or higher
 - [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Starting Brightspot
+## Starting Brightspot 🚀
 
 1. Clone the `react-examples` repository.
 2. In the root of the repository, run
@@ -24,9 +24,9 @@ After starting Brightspot (see the instructions below), refer to the README loca
 docker-compose up
 ```
 
-Enter `CTRL C` to stop the docker container.
+Enter `CTRL c` to stop the docker container.
 
-## Uploading Content to Brightspot
+## Uploading Content to Brightspot 📤
 
 JS Classes make it possible to create and modify Brightspot CMS content with JavaScript (TypeScript).
 
@@ -42,7 +42,7 @@ npx brightspot types upload src
 
 > **_Note_** If there is already a `brightspot.json` file you can skip the `npx brightspot config server http://localhost/cms` command.
 
-## Running the frontend application
+## Running the frontend application 👟
 
 Run `yarn` in the example application `app` directory. The command for starting the app differs for React and Next.js applications:
 
@@ -52,7 +52,7 @@ React:
 yarn start
 ```
 
-Next.js
+Next.js:
 
 ```
 yarn dev
@@ -60,16 +60,16 @@ yarn dev
 
 The frontend application will open automatically in your browser.
 
-## Other helpful Docker commands
+## Other helpful Docker commands 💡
 
 - `docker-compose start`: start a stopped docker container
-- `docker-compose stop`: stop container (this doe NOT delete data)
-- `docker-compose down`: delete container (this does NOT delete data stored in named volumes)
+- `docker-compose stop`: stop container (this command does NOT delete data)
+- `docker-compose down`: delete container (this command does NOT delete data stored in named volumes)
 - `docker-compose up`: to run container without detaching to run it in the background
 - `docker-compose down -v`: delete container and volumes (helpful if you need a fresh docker instance)
 - `docker volue prune`: delete unused volumes
 
-## Common Issues
+## Common Issues 🤔
 
 1. My endpoint schema has not updated after making changes in the JS Class.
 
