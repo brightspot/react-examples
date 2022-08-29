@@ -103,14 +103,13 @@ const HelloGraphqlReact = () => {
           )}
         </div>
       )}
-      {helloResponse?.errors &&
-        helloResponse.errors.map((error, i) => {
-          return (
-            <p className="error" key={i}>
-              {error}
-            </p>
-          )
-        })}
+      {helloResponse?.errors?.map((error, i) => {
+        return (
+          <p className="error" key={i}>
+            {error}
+          </p>
+        )
+      })}
     </div>
   )
 }
