@@ -9,8 +9,8 @@ export default class HelloGraphqlReact extends JavaClass(
   Content
 ) {
   @JavaField(String)
-  title?: string
+  name?: string
 
   @JavaField(String)
-  description?: string
+  message?: string
 }

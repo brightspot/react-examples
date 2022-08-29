@@ -3,15 +3,15 @@ import { useState } from 'react'
 const HelloQuery = `
 query HelloGraphqlReact($id: ID) {
   HelloGraphqlReact(id: $id) {
-    title
-    description
+    name
+    message
   }
 }
 `
 
 type HelloData = {
-  title?: string
-  description?: string
+  name?: string
+  message?: string
 }
 
 type HelloResponse = {
@@ -43,8 +43,8 @@ const HelloGraphqlReact = () => {
     let errors: string[] | undefined
     if (res?.data?.HelloGraphqlReact) {
       helloData = {
-        title: res.data.HelloGraphqlReact.title,
-        description: res.data.HelloGraphqlReact.description,
+        name: res.data.HelloGraphqlReact.name,
+        message: res.data.HelloGraphqlReact.message,
       }
     }
     if (res.errors) {
@@ -93,13 +93,11 @@ const HelloGraphqlReact = () => {
       </div>
       {helloResponse?.helloData && (
         <div className="content-container">
-          {helloResponse.helloData.title && (
-            <h1 className="content-text">{helloResponse.helloData.title}</h1>
+          {helloResponse.helloData.name && (
+            <h1 className="content-text">{helloResponse.helloData.name}</h1>
           )}
-          {helloResponse.helloData.description && (
-            <h3 className="content-text">
-              {helloResponse.helloData.description}
-            </h3>
+          {helloResponse.helloData.message && (
+            <h3 className="content-text">{helloResponse.helloData.message}</h3>
           )}
         </div>
       )}

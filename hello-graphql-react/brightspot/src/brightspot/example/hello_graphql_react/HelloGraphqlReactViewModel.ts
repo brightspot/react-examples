@@ -15,13 +15,13 @@ export default class HelloGraphqlReactViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getTitle(): string {
-    return this.model.title
+  getName(): string {
+    return this.model.name
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getDescription(): string {
-    return this.model.description
+  getMessage(): string {
+    return this.model.message
   }
 }
