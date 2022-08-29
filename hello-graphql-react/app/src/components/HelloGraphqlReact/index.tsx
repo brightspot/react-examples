@@ -92,7 +92,7 @@ const HelloGraphqlReact = () => {
         />
       </div>
       <div className="content-container">
-        <h1 className="content-text">{helloResponse?.helloData?.name}</h1>
+        <h1 className="content-text">Hello {helloResponse?.helloData?.name}</h1>
         <h3 className="content-text">{helloResponse?.helloData?.message}</h3>
       </div>
       {helloResponse?.errors?.map((error, i) => {
