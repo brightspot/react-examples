@@ -78,7 +78,7 @@ const HelloGraphqlReact = () => {
   return (
     <div className="container">
       <div className="input-wrapper">
-        <label htmlFor="id-url">Enter Your Name:</label>
+        <label htmlFor="id-url">Enter Name:</label>
         <input
           required
           name="id-url"
