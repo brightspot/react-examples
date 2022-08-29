@@ -6,13 +6,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Installation and Running
 
-Refer to [README.md](https://github.com/brightspot/react-examples/blob/cma-next/README.md) at the root of the react-examples directory.
+Refer to root [README.md](react-examples/README.md) at the root of the react-examples directory.
 
 Once Brightspot is running, login to the CMS using any credentials at: `localhost/cms`.
 
 ## GraphQL Content Management API (CMA) Endpoint
 
-For this tutorial, a CMA Endpoint `App Endpoint(CMA)` and a Note content type has been created: `/graphql/management/app` to make the setup process easier.
+For this tutorial, a CMA Endpoint `App Endpoint(CMA)` and a Note content type has been created: `/graphql/management/notes` to make the setup process easier.
 
 You can also create a CMA Endpoint editorially - refer to the instructions found in [CMA_Endpoint.md](CMA_Endpoint.md).
 
@@ -28,25 +28,23 @@ Now you can use your GraphQL CMA endpoint to perform CRUD operations.
 
 ## Using GraphQL queries and mutations in a Next.js Application
 
-Change directories to `cma-next/app`. If you did not make a new API Client and are using the one pre-generated, you can skip this step.
+Change directories to `notes/app`. If you did not make a new API Client and are using the one pre-generated, you can skip this step.
 
 If you did create a new API Client in the CMS, add your Client ID and Client Secret in their respective fields in the `.env` file in this directory:
 
 ```
 NEXT_PUBLIC_HOST=http://localhost:3000
-GRAPHQL_URL=http://localhost/graphql/management/app
+GRAPHQL_URL=http://localhost/graphql/management/notes
 GRAPHQL_CLIENT_ID=<your client id>
 GRAPHQL_CLIENT_SECRET=<your client secret>
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=app
 ```
 
 Run the following commands in your terminal:
 
 ```bash
-yarn && yarn run dev
+yarn && yarn dev
 ```
 
-Go to `http://localhost:3000` in your browser. You will see a login page. Login with your user name (the name you used to login to Brightspot). You will be redirected to the Note dashboard. You will be able to perform all CRUD applications using this dashboard. After creating or editing notes, check the CMS to verify that your username is showing next to the Notes you created or edited.
+Go to `http://localhost:3000` in your browser to see the Notes dashboard. You will be able to perform all CRUD applications using this dashboard. After creating or editing notes, check the CMS to verify that your username is showing next to the Notes you created or edited.
 
-This application use [NextAuth](https://next-auth.js.org/) for authentication and shows a simple example of how that can be implemented. This is only a starter example. Refer to the NextAuth documentation for more advanced implementation.
+> **_Note_** This application is for demonstration purposes only. In a production-lvel application, you need to implement authentication. Although this application requires a User name for creating new content and updating content in the frontend, further authentication would be needed.

@@ -32,14 +32,12 @@ const Navbar = ({ getItems, numResults, setNumResults, pageNumber }: Props) => {
   const debouncedSearchTerm: string = useDebounce<string>(searchTerm, 500)
 
   useEffect(() => {
-    console.log('running useEffect on load navbar', getItems, pageNumber)
     if (debouncedSearchTerm) {
-      console.log('hi there, you have a debounced search term')
       getItems(1, false, debouncedSearchTerm)
     } else if (!debouncedSearchTerm) {
       getItems(pageNumber, false)
     }
-    //TODO: getItems with useCallback
+    //TODO: make the dependency array warning go away.....
   }, [debouncedSearchTerm])
 
   useEffect(() => {

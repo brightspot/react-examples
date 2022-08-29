@@ -54,20 +54,6 @@ const Home: NextPage = () => {
     method: 'GET',
   }
 
-  // useEffect(() => {
-  //   const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
-  //   fetch(baseUrl, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     method: 'GET'
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => processResponse(res, pageNumber))
-  //     .catch((error: Error) => setError(error.message))
-
-  // }, [pageNumber])
-
   const calculateOffset = (pageNumber: number): number => {
     let offset = 0
     if (limit && pageNumber > 0) {
