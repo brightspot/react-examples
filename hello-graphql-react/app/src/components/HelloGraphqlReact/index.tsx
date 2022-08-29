@@ -66,6 +66,10 @@ const HelloGraphqlReact = () => {
   }
 
   function fetchAndSetContent(input: string) {
+    if (!input || input.trim() === '') {
+      setHelloResponse({})
+    }
+
     fetch(GRAPHQL_URL, dataRequestParams(input))
       .then((res) => res.json())
       .then((res) => handleResponse(res))
@@ -83,11 +87,7 @@ const HelloGraphqlReact = () => {
           name="id-url"
           onChange={(e) => {
             e.preventDefault()
-            if (e.target.value && e.target.value.trim() !== '') {
-              fetchAndSetContent(e.target.value)
-            } else {
-              setHelloResponse({})
-            }
+            fetchAndSetContent(e.target.value)
           }}
         />
       </div>
