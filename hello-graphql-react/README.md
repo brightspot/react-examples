@@ -6,21 +6,48 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. If you have run an example application before, here are the quick-start steps:
 
-1. Make sure you have the docker instance running (`docker-compose up`).
-2. Cd into the `brightspot` directory, run `yarn`, `npx brightspot types download`, then `npx brightspot types upload src`.
-3. Cd into the `app` directory, run `yarn`, then `yarn start`. The frontend application will automatically open in your browser.
+brightspot (`http://localhost/cms`):
+
+```
+docker-compose up
+cd brightspot
+yarn
+npx brightspot types download
+npx brightspot types upload src
+
+```
+
+frontend:
+
+```
+cd app
+yarn
+yarn start
+```
+
+The frontend application will open automatically in the browser.
 
 ## Using the example application
 
-In Brightspot, create a Hello GraphQL React item. Add your name and a mesage. You can create a permalink as well if you like. After publishing that content, make note of either the permalink or the name, and use that in the frontend application input field. You should see `Hello <your name>` name appear along with the message you entered in Brightspot.
+In Brightspot, publish Hello GraphQL React content. Add your name and a mesage. After publishing the content, input your name in the frontend application input field. You should see `Hello <your name>` name appear along with the message you entered in Brightspot.
 
 ## How everything works
 
 Brightspot makes it incredibly easy to create content that you can then query for using the GraphQL API. In addition, you can change the schema that your GraphQL endpoint provides with ease. While you can do this all editorially, JS Classes make it incredibly simple to create content and schema programatically.
 
-Take a look at the `brightspot` directory. There you will find a directory `hello_graphql_react`. That is where you add all content that you wish to upload to Brightspot. The `HelloGraphqlReact.ts` file is the initial class (see the fields `name` and `message`? Those are the fields available for that content in Brightspot). `HelloGraphqlReactViewModel.ts` is the view model for the class. Finally, the custom endpoint is created with `HelloGraphqlReactEndpoint.ts`.
+Navigate to `brightspot/src/examples/hello_graphql_react`. This directory contains JS Classes files that are uploaded to Brightspot.
 
-Pause and look closely at the methods in the endpoint file. You will notice how the CORS configuration is set, as well as the access option to implicit (meaning no API key is needed). In just a few lines of code, you are able to customize your endpoint. You will also notice the path is configured. You can add that path to your `app/.env` file as the endpoint for client access.
+#### JS Classes Files:
+
+- `HelloGraphqlReact.ts`: the model (class) that contains the business logic (fields, etc)
+- `HelloGraphqlReactViewModel.ts`: the class that contains logic requirements needed for the view (the frontend application)
+  - getter functions determine what fields will be included in the schema
+- `HelloGraphqlReactEndpoint.ts`: the class that creates a custom Content Delivery Endpoint with the following configurations:
+  - updateCorsConfiguration: permit cross-origin resource sharing (CORS) to enable requests from localhost
+  - getAccessOption: implicit access so an API key is not required
+  - getPaths: specify the path(s) to send HTTP requests to
+  - Singleton: create a 'one and only' instance of the custom endpoint
+  - setQueryEntryFields: use the ViewModel to determine the schema for the custom endpoint
 
 ## Try it yourself
 
