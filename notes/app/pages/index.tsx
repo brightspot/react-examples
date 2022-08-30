@@ -42,7 +42,6 @@ const Home: NextPage = () => {
   const [error, setError] = useState<string | null>(null)
   const [numberPages, setNumberPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
-  const [numResults, setNumResults] = useState<number | null>(null)
   const [limit, setLimit] = useState<number | null>(null)
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
@@ -89,17 +88,21 @@ const Home: NextPage = () => {
     return url
   }
 
-  const checkPagination = (num: number) => {
-    setPageNumber(num)
-    if (num != 5 && num % pageNumberList === 0) {
+  const checkPagination = (pageNum: number) => {
+    setPageNumber(pageNum)
+    if (
+      pageNum < maxPageNumberLimit &&
+      pageNum > 5 &&
+      pageNum % pageNumberList === 0
+    ) {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberList)
       setMinPageNumberLimit(minPageNumberLimit - pageNumberList)
     }
-    if (num > maxPageNumberLimit) {
+    if (pageNum > maxPageNumberLimit) {
       setMaxPageNumberLimit(maxPageNumberLimit + pageNumberList)
       setMinPageNumberLimit(minPageNumberLimit + pageNumberList)
     }
-    if (num === 5) {
+    if (pageNum <= 5) {
       setMaxPageNumberLimit(5)
       setMinPageNumberLimit(0)
     }
@@ -114,7 +117,6 @@ const Home: NextPage = () => {
       setError(res.error)
     }
     if (res?.brightspot_example_notes_NoteQuery?.items) {
-      console.log('getItems at index for pages', res, pageNum, newItem)
       checkPagination(pageNum)
       if (newItem) {
         if (limit && items.length >= limit) {
@@ -142,15 +144,40 @@ const Home: NextPage = () => {
       // TODO: find out why there is a need to add 1 for adding a new item but not deleting
       const { count, limit } = res.brightspot_example_notes_NoteQuery.pageInfo
       setNumberPages(Math.ceil((count + 1) / limit))
-      setNumResults(count + 1)
       setLimit(limit)
     } else if (res?.brightspot_example_notes_NoteQuery?.pageInfo && !newItem) {
       const { count, limit } = res.brightspot_example_notes_NoteQuery.pageInfo
       setNumberPages(Math.ceil(count / limit))
-      setNumResults(count)
       setLimit(limit)
     }
   }
+
+  useEffect(() => {
+    const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
+    const params = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
+    }
+    fetch(baseUrl, params)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          setError(res.error)
+        }
+        if (res.brightspot_example_notes_NoteQuery.items) {
+          setItems(res.brightspot_example_notes_NoteQuery.items)
+        }
+        if (res?.brightspot_example_notes_NoteQuery?.pageInfo) {
+          const { count, limit } =
+            res.brightspot_example_notes_NoteQuery.pageInfo
+          setNumberPages(Math.ceil(count / limit))
+          setLimit(limit)
+        }
+      })
+      .catch((error: Error) => setError(error.message))
+  }, [])
 
   function getItems(
     pageNumber: number,
@@ -171,12 +198,7 @@ const Home: NextPage = () => {
         <meta content="Note taking application powered by Brightspot" />
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
-      <Navbar
-        getItems={getItems}
-        numResults={numResults}
-        setNumResults={setNumResults}
-        pageNumber={pageNumber}
-      />
+      <Navbar getItems={getItems} pageNumber={pageNumber} />
 
       <Container
         items={items}
