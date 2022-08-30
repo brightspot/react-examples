@@ -33,9 +33,9 @@ In Brightspot, publish Hello GraphQL React content. Add your name and a mesage. 
 
 ## How everything works
 
-Brightspot makes it incredibly easy to create content that you can then query for using the GraphQL API. In addition, you can change the schema that your GraphQL endpoint provides with ease. While you can do this all editorially, JS Classes make it incredibly simple to create content and schema programatically.
+Brightspot makes it possible to create content that you can then query for using the GraphQL API. In addition, you can change the schema that your GraphQL endpoint provides with ease. While you can do this all editorially, JS Classes make it incredibly simple to create content and schema programatically.
 
-Navigate to `brightspot/src/examples/hello_graphql_react`. This directory contains JS Classes files that are uploaded to Brightspot.
+Navigate to `brightspot/src/examples/hello_graphql_react`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
 #### JS Classes Files:
 
@@ -45,7 +45,7 @@ Navigate to `brightspot/src/examples/hello_graphql_react`. This directory contai
 - `HelloGraphqlReactEndpoint.ts`: the class that creates a custom Content Delivery Endpoint with the following configurations:
   - updateCorsConfiguration: permit cross-origin resource sharing (CORS) to enable requests from localhost
   - getAccessOption: implicit access so an API key is not required
-  - getPaths: specify the path(s) to send HTTP requests to
+  - getPaths: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
   - Singleton: create a 'one and only' instance of the custom endpoint
   - setQueryEntryFields: use the ViewModel to determine the schema for the custom endpoint
 
