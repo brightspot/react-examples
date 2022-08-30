@@ -1,50 +1,86 @@
-# Using a Content Management API Endpoint
+# Notes
 
-In this tutorial, you will learn how to use a Content Management API Endpoint provided through the Brightspot CMS to power a frontend application.
+In this tutorial, you will learn how to use a Content Management API Endpoint provided by Brightspot to power a frontend application.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Installation and Running
+## Running the example application
 
-Refer to root [README.md](react-examples/README.md) at the root of the react-examples directory.
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. If you have run an example application before, make sure you have the docker instance for the example applications running, then follow the quick-start steps:
 
-Once Brightspot is running, login to the CMS using any credentials at: `localhost/cms`.
-
-## GraphQL Content Management API (CMA) Endpoint
-
-For this tutorial, a CMA Endpoint `App Endpoint(CMA)` and a Note content type has been created: `/graphql/management/notes` to make the setup process easier.
-
-You can also create a CMA Endpoint editorially - refer to the instructions found in [CMA_Endpoint.md](CMA_Endpoint.md).
-
-If you create a CMA endpoint editorially, you will need to make one additional configuration if you want to query for a toolUser: add `com.psddev.cms.db.ToolUser` to the Read Types when you create your CMA endpoint (paste directly into the Read Types dropdown menu and then make sure that type and the Note type are checked).
-
-## API Client
-
-For this tutorial, an API Client is provided and therefore no further setup is needed.
-
-However, you can create your own as well. In the CMS, click on the burger menu then select APIs under Admin. Select New API Client under Clients. Input a name of your choice, and for endpoints select App Endpoint. Click on the clipboard icon next to Client ID and save that ID for future use. Click Add API Key under Keys to generate a unique API Key (you will only be able to see this once so make sure to copy it and save for future use). Click Save to save your new API Client.
-
-Now you can use your GraphQL CMA endpoint to perform CRUD operations.
-
-## Using GraphQL queries and mutations in a Next.js Application
-
-Change directories to `notes/app`. If you did not make a new API Client and are using the one pre-generated, you can skip this step.
-
-If you did create a new API Client in the CMS, add your Client ID and Client Secret in their respective fields in the `.env` file in this directory:
+brightspot (`http://localhost/cms`):
 
 ```
-NEXT_PUBLIC_HOST=http://localhost:3000
-GRAPHQL_URL=http://localhost/graphql/management/notes
-GRAPHQL_CLIENT_ID=<your client id>
-GRAPHQL_CLIENT_SECRET=<your client secret>
+cd brightspot
+yarn
+npx brightspot types download
+npx brightspot types upload src
+
 ```
 
-Run the following commands in your terminal:
+frontend:
 
-```bash
-yarn && yarn dev
+```
+cd app
+yarn
+yarn dev
 ```
 
-Go to `http://localhost:3000` in your browser to see the Notes dashboard. You will be able to perform all CRUD applications using this dashboard. After creating or editing notes, check the CMS to verify that your username is showing next to the Notes you created or edited.
+The frontend application will open automatically in the browser.
 
-> **_Note_** This application is for demonstration purposes only. In a production-lvel application, you need to implement authentication. Although this application requires a User name for creating new content and updating content in the frontend, further authentication would be needed.
+## Using the example application
+
+You can start with the frontend application. Click on the form at the top of the dashboard to create a new Note. Make sure to enter the Username that you are using in Brightspot (the name you logged in with). After creating your note, you should see it appear in the dashboard. Confirm in Brightspot that the note is also listed on the dashboard. You should see your Username avatar next to the note.
+
+## How everything works
+
+Brightspot makes it possible to create content that you can then query for using the GraphQL API. One GraphQL API Brightspot offers is the Content Management API (CMA). Refer to the Brightspot documentation for more information.
+
+Navigate to `brightspot/src/examples/notes`. This directory contains the JS Classes files that are uploaded to Brightspot.
+
+#### JS Classes Files:
+
+- `Note.ts`: the model (class) that contains the business logic (fields, etc)
+- `NotesEndpoint.ts`: the class that create a custom CMA Endpoint with the following configurations:
+  - `getEntryFields`: specify the class(es) to determine the schema for the custom endpoint
+  - `updateCorsConfiguration`: permit cross-origin resource sharing (CORS) to enable requests from localhost
+  - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
+  - `Singleton`: create a 'one and only' instance of the custom endpoint
+- `NotesEndpointClient.ts`: the class that creates an API Client. The API Client has a client ID and API Key that are stored in the `app/.env` file to access the CMA Endpoint
+
+#### Queries:
+
+All queries are located in `app/queries/index.ts`:
+
+- `GET_NOTES`: either query for notes ("\* matches ?") given certain arguments or pass in other filter options (ex: "not \_id matches ?") with arguments.
+- `CREATE_AND_UPDATE_NOTE`: either create a new note (if no id is provided) or update an existing one
+- `DELETE_NOTE`: delete a note by id - add `permanently: true` to delete without archiving.
+
+#### API Routes
+
+All GraphQL queries are made using the dynamic api routing provided by Next.js. Navigate to `pages/api/notes` to see how the GraphQL query requests are made.
+
+> **_Note_** This application is for demonstration purposes only. In a production-level application, you would want to implement authentication. Although this application requires a Username for creating new content and updating content in the frontend, further authentication would be needed.
+
+## Try it yourself
+
+The following are suggestions for further exploration:
+
+1. Change one field in a note in the frontend (example, change the title of a note). In Brightspot, change the description of that same note. Refresh both the frontend and Brightspot. What do those fields display?
+
+2. Set the `limit` in the `GET_NOTES` query to a smaller number (like 2). Create more than 2 notes and see how server-side pagination is used.
+
+3. Remove `permanently: true` from the `DELETE_NOTE` query. Now try deleting that note, then navigate to Brightspot dashboard. Select `Note` for Content Type, then Status: Archived. Do you see the note you deleted?
+
+4. Test out the detailed error messages that the Brightspot GraphQL API provides. Remove one letter from a query in `app/queries/index.ts`. Notice the error message that displays.
+
+## Troubleshooting
+
+1. I am getting getting the following error on initial page load in the browser for the frontend: "Response not successful: Received status code 401"....
+
+   - Verify that the Notes Endpoint API Client Client ID and API Key (found in Brightspot: Menu Button -> `Admin` -> `APIs` -> `Clients`) are the same values that are in the `app/.env` file.
+
+2. I get an error when trying to create or update a Note: "Variable 'toolUser' has an invalid value"....
+   - Verify the the Username you entered in the New Note Form or note Card is a Username in Brightspot.
+
+Having other issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.

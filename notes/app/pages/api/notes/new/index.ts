@@ -24,12 +24,7 @@ export default async function handler(
     })
     res.status(200).json(data)
   } catch (error: any) {
-    if (error.message.includes(`Variable 'toolUser' has an invalid value`)) {
-      return res
-        .status(401)
-        .json({ error: 'verify Username exists in Brightspot CMS' })
-    } else {
-      return res.status(400).json({ error: error.mesage })
-    }
+    console.log(error.message)
+    res.status(400).json({ error: error.message })
   }
 }

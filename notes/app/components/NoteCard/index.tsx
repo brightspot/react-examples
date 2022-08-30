@@ -90,7 +90,7 @@ const NoteCard = ({
   }, [showOptions])
 
   useEffect(() => {
-    runErrorWithTimeout(error, setError, 2000)
+    runErrorWithTimeout(error, setError, 3000)
   }, [error])
 
   const processResponse = (res: QueryResponse) => {
@@ -108,8 +108,10 @@ const NoteCard = ({
       setPageNumber(pageNumber - 1)
     } else if (id) {
       getItems(pageNumber, true, id)
-    } else {
-      setError('no id was returned from delete response')
+    } else if (!id) {
+      console.log(
+        'no id was returned from the delete request. Check that the delete request was processed correctly.'
+      )
     }
   }
 
@@ -118,7 +120,11 @@ const NoteCard = ({
       .then((res) => res.json())
       .then((res) => processResponse(res))
       .then((id) => updatePageItems(id))
-      .catch((error: Error) => setError(error.message))
+      .catch((err: Error) => {
+        if (!error) {
+          setError(err.message)
+        }
+      })
   }
 
   return (

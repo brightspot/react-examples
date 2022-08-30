@@ -176,8 +176,12 @@ const Home: NextPage = () => {
           setLimit(limit)
         }
       })
-      .catch((error: Error) => setError(error.message))
-  }, [])
+      .catch((err: Error) => {
+        if (!error) {
+          setError(err.message)
+        }
+      })
+  }, [error])
 
   function getItems(
     pageNumber: number,

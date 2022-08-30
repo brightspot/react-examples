@@ -125,7 +125,11 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
       fetch(url, params())
         .then((res) => res.json())
         .then((res) => processResponse(res))
-        .catch((error: Error) => setError(error.message))
+        .catch((err: Error) => {
+          if (!error) {
+            setError(err.message)
+          }
+        })
     } else {
       setIsOpen(false)
     }

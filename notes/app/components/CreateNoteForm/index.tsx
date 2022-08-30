@@ -59,7 +59,7 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
   }
 
   useEffect(() => {
-    runErrorWithTimeout(error, setError, 1000)
+    runErrorWithTimeout(error, setError, 3000)
   }, [error])
 
   useEffect(() => {
@@ -108,7 +108,11 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
     fetch(url, params(dataToSubmit))
       .then((res) => res.json())
       .then((res) => processResponse(res))
-      .catch((error: Error) => setError(error.message))
+      .catch((err: Error) => {
+        if (!error) {
+          setError(err.message)
+        }
+      })
   }
 
   return (
