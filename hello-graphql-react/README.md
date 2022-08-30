@@ -43,11 +43,11 @@ Navigate to `brightspot/src/examples/hello_graphql_react`. This directory contai
 - `HelloGraphqlReactViewModel.ts`: the class that contains logic requirements needed for the view (the frontend application)
   - getter functions determine what fields will be included in the schema
 - `HelloGraphqlReactEndpoint.ts`: the class that creates a custom Content Delivery Endpoint with the following configurations:
-  - updateCorsConfiguration: permit cross-origin resource sharing (CORS) to enable requests from localhost
-  - getAccessOption: implicit access so an API key is not required
-  - getPaths: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
-  - Singleton: create a 'one and only' instance of the custom endpoint
-  - setQueryEntryFields: use the ViewModel to determine the schema for the custom endpoint
+  - `updateCorsConfiguration`: permit cross-origin resource sharing (CORS) to enable requests from localhost
+  - `getAccessOption`: implicit access so an API key is not required
+  - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
+  - `Singleton`: create a 'one and only' instance of the custom endpoint
+  - `setQueryEntryFields`: use the View Model class to determine the schema for the custom endpoint
 
 ## Try it yourself
 
