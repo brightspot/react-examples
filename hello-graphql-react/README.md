@@ -4,9 +4,9 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. If you have run an example application before, make sure you have the docker instance for the example applications running, then follow the quick-start steps:
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `hello-graphql-react` directory:
 
-brightspot (`http://localhost/cms`):
+To upload JS Classes in Brightspot (http://localhost/cms):
 
 ```
 cd brightspot
@@ -16,7 +16,7 @@ npx brightspot types upload src
 
 ```
 
-frontend:
+To run the frontend:
 
 ```
 cd app
