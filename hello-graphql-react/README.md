@@ -4,12 +4,11 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. If you have run an example application before, here are the quick-start steps:
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. If you have run an example application before, make sure you have the docker instance for the example applications running, then follow the quick-start steps:
 
 brightspot (`http://localhost/cms`):
 
 ```
-docker-compose up
 cd brightspot
 yarn
 npx brightspot types download
@@ -55,7 +54,7 @@ The following are suggestions for learning more about JS Classes and Brightspot:
 
 1. Add a new field for your Hello Graphql React content: add a color value and use that value to change the color of your content on the front end. Try adding other fields.
 
-2. Add the ` @JavaRequired` decorator above the field of your choice to make the field required. See what happens when you try to leave that field blank in Brightspot.
+2. Add the `@JavaRequired` decorator above the field of your choice to make the field required. See what happens when you try to leave that field blank in Brightspot.
 
 3. Try changing the path and then check in Brightspot: navigate to `Admin`, `APIs`, and then your endpoint. You will see the endpoint listed there. Make sure to add the new path in your `app/.env` file!
 
