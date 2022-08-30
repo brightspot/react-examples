@@ -141,7 +141,6 @@ const Home: NextPage = () => {
       }
     }
     if (res?.brightspot_example_notes_NoteQuery?.pageInfo && newItem) {
-      // TODO: find out why there is a need to add 1 for adding a new item but not deleting
       const { count, limit } = res.brightspot_example_notes_NoteQuery.pageInfo
       setNumberPages(Math.ceil((count + 1) / limit))
       setLimit(limit)
