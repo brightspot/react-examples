@@ -1,4 +1,4 @@
-# Hello React and GraphQL: powered by Brightspot
+# Hello GraphQL React
 
 This example highlights how simple it is to use JS Classes and the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) for generating a GraphQL Content Delivery API endpoint (CDA).
 
