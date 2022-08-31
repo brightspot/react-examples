@@ -1,10 +1,10 @@
 import './App.css'
-import HelloGraphqlReact from './components/HelloGraphqlReact'
+import HelloBrightspot from './components/HelloBrightspot'
 
 function App() {
   return (
     <div className="App">
-      <HelloGraphqlReact />
+      <HelloBrightspot />
     </div>
   )
 }

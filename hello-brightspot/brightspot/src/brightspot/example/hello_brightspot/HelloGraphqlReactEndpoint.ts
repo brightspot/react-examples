@@ -12,22 +12,20 @@ import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 
-import HelloGraphqlReactViewModel from './HelloGraphqlReactViewModel'
+import HelloBrightspotViewModel from './HelloBrightspotViewModel'
 
-export default class HelloGraphqlReactEndpoint extends JavaClass(
-  'brightspot.example.hello_graphql_react.HelloGraphqlReactEndpoint',
+export default class HelloBrightspotEndpoint extends JavaClass(
+  'brightspot.example.hello_brightspot.HelloBrightspotEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
-    return [
-      '/graphql/delivery/hello-graphql-react',
-    ] as unknown as JavaSet<string>
+    return ['/graphql/delivery/hello-brightspot'] as unknown as JavaSet<string>
   }
 
   getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
     return [
-      HelloGraphqlReactViewModel.class as Class<HelloGraphqlReactViewModel>,
+      HelloBrightspotViewModel.class as Class<HelloBrightspotViewModel>,
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>

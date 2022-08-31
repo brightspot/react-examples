@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
 const HelloQuery = `\
-query HelloGraphqlReact($id: ID) {
-  HelloGraphqlReact(id: $id) {
+query HelloBrightspot($id: ID) {
+  HelloBrightspot(id: $id) {
     name
     message
   }
@@ -18,7 +18,7 @@ type HelloResponse = {
   errors?: string[]
 }
 
-const HelloGraphqlReact = () => {
+const HelloBrightspot = () => {
   const [helloResponse, setHelloResponse] = useState<HelloResponse>()
   const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
@@ -40,10 +40,10 @@ const HelloGraphqlReact = () => {
   const handleResponse = (res: any) => {
     let helloData: HelloData | undefined
     let errors: string[] = []
-    if (res?.data?.HelloGraphqlReact) {
+    if (res?.data?.HelloBrightspot) {
       helloData = {
-        name: res.data.HelloGraphqlReact.name,
-        message: res.data.HelloGraphqlReact.message,
+        name: res.data.HelloBrightspot.name,
+        message: res.data.HelloBrightspot.message,
       }
     }
     if (res.errors) {
@@ -103,4 +103,4 @@ const HelloGraphqlReact = () => {
   )
 }
 
-export default HelloGraphqlReact
+export default HelloBrightspot

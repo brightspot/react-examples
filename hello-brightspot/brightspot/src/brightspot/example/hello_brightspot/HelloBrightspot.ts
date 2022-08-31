@@ -5,9 +5,9 @@ import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 
-@DisplayName({ value: 'Hello GraphQL React' })
-export default class HelloGraphqlReact extends JavaClass(
-  'brightspot.example.hello_graphql_react.HelloGraphqlReact',
+@DisplayName({ value: 'Hello Brightspot' })
+export default class HelloBrightspot extends JavaClass(
+  'brightspot.example.hello_brightspot.HelloBrightspot',
   Content
 ) {
   @Indexed({ unique: true })
