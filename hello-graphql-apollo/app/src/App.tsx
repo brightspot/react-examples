@@ -1,10 +1,10 @@
 import './App.css'
-import HelloWorldContainer from './components/HelloWorld/HelloWorldContainer'
+import HelloGraphqlApollo from './components/HelloGraphqlApollo'
 
 function App() {
   return (
     <div className="App">
-      <HelloWorldContainer />
+      <HelloGraphqlApollo />
     </div>
   )
 }

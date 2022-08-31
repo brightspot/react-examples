@@ -58,9 +58,11 @@ mkdir -p $GIT_DIR/$NEW_FOLDER/brightspot/src/brightspot/example/$PACKAGE_NAME
 # copy brightspot default files
 cp $GIT_DIR/.template/brightspot/brightspot.json $GIT_DIR/$NEW_FOLDER/brightspot
 cp $GIT_DIR/.template/brightspot/tsconfig.json $GIT_DIR/$NEW_FOLDER/brightspot
-cp $GIT_DIR/.template/brightspot/README.md $GIT_DIR/$NEW_FOLDER/brightspot
 
 # copy app files
 cp -r $GIT_DIR/.template/apps/$2 $GIT_DIR/$1/app
+
+# add README
+cp $GIT_DIR/.template/README.md $GIT_DIR/$NEW_FOLDER
 
 echo "Successfully initialized example [$1]."

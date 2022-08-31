@@ -1,0 +1,30 @@
+import JavaClass from 'brightspot-types/JavaClass'
+import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
+import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+
+import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
+import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
+import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
+
+import HelloGraphqlApollo from './HelloGraphqlApollo'
+
+@ViewInterface
+export default class HelloGraphqlApolloViewModel extends JavaClass(
+  'brightspot.example.hello_graphql_react.HelloGraphqlApolloViewModel',
+  ViewModel.Of(HelloGraphqlApollo),
+  PageEntryView
+) {
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getName(): string {
+    return this.model.name
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getMessage(): string {
+    return this.model.name === 'Brightspot' && !this.model.message
+      ? 'The most complete CMS solution available today'
+      : this.model.message
+  }
+}
