@@ -12,14 +12,14 @@ const HelloWorldContainer: React.FC = () => {
     variables: VARIABLES,
   })
 
-  if (loading) return <div className='hello-world-message'>Loading...</div>
+  if (loading) return <div className="hello-world-message">Loading...</div>
   if (error)
     return (
-      <div className='hello-world-message'>{`Error! ${error.message}`}</div>
+      <div className="hello-world-message">{`Error! ${error.message}`}</div>
     )
-
+  console.log({ data })
   return (
-    <div className='hello-world-container'>
+    <div className="hello-world-container">
       <HelloWorld helloWorldContent={data} />
     </div>
   )
