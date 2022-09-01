@@ -9,7 +9,7 @@ query HelloQuery {
 }`
 
 type HelloResponse = {
-  message?: 'hello world'
+  message?: string
   errors?: string[]
 }
 

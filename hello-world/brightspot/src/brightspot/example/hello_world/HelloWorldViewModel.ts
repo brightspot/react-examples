@@ -16,6 +16,6 @@ export default class HelloBrightspotViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getMessage(): string {
-    return 'hello world'
+    return 'Hello, World!'
   }
 }

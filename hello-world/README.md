@@ -28,7 +28,7 @@ The front-end application will open automatically in the browser.
 
 ## Using the example application
 
-Navigate to the GraphQL Expolorer in Brightspot by selecting the menu button, then 'GraphQL Explorer'. Select 'Hello World Endpoint' as your GraphQL Endpoint. Make sure the `message` field is checked in the query on the left pane. Run the query by pressing the Run button in the middle of the GraphQL Explorer page. You should see the message 'hello world'.
+Navigate to the GraphQL Explorer in Brightspot by selecting the menu button, then 'GraphQL Explorer'. Select 'Hello World Endpoint' as your GraphQL Endpoint. Make sure the `message` field is checked in the query on the left pane. Run the query by pressing the Run button in the middle of the GraphQL Explorer page. You should see the message 'Hello, World!'.
 
 ## How everything works
 
@@ -52,6 +52,8 @@ Navigate to `brightspot/src/examples/hello-world`. This directory contains the J
 The following are suggestions for learning more about JS Classes and Brightspot:
 
 1. Try changing the path and then check in Brightspot: navigate to `Admin`, `APIs`, and then your endpoint. You will see the endpoint listed there. Make sure to add the new path in your `app/.env` file!
+
+2. Try changing the message that is returned from the GraphQL query.
 
 ## Troubleshooting
 
