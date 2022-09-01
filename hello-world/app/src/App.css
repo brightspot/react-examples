@@ -24,12 +24,15 @@ h1 {
     color: #ffffff;
   }
   to {
-    color: #4285f4;
+    color: #ee0120;
   }
 }
 
+h1:hover {
+  opacity: 0.8;
+}
+
 p {
-  color: rgb(238, 1, 32);
   font-size: 1rem;
   font-family: 'Poppins', sans-serif;
 }
