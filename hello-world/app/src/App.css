@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+h1 {
+  font-size: 4rem;
+  color: #4285f4;
+}
+
+p {
+  color: rgb(238, 1, 32);
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
