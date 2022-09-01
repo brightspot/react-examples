@@ -16,7 +16,16 @@ body {
 
 h1 {
   font-size: 4rem;
-  color: #4285f4;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    color: #ffffff;
+  }
+  to {
+    color: #4285f4;
+  }
 }
 
 p {
