@@ -10,8 +10,8 @@ import ContentDeliveryPreviewType from 'brightspot-types/com/psddev/graphql/cda/
 import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 
-export default class HelloWorld extends JavaClass(
-  'brightspot.example.HelloWorld',
+export default class Page extends JavaClass(
+  'brightspot.example.pages.Page',
   Content,
   DirectoryItem,
   PreviewTypeSupplier
@@ -21,7 +21,10 @@ export default class HelloWorld extends JavaClass(
   title: string
 
   @JavaField(String)
-  text?: string
+  subtitle?: string
+
+  @JavaField(String)
+  catchPhrase?: string
 
   createPermalink(site: Site): string {
     return Utils.toNormalized(this.title)

@@ -1,0 +1,34 @@
+import JavaClass from 'brightspot-types/JavaClass'
+import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
+import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+
+import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
+import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
+import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
+
+import Page from './Page'
+
+@ViewInterface
+export default class ColorViewModel extends JavaClass(
+  'brightspot.example.colors.ColorViewModel',
+  ViewModel.Of(Page),
+  PageEntryView
+) {
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getTitle(): string {
+    return this.model.title
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getsubTitle(): string {
+    return this.model.subtitle
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getCatchPhrase(): string {
+    return this.model.catchPhrase
+  }
+}

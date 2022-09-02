@@ -1,11 +1,23 @@
+import { Route, Routes, NavLink } from 'react-router-dom'
 import './App.css'
-import HelloWorldContainer from './components/HelloWorld/HelloWorldContainer'
+import Page from './components/Page'
+import NotFound from './components/NotFound'
 
 function App() {
   return (
-    <div className='App'>
-      <HelloWorldContainer />
-    </div>
+    <>
+      <nav>
+        <ul>
+          <li>
+            <NavLink to="/pages/:page">Home</NavLink>
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path="/pages/:page" element={<Page />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   )
 }
 
