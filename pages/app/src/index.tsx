@@ -1,7 +1,9 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Page from './components/Page'
+import NotFound from './components/NotFound'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -11,7 +13,11 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <App />
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path=":page" element={<Page />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   </ApolloProvider>
 )

@@ -1,7 +1,5 @@
-import { Route, Routes, NavLink } from 'react-router-dom'
+import { Outlet, Link } from 'react-router-dom'
 import './App.css'
-import Page from './components/Page'
-import NotFound from './components/NotFound'
 
 function App() {
   return (
@@ -9,14 +7,11 @@ function App() {
       <nav>
         <ul>
           <li>
-            <NavLink to="/pages/:page">Home</NavLink>
+            <Link to="/about">About</Link>
           </li>
         </ul>
       </nav>
-      <Routes>
-        <Route path="/pages/:page" element={<Page />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Outlet />
     </>
   )
 }

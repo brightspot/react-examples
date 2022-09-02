@@ -9,6 +9,9 @@ import List from 'brightspot-types/java/util/List'
 import ContentDeliveryPreviewType from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryPreviewType'
 import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
+import Preview from 'brightspot-types/com/psddev/cms/db/Preview'
+import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
+import WebParameter from 'brightspot-types/com/psddev/dari/web/annotation/WebParameter'
 
 export default class Page extends JavaClass(
   'brightspot.example.pages.Page',
@@ -16,8 +19,23 @@ export default class Page extends JavaClass(
   DirectoryItem,
   PreviewTypeSupplier
 ) {
+  [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
+    return Utils.toNormalized(this.title)
+  }
+
+  [`getPreviewTypes(com.psddev.cms.db.Preview)`](
+    preview: Preview
+  ): List<PreviewType> {
+    let previewTypes = new Array<PreviewType>()
+    let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
+    contentDeliveryPreviewType.setPreviewUrl('http://localhost:3000')
+
+    previewTypes.push(contentDeliveryPreviewType)
+    return previewTypes as unknown as List<PreviewType>
+  }
   @JavaRequired
   @JavaField(String)
+  @Indexed({ unique: true })
   title: string
 
   @JavaField(String)
@@ -25,17 +43,4 @@ export default class Page extends JavaClass(
 
   @JavaField(String)
   catchPhrase?: string
-
-  createPermalink(site: Site): string {
-    return Utils.toNormalized(this.title)
-  }
-
-  getPreviewTypes(): List<PreviewType> {
-    let previewTypes = new Array<PreviewType>()
-    let myCDPT = new ContentDeliveryPreviewType()
-    myCDPT.setPreviewUrl('http://localhost:3000')
-
-    previewTypes.push(myCDPT)
-    return previewTypes as unknown as List<PreviewType>
-  }
 }
