@@ -40,12 +40,11 @@ Navigate to `brightspot/src/examples/hello-world`. This directory contains the J
 
 - `HelloWorldViewModel.ts`: the class that contains logic requirements needed for the view (the frontend application)
   - getter functions determine what fields will be included in the schema.
-- `HelloWorldEndpoint.ts`: the class that creates a custom Content Delivery Endpoint with the following configurations:
+- `HelloWorldEndpoint.ts`: the class that creates a custom Content Delivery Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. It has the following configurations:
+  - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
+  - `getQueryEntryFields`: use the View Model class to determine the schema for the custom endpoint
   - `updateCorsConfiguration`: permit cross-origin resource sharing (CORS) to enable requests from localhost
   - `getAccessOption`: implicit access so an API key is not required
-  - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
-  - `Singleton`: create a 'one and only' instance of the custom endpoint
-  - `getQueryEntryFields`: use the View Model class to determine the schema for the custom endpoint
 
 ## Try it yourself
 
