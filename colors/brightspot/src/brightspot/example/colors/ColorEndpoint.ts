@@ -17,18 +17,17 @@ export default class ColorEndpoint extends JavaClass(
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
-  getPaths(): JavaSet<string> {
-    return ['/graphql/delivery/colors'] as unknown as JavaSet<string>
-  }
-
-  getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
+  [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [ColorViewModel.class as Class<ColorViewModel>].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
+  getPaths(): JavaSet<string> {
+    return ['/graphql/delivery/colors'] as unknown as JavaSet<string>
+  }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
-    // TODO: super.updateCorsConfiguration(corsConfiguration)
+    super.updateCorsConfiguration(corsConfiguration)
     corsConfiguration.addAllowedOrigin('localhost')
   }
 

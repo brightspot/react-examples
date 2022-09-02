@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
 const ColorQuery = `\
-query ColorQuery($id: ID) {
-  Color(id: $id) {
+query ColorQuery($name: String = "") {
+  Color(model: {name: $name}) {
     name
     hexValue
   }
@@ -31,7 +31,7 @@ const Colors = () => {
       body: JSON.stringify({
         query: ColorQuery,
         variables: {
-          id: `${input}`,
+          name: `${input}`,
         },
       }),
     }
