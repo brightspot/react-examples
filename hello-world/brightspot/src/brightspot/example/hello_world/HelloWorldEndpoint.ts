@@ -29,7 +29,7 @@ export default class HelloWorldEndpoint extends JavaClass(
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
-    // TODO: super.updateCorsConfiguration(corsConfiguration)
+    super.updateCorsConfiguration(corsConfiguration)
     corsConfiguration.addAllowedOrigin('localhost')
   }
 
