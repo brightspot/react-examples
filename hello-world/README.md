@@ -45,7 +45,7 @@ Navigate to `brightspot/src/examples/hello-world`. This directory contains the J
   - `getAccessOption`: implicit access so an API key is not required
   - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
   - `Singleton`: create a 'one and only' instance of the custom endpoint
-  - `setQueryEntryFields`: use the View Model class to determine the schema for the custom endpoint
+  - `getQueryEntryFields`: use the View Model class to determine the schema for the custom endpoint
 
 ## Try it yourself
 
