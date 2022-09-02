@@ -22,7 +22,7 @@ export default class HelloWorldEndpoint extends JavaClass(
     return ['/graphql/delivery/hello-world'] as unknown as JavaSet<string>
   }
 
-  getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
+  [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [HelloWorldViewModel.class as Class<HelloWorldViewModel>].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
