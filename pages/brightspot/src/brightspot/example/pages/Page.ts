@@ -23,16 +23,6 @@ export default class Page extends JavaClass(
     return Utils.toNormalized(this.title)
   }
 
-  [`getPreviewTypes(com.psddev.cms.db.Preview)`](
-    preview: Preview
-  ): List<PreviewType> {
-    let previewTypes = new Array<PreviewType>()
-    let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
-    contentDeliveryPreviewType.setPreviewUrl('http://localhost:3000')
-
-    previewTypes.push(contentDeliveryPreviewType)
-    return previewTypes as unknown as List<PreviewType>
-  }
   @JavaRequired
   @JavaField(String)
   @Indexed({ unique: true })
@@ -42,5 +32,31 @@ export default class Page extends JavaClass(
   subtitle?: string
 
   @JavaField(String)
-  catchPhrase?: string
+  content?: string
+
+  @JavaField(String)
+  callToActionLink?: string;
+
+  [`getPreviewTypes(com.psddev.cms.db.Preview)`](
+    preview: Preview
+  ): List<PreviewType> {
+    let previewTypes = new Array<PreviewType>()
+    let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
+    console.log('HERE IS YOUR TITLE ✨ ✨ ✨: ', this.title)
+
+    if (this.title) {
+      contentDeliveryPreviewType.setPreviewUrl(
+        `http://localhost:3000/${this.title}`
+      )
+      console.log(
+        'HERE IS THE URL  ✨ ✨ ✨: ',
+        contentDeliveryPreviewType['getPreviewUrl()']()
+      )
+    } else {
+      contentDeliveryPreviewType.setPreviewUrl(`http://localhost:3000`)
+    }
+
+    previewTypes.push(contentDeliveryPreviewType)
+    return previewTypes as unknown as List<PreviewType>
+  }
 }

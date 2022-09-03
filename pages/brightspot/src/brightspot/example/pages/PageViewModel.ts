@@ -26,7 +26,13 @@ export default class PageViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getCatchPhrase(): string {
-    return this.model.catchPhrase
+  getContent(): string {
+    return this.model.content
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getCallToActionLink(): string {
+    return this.model.callToActionLink
   }
 }

@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client'
 
 const GET_PAGE = gql`
-  query GetPage($path: String = "/home") {
-    Page(path: $path) {
-      catchPhrase
+  query GetPage($title: String = "") {
+    Page(model: { title: $title }) {
+      content
       subTitle
       title
     }
@@ -15,17 +15,17 @@ const Page = () => {
   console.log({ page })
   const { data, error } = useQuery(GET_PAGE, {
     variables: {
-      path: `/${page}`,
+      title: `${page}`,
     },
   })
 
   console.log({ data, error })
   return (
-    <>
+    <div className="page-container">
       <h1>{data?.Page?.title}</h1>
       <h2>{data?.Page?.subTitle}</h2>
-      <p>{data?.Page?.catchPhrase}</p>
-    </>
+      <p>{data?.Page?.content}</p>
+    </div>
   )
 }
 
