@@ -4,6 +4,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Page from './components/Page'
 import NotFound from './components/NotFound'
+import Home from './components/Home'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -15,6 +16,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
+          <Route path="" element={<Home />} />
           <Route path=":page" element={<Page />} />
           <Route path="*" element={<NotFound />} />
         </Route>

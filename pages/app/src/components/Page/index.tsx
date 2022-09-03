@@ -7,24 +7,33 @@ const GET_PAGE = gql`
       content
       subTitle
       title
+      callToActionLink
     }
   }
 `
 const Page = () => {
   const { page } = useParams()
-  console.log({ page })
-  const { data, error } = useQuery(GET_PAGE, {
+  const { data, loading, error } = useQuery(GET_PAGE, {
     variables: {
       title: `${page}`,
     },
   })
+  if (loading) return <h3 className="loading">Loading...</h3>
 
-  console.log({ data, error })
+  if (!data?.Page) {
+    return <h2 className="not-found">Page not found 🤔...</h2>
+  }
   return (
     <div className="page-container">
       <h1>{data?.Page?.title}</h1>
       <h2>{data?.Page?.subTitle}</h2>
       <p>{data?.Page?.content}</p>
+      {data?.Page?.callToActionLink && (
+        <button className="cta">{data?.Page?.callToActionLink}</button>
+      )}
+      {error && (
+        <p className="error">{`There was an error fetching data for the page: ${error} `}</p>
+      )}
     </div>
   )
 }

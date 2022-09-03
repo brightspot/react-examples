@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AiOutlineMenu } from 'react-icons/ai'
+import { GiTwirlyFlower } from 'react-icons/gi'
 
 type Props = {
   pages: [{ title?: string }]
@@ -8,36 +9,31 @@ type Props = {
 
 const Navbar = ({ pages }: Props) => {
   const [showLinks, setShowLinks] = useState(false)
-  const linksContainerRef = useRef<HTMLDivElement>(null)
-  const linksRef = useRef<HTMLUListElement>(null)
   const toggleLinks = () => {
     setShowLinks(!showLinks)
   }
-
-  useEffect(() => {
-    const linksHeight = linksRef?.current?.getBoundingClientRect()?.height
-    if (showLinks && linksContainerRef?.current && linksHeight) {
-      linksContainerRef.current.style.height = `${linksHeight + 20}px`
-    } else if (linksContainerRef?.current) {
-      linksContainerRef.current.style.height = '0px'
-    }
-  }, [showLinks])
 
   return (
     <nav>
       <div className="nav-center">
         <div className="nav-header">
-          <h2 className="logo">Pages</h2>
+          <Link to="/" onClick={() => setShowLinks(false)}>
+            {' '}
+            <GiTwirlyFlower className="logo-icon" />
+            <span className="logo">Pages</span>
+          </Link>
+
           <button className="nav-toggle" onClick={toggleLinks}>
             <AiOutlineMenu />
           </button>
         </div>
-        <div className="links-container" ref={linksContainerRef}>
-          <ul className="links" ref={linksRef}>
+        <div className="links-container" data-show={showLinks || null}>
+          <ul className="links">
             {pages?.map((page, i: number) => {
               return (
                 <li key={i}>
                   <Link
+                    onClick={() => setShowLinks(false)}
                     to={`/${page?.title?.toLowerCase()}`}
                     className="navigationItem"
                   >

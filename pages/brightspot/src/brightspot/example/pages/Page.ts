@@ -12,6 +12,7 @@ import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 import Preview from 'brightspot-types/com/psddev/cms/db/Preview'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import WebParameter from 'brightspot-types/com/psddev/dari/web/annotation/WebParameter'
+import Note from 'brightspot-types/com/psddev/cms/db/ToolUi$Note'
 
 export default class Page extends JavaClass(
   'brightspot.example.pages.Page',
@@ -26,15 +27,22 @@ export default class Page extends JavaClass(
   @JavaRequired
   @JavaField(String)
   @Indexed({ unique: true })
+  @Note({
+    value:
+      'Required title that appears at the top of each page and also determines the pathname',
+  })
   title: string
 
   @JavaField(String)
+  @Note({ value: 'Optional subitle supports the title for the page' })
   subtitle?: string
 
   @JavaField(String)
+  @Note({ value: 'Optional paragraph(s) for the page' })
   content?: string
 
   @JavaField(String)
+  @Note({ value: 'Optional text that appears in the Call To Action Link' })
   callToActionLink?: string;
 
   [`getPreviewTypes(com.psddev.cms.db.Preview)`](
@@ -42,15 +50,9 @@ export default class Page extends JavaClass(
   ): List<PreviewType> {
     let previewTypes = new Array<PreviewType>()
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
-    console.log('HERE IS YOUR TITLE ✨ ✨ ✨: ', this.title)
-
     if (this.title) {
       contentDeliveryPreviewType.setPreviewUrl(
         `http://localhost:3000/${this.title}`
-      )
-      console.log(
-        'HERE IS THE URL  ✨ ✨ ✨: ',
-        contentDeliveryPreviewType['getPreviewUrl()']()
       )
     } else {
       contentDeliveryPreviewType.setPreviewUrl(`http://localhost:3000`)
