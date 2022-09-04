@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AiOutlineMenu } from 'react-icons/ai'
-import { GiTwirlyFlower } from 'react-icons/gi'
 
 type Props = {
   pages: [{ title?: string }]
@@ -18,8 +17,6 @@ const Navbar = ({ pages }: Props) => {
       <div className="nav-center">
         <div className="nav-header">
           <Link to="/" onClick={() => setShowLinks(false)}>
-            {' '}
-            <GiTwirlyFlower className="logo-icon" />
             <span className="logo">Pages</span>
           </Link>
 

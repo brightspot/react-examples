@@ -1,9 +1,16 @@
+import folder from '../../images/folder.png'
+
 const Home = () => {
   return (
     <>
       <section className="home-container">
-        <h1 className="home-title">Welcome to the Website</h1>
-        <button className="home-cta">Learn more about us</button>
+        <div className="left-container">
+          <h1 className="home-title">Welcome to this Website</h1>
+          <button className="home-cta">Learn more about us</button>
+        </div>
+        <div className="right-container">
+          <img src={folder} alt="folder" />
+        </div>
       </section>
       <section className="info-container">
         <div className="info-card">

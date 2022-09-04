@@ -8,6 +8,7 @@ import List from 'brightspot-types/java/util/List'
 import Preview from 'brightspot-types/com/psddev/cms/db/Preview'
 import PreviewType from 'brightspot-types/com/psddev/cms/preview/PreviewType'
 import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
+
 import Note from 'brightspot-types/com/psddev/cms/db/ToolUi$Note'
 
 export default class Page extends JavaClass(

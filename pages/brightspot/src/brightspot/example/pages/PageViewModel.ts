@@ -4,6 +4,7 @@ import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
+
 import Page from './Page'
 
 @ViewInterface

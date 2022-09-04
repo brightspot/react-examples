@@ -30,12 +30,12 @@ The front-end application will open automatically in the browser.
 
 Make sure you have your front-end application running so you can see how the Preview Panel in Brightspot updates real-time.
 
-Create a page in Brightspot. Make sure to enter a title - the rest of the fields are optional. After you publish your material, you will
+Create a page in Brightspot. Make sure to enter a title; the rest of the fields are optional. After you publish your material, you will
 see the page appear in the Preview Panel in Brightspot! You can also verify in your front-end application that your published content displays.
 
 ## How everything works
 
-Brightspot gives you the power to do just about anything with JS Classes. One helpful feature Brightspot provides is a Preview Panel when you are creating content.
+Brightspot gives you the power to customize Brightspot, add new classes, create endpoints, and much more with JS Classes. One helpful feature Brightspot provides is a Preview Panel when you are creating and publishing content.
 
 Navigate to `brightspot/src/examples/pages`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
