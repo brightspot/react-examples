@@ -2,13 +2,14 @@ import ApiClient from 'brightspot-types/com/psddev/cms/api/ApiClient'
 import ApiEndpoint from 'brightspot-types/com/psddev/cms/api/ApiEndpoint'
 import ApiKey from 'brightspot-types/com/psddev/cms/api/ApiKey'
 import ArrayList from 'brightspot-types/java/util/ArrayList'
-import AppEndpoint from './NotesEndpoint'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaDate from 'brightspot-types/java/util/Date'
+import JavaSet from 'brightspot-types/java/util/Set'
 import Modification from 'brightspot-types/com/psddev/dari/db/Modification'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import UuidUtils from 'brightspot-types/com/psddev/dari/util/UuidUtils'
-import JavaSet from 'brightspot-types/java/util/Set'
+
+import AppEndpoint from './NotesEndpoint'
 
 export default class NotesEndpointClient extends JavaClass(
   'brightspot.example.notes.NotesEndpointClient',
@@ -29,7 +30,6 @@ export default class NotesEndpointClient extends JavaClass(
     }
 
     if (!client.getEndpoints().contains(this)) {
-      //@ts-ignore
       let endpoints = new ArrayList<ApiEndpoint>(client.getEndpoints())
       endpoints['add(java.lang.Object)'](original)
 
