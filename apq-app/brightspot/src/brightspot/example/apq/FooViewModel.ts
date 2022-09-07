@@ -4,22 +4,22 @@ import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import Article from './Article'
+import Foo from './Foo'
 
 @ViewInterface
-export default class ArticleViewModel extends JavaClass(
-  'brightspot.example.apq.ArticleViewModel',
-  ViewModel.Of(Article)
+export default class FooViewModel extends JavaClass(
+  'brightspot.example.apq.FooViewModel',
+  ViewModel.Of(Foo)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getTitle(): string {
-    return this.model.title
+  getFoo(): string {
+    return this.model.foo || 'test title'
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getBody(): string {
-    return this.model.body
+    return this.model.bar || ' test body'
   }
 }

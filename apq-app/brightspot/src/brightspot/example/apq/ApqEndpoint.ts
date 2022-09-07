@@ -8,9 +8,9 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
-import ArticleViewModel from './ArticleViewModel'
+import FooViewModel from './FooViewModel'
 import CustomGraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/CustomGraphQLCorsConfiguration'
-import ArticleHashAlgorithm from './ArticleHashAlgorithm'
+import FooHashAlgorithm from './FooHashAlgorithm'
 
 import CustomAutomaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/CustomAutomaticPersistedQueryProtocol'
 import PersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryProtocol'
@@ -26,7 +26,7 @@ export default class ApqEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [ArticleViewModel.class as Class<ArticleViewModel>].map(
+    return [FooViewModel.class as Class<FooViewModel>].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
@@ -44,7 +44,7 @@ export default class ApqEndpoint extends JavaClass(
   [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
     let apq = new CustomAutomaticPersistedQueryProtocol()
     // apq.setHashAlgorithm(new ArticleHashAlgorithm())
-    const foo = new ArticleHashAlgorithm()
+    const foo = new FooHashAlgorithm()
     apq[
       'setHashAlgorithm(com.psddev.graphql.pqp.AutomaticPersistedQueryHashAlgorithm)'
     ](foo)

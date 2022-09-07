@@ -4,8 +4,8 @@ import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 import JavaClass from 'brightspot-types/JavaClass'
 // import PersistedQueryExtension from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryExtension'
 
-export default class ArticleHashAlgorithm extends JavaClass(
-  'brightspot.example.apq.ArticleHashAlgorithm',
+export default class FooHashAlgorithm extends JavaClass(
+  'brightspot.example.apq.FooHashAlgorithm',
   AutomaticPersistedQueryHashAlgorithm
 ) {
   [`getPersistedQueryHashKey()`](): string {
