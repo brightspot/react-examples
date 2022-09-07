@@ -11,6 +11,7 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import FooViewModel from './FooViewModel'
 import CustomGraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/CustomGraphQLCorsConfiguration'
 import FooHashAlgorithm from './FooHashAlgorithm'
+import Sha256PersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graphql/pqp/Sha256PersistedQueryHashAlgorithm'
 
 import CustomAutomaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/CustomAutomaticPersistedQueryProtocol'
 import PersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryProtocol'
@@ -43,18 +44,16 @@ export default class ApqEndpoint extends JavaClass(
 
   [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
     let apq = new CustomAutomaticPersistedQueryProtocol()
-    // apq.setHashAlgorithm(new ArticleHashAlgorithm())
-    const foo = new FooHashAlgorithm()
-    apq[
-      'setHashAlgorithm(com.psddev.graphql.pqp.AutomaticPersistedQueryHashAlgorithm)'
-    ](foo)
-    // apq['generateQueryExtension(java.lang.String)']()
-    // console.log('FOO ', foo)
-    // const bar = apq['getHashAlgorithm()']()
-    // const baz = bar.generateQueryExtension('test', 'hello')
-    // console.log('BAR ', bar)
-    // console.log('BAZ ', baz)
 
+    // apq[
+    //   'setHashAlgorithm(com.psddev.graphql.pqp.AutomaticPersistedQueryHashAlgorithm)'
+    // ](new FooHashAlgorithm())
+    // apq[
+    //   'setHashAlgorithm(com.psddev.graphql.pqp.AutomaticPersistedQueryHashAlgorithm)'
+    // ](new Sha256PersistedQueryHashAlgorithm())
+    const hashAlgorithm = apq['getHashAlgorithm()']()
+
+    console.log('HASH ', hashAlgorithm)
     return apq
   }
   getApiAccessOption(): GraphQLApiAccessOption {
