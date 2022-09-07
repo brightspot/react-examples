@@ -15,8 +15,8 @@ export default class Article extends JavaClass(
   @JavaField(String)
   body?: string
 
-  @JavaField(Page)
-  page?: Page
+  // @JavaField(Page)
+  // page?: Page
 
   getLabel(): string {
     return this.headline || ''

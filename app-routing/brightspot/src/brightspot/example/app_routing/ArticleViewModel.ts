@@ -26,9 +26,9 @@ export default class ArticleViewModel extends JavaClass(
     return this.model.body
   }
 
-  @JavaMethodParameters()
-  @JavaMethodReturn(Page)
-  getPage(): Page {
-    return this.model.page
-  }
+  // @JavaMethodParameters()
+  // @JavaMethodReturn(Page)
+  // getPage(): Page {
+  //   return this.model.page
+  // }
 }

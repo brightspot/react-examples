@@ -5,8 +5,9 @@ import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import App from './App'
+import AppViewModel from './AppViewModel'
 import Page from './Page'
+import Class from 'brightspot-types/java/lang/Class'
 
 @ViewInterface
 export default class PageViewModel extends JavaClass(
@@ -21,8 +22,11 @@ export default class PageViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
-  @JavaMethodReturn(App)
-  getApp(): App {
-    return this.model.app
+  @JavaMethodReturn(AppViewModel)
+  getApp(): AppViewModel {
+    return this.createView(
+      AppViewModel.class as Class<AppViewModel>,
+      this.model.app
+    )
   }
 }
