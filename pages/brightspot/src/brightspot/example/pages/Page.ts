@@ -26,7 +26,7 @@ export default class Page extends JavaClass(
   title: string
 
   @JavaField(String)
-  @Note({ value: 'Optional subitle supports the title for the page' })
+  @Note({ value: 'Optional subtitle supports the title for the page' })
   subtitle?: string
 
   @JavaField(String)
@@ -42,6 +42,7 @@ export default class Page extends JavaClass(
   ): List<PreviewType> {
     let previewTypes = new Array<PreviewType>()
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
+
     if (this.title) {
       contentDeliveryPreviewType.setPreviewUrl(
         `http://localhost:3000/${this.title}`
