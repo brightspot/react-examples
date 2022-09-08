@@ -7,12 +7,13 @@ import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQ
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
-import PageViewModel from './PageViewModel'
-import PagesViewModel from './PagesViewModel'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-export default class PagesEndpoint extends JavaClass(
-  'brightspot.example.pages.PagesEndpoint',
+import PageViewModel from './PageViewModel'
+import PagesViewModel from './PagesViewModel'
+
+export default class LearningFunEndpoint extends JavaClass(
+  'brightspot.example.learning_fun.LearningFunEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {

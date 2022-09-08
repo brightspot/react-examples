@@ -12,7 +12,7 @@ import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/Preview
 import Note from 'brightspot-types/com/psddev/cms/db/ToolUi$Note'
 
 export default class Page extends JavaClass(
-  'brightspot.example.pages.Page',
+  'brightspot.example.learning_fun.Page',
   Content,
   PreviewTypeSupplier
 ) {
@@ -42,15 +42,9 @@ export default class Page extends JavaClass(
   ): List<PreviewType> {
     let previewTypes = new Array<PreviewType>()
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
-
-    if (this.title) {
-      contentDeliveryPreviewType.setPreviewUrl(
-        `http://localhost:3000/${this.title}`
-      )
-    } else {
-      contentDeliveryPreviewType.setPreviewUrl(`http://localhost:3000`)
-    }
-
+    contentDeliveryPreviewType.setPreviewUrl(
+      `http://localhost:3000/previewpage`
+    )
     previewTypes.push(contentDeliveryPreviewType)
     return previewTypes as unknown as List<PreviewType>
   }

@@ -18,7 +18,6 @@ root.render(
         <Route path="/" element={<App />}>
           <Route path="" element={<Home />} />
           <Route path=":title" element={<Page />} />
-          <Route path=":id" element={<Page />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -1,27 +1,38 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AiOutlineMenu } from 'react-icons/ai'
+import { BiChevronDown } from 'react-icons/bi'
 
 type Props = {
   pages: [{ title?: string }]
 }
 
-const Navbar = ({ pages }: Props) => {
+export function Navbar({ pages }: Props) {
   const [showLinks, setShowLinks] = useState(false)
   const toggleLinks = () => {
     setShowLinks(!showLinks)
   }
-
+  // const array = [...Array(300)].map((_, i) => i + 1)
   return (
     <nav>
       <div className="nav-center">
         <div className="nav-header">
           <Link to="/" onClick={() => setShowLinks(false)}>
-            <span className="logo">Pages</span>
+            <span className="logo">Learning Fun</span>
           </Link>
 
           <button className="nav-toggle" onClick={toggleLinks}>
-            <AiOutlineMenu />
+            <AiOutlineMenu
+              className="menu-icon"
+              data-reverse={showLinks || null}
+            />
+            <span className="page-label">
+              <BiChevronDown
+                className="down-chevron"
+                data-reverse={showLinks || null}
+              />
+              <p>Courses</p>
+            </span>
           </button>
         </div>
         <div className="links-container" data-show={showLinks || null}>
@@ -45,5 +56,3 @@ const Navbar = ({ pages }: Props) => {
     </nav>
   )
 }
-
-export default Navbar

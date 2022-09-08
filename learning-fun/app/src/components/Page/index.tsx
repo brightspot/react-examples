@@ -2,12 +2,12 @@ import { useParams } from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client'
 
 const GET_PAGE = gql`
-  query GetPage($id: ID = "", $title: String = "") {
+  query GetPage($id: ID, $title: String) {
     Page(model: { title: $title, id: $id }) {
       callToActionLink
       content
-      subTitle
       title
+      subtitle
     }
   }
 `
@@ -17,7 +17,7 @@ const Page = () => {
   const previewId = new URLSearchParams(window.location.search).get('previewId')
 
   const variable = previewId != null ? { id: previewId } : { title: title }
-
+  console.log({ variable })
   const { data, loading, error } = useQuery(GET_PAGE, {
     variables: variable,
   })
@@ -26,6 +26,7 @@ const Page = () => {
   if (!data?.Page) {
     return <h2 className="not-found">Page not found 🤔...</h2>
   }
+  console.log({ data })
   return (
     <div className="page-container">
       <h1>{data?.Page?.title}</h1>

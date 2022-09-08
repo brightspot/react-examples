@@ -9,7 +9,7 @@ import Page from './Page'
 
 @ViewInterface
 export default class PageViewModel extends JavaClass(
-  'brightspot.example.pages.PageViewModel',
+  'brightspot.example.learning_fun.PageViewModel',
   ViewModel.Of(Page),
   PageEntryView
 ) {
@@ -21,7 +21,7 @@ export default class PageViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getsubTitle(): string {
+  getSubtitle(): string {
     return this.model.subtitle
   }
 

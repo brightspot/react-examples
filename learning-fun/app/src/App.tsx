@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client'
-import Navbar from './components/Navbar'
+import { Navbar } from './components/Navbar'
 import './App.css'
 import Footer from './components/Footer'
 
