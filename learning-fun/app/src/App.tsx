@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client'
 import { Navbar } from './components/Navbar'
 import './App.css'
-import Footer from './components/Footer'
 
 const GET_PAGES = gql`
   query getAllPages {
@@ -24,7 +23,6 @@ function App() {
         <p className="error">{`There was an error fetching data for pages: ${error}`}</p>
       )}
       <Outlet />
-      <Footer />
     </>
   )
 }

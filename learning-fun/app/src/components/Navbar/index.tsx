@@ -12,7 +12,7 @@ export function Navbar({ pages }: Props) {
   const toggleLinks = () => {
     setShowLinks(!showLinks)
   }
-  // const array = [...Array(300)].map((_, i) => i + 1)
+
   return (
     <nav>
       <div className="nav-center">
