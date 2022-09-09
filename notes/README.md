@@ -60,7 +60,7 @@ All queries are located in `app/queries/index.ts`:
 
 All GraphQL queries are made using the dynamic api routing provided by Next.js. Navigate to `pages/api/notes` to see how the GraphQL query requests are made.
 
-> **_Note_** This application is for demonstration purposes only. In a production-level application, you would want to implement authentication. Although this application requires a Username for creating new content and updating content in the frontend, further authentication would be needed.
+> **_Note_** This application is for demonstration purposes only. In a production-level application, you would want to implement authentication. Although this application requires a username for creating new content and updating content in the frontend, further authentication would be needed.
 
 ## Try it yourself
 
