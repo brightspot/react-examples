@@ -35,7 +35,7 @@ const Page = () => {
     <div className="page-container">
       <h1 className="page-title">{data?.Page?.title}</h1>
       <img src={underline} alt="underline" />
-      <h2>{data?.Page?.subTitle}</h2>
+      <h2>{data?.Page?.subtitle}</h2>
       <p>{data?.Page?.content}</p>
       {error && (
         <p className="error">{`There was an error fetching data for the page: ${error} `}</p>
