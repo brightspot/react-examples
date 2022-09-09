@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom'
+
 const Footer = () => {
   return (
     <footer>
-      <p>Pages</p>
+      <Link to="/">
+        <p className="footer-text">Pages</p>
+      </Link>
     </footer>
   )
 }

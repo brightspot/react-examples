@@ -36,16 +36,19 @@ export function Navbar({ pages }: Props) {
           </button>
         </div>
         <div className="links-container" data-show={showLinks || null}>
-          <ul className="links">
+          <ul className="links" data-show={showLinks || null}>
             {pages?.map((page, i: number) => {
               return (
-                <li key={i}>
+                <li key={i} data-show={showLinks || null}>
                   <Link
                     onClick={() => setShowLinks(false)}
                     to={`/${page?.title?.toLowerCase()}`}
-                    className="navigationItem"
+                    className="link-item"
+                    data-show={showLinks || null}
                   >
-                    {page?.title?.toLowerCase()}
+                    <span className="link-text">
+                      {page?.title?.toLowerCase()}
+                    </span>
                   </Link>
                 </li>
               )

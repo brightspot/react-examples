@@ -31,11 +31,7 @@ export default class Page extends JavaClass(
 
   @JavaField(String)
   @Note({ value: 'Optional paragraph(s) for the page' })
-  content?: string
-
-  @JavaField(String)
-  @Note({ value: 'Optional text that appears in the Call To Action Link' })
-  callToActionLink?: string;
+  content?: string;
 
   [`getPreviewTypes(com.psddev.cms.db.Preview)`](
     preview: Preview

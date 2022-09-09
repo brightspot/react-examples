@@ -30,10 +30,4 @@ export default class PageViewModel extends JavaClass(
   getContent(): string {
     return this.model.content
   }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getCallToActionLink(): string {
-    return this.model.callToActionLink
-  }
 }

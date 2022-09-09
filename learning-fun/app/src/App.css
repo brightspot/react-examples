@@ -76,7 +76,6 @@ h2 {
 }
 
 p {
-  /* margin: 2rem 0; */
   font-size: 1.3rem;
   color: var(--secondaryTextColor);
 }
@@ -137,14 +136,24 @@ nav {
 }
 
 .links {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
   height: 100%;
   width: 100%;
+  opacity: 0;
 }
 
-.links a {
+.links[data-show] {
+  opacity: 1;
+}
+
+.links li {
+  opacity: 0;
+}
+
+.links li[data-show] {
+  opacity: 1;
+}
+
+.link-item {
   color: var(--primaryTextColor);
   font-size: 1.2rem;
   text-transform: capitalize;
@@ -153,9 +162,18 @@ nav {
   padding: 5px;
   transition: var(--transition);
   margin-left: 1rem;
+  opacity: 0;
 }
 
-.links a:hover {
+.link-item[data-show] {
+  opacity: 1;
+}
+
+.link-text {
+  padding: 2px;
+  border-radius: var(--radius);
+}
+.link-text:hover {
   background: var(--grayscaleTwo);
   color: var(--primaryBlue);
 }
@@ -165,7 +183,7 @@ nav {
   width: 100%;
   height: 0;
   overflow: hidden;
-  transition: height 0.7s;
+  transition: height 0.5s;
 }
 
 .links-container[data-show] {
@@ -180,26 +198,14 @@ nav {
 
 /* Page */
 .page-container {
-  padding: 30px 20px;
+  padding: calc(8px + 3.5625vw);
   max-width: 1240px;
   margin: 0 auto;
 }
 
-.cta {
-  border: 2px solid var(--primaryColor);
-  color: var(--clr-white);
-  background-color: var(--primaryColor);
-  box-shadow: var(--light-shadow);
-  padding: 10px 12px;
-  border-radius: var(--radius);
-  min-height: 36px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background-color linear 0.2s;
-}
-.cta:hover {
-  background-color: var(--clr-white);
-  color: var(--primaryColor);
+.page-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .home-container {
@@ -270,9 +276,14 @@ footer {
   margin-left: 3rem;
 }
 
-footer p {
+.footer-text {
   color: var(--primaryTextColor);
   font-size: 1.3rem;
+}
+
+.footer-text:hover {
+  text-decoration: underline;
+  color: var(--primaryBlue);
 }
 
 .error {
@@ -309,12 +320,6 @@ footer p {
 
   .right-container {
     width: 300px;
-  }
-
-  .links a:hover {
-    background: var(--grayscaleTwo);
-    color: var(--primaryBlue);
-    font-weight: 700;
   }
 }
 
