@@ -1,10 +1,10 @@
-# Pages
+# Learning Fun
 
 This example highlights demonstates using JS Classes to programatically enable a front-end page preview using Brightspot.
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `pages` directory:
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `learning-fun` directory:
 
 To upload JS Classes in Brightspot (http://localhost/cms):
 
@@ -36,7 +36,7 @@ Create a page in Brightspot. Make sure to enter a title; the rest of the fields 
 
 Brightspot gives you the power to customize Brightspot, add new classes, create endpoints, and much more with JS Classes. One helpful feature Brightspot provides is a Preview Panel when you are creating content.
 
-Navigate to `brightspot/src/examples/pages`. This directory contains the JS Classes files that are uploaded to Brightspot.
+Navigate to `brightspot/src/examples/learning_fun`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
 #### JS Classes Files:
 
