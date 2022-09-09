@@ -10,6 +10,7 @@ import PageViewModel from './PageViewModel'
 import Page from './Page'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import Class from 'brightspot-types/java/lang/Class'
+import List from 'brightspot-types/java/util/List'
 
 @ViewInterface
 export default class AppViewModel extends JavaClass(
@@ -25,11 +26,15 @@ export default class AppViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
-  @JavaMethodReturn(PageViewModel)
-  getPage(): PageViewModel {
-    let page = Query['from(java.lang.Class)'](Page.class)[
-      'where(java.lang.String,java.lang.Object[])'
-    ]('* matches *')
-    return this.createView(PageViewModel.class as Class<PageViewModel>, page)
+  @JavaMethodReturn(List.Of(PageViewModel))
+  getPage(): List<PageViewModel> {
+    let pageQuery = Query.from(Page.class).where('* matches *')
+
+    const pages = pageQuery.selectAll()
+
+    return this.createViews(
+      PageViewModel.class as Class<PageViewModel>,
+      pages
+    ) as undefined as List<PageViewModel>
   }
 }
