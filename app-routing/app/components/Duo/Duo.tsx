@@ -1,5 +1,6 @@
 import styles from './Duo.module.css'
-import { Article } from '../../generated/graphql'
+import { PartialArticle } from '../../pages'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -9,19 +10,16 @@ const imageArray = [
 ]
 
 interface Props {
-  articles: Array<Article>
+  articles: PartialArticle[]
 }
 
 const Duo = ({ articles }: Props) => {
+  console.log({ articles })
   return (
     <section className={styles.section}>
       <div className={styles.listGrid}>
         {articles?.map((article, index) => (
-          <Link
-            href={`/${article?.page?.name}/${article?.headline}?article=${article?._id}`}
-            as={`/${article?.page?.name}/${article?.headline}`}
-            key={index}
-          >
+          <Link href={`/${article?.pageName}/${article?.headline}`} key={index}>
             <a>
               <div className={styles.listItem}>
                 <div className={styles.imageContainer}>
@@ -34,7 +32,7 @@ const Duo = ({ articles }: Props) => {
                   />
                 </div>
                 <div className={styles.textContainer}>
-                  <p className={styles.sectionText}>{article?.page?.name}</p>
+                  <p className={styles.sectionText}>{article?.pageName}</p>
                   <h2 className={styles.articleHeadline}>
                     {article?.headline}
                   </h2>

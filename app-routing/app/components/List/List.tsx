@@ -1,6 +1,6 @@
 import styles from './List.module.css'
 import Link from 'next/link'
-import { Article } from '../../generated/graphql'
+import { PartialArticle } from '../../pages/index'
 
 const colorArray = [
   '#2F8F9D',
@@ -14,20 +14,16 @@ const colorArray = [
 ]
 
 interface Props {
-  articles?: Array<Article>
+  articles?: PartialArticle[]
 }
 
 const List = ({ articles }: Props) => {
   return (
     <section className={styles.listSection}>
       <div className={styles.listGrid}>
-        {articles?.map((article: Article, i: number) => {
+        {articles?.map((article: PartialArticle, i: number) => {
           return (
-            <Link
-              key={i}
-              href={`/${article?.page?.name}/${article?.headline}?article=${article?._id}`}
-              as={`/${article?.page?.name}/${article?.headline}`}
-            >
+            <Link key={i} href={`/${article?.pageName}/${article?.headline}`}>
               <a>
                 <div className={styles.listItem}>
                   <div className={styles.imageContainer}>
@@ -43,10 +39,8 @@ const List = ({ articles }: Props) => {
                     </div>
                   </div>
                   <div className={styles.textContainer}>
-                    {article?.page?.name && (
-                      <p className={styles.sectionText}>
-                        {article?.page?.name}
-                      </p>
+                    {article?.pageName && (
+                      <p className={styles.sectionText}>{article?.pageName}</p>
                     )}
                     <h4 className={styles.articleHeadline}>
                       {article?.headline}

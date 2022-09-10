@@ -1,4 +1,4 @@
-import { useGetRecentArticlesQuery } from '../generated/graphql'
+import { useGetAppArticlesQuery } from '../generated/graphql'
 import Meta from '../components/Meta'
 import Container from '../components/Container/Container'
 import List from '../components/List/List'
@@ -9,8 +9,10 @@ import { Article } from '../generated/graphql'
 import styles from '../styles/pages.module.css'
 import { APP_TITLE } from '../components/Navbar/Navbar'
 
+export type PartialArticle = Omit<Article, 'body'> | null
+
 const Home = () => {
-  const { data, error, loading } = useGetRecentArticlesQuery({
+  const { data, error, loading } = useGetAppArticlesQuery({
     variables: {
       title: APP_TITLE,
     },
@@ -24,27 +26,25 @@ const Home = () => {
       </div>
     )
 
-  console.log({ data })
-  // const allArticles: Article[] = []
-  // data?.App?.Page_app_connection?.items.forEach((item) => {
-  //   if (item.Article_page_connection?.items) {
-  //     allArticles.push(...item.Article_page_connection.items)
-  //   }
-  // })
-
-  // allArticles.sort(
-  //   (a, b) => b.cms_content?.publishDate - a.cms_content?.publishDate
-  // )
+  const allArticles: PartialArticle[] = []
+  if (data?.App?.pages) {
+    data?.App?.pages?.forEach((item) => {
+      if (item?.articles) {
+        allArticles.push(...item.articles)
+      }
+    })
+  }
 
   return (
     <>
       <Meta />
       <Banner name='Top News' />
       <Container>
-        <h1>Hello there</h1>
-        {/* <Duo articles={allArticles.slice(0, 2)} />
-        <List articles={allArticles.slice(2, 6)} />
-        <Promo article={allArticles[6] ? allArticles[6] : allArticles[0]} /> */}
+        <Duo articles={allArticles.slice(0, 2)} />
+        {allArticles.length > 2 && <List articles={allArticles.slice(2, 6)} />}
+        {allArticles.length > 5 && (
+          <Promo article={allArticles[6] ? allArticles[6] : allArticles[0]} />
+        )}
       </Container>
     </>
   )

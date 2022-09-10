@@ -30,6 +30,7 @@ export type Article = {
   __typename?: 'Article';
   body?: Maybe<Scalars['String']>;
   headline?: Maybe<Scalars['String']>;
+  pageName?: Maybe<Scalars['String']>;
   publishDate?: Maybe<Scalars['String']>;
 };
 
@@ -81,12 +82,12 @@ export type GetAppQueryVariables = Exact<{
 
 export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, pages?: Array<{ __typename?: 'Page', name?: string | null } | null> | null } | null };
 
-export type GetRecentArticlesQueryVariables = Exact<{
+export type GetAppArticlesQueryVariables = Exact<{
   title?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetRecentArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, pages?: Array<{ __typename?: 'Page', name?: string | null, articles?: Array<{ __typename?: 'Article', publishDate?: string | null, headline?: string | null } | null> | null } | null> | null } | null };
+export type GetAppArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, pages?: Array<{ __typename?: 'Page', articles?: Array<{ __typename?: 'Article', headline?: string | null, pageName?: string | null, publishDate?: string | null } | null> | null } | null> | null } | null };
 
 export type GetArticleQueryVariables = Exact<{
   headline?: InputMaybe<Scalars['String']>;
@@ -141,48 +142,48 @@ export function useGetAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetAppQueryHookResult = ReturnType<typeof useGetAppQuery>;
 export type GetAppLazyQueryHookResult = ReturnType<typeof useGetAppLazyQuery>;
 export type GetAppQueryResult = Apollo.QueryResult<GetAppQuery, GetAppQueryVariables>;
-export const GetRecentArticlesDocument = gql`
-    query GetRecentArticles($title: String) {
+export const GetAppArticlesDocument = gql`
+    query GetAppArticles($title: String) {
   App(model: {title: $title}) {
-    title
     pages {
       articles {
-        publishDate
         headline
+        pageName
+        publishDate
       }
-      name
     }
+    title
   }
 }
     `;
 
 /**
- * __useGetRecentArticlesQuery__
+ * __useGetAppArticlesQuery__
  *
- * To run a query within a React component, call `useGetRecentArticlesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecentArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAppArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAppArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRecentArticlesQuery({
+ * const { data, loading, error } = useGetAppArticlesQuery({
  *   variables: {
  *      title: // value for 'title'
  *   },
  * });
  */
-export function useGetRecentArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
+export function useGetAppArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetAppArticlesQuery, GetAppArticlesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
+        return Apollo.useQuery<GetAppArticlesQuery, GetAppArticlesQueryVariables>(GetAppArticlesDocument, options);
       }
-export function useGetRecentArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
+export function useGetAppArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAppArticlesQuery, GetAppArticlesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
+          return Apollo.useLazyQuery<GetAppArticlesQuery, GetAppArticlesQueryVariables>(GetAppArticlesDocument, options);
         }
-export type GetRecentArticlesQueryHookResult = ReturnType<typeof useGetRecentArticlesQuery>;
-export type GetRecentArticlesLazyQueryHookResult = ReturnType<typeof useGetRecentArticlesLazyQuery>;
-export type GetRecentArticlesQueryResult = Apollo.QueryResult<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>;
+export type GetAppArticlesQueryHookResult = ReturnType<typeof useGetAppArticlesQuery>;
+export type GetAppArticlesLazyQueryHookResult = ReturnType<typeof useGetAppArticlesLazyQuery>;
+export type GetAppArticlesQueryResult = Apollo.QueryResult<GetAppArticlesQuery, GetAppArticlesQueryVariables>;
 export const GetArticleDocument = gql`
     query GetArticle($headline: String = "article") {
   Article(model: {headline: $headline}) {

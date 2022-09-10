@@ -1,5 +1,5 @@
 query GetPage($name: String) {
-  Page(model: {name: $name}) {
+  Page(model: { name: $name }) {
     name
     articles {
       headline

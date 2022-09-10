@@ -7,6 +7,9 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import Page from './Page'
+import PageViewModel from './PageViewModel'
+import Query from 'brightspot-types/com/psddev/dari/db/Query'
+import Class from 'brightspot-types/java/lang/Class'
 
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
@@ -25,11 +28,10 @@ export default class ArticleViewModel extends JavaClass(
   getBody(): string {
     return this.model.body
   }
-
   @JavaMethodParameters()
-  @JavaMethodReturn(Page)
-  getPage(): Page {
-    return this.model.page
+  @JavaMethodReturn(String)
+  getPageName(): string {
+    return this.model.pageName
   }
 
   @JavaMethodParameters()

@@ -7,15 +7,15 @@ query GetApp($title: String) {
   }
 }
 
-query GetRecentArticles($title: String) {
+query GetAppArticles($title: String) {
   App(model: { title: $title }) {
-    title
     pages {
       articles {
-        publishDate
         headline
+        pageName
+        publishDate
       }
-      name
     }
+    title
   }
 }
