@@ -32,18 +32,15 @@ export default class AppRoutingEndpoint extends JavaClass(
       (c) => new ContentDeliveryEntryPointField(c)
     )
 
-    const finalArr = arr1.concat(
-      arr2
+    const arr3 = [ArticleViewModel.class as Class<ArticleViewModel>].map(
+      (c) => new ContentDeliveryEntryPointField(c)
+    )
+
+    const arr4 = arr1.concat(arr2)
+
+    const finalArr = arr4.concat(
+      arr3
     ) as unknown as List<ContentDeliveryEntryPointField>
-    // const arr3 = [ArticleViewModel.class as Class<ArticleViewModel>].map(
-    //   (c) => new ContentDeliveryEntryPointField(c)
-    // )
-
-    // const arr4 = arr1.concat(arr2)
-
-    // const finalArr = arr4.concat(
-    //   arr3
-    // ) as unknown as List<ContentDeliveryEntryPointField>
 
     return finalArr
   }
@@ -55,10 +52,4 @@ export default class AppRoutingEndpoint extends JavaClass(
   getAccessOption(): ContentDeliveryApiAccessOption {
     return new ContentDeliveryApiAccessOptionImplicit()
   }
-
-  // getOptions(): ContentDeliveryApiSchemaOptions {
-  //   let options = new ContentDeliveryApiSchemaOptions()
-  //   options.enable('inverseIndexes')
-  //   return options
-  // }
 }

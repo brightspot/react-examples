@@ -27,10 +27,10 @@ export default class AppViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(PageViewModel))
-  getPage(): List<PageViewModel> {
-    let pageQuery = Query.from(Page.class).where('* matches *')
+  getPages(): List<PageViewModel> {
+    let pagesQuery = Query.from(Page.class).where('* matches *')
 
-    const pages = pageQuery.selectAll()
+    const pages = pagesQuery.selectAll()
 
     return this.createViews(
       PageViewModel.class as Class<PageViewModel>,
