@@ -103,7 +103,7 @@ Change the query name to Brightspot. The query should look like this:
 
 ```
 query Brightspot($path: String) {
-  HelloWorld(path: $path) {
+  Article(path: $path) {
     headline
     subheadline
   }
@@ -123,7 +123,7 @@ Test the query and see the output on the right:
 ```
 {
   "data": {
-    "HelloWorld": {
+    "Article": {
       "headline": "Brightspot",
       "subheadline": "The most complete CMS solution available today"
     }
