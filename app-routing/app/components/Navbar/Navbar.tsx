@@ -3,17 +3,21 @@ import styles from './Navbar.module.css'
 import { useState } from 'react'
 import { useGetAppQuery } from '../../generated/graphql'
 
+export const APP_TITLE = 'news'
+
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false)
   const { data, error } = useGetAppQuery({
     variables: {
-      path: '/news',
+      title: APP_TITLE,
     },
   })
 
   if (error) console.log(error.message)
 
-  const pageList = data?.App?.Page_app_connection?.items
+  const pageList = data?.App?.pages
+  // const pageList = data?.App?.title.
+  // const pageList = data?.App?.Page_app_connection?.items
 
   function handleNavigation() {
     setTimeout(() => {
@@ -71,16 +75,16 @@ const Navbar = () => {
           </svg>
         </button>
         <ul>
-          {pageList?.map((item) => (
-            <li key={item._id} onClick={handleNavigation}>
+          {pageList?.map((item, i) => (
+            <li key={i} onClick={handleNavigation}>
               <Link
                 href={{
-                  pathname: `/${item.name}`,
-                  query: { id: `${item._id}` },
+                  pathname: `/${item?.name}`,
+                  // query: { id: `${item._id}` },
                 }}
-                as={`/${item.name}`}
+                // as={`/${item.name}`}
               >
-                <a>{item.name}</a>
+                <a>{item?.name}</a>
               </Link>
             </li>
           ))}

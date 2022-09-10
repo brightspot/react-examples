@@ -1,10 +1,7 @@
-query GetArticle($id: ID = "") {
-  Article(id: $id) {
+query GetArticle($headline: String = "article") {
+  Article(model: {headline: $headline}) {
+    publishDate
     headline
     body
-    _id
-    cms_content {
-      publishDate
-    }
   }
 }

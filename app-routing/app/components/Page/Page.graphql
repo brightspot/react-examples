@@ -1,13 +1,8 @@
-query GetPage($id: ID) {
-  Page(id: $id) {
-    Article_page_connection {
-      items {
-        _id
-        headline
-        page {
-          name
-        }
-      }
+query GetPage($name: String) {
+  Page(model: {name: $name}) {
+    name
+    articles {
+      headline
     }
   }
 }

@@ -34,7 +34,8 @@ export default class ArticleViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getPageName(): string {
-    return this.model.page.name
+  getPublishDate(): string {
+    console.log('BELLA', this.model.getPublishDate().toString())
+    return this.model.getPublishDate().toString()
   }
 }

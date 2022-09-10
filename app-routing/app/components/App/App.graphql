@@ -1,32 +1,21 @@
-query GetApp($path: String) {
-  App(path: $path) {
-    Page_app_connection {
-      items {
-        name
-        _id
-      }
+query GetApp($title: String) {
+  App(model: { title: $title }) {
+    title
+    pages {
+      name
     }
   }
 }
 
-query GetRecentArticles($path: String = "") {
-  App(path: $path) {
-    Page_app_connection {
-      items {
-        Article_page_connection {
-          items {
-            headline
-            _id
-            page {
-              name
-              _id
-            }
-            cms_content {
-              publishDate
-            }
-          }
-        }
+query GetRecentArticles($title: String) {
+  App(model: { title: $title }) {
+    title
+    pages {
+      articles {
+        publishDate
+        headline
       }
+      name
     }
   }
 }

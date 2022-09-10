@@ -1,17 +1,6 @@
 {
   "possibleTypes": {
-    "Content": [
-      "App",
-      "Article",
-      "Page"
-    ],
-    "Record_Interface": [
-      "App",
-      "Article",
-      "Page",
-      "Record"
-    ],
-    "_Entry": [
+    "PageEntry": [
       "App",
       "Article",
       "Page"
