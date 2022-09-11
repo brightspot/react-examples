@@ -12,7 +12,23 @@
         "description": null,
         "fields": [
           {
-            "name": "pages",
+            "name": "allArticles",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Article",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "allPages",
             "description": "",
             "args": [],
             "type": {
@@ -110,12 +126,12 @@
             "deprecationReason": null
           },
           {
-            "name": "pageName",
+            "name": "page",
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "Page",
               "ofType": null
             },
             "isDeprecated": false,
@@ -229,6 +245,18 @@
           },
           {
             "name": "name",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pageId",
             "description": "",
             "args": [],
             "type": {

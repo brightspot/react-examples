@@ -1,7 +1,7 @@
-query GetArticle($headline: String = "article") {
-  Article(model: {headline: $headline}) {
-    publishDate
-    headline
+query GetArticle($headline: String) {
+  Article(model: { headline: $headline }) {
     body
+    headline
+    publishDate
   }
 }

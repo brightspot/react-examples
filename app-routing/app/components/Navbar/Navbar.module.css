@@ -18,11 +18,10 @@
 .hamburger {
   display: block;
   border: 0;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   background-color: transparent;
   cursor: pointer;
-  color: var(--primaryRed);
   position: absolute;
   right: 25px;
   top: 50%;
@@ -30,12 +29,29 @@
   display: block;
 }
 
-.hamburger:hover {
-  color: #000;
+.hamburgerIcon,
+.closeIcon {
+  height: 30px;
+  width: 30px;
+  color: var(--primaryRed);
 }
 
-.navigationMenu ul {
-  margin: 0 10px;
+.hamburgerIcon:hover,
+.closeIcon:hover {
+  color: var(--secondaryRed);
+}
+
+.close {
+  height: 40px;
+  width: 40px;
+  margin: 20px 20px 0 0;
+  border: 0;
+  background-color: transparent;
+  float: right;
+}
+
+.closeHidden {
+  display: none;
 }
 
 .navigationMenuExpanded {
@@ -82,18 +98,8 @@
   display: block;
 }
 
-.close {
-  height: 40px;
-  width: 40px;
-  margin: 20px 20px 0 0;
-  color: var(--primaryRed);
-  border: 0;
-  background-color: transparent;
-  float: right;
-}
-
-.closeHidden {
-  display: none;
+.pageName {
+  font-size: 1.2rem;
 }
 
 @media (min-width: 768px) {

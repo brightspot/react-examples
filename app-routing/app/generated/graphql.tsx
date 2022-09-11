@@ -17,7 +17,8 @@ export type Scalars = {
 
 export type App = {
   __typename?: 'App';
-  pages?: Maybe<Array<Maybe<Page>>>;
+  allArticles?: Maybe<Array<Maybe<Article>>>;
+  allPages?: Maybe<Array<Maybe<Page>>>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -30,7 +31,7 @@ export type Article = {
   __typename?: 'Article';
   body?: Maybe<Scalars['String']>;
   headline?: Maybe<Scalars['String']>;
-  pageName?: Maybe<Scalars['String']>;
+  page?: Maybe<Page>;
   publishDate?: Maybe<Scalars['String']>;
 };
 
@@ -44,6 +45,7 @@ export type Page = {
   app?: Maybe<App>;
   articles?: Maybe<Array<Maybe<Article>>>;
   name?: Maybe<Scalars['String']>;
+  pageId?: Maybe<Scalars['String']>;
 };
 
 export type PageEntry = App | Article | Page;
@@ -80,35 +82,35 @@ export type GetAppQueryVariables = Exact<{
 }>;
 
 
-export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, pages?: Array<{ __typename?: 'Page', name?: string | null } | null> | null } | null };
+export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, allPages?: Array<{ __typename?: 'Page', name?: string | null } | null> | null } | null };
 
 export type GetAppArticlesQueryVariables = Exact<{
   title?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetAppArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, pages?: Array<{ __typename?: 'Page', articles?: Array<{ __typename?: 'Article', headline?: string | null, pageName?: string | null, publishDate?: string | null } | null> | null } | null> | null } | null };
+export type GetAppArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', allArticles?: Array<{ __typename?: 'Article', headline?: string | null, publishDate?: string | null, page?: { __typename?: 'Page', name?: string | null } | null } | null> | null } | null };
 
 export type GetArticleQueryVariables = Exact<{
   headline?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', publishDate?: string | null, headline?: string | null, body?: string | null } | null };
+export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', body?: string | null, headline?: string | null, publishDate?: string | null } | null };
 
 export type GetPageQueryVariables = Exact<{
   name?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', name?: string | null, articles?: Array<{ __typename?: 'Article', headline?: string | null } | null> | null } | null };
+export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', name?: string | null, articles?: Array<{ __typename?: 'Article', headline?: string | null, publishDate?: string | null } | null> | null } | null };
 
 
 export const GetAppDocument = gql`
     query GetApp($title: String) {
   App(model: {title: $title}) {
     title
-    pages {
+    allPages {
       name
     }
   }
@@ -145,14 +147,13 @@ export type GetAppQueryResult = Apollo.QueryResult<GetAppQuery, GetAppQueryVaria
 export const GetAppArticlesDocument = gql`
     query GetAppArticles($title: String) {
   App(model: {title: $title}) {
-    pages {
-      articles {
-        headline
-        pageName
-        publishDate
+    allArticles {
+      headline
+      publishDate
+      page {
+        name
       }
     }
-    title
   }
 }
     `;
@@ -185,11 +186,11 @@ export type GetAppArticlesQueryHookResult = ReturnType<typeof useGetAppArticlesQ
 export type GetAppArticlesLazyQueryHookResult = ReturnType<typeof useGetAppArticlesLazyQuery>;
 export type GetAppArticlesQueryResult = Apollo.QueryResult<GetAppArticlesQuery, GetAppArticlesQueryVariables>;
 export const GetArticleDocument = gql`
-    query GetArticle($headline: String = "article") {
+    query GetArticle($headline: String) {
   Article(model: {headline: $headline}) {
-    publishDate
-    headline
     body
+    headline
+    publishDate
   }
 }
     `;
@@ -227,6 +228,7 @@ export const GetPageDocument = gql`
     name
     articles {
       headline
+      publishDate
     }
   }
 }

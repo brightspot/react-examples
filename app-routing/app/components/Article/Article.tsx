@@ -1,6 +1,6 @@
 import styles from './Article.module.css'
 
-interface Props {
+type Props = {
   headline: string | null | undefined
   body: string | null | undefined
   publishDate: string | null | undefined
@@ -8,7 +8,7 @@ interface Props {
 
 const Article = ({ headline, body, publishDate }: Props) => {
   return (
-    <div className={styles.card}>
+    <div>
       <h1 className={styles.articleHeadline}>{headline}</h1>
       <p className={styles.datePublished}>{publishDate}</p>
       <p className={styles.articleBody}>{body}</p>

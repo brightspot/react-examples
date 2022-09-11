@@ -1,7 +1,7 @@
 query GetApp($title: String) {
   App(model: { title: $title }) {
     title
-    pages {
+    allPages {
       name
     }
   }
@@ -9,13 +9,12 @@ query GetApp($title: String) {
 
 query GetAppArticles($title: String) {
   App(model: { title: $title }) {
-    pages {
-      articles {
-        headline
-        pageName
-        publishDate
+    allArticles {
+      headline
+      publishDate
+      page {
+        name
       }
     }
-    title
   }
 }

@@ -3,6 +3,7 @@ query GetPage($name: String) {
     name
     articles {
       headline
+      publishDate
     }
   }
 }
