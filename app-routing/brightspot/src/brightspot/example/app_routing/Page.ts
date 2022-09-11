@@ -22,4 +22,8 @@ export default class Page extends JavaClass(
   getLabel(): string {
     return this.name || ''
   }
+
+  // getPageId(): string {
+  //   return this['getId()'].toString()
+  // }
 }

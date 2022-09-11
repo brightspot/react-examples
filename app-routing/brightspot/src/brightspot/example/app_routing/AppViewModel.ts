@@ -6,6 +6,8 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import App from './App'
+import Article from './Article'
+import ArticleViewModel from './ArticleViewModel'
 import PageViewModel from './PageViewModel'
 import Page from './Page'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
@@ -27,7 +29,7 @@ export default class AppViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(PageViewModel))
-  getPages(): List<PageViewModel> {
+  getAllPages(): List<PageViewModel> {
     let pagesQuery = Query.from(Page.class).where('* matches *')
 
     const pages = pagesQuery.selectAll()
@@ -36,5 +38,18 @@ export default class AppViewModel extends JavaClass(
       PageViewModel.class as Class<PageViewModel>,
       pages
     ) as undefined as List<PageViewModel>
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(List.Of(ArticleViewModel))
+  getAllArticles(): List<ArticleViewModel> {
+    // let articlesQuery = Query.from(Article.class).where('* matches *')
+    let articles = Query.from(Article.class).selectAll()
+    // const articles = articlesQuery.selectAll()
+
+    return this.createViews(
+      ArticleViewModel.class as Class<ArticleViewModel>,
+      articles
+    ) as undefined as List<ArticleViewModel>
   }
 }

@@ -34,7 +34,7 @@ const Home = () => {
       }
     })
   }
-
+  console.log(allArticles.length)
   return (
     <>
       <Meta />
