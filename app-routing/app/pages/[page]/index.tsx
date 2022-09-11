@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router'
-import Banner from '../../components/Banner/Banner'
+import Banner from '../../components/Banner'
 import { useGetPageQuery } from '../../generated/graphql'
-import Container from '../../components/Container/Container'
-import List from '../../components/List/List'
+import Container from '../../components/Container'
+import List from '../../components/List'
 import styles from '../../styles/pages.module.css'
 
 const SectionPage = () => {
   const router = useRouter()
-
   const pageName = router.query.page as string
 
   const { data, error, loading } = useGetPageQuery({
@@ -23,7 +22,7 @@ const SectionPage = () => {
         <h3>No articles... 🤔</h3>
       </div>
     )
-
+  console.log({ data })
   const pageAndArticlesArray = data?.Page?.articles
 
   return (

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useGetArticleQuery } from '../../../generated/graphql'
-import Container from '../../../components/Container/Container'
-import Article from '../../../components/Article/Article'
+import Container from '../../../components/Container'
+import Article from '../../../components/Article'
 import styles from '../../../styles/pages.module.css'
 
 const ArticlePage = () => {

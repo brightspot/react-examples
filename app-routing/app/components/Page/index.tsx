@@ -1,7 +1,7 @@
 import Meta from '../Meta'
 import styles from './Page.module.css'
-import Footer from '../Footer/Footer'
-import Navbar from '../Navbar/Navbar'
+import Footer from '../Footer'
+import Navbar from '../Navbar'
 
 type Props = {
   children: React.ReactNode
@@ -9,14 +9,12 @@ type Props = {
 
 const Page = ({ children }: Props) => {
   return (
-    <>
+    <div className={styles.app}>
       <Meta />
       <Navbar />
-      <div className={styles.layout}>
-        <main>{children}</main>
-      </div>
+      <main className={styles.main}>{children}</main>
       <Footer />
-    </>
+    </div>
   )
 }
 

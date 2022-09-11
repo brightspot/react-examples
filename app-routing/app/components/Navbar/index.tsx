@@ -3,14 +3,11 @@ import styles from './Navbar.module.css'
 import { useState } from 'react'
 import { useGetAppQuery } from '../../generated/graphql'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
-
-export const APP_TITLE = 'news'
-
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false)
   const { data, error } = useGetAppQuery({
     variables: {
-      title: APP_TITLE,
+      title: process.env.NEXT_PUBLIC_APP_TITLE,
     },
   })
 

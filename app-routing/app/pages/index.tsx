@@ -1,17 +1,15 @@
 import { useGetAppArticlesQuery } from '../generated/graphql'
 import Meta from '../components/Meta'
-import Container from '../components/Container/Container'
-import List from '../components/List/List'
-import Banner from '../components/Banner/Banner'
-import Duo from '../components/Duo/Duo'
-import Promo from '../components/Promo/Promo'
+import Container from '../components/Container'
+import List from '../components/List'
+import Banner from '../components/Banner'
+import Duo from '../components/Duo'
 import styles from '../styles/pages.module.css'
-import { APP_TITLE } from '../components/Navbar/Navbar'
 
 const Home = () => {
   const { data, error, loading } = useGetAppArticlesQuery({
     variables: {
-      title: APP_TITLE,
+      title: process.env.NEXT_PUBLIC_APP_TITLE,
     },
   })
 
@@ -26,16 +24,13 @@ const Home = () => {
   return (
     <>
       <Meta />
-      <Banner name='Top News' />
+      <Banner name='News At a Glance' />
       <Container>
         {data?.App?.allArticles && (
           <Duo articles={data?.App?.allArticles.slice(0, 2)} />
         )}
         {data?.App?.allArticles && data?.App?.allArticles?.length > 2 && (
-          <List articles={data?.App?.allArticles.slice(2, 6)} />
-        )}
-        {data?.App?.allArticles && data?.App?.allArticles?.length > 5 && (
-          <Promo article={data?.App?.allArticles[6]} />
+          <List articles={data?.App?.allArticles.slice(2)} />
         )}
       </Container>
     </>

@@ -16,6 +16,7 @@
   box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
   background: var(--secondaryBackground);
   border-radius: 2px;
+  height: 100%;
 }
 
 .imageContainer {
@@ -33,10 +34,7 @@
 
 .articleHeadline {
   margin: 0;
-  overflow: hidden;
-  white-space: nowrap;
   font-size: 1.3rem;
-  text-overflow: ellipsis;
 }
 
 .textContainer {

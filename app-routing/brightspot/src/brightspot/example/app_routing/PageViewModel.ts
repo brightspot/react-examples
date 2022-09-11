@@ -1,17 +1,18 @@
+import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+import List from 'brightspot-types/java/util/List'
 import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
+import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import AppViewModel from './AppViewModel'
+import Article from './Article'
 import ArticleViewModel from './ArticleViewModel'
 import Page from './Page'
-import Article from './Article'
-import Class from 'brightspot-types/java/lang/Class'
-import List from 'brightspot-types/java/util/List'
-import Query from 'brightspot-types/com/psddev/dari/db/Query'
+
 @ViewInterface
 export default class PageViewModel extends JavaClass(
   'brightspot.example.app_routing.PageViewModel',
@@ -35,21 +36,16 @@ export default class PageViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getPageId(): string {
-    console.log('CHOCOLATE ', this.model['getId()']())
-    return this.model['getId()']().toString()
+    return this.model.getId().toString()
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
     const PAGE = 'page'
-    let articlesQuery = Query.from(Article.class).where(
-      PAGE + ' matches  ?',
-      this.getPageId()
-    )
-    console.log('BELLA ', articlesQuery)
-    const articles = articlesQuery.selectAll()
-    console.log('SMORES ', articles)
+    let articles = Query.from(Article.class)
+      .where(PAGE + ' matches  ?', this.getPageId())
+      .selectAll()
     return this.createViews(
       ArticleViewModel.class as Class<ArticleViewModel>,
       articles

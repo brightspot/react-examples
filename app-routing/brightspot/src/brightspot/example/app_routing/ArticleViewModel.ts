@@ -1,3 +1,4 @@
+import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
@@ -7,8 +8,6 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import PageViewModel from './PageViewModel'
-import Class from 'brightspot-types/java/lang/Class'
-
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
   'brightspot.example.app_routing.ArticleViewModel',
@@ -39,7 +38,6 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getPublishDate(): string {
-    console.log('BELLA', this.model.getPublishDate().toString())
     return this.model.getPublishDate().toString()
   }
 }

@@ -6,6 +6,7 @@
 .datePublished {
   color: var(--primaryBlue);
   font-style: italic;
+  margin-bottom: 2rem;
 }
 
 .articleHeadline {

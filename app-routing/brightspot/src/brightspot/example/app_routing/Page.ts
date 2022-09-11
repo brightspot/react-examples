@@ -1,10 +1,10 @@
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
-import JavaClass from 'brightspot-types/JavaClass'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
+import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
+import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 
 import App from './App'
-import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 
 export default class Page extends JavaClass(
   'brightspot.example.app_routing.Page',
@@ -22,8 +22,4 @@ export default class Page extends JavaClass(
   getLabel(): string {
     return this.name || ''
   }
-
-  // getPageId(): string {
-  //   return this['getId()'].toString()
-  // }
 }

@@ -8,19 +8,25 @@
   --secondaryGrey: #eaeaea;
   --tertiaryGrey: #f0f0f0;
   --primaryBlue: #0477c9;
+  --darkBlue: #2a5975;
   --primaryBackground: #fff;
   --primaryBlack: #232b2b;
   --primaryBackground: #f9f9f9;
   --secondaryBackground: #fff;
 }
 
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html,
 body {
-  padding: 0;
-  margin: 0;
   font-family: 'Noto Sans', sans-serif;
   color: var(--primaryTextColor);
-  /* line-height: 1.7; */
   font-size: 1rem;
   background: var(--primaryBackground);
 }
@@ -28,8 +34,4 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
 }
