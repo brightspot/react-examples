@@ -75,6 +75,8 @@ const Colors = () => {
       .catch((error: Error) => handleError(error))
   }
 
+  const hexValue = colorResponse?.colorData?.hexValue
+  const colorName = colorResponse?.colorData?.name
   return (
     <div className="container">
       <div className="input-wrapper">
@@ -89,13 +91,11 @@ const Colors = () => {
         />
       </div>
       <div className="content-container">
-        <h1 style={{ color: colorResponse?.colorData?.hexValue || '#000000' }}>
-          {colorResponse?.colorData?.name}
-        </h1>
-        <h3 style={{ color: colorResponse?.colorData?.hexValue || '#000000' }}>
-          {colorResponse?.colorData?.name === 'Brightspot'
+        <h1 style={{ color: hexValue || '#000000' }}>{colorName}</h1>
+        <h3 style={{ color: hexValue || '#000000' }}>
+          {colorName === 'Brightspot'
             ? 'The most complete CMS solution available today'
-            : colorResponse?.colorData?.hexValue}
+            : hexValue}
         </h3>
       </div>
       {colorResponse?.errors?.map((error, i) => {

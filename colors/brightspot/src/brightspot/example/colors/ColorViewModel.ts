@@ -20,8 +20,8 @@ export default class ColorViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getHexValue(): string {
-    return this.model.name === 'Brightspot' && !this.model.hex_value
+    return this.model.name === 'Brightspot' && !this.model.hexValue
       ? '#ee0120'
-      : this.model.hex_value
+      : this.model.hexValue
   }
 }

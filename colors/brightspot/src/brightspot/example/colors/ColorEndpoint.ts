@@ -10,18 +10,20 @@ import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ColorViewModel from './ColorViewModel'
+
 export default class ColorEndpoint extends JavaClass(
   'brightspot.example.colors.ColorEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
+  getPaths(): JavaSet<string> {
+    return ['/graphql/delivery/colors'] as unknown as JavaSet<string>
+  }
+
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [ColorViewModel.class as Class<ColorViewModel>].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
-  }
-  getPaths(): JavaSet<string> {
-    return ['/graphql/delivery/colors'] as unknown as JavaSet<string>
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
