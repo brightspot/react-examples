@@ -33,18 +33,12 @@ export default class PageViewModel extends JavaClass(
       this.model.app
     )
   }
-  @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getPageId(): string {
-    return this.model.getId().toString()
-  }
 
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
-    const PAGE = 'page'
     let articles = Query.from(Article.class)
-      .where(PAGE + ' matches  ?', this.getPageId())
+      .where('page matches  ?', this.model)
       .selectAll()
     return this.createViews(
       ArticleViewModel.class as Class<ArticleViewModel>,
