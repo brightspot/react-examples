@@ -1,7 +1,7 @@
-import Welcome from './Welcome'
-import WelcomeButton from './WelcomeButton'
 import { useState, useEffect } from 'react'
+
 import { Article } from '../../generated/graphql'
+import Welcome from './Welcome'
 
 interface ContainerData {
   article?: Article | undefined
@@ -87,10 +87,10 @@ const WelcomeContainer = () => {
           {error}
         </p>
       ))}
-      <WelcomeButton
-        fetchBrightspot={fetchBrightspotData}
-        isClicked={data?.isClicked}
-      />
+      <button className="brightspot-button" onClick={fetchBrightspotData}>
+        {' '}
+        {data?.isClicked ? 'Welcome Message' : 'Brightspot'}{' '}
+      </button>
     </>
   )
 }

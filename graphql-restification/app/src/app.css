@@ -28,3 +28,12 @@ body {
 .hello-world-container h2 {
   font-size: 4rem;
 }
+
+.brightspot-button {
+  border: 'none';
+  border-radius: '12px';
+  padding: '10px';
+  background-color: '#ee0120';
+  color: 'white';
+  font-weight: 'bold';
+}
