@@ -30,4 +30,10 @@ export default class CourseViewModel extends JavaClass(
   getContent(): string {
     return this.model.content
   }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getUrl(): string {
+    return this.model.url
+  }
 }

@@ -11,12 +11,18 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import CourseViewModel from './CourseViewModel'
 import CoursesViewModel from './CoursesViewModel'
+import JavaField from 'brightspot-types/JavaField'
+import Placeholder from 'brightspot-types/com/psddev/cms/ui/form/Placeholder'
 
 export default class HeadlessPreviewEndpoint extends JavaClass(
   'brightspot.example.headless_preview.HeadlessPreviewEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
+  @Placeholder({value: 'http://localhost:3000/brightspot-preview'})
+  @JavaField(String)
+  previewUrl?: string
+
   getPaths(): JavaSet<string> {
     return ['/graphql/delivery/headless-preview'] as unknown as JavaSet<string>
   }

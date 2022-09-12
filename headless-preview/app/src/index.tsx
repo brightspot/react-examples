@@ -17,7 +17,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="" element={<Home />} />
-          <Route path=":title" element={<Course />} />
+          <Route path=":path" element={<Course />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

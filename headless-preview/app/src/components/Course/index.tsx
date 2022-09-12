@@ -4,20 +4,21 @@ import NotFound from '../NotFound'
 import underline from '../../images/underline.png'
 
 const GET_COURSE = gql`
-query GetCourse($id: ID, $title: String) {
-  Course(model: { title: $title, id: $id }) {
+query GetCourse($id: ID, $path: String) {
+  Course(model: { path: $path, id: $id }) {
     content
     title
     subtitle
+    url
   }
 }
 `
 const Course = () => {
-  const { title } = useParams()
+  const { path } = useParams()
 
   const previewId = new URLSearchParams(window.location.search).get('previewId')
 
-  const variable = previewId != null ? { id: previewId } : { title: title }
+  const variable = previewId != null ? { id: previewId } : { path: path }
 
   /*uncomment the console.log to see how the variable is used in Brightspot and the front-end application*/
   // console.log({ variable })
