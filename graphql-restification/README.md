@@ -1,6 +1,6 @@
 ## GraphQL RESTification
 
-In this example we will demonstrate how to set up GraphQL Queries into individual REST API Endpoints using the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api).
+This example will demonstrate how to set up GraphQL Queries into individual REST API Endpoints using the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api).
 
 ## Running the example application
 
@@ -47,7 +47,7 @@ Brightspot
 and the Subheadline field:
 The most complete CMS solution available today
 
-## Step 2 Building your Query and Create REST Mapping
+## Step 2 Building the Query and Create REST Mapping
 
 To see the API in action, navigate to Developer → GraphQL Explorer from the burger menu, and select Article API (CDA) from the Select GraphQL Endpoint dropdown. The page will load with the GraphiQL Explorer UI with the GraphQL schema loaded into it. In the explorer panel in the left rail you'll see a GraphQL query field named 'Article'. Previously in other examples, this would accept arguments of either id or path but as this will be a with a GET request, bake the path directly into the query. Lets open Article and check model which will give access to id and path. Check path, next to path enter some text for the path. Put in '/hello-world'. 
 
@@ -73,7 +73,7 @@ Test the query by pressing the execute/play button. The data appear should appea
 }
 ```
 
-In the GraphQL Explorer, with our query set up and working, create the first REST Map. Click on the cog on the top right of the GraphQL Explorer page, there should be three options, 'Persisted Query Extension', 'Schema' and finally, the one we will select: 
+In the GraphQL Explorer, with the query set up and working, create the first REST Map. Click on the cog on the top right of the GraphQL Explorer page, there should be three options, 'Persisted Query Extension', 'Schema' and finally, select: 
 'Create REST Mapping'.
 
 Once selected, a pop up form will appear. The form has the sections 'REST Endpoint', 'REST Mapping Name', 'REST Mapping Method(s)', 'REST Mapping Path' and 'GraphQL Query'
@@ -135,55 +135,109 @@ Creat the REST Mapping for the query. The form will be completed but change the 
 The next page should look the same but now there is a new path at the bottom of the mapping api endpoint:
 /articles/brightspot
 
-*You can test your GET endpoint quickly by going into your browser and visiting:
+*You can test the GET endpoint quickly by going into the browser and visiting:
 'http://localhost/articles/hello-world'*
 
-Now we can test this in the inluded React App.
+Test this in the inluded React App.
 
 CD to the 'app' directory in the terminal and run:
 ```
 yarn && yarn start
 ```
-Navigate to `http://localhost:3000/` in your web browser and see the text from your published content.
+Navigate to `http://localhost:3000/` in the web browser and see the text from the published content.
 
 Click on the button, it should use the function (POST_BRIGHTSPOT) to call the Brightspot data using the POST request.
 
 **Notes on Files and Code**
 
-## GET_HELLO api call
+## GET_HELLO call
 
-`GET_HELLO.tsx` is located in the `/api` directory with the following code. It is the api call that will use the GET request to return the data:
+`GET_HELLO` function has the following code. It is the  call that will use the GET request to return the data:
 
 ```js
-const GET_HELLO = async () => {
-  const data = await fetch('http://localhost/articles/hello-world').then(res => res.json())
-    return data.data
-}
-
-export default GET_HELLO
+  const GET_HELLO = () =>
+    fetch('http://localhost/articles/hello-world')
+      .then((res) => res.json())
+      .then((res) => handleResponse(res))
+      .catch((error: Error) => handleError(error))
 ```
 
-## POST_BRIGHTSPOT api call
+## POST_BRIGHTSPOT call
 
-`POST_BRIGHTSPOT.tsx` in the `/api` directory with the following code is the api call that will send a POST request to return the data we will want:
+`POST_BRIGHTSPOT` function has the following code to make a call that will send a POST request to return the data requested:
 
 ```js
-const POST_BRIGHTSPOT = async () => {
+  const POST_BRIGHTSPOT = async () => {
     const formData = new FormData()
-    formData.append("path", "brightspot")
-    const data = await fetch('http://localhost/articles/brightspot', {
-        method: 'POST',
-        body: formData
-    }).then(res => res.json())
-    return data.data
-}
+    formData.append('path', 'brightspot')
+    return fetch('http://localhost/articles/brightspot', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => handleResponse(res))
+      .catch((error: Error) => handleError(error))
+  }
+```
 
-export default POST_BRIGHTSPOT
+`handleResponse` function, it takes in the response from both the previous GET_HELLO or POST_BRIGHTSPOT functions and handles the return object.
+
+```js
+  const handleResponse = (res: any): ContainerData => {
+    let article: Article | undefined
+    let errors: string[] = []
+    let isClicked = data?.isClicked
+
+    if (res?.data?.Article) {
+      article = {
+        headline: res.data.Article.headline,
+        subheadline: res.data.Article.subheadline,
+      }
+    }
+    if (res.errors) {
+      for (let error of res.errors) {
+        errors.push(error.message)
+      }
+    }
+    return {
+      article,
+      isClicked,
+      errors,
+    }
+  }
+```
+
+`fetchBrightspotData` function will check the state and see if data 'isClicked', if not, it will use the `POST_BRIGHTSPOT` function otherwise it will use the `GET_HELLO` function. Then it will use the returned data to set the state.
+
+```js
+  const fetchBrightspotData = async () => {
+    if (!data?.isClicked) {
+      const response: ContainerData = await POST_BRIGHTSPOT()
+      setData({ article: response.article, isClicked: !data?.isClicked })
+    } else {
+      const response: ContainerData = await GET_HELLO()
+      setData({ article: response.article, isClicked: !data?.isClicked })
+    }
+  }
+```
+
+`useEffect` is being used here on page load to fetch the get request made in this example or if it is unable to successfully retrieve the data, it will receive errors to display.
+
+```js
+  useEffect(() => {
+    const fetchData = async () => {
+      const response: ContainerData = await GET_HELLO()
+      response.errors === undefined || response.errors.length > 0
+        ? setData({ ...data, errors: response.errors })
+        : setData({ ...data, article: response.article })
+    }
+    fetchData()
+  }, [])
 ```
 
 ## Codegen
 
-The codegen.yaml file receives types from the GraphQL endpoint. This will be run before deploying to the server so that we get the advantage of the type system without exposing the GraphQL API to the user.
+The codegen.yaml file receives types from the GraphQL endpoint. This will be run before deploying to the server to gain the advantage of the type system without exposing the GraphQL API to the user.
 
 Script:
 ```
