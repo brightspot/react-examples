@@ -4,10 +4,11 @@ import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import JavaClass from 'brightspot-types/JavaClass'
+import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
+
 import ArticleViewModel from './ArticleViewModel'
-import JavaSet from 'brightspot-types/java/util/Set'
 
 export default class ArticleAPI extends JavaClass(
   'brightspot.example.graphql_restification.ArticleAPI',
