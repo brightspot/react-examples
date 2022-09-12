@@ -18,22 +18,16 @@ export default class LearningFunEndpoint extends JavaClass(
   Singleton
 ) {
   getPaths(): JavaSet<string> {
-    return ['/graphql/delivery/pages'] as unknown as JavaSet<string>
+    return ['/graphql/delivery/learning-fun'] as unknown as JavaSet<string>
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    const arr1 = [PageViewModel.class as Class<PageViewModel>].map(
+    return [
+      PageViewModel.class as Class<PageViewModel>,
+      PagesViewModel.class as Class<PagesViewModel>,
+    ].map(
       (c) => new ContentDeliveryEntryPointField(c)
-    )
-    const arr2 = [PagesViewModel.class as Class<PagesViewModel>].map(
-      (c) => new ContentDeliveryEntryPointField(c)
-    )
-
-    const finalArray = arr1.concat(
-      arr2
     ) as unknown as List<ContentDeliveryEntryPointField>
-
-    return finalArray
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {

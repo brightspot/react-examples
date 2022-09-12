@@ -20,8 +20,9 @@ export default class PagesViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(PageViewModel))
   getPages(): List<PageViewModel> {
-    const query = Query.from(Page.class).selectAll()
-    const list = super.createViews(PageViewModel.class, query)
-    return list as unknown as List<PageViewModel>
+    return super.createViews(
+      PageViewModel.class,
+      Query.from(Page.class).selectAll()
+    ) as unknown as List<PageViewModel>
   }
 }

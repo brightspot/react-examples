@@ -31,17 +31,16 @@ export default class Page extends JavaClass(
 
   @JavaField(String)
   @Note({ value: 'Optional paragraph(s) for the page' })
-  content?: string;
+  content?: string
 
   [`getPreviewTypes(com.psddev.cms.db.Preview)`](
     preview: Preview
   ): List<PreviewType> {
-    let previewTypes = new Array<PreviewType>()
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
     contentDeliveryPreviewType.setPreviewUrl(
       `http://localhost:3000/previewpage`
     )
-    previewTypes.push(contentDeliveryPreviewType)
-    return previewTypes as unknown as List<PreviewType>
+
+    return [contentDeliveryPreviewType] as unknown as List<PreviewType>
   }
 }
