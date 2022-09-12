@@ -11,8 +11,8 @@ import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/Preview
 
 import Note from 'brightspot-types/com/psddev/cms/db/ToolUi$Note'
 
-export default class Page extends JavaClass(
-  'brightspot.example.learning_fun.Page',
+export default class Course extends JavaClass(
+  'brightspot.example.headless_preview.Course',
   Content,
   PreviewTypeSupplier
 ) {
@@ -21,16 +21,16 @@ export default class Page extends JavaClass(
   @Indexed({ unique: true })
   @Note({
     value:
-      'Required title that appears at the top of each page and also determines the pathname',
+      'Required title that appears at the top of each course page and also determines the pathname',
   })
   title: string
 
   @JavaField(String)
-  @Note({ value: 'Optional subtitle supports the title for the page' })
+  @Note({ value: 'Optional subtitle supports the title for the course' })
   subtitle?: string
 
   @JavaField(String)
-  @Note({ value: 'Optional paragraph(s) for the page' })
+  @Note({ value: 'Optional paragraph(s) for the course' })
   content?: string
 
   [`getPreviewTypes(com.psddev.cms.db.Preview)`](

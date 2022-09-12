@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const NotFound = () => {
   return (
-    <div className="page-container">
+    <div className="course-container">
       <div className="question-container">
         <span className="question-left">?</span>
         <span className="question-middle">?</span>

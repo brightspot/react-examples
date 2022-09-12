@@ -4,10 +4,10 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { BiChevronDown } from 'react-icons/bi'
 
 type Props = {
-  pages: [{ title?: string }]
+  courses: [{ title?: string }]
 }
 
-export function Navbar({ pages }: Props) {
+export function Navbar({ courses }: Props) {
   const [showLinks, setShowLinks] = useState(false)
   const toggleLinks = () => {
     setShowLinks(!showLinks)
@@ -26,7 +26,7 @@ export function Navbar({ pages }: Props) {
               className="menu-icon"
               data-reverse={showLinks || null}
             />
-            <span className="page-label">
+            <span className="course-label">
               <BiChevronDown
                 className="down-chevron"
                 data-reverse={showLinks || null}
@@ -37,17 +37,17 @@ export function Navbar({ pages }: Props) {
         </div>
         <div className="links-container" data-show={showLinks || null}>
           <ul className="links" data-show={showLinks || null}>
-            {pages?.map((page, i: number) => {
+            {courses?.map((course, i: number) => {
               return (
                 <li key={i} data-show={showLinks || null}>
                   <Link
                     onClick={() => setShowLinks(false)}
-                    to={`/${page?.title?.toLowerCase()}`}
+                    to={`/${course?.title?.toLowerCase()}`}
                     className="link-item"
                     data-show={showLinks || null}
                   >
                     <span className="link-text">
-                      {page?.title?.toLowerCase()}
+                      {course?.title?.toLowerCase()}
                     </span>
                   </Link>
                 </li>

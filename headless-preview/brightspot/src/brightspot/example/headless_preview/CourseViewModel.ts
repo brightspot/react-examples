@@ -5,12 +5,12 @@ import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import Page from './Page'
+import Course from './Course'
 
 @ViewInterface
-export default class PageViewModel extends JavaClass(
-  'brightspot.example.learning_fun.PageViewModel',
-  ViewModel.Of(Page),
+export default class CourseViewModel extends JavaClass(
+  'brightspot.example.headless_preview.CourseViewModel',
+  ViewModel.Of(Course),
   PageEntryView
 ) {
   @JavaMethodParameters()

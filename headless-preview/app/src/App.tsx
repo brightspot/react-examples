@@ -3,24 +3,24 @@ import { gql, useQuery } from '@apollo/client'
 import { Navbar } from './components/Navbar'
 import './App.css'
 
-const GET_PAGES = gql`
-  query getAllPages {
-    Pages {
-      pages {
-        title
-      }
+const GET_COURSES = gql`
+query getAllCourses {
+  Courses {
+    courses {
+      title
     }
   }
+}
 `
 
 function App() {
-  const { data, error, loading } = useQuery(GET_PAGES)
+  const { data, error, loading } = useQuery(GET_COURSES)
   if (loading) return <h3 className="loading">Loading...</h3>
   return (
     <>
-      <Navbar pages={data?.Pages?.pages} />
+      <Navbar courses={data?.Courses?.courses} />
       {error && (
-        <p className="error">{`There was an error fetching data for pages: ${error}`}</p>
+        <p className="error">{`There was an error fetching data for courses: ${error}`}</p>
       )}
       <Outlet />
     </>
