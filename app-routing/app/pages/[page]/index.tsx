@@ -22,14 +22,12 @@ const SectionPage = () => {
         <h3>No articles... 🤔</h3>
       </div>
     )
-  console.log({ data })
-  const pageAndArticlesArray = data?.Page?.articles
 
   return (
     <>
       <Banner name={data?.Page?.name} />
       <Container>
-        <>{pageAndArticlesArray && <List articles={pageAndArticlesArray} />}</>
+        <>{data?.Page?.articles && <List articles={data?.Page?.articles} />}</>
       </Container>
     </>
   )

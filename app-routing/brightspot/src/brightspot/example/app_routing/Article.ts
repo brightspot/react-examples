@@ -21,8 +21,4 @@ export default class Article extends JavaClass(
   @JavaRequired
   @Indexed
   page: Page
-
-  getLabel(): string {
-    return this.headline || ''
-  }
 }

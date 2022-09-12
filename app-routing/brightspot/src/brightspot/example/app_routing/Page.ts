@@ -18,8 +18,4 @@ export default class Page extends JavaClass(
   @JavaField(App)
   @JavaRequired
   app: App
-
-  getLabel(): string {
-    return this.name || ''
-  }
 }

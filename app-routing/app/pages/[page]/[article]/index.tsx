@@ -8,7 +8,6 @@ const ArticlePage = () => {
   const router = useRouter()
 
   const article = router.query.article as string
-
   const { data, error, loading } = useGetArticleQuery({
     variables: {
       headline: article,

@@ -103,7 +103,7 @@ export type GetPageQueryVariables = Exact<{
 }>;
 
 
-export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', name?: string | null, articles?: Array<{ __typename?: 'Article', headline?: string | null, publishDate?: string | null } | null> | null } | null };
+export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', name?: string | null, articles?: Array<{ __typename?: 'Article', headline?: string | null, publishDate?: string | null, page?: { __typename?: 'Page', name?: string | null } | null } | null> | null } | null };
 
 
 export const GetAppDocument = gql`
@@ -229,6 +229,9 @@ export const GetPageDocument = gql`
     articles {
       headline
       publishDate
+      page {
+        name
+      }
     }
   }
 }

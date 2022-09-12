@@ -13,6 +13,7 @@ import Article from './Article'
 import ArticleViewModel from './ArticleViewModel'
 import Page from './Page'
 import PageViewModel from './PageViewModel'
+
 @ViewInterface
 export default class AppViewModel extends JavaClass(
   'brightspot.example.app_routing.AppViewModel',

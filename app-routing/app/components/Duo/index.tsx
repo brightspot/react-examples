@@ -16,33 +16,37 @@ type Props = {
 }
 
 const Duo = ({ articles }: Props) => {
-  console.log({ articles })
   return (
     <section className={styles.section}>
       <div className={styles.listGrid}>
-        {articles?.map((article: PartArticle, index: number) => (
-          <Link href={`/${article?.page}/${article?.headline}`} key={index}>
-            <a>
-              <div className={styles.listItem}>
-                <div className={styles.imageContainer}>
-                  <Image
-                    src={imageArray[index].image}
-                    alt={imageArray[index].alt}
-                    objectFit='cover'
-                    layout='fill'
-                    priority
-                  />
+        {articles?.map((article: PartArticle, index: number) => {
+          return (
+            <Link
+              href={`/${article?.page?.name}/${article?.headline}`}
+              key={index}
+            >
+              <a>
+                <div className={styles.listItem}>
+                  <div className={styles.imageContainer}>
+                    <Image
+                      src={imageArray[index].image}
+                      alt={imageArray[index].alt}
+                      objectFit='cover'
+                      layout='fill'
+                      priority
+                    />
+                  </div>
+                  <div className={styles.textContainer}>
+                    <p className={styles.pageName}>{article?.page?.name}</p>
+                    <h2 className={styles.articleHeadline}>
+                      {article?.headline}
+                    </h2>
+                  </div>
                 </div>
-                <div className={styles.textContainer}>
-                  <p className={styles.pageName}>{article?.page?.name}</p>
-                  <h2 className={styles.articleHeadline}>
-                    {article?.headline}
-                  </h2>
-                </div>
-              </div>
-            </a>
-          </Link>
-        ))}
+              </a>
+            </Link>
+          )
+        })}
       </div>
     </section>
   )

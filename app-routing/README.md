@@ -1,6 +1,6 @@
 # App Routing
 
-This example highlights how simple it is to use JS Classes and the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) to add dynamic routing in a front-end application.
+This example highlights how simple it is to use JS Classes and the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) to add dynamic routing in a front-end application. A very similar example, `brightspot-routing` uses permalinks generated in Brightspot as query variables. This example demonstrates how to use other fields as query variables.
 
 ## Running the example application
 
@@ -29,12 +29,12 @@ The front-end application will open automatically in the browser.
 ## Using the example application
 
 The front-end application is a simple news website. Content consists of: an app, pages, and articles.
-Make sure the docker instance for Brightspot is running. Publish an `App` Content item. Add the title of the App (for example 'news') to your .env file in the `NEXT_PUBLIC_APP_TITLE` field.
+Publish an App content item. Add the title of the App (for example 'news') to your .env file in the `NEXT_PUBLIC_APP_TITLE` field.
 
 Next, publish the following content in Brightspot:
 
-1. `Page`(s)
-2. `Article`(s)
+1. Page(s)
+2. Article(s)
 
 Navigate to your front-end to see your content displayed.
 
@@ -46,7 +46,7 @@ Navigate to `brightspot/src/examples/app_routing`. This directory contains the J
 
 #### JS Classes Files:
 
-- `App.ts`: the class that acts as the parent class for the application.
+- `App.ts`: the class that acts as the parent class for the application
   - `@JavaRequired`: makes the field a required field
   - `@Indexed({ unique: true })`: this annotation makes it possible to query using this field
 - `AppViewModel.ts`: note in particular the `getAllPages` and `getAllArticles` functions to enable querying for all of those content items that are children to the App content item
@@ -71,4 +71,8 @@ The following is a suggestion for learning more about JS Classes and Brightspot:
 
 ## Troubleshooting
 
-Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+1. My front-end application is not fetching data....
+
+- Make sure you created an App content item, and added the title in `app/.env` (`NEXT_PUBLIC_APP_TITLE`)
+
+For other issues, refer to the [Common Issues](/README.md) section in the respository README for assistance.
