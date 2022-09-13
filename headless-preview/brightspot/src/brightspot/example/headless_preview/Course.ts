@@ -34,6 +34,9 @@ export default class Course extends JavaClass(
   title: string
 
   @JavaField(String)
+  subtitle?: string
+
+  @JavaField(String)
   @Values({value: ['1st grade', '2nd grade', '3rd grade', '4th grade', '5th grade', '6th grade', '7th grade', '8th grade', 'highschool']})
   ageRange: string
 

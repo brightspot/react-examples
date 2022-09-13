@@ -42,7 +42,7 @@ console.log({courses})
                 <li key={i} data-show={showLinks || null}>
                   <Link
                     onClick={() => setShowLinks(false)}
-                    to={`${course.slug}`}
+                    to={`/courses/${course.slug}`}
                     className="link-item"
                     data-show={showLinks || null}
                   >

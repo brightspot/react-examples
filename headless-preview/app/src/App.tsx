@@ -17,7 +17,7 @@ query getAllCourses {
 function App() {
   const { data, error, loading } = useQuery(GET_COURSES)
   if (loading) return <h3 className="loading">Loading...</h3>
-
+  if (error) console.log(error.message)
   return (
     <>
       <Navbar courses={data?.Courses?.courses} />

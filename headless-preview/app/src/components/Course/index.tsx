@@ -5,11 +5,13 @@ import underline from '../../images/underline.png'
 
 const GET_COURSE = gql`
 query GetCourse($id: ID, $slug: String) {
-  Course(model: { slug: $slug, id: $id }) {
-    content
+  Course(model: {slug: $slug, id: $id}) {
     title
     subtitle
     slug
+    description
+    ageRange
+    subject
   }
 }
 `
@@ -42,7 +44,10 @@ console.log({variable})
       <h1 className="course-title">{data?.Course?.title}</h1>
       <img src={underline} alt="underline" />
       <h2>{data?.Course?.subtitle}</h2>
-      <p>{data?.Course?.content}</p>
+      <p>{data?.Course?.description}</p>
+      <p>{data?.Course?.ageRange}</p>
+      <p>{data?.Course?.subject}</p>
+      <p></p>
       {error && (
         <p className="error">{`There was an error fetching data for the course: ${error} `}</p>
       )}
