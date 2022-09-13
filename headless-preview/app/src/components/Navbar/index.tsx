@@ -4,7 +4,7 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { BiChevronDown } from 'react-icons/bi'
 
 type Props = {
-  courses: [{ title?: string, path?: string }]
+  courses: [{ title?: string, slug?: string }]
 }
 
 export function Navbar({ courses }: Props) {
@@ -42,7 +42,7 @@ console.log({courses})
                 <li key={i} data-show={showLinks || null}>
                   <Link
                     onClick={() => setShowLinks(false)}
-                    to={`${course.path}`}
+                    to={`${course.slug}`}
                     className="link-item"
                     data-show={showLinks || null}
                   >

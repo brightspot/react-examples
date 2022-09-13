@@ -199,28 +199,15 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column-reverse;
+  flex-direction: column;
   text-align: center;
-  margin: 3rem 0;
+  margin-top: 20%;
 }
 
 .home-title {
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 2rem;
-}
-
-.left-container {
-  padding: 1rem;
-}
-
-.right-container {
-  margin-bottom: 2rem;
-  width: 300px;
-}
-
-.right-container img {
-  width: 100%;
 }
 
 .accent {
@@ -328,26 +315,5 @@ nav {
 
   .right-container {
     width: 300px;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .home-container {
-    display: grid;
-    width: 90%;
-    margin: 6rem auto;
-    grid-template-columns: 50% 50%;
-    gap: 2rem;
-  }
-
-  .left-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .right-container {
-    width: 100%;
   }
 }

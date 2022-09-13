@@ -1,10 +1,10 @@
-import folder from '../../images/folder.png'
+import { Link } from "react-router-dom"
 
 const Home = () => {
   return (
     <>
       <section className="home-container">
-        <div className="left-container">
+
           <h1 className="home-title">
             Learning is an incredible adventure. Ready, set,{' '}
             <span className="accent">go!</span>
@@ -13,11 +13,7 @@ const Home = () => {
             We are devoted to helping learners discover wonder and delight in
             education.
           </p>
-          <button className="home-cta">Start your learning journey</button>
-        </div>
-        <div className="right-container">
-          <img src={folder} alt="folder" />
-        </div>
+          <Link to='/courses' className="home-cta">Browse Courses</Link>
       </section>
     </>
   )

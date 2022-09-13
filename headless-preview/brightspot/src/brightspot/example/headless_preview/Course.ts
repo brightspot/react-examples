@@ -1,6 +1,6 @@
+import Class from 'brightspot-types/java/lang/Class'
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import ContentDeliveryPreviewType from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryPreviewType'
-import DirectoryItem from 'brightspot-types/com/psddev/cms/db/Directory$Item'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
@@ -9,49 +9,43 @@ import List from 'brightspot-types/java/util/List'
 import Preview from 'brightspot-types/com/psddev/cms/db/Preview'
 import PreviewType from 'brightspot-types/com/psddev/cms/preview/PreviewType'
 import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
-
 import Note from 'brightspot-types/com/psddev/cms/db/ToolUi$Note'
-import ReadOnly from 'brightspot-types/com/psddev/cms/db/ToolUi$ReadOnly'
-import Site from 'brightspot-types/com/psddev/cms/db/Site'
-import HeadlessPreviewEndpoint from './HeadlessPreviewEndpoint'
-import Class from 'brightspot-types/java/lang/Class'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
+import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
+
+import HeadlessPreviewEndpoint from './HeadlessPreviewEndpoint'
+import Enum from 'brightspot-types/java/lang/Enum'
+import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
 
 export default class Course extends JavaClass(
   'brightspot.example.headless_preview.Course',
   Content,
-  DirectoryItem,
-  PreviewTypeSupplier
+  PreviewTypeSupplier,
 ) {
+  @JavaField(String)
+  @Indexed({ unique: true })
+  @JavaRequired
+  @Note({ value: 'slug used for course url' })
+  slug: string
 
   @JavaRequired
   @JavaField(String)
   @Indexed({ unique: true })
-  @Note({
-    value:
-      'Required title that appears at the top of each course page and also determines the pathname',
-  })
   title: string
 
   @JavaField(String)
-  @Note({ value: 'Optional subtitle supports the title for the course' })
-  subtitle?: string
+  @Values({value: ['1st grade', '2nd grade', '3rd grade', '4th grade', '5th grade', '6th grade', '7th grade', '8th grade', 'highschool']})
+  ageRange: string
 
   @JavaField(String)
-  @Note({ value: 'Optional paragraph(s) for the course' })
-  content?: string
+  @Values({value: ['Math', 'Science', 'English', 'Social Studies', 'Coding', 'Fitness', 'Languages', 'Art']})
+  subject: string
 
   @JavaField(String)
-  @ReadOnly
-  path?: string
+  description?: string
 
   beforeCommit(): void {
-    this.path = this.getPermalink()
-  }
-
-  [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
-    const Utils = Java.type('com.psddev.dari.util.Utils')
-    return Utils.toNormalized(this.title)
+    this.slug = StringUtils.toNormalized(this.slug);
   }
 
   [`getPreviewTypes(com.psddev.cms.db.Preview)`](
@@ -64,8 +58,7 @@ export default class Course extends JavaClass(
     contentDeliveryPreviewType.setPreviewUrl(
       headlessPreviewUrl
     )
-
-
+  
     return [contentDeliveryPreviewType] as unknown as List<PreviewType>
   }
 }

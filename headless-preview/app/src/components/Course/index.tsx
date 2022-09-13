@@ -4,21 +4,26 @@ import NotFound from '../NotFound'
 import underline from '../../images/underline.png'
 
 const GET_COURSE = gql`
-query GetCourse($id: ID, $path: String) {
-  Course(model: { path: $path, id: $id }) {
+query GetCourse($id: ID, $slug: String) {
+  Course(model: { slug: $slug, id: $id }) {
     content
     title
     subtitle
-    path
+    slug
   }
 }
 `
 const Course = () => {
-  const { path } = useParams()
-console.log({ path })
+  console.log('YOU ARE HERE')
+  const { slug } = useParams()
+console.log({ slug })
   const previewId = new URLSearchParams(window.location.search).get('previewId')
+  const previewType = new URLSearchParams(window.location.search).get('typename')
+  const deviceWidth = new URLSearchParams(window.location.search).get('deviceWidth')
+  console.log('PREVIEW TYPE', previewType)
+  console.log('DEVICE WIDTH: ', deviceWidth)
 
-  const variable = previewId != null ? { id: previewId } : { path: path }
+  const variable = previewId != null ? { id: previewId } : { slug: slug }
 console.log({variable})
   /*uncomment the console.log to see how the variable is used in Brightspot and the front-end application*/
   // console.log({ variable })

@@ -7,7 +7,7 @@ const GET_COURSES = gql`
 query getAllCourses {
   Courses {
     courses {
-      path
+      slug
       title
     }
   }

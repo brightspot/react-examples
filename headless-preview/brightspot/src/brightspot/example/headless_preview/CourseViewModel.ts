@@ -15,25 +15,31 @@ export default class CourseViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
+  getSlug(): string {
+    return this.model.slug
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
   getTitle(): string {
     return this.model.title
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
+  getAgeRange(): string {
+    return this.model.ageRange
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
   getSubtitle(): string {
-    return this.model.subtitle
+    return this.model.subject
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getContent(): string {
-    return this.model.content
-  }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getPath(): string {
-    return this.model.path
+    return this.model.description
   }
 }
