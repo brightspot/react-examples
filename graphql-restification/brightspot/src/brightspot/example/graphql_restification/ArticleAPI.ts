@@ -1,5 +1,3 @@
-import ContentDeliveryApiAccessOption from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOption'
-import ContentDeliveryApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOptionImplicit'
 import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
@@ -10,6 +8,7 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ArticleViewModel from './ArticleViewModel'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
+import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 
 export default class ArticleAPI extends JavaClass(
   'brightspot.example.graphql_restification.ArticleAPI',
@@ -17,7 +16,7 @@ export default class ArticleAPI extends JavaClass(
   Singleton
 ) {
   [`getPaths()`](): JavaSet<string> {
-    return ['/article-api'] as unknown as JavaSet<string>
+    return ['/graphql/delivery/article-api'] as unknown as JavaSet<string>
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
@@ -32,6 +31,6 @@ export default class ArticleAPI extends JavaClass(
   }
 
   getApiAccessOption(): GraphQLApiAccessOption {
-    return new ContentDeliveryApiAccessOptionImplicit()
+    return new GraphQLApiAccessOptionImplicit()
   }
 }
