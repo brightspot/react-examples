@@ -1,0 +1,6 @@
+query Brightspot($path: String) {
+  Article(model: { path: $path }) {
+    headline
+    subheadline
+  }
+}
