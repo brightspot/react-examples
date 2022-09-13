@@ -9,6 +9,7 @@ import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ArticleViewModel from './ArticleViewModel'
+import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 
 export default class ArticleAPI extends JavaClass(
   'brightspot.example.graphql_restification.ArticleAPI',
@@ -30,7 +31,7 @@ export default class ArticleAPI extends JavaClass(
     corsConfiguration.addAllowedOrigin('localhost')
   }
 
-  getAccessOption(): ContentDeliveryApiAccessOption {
+  getApiAccessOption(): GraphQLApiAccessOption {
     return new ContentDeliveryApiAccessOptionImplicit()
   }
 }
