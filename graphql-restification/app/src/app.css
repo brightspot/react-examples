@@ -30,10 +30,10 @@ body {
 }
 
 .brightspot-button {
-  border: 'none';
-  border-radius: '12px';
-  padding: '10px';
-  background-color: '#ee0120';
-  color: 'white';
-  font-weight: 'bold';
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  background-color: #ee0120;
+  color: white;
+  font-weight: bold;
 }

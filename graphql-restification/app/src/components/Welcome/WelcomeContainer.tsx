@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import { Article } from '../../generated/graphql'
+import { GET_HELLO, POST_BRIGHTSPOT } from '../../api/api'
 import Welcome from './Welcome'
 
 interface ContainerData {
@@ -12,69 +13,35 @@ interface ContainerData {
 const WelcomeContainer = () => {
   const [data, setData] = useState<ContainerData>()
 
-  const GET_HELLO = () =>
-    fetch('http://localhost/articles/hello-world')
-      .then((res) => res.json())
-      .then((res) => handleResponse(res))
-      .catch((error: Error) => handleError(error))
-
-  const POST_BRIGHTSPOT = async () => {
-    const formData = new FormData()
-    formData.append('path', 'brightspot')
-    return fetch('http://localhost/articles/brightspot', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((res) => handleResponse(res))
-      .catch((error: Error) => handleError(error))
+  const fetchHelloWorld = async () => {
+    const response: ContainerData = await GET_HELLO()
+    if (response.errors === undefined || response.errors.length > 0) {
+      setData({ errors: response.errors, isClicked: true })
+    } else {
+      setData({ article: response.article, isClicked: true })
+    }
   }
 
-  const fetchBrightspotData = async () => {
-    if (!data?.isClicked) {
-      const response: ContainerData = await POST_BRIGHTSPOT()
-      setData({ article: response.article, isClicked: !data?.isClicked })
+  const fetchBrightspotMessage = async () => {
+    if (data?.isClicked) {
+      const response: ContainerData = await POST_BRIGHTSPOT(data?.isClicked)
+      setBrightspotMessage(response)
     } else {
       const response: ContainerData = await GET_HELLO()
+      setBrightspotMessage(response)
+    }
+  }
+
+  const setBrightspotMessage = (response: ContainerData) => {
+    if (response.errors === undefined || response.errors.length > 0) {
+      setData({ ...data, errors: response.errors, isClicked: !data?.isClicked })
+    } else {
       setData({ article: response.article, isClicked: !data?.isClicked })
     }
-  }
-
-  const handleResponse = (res: any): ContainerData => {
-    let article: Article | undefined
-    let errors: string[] = []
-    let isClicked = data?.isClicked
-
-    if (res?.data?.Article) {
-      article = {
-        headline: res.data.Article.headline,
-        subheadline: res.data.Article.subheadline,
-      }
-    }
-    if (res.errors) {
-      for (let error of res.errors) {
-        errors.push(error.message)
-      }
-    }
-    return {
-      article,
-      isClicked,
-      errors,
-    }
-  }
-
-  const handleError = (error: Error) => {
-    return { errors: [error.message] }
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response: ContainerData = await GET_HELLO()
-      response.errors === undefined || response.errors.length > 0
-        ? setData({ ...data, errors: response.errors })
-        : setData({ ...data, article: response.article })
-    }
-    fetchData()
+    fetchHelloWorld()
   }, [])
 
   return (
@@ -87,7 +54,7 @@ const WelcomeContainer = () => {
           {error}
         </p>
       ))}
-      <button className="brightspot-button" onClick={fetchBrightspotData}>
+      <button className="brightspot-button" onClick={fetchBrightspotMessage}>
         {' '}
         {data?.isClicked ? 'Welcome Message' : 'Brightspot'}{' '}
       </button>
