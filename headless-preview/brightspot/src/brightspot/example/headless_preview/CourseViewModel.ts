@@ -33,7 +33,7 @@ export default class CourseViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getUrl(): string {
-    return this.model.url
+  getPath(): string {
+    return this.model.path
   }
 }

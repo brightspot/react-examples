@@ -43,10 +43,10 @@ export default class Course extends JavaClass(
 
   @JavaField(String)
   @ReadOnly
-  url?: string
+  path?: string
 
   beforeCommit(): void {
-    this.url = this.getPermalink()
+    this.path = this.getPermalink()
   }
 
   [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {

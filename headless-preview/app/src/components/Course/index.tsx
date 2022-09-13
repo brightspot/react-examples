@@ -9,17 +9,17 @@ query GetCourse($id: ID, $path: String) {
     content
     title
     subtitle
-    url
+    path
   }
 }
 `
 const Course = () => {
   const { path } = useParams()
-
+console.log({ path })
   const previewId = new URLSearchParams(window.location.search).get('previewId')
 
   const variable = previewId != null ? { id: previewId } : { path: path }
-
+console.log({variable})
   /*uncomment the console.log to see how the variable is used in Brightspot and the front-end application*/
   // console.log({ variable })
 
