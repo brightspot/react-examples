@@ -1,0 +1,132 @@
+.navigation {
+  padding: 10px;
+  min-height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+}
+
+.logo {
+  color: var(--primaryRed);
+  font-size: 2rem;
+  margin-left: 10px;
+  text-transform: uppercase;
+}
+
+.hamburger {
+  display: block;
+  border: 0;
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+}
+
+.hamburgerIcon,
+.closeIcon {
+  height: 30px;
+  width: 30px;
+  color: var(--primaryRed);
+}
+
+.hamburgerIcon:hover,
+.closeIcon:hover {
+  color: var(--secondaryRed);
+}
+
+.close {
+  height: 40px;
+  width: 40px;
+  margin: 20px 20px 0 0;
+  border: 0;
+  background-color: transparent;
+  float: right;
+}
+
+.closeHidden {
+  display: none;
+}
+
+.navigationMenuExpanded {
+  display: flex;
+  flex-direction: column;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  position: fixed;
+  height: 100%;
+  background-color: var(--secondaryBackground);
+  padding-left: 0;
+  z-index: 99;
+  align-items: center;
+  justify-content: center;
+  display: block;
+  margin: 0;
+}
+
+.navigationMenuExpanded ul {
+  margin-top: 5rem;
+}
+.navigationMenu li {
+  text-align: center;
+  margin: 0;
+  list-style-type: none;
+  width: 100%;
+  display: none;
+}
+
+.navigationMenuExpanded li {
+  text-align: center;
+  margin: 0;
+  list-style-type: none;
+  width: 100%;
+  padding: 10px;
+}
+
+.navigationMenu li:hover {
+  background-color: #eee;
+}
+
+.navigationMenuExpanded ul {
+  display: block;
+}
+
+.pageName {
+  font-size: 1.2rem;
+}
+
+@media (min-width: 768px) {
+  .navigationMenu {
+    margin-left: auto;
+  }
+
+  .navigationMenu li {
+    display: block;
+  }
+
+  .navigationMenu ul {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+  }
+  .navigationMenu li a {
+    padding: 20px;
+    color: var(--primaryBlack);
+    font-weight: 600;
+  }
+
+  .navigationMenu li a:hover {
+    color: var(--primaryRed);
+  }
+
+  .hamburger {
+    display: none;
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "possibleTypes": {
+    "PageEntry": [
+      "App",
+      "Article",
+      "Page"
+    ]
+  }
+}

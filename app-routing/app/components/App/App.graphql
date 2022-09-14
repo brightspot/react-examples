@@ -1,0 +1,20 @@
+query GetApp($title: String) {
+  App(model: { title: $title }) {
+    title
+    allPages {
+      name
+    }
+  }
+}
+
+query GetAppArticles($title: String) {
+  App(model: { title: $title }) {
+    allArticles {
+      headline
+      publishDate
+      page {
+        name
+      }
+    }
+  }
+}
