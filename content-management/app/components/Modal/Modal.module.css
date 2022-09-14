@@ -1,0 +1,86 @@
+.modal {
+  position: fixed;
+  inset: 0; /* inset sets all 4 values (top right bottom left) much like how we set padding, margin etc., */
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  z-index: 999;
+  padding: 40px 20px 20px;
+}
+
+.card {
+  padding: 0.5rem;
+  background-color: #fff;
+  box-shadow: var(--lightShadow);
+  border-radius: var(--mainBorderRadius);
+  margin-bottom: 2rem;
+  color: var(--primaryTextColor);
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleInput {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  border: 0;
+  padding: 5px;
+}
+
+.textInput {
+  font-size: 1.3rem;
+  border: 0;
+  padding: 5px;
+  margin-bottom: 7px;
+}
+
+.button {
+  font-size: 1rem;
+  padding: 7px;
+  font-weight: 700;
+  color: var(--moduleBgColor);
+  border: 0;
+  background-color: transparent;
+  border-radius: var(--mainBorderRadius);
+  margin-right: 4px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: var(--grayscaleFour);
+}
+
+.bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.error {
+  color: var(--primaryRed);
+  font-size: 0.9rem;
+  font-style: italic;
+  max-width: 85%;
+  margin-right: 7px;
+}
+
+@media (min-width: 1024px) {
+  .card {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .card {
+    width: 40%;
+  }
+}
