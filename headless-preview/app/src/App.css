@@ -5,6 +5,7 @@
   --primaryBlue: #587ef8;
   --teal: #30c8c9;
   --yellow: #ffe497;
+  --lightYellow: #f7e8c0;
   --pink: #ec709a;
   --primaryTextColor: #4b4545;
   --secondaryTextColor: #787171;
@@ -50,7 +51,6 @@ h2,
 h3,
 h4 {
   letter-spacing: var(--spacing);
-  text-transform: capitalize;
   line-height: 1.25;
   margin-bottom: 0.75rem;
 }
@@ -201,6 +201,23 @@ nav {
   margin: 0 auto;
 }
 
+.preview-information {
+  display: none;
+}
+
+.preview-information[data-preview] {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 10px;
+  background-color: var(--yellow);
+  width: 100%;
+  overflow-wrap: break-word;
+}
+
+.preview-text {
+  font-size: 0.9rem;
+}
+
 .course-title {
   margin-bottom: 0;
   padding-bottom: 0;
@@ -213,7 +230,7 @@ nav {
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  margin-top: 20%;
+  margin-top: 10%;
 }
 
 .home-title {
@@ -229,6 +246,7 @@ nav {
   border-radius: var(--radius);
   font-family: 'Dancing Script', cursive;
   font-size: 2.5rem;
+  text-transform: capitalize;
 }
 
 .home-cta {
@@ -275,6 +293,26 @@ nav {
 .subject-age-container {
   display: flex;
   justify-content: space-evenly;
+}
+
+.course-subject-age-container {
+  display: flex;
+}
+
+.course-subject-age {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: var(--radius);
+  color: #000;
+  background-color: var(--grayscaleOne);
+}
+
+.with-margin {
+  margin-right: 20px;
+}
+
+.course-description {
+  margin-top: 2rem;
 }
 
 .error {

@@ -4,7 +4,7 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { BiChevronDown } from 'react-icons/bi'
 
 type Props = {
-  courses: [{ title?: string, slug?: string }]
+  courses: [{ title?: string; slug?: string }]
 }
 
 export function Navbar({ courses }: Props) {
@@ -12,7 +12,7 @@ export function Navbar({ courses }: Props) {
   const toggleLinks = () => {
     setShowLinks(!showLinks)
   }
-console.log({courses})
+
   return (
     <nav>
       <div className="nav-center">

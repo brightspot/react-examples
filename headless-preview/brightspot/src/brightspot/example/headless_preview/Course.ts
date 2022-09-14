@@ -12,15 +12,14 @@ import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/Preview
 import Note from 'brightspot-types/com/psddev/cms/db/ToolUi$Note'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
+import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
 
 import HeadlessPreviewEndpoint from './HeadlessPreviewEndpoint'
-import Enum from 'brightspot-types/java/lang/Enum'
-import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
 
 export default class Course extends JavaClass(
   'brightspot.example.headless_preview.Course',
   Content,
-  PreviewTypeSupplier,
+  PreviewTypeSupplier
 ) {
   @JavaField(String)
   @Indexed({ unique: true })
@@ -28,8 +27,8 @@ export default class Course extends JavaClass(
   @Note({ value: 'slug used for course url' })
   slug: string
 
-  @JavaRequired
   @JavaField(String)
+  @JavaRequired
   @Indexed({ unique: true })
   title: string
 
@@ -37,31 +36,56 @@ export default class Course extends JavaClass(
   subtitle?: string
 
   @JavaField(String)
-  @Values({value: ['1st grade', '2nd grade', '3rd grade', '4th grade', '5th grade', '6th grade', '7th grade', '8th grade', 'highschool']})
+  @JavaRequired
+  @Values({
+    value: [
+      '1st grade',
+      '2nd grade',
+      '3rd grade',
+      '4th grade',
+      '5th grade',
+      '6th grade',
+      '7th grade',
+      '8th grade',
+      'highschool',
+    ],
+  })
   ageRange: string
 
   @JavaField(String)
-  @Values({value: ['Math', 'Science', 'English', 'Social Studies', 'Coding', 'Fitness', 'Languages', 'Art']})
+  @JavaRequired
+  @Values({
+    value: [
+      'Math',
+      'Science',
+      'English',
+      'Social Studies',
+      'Coding',
+      'Fitness',
+      'Languages',
+      'Art',
+    ],
+  })
   subject: string
 
   @JavaField(String)
+  @JavaRequired
   description?: string
 
   beforeCommit(): void {
-    this.slug = StringUtils.toNormalized(this.slug);
+    this.slug = StringUtils.toNormalized(this.slug)
   }
 
   [`getPreviewTypes(com.psddev.cms.db.Preview)`](
     preview: Preview
   ): List<PreviewType> {
-    let headlessPreviewUrl = Singleton.getInstance(
-      HeadlessPreviewEndpoint.class as Class<HeadlessPreviewEndpoint>).previewUrl
-      || 'http://localhost:3000/brightspot-preview'
+    let headlessPreviewUrl =
+      Singleton.getInstance(
+        HeadlessPreviewEndpoint.class as Class<HeadlessPreviewEndpoint>
+      ).previewUrl || 'http://localhost:3000/courses/brightspot-preview'
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
-    contentDeliveryPreviewType.setPreviewUrl(
-      headlessPreviewUrl
-    )
-  
+    contentDeliveryPreviewType.setPreviewUrl(headlessPreviewUrl)
+
     return [contentDeliveryPreviewType] as unknown as List<PreviewType>
   }
 }

@@ -4,14 +4,14 @@ import { Navbar } from './components/Navbar'
 import './App.css'
 
 const GET_COURSES = gql`
-query getAllCourses {
-  Courses {
-    courses {
-      slug
-      title
+  query getAllCourses {
+    Courses {
+      courses {
+        slug
+        title
+      }
     }
   }
-}
 `
 
 function App() {

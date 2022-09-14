@@ -4,31 +4,29 @@ import NotFound from '../NotFound'
 import underline from '../../images/underline.png'
 
 const GET_COURSE = gql`
-query GetCourse($id: ID, $slug: String) {
-  Course(model: {slug: $slug, id: $id}) {
-    title
-    subtitle
-    slug
-    description
-    ageRange
-    subject
+  query GetCourse($id: ID, $slug: String) {
+    Course(model: { slug: $slug, id: $id }) {
+      title
+      subtitle
+      slug
+      description
+      ageRange
+      subject
+    }
   }
-}
 `
 const Course = () => {
-  console.log('YOU ARE HERE')
   const { slug } = useParams()
-console.log({ slug })
+
   const previewId = new URLSearchParams(window.location.search).get('previewId')
-  const previewType = new URLSearchParams(window.location.search).get('typename')
-  const deviceWidth = new URLSearchParams(window.location.search).get('deviceWidth')
-  console.log('PREVIEW TYPE', previewType)
-  console.log('DEVICE WIDTH: ', deviceWidth)
+  const previewType = new URLSearchParams(window.location.search).get(
+    'typename'
+  )
+  const deviceWidth = new URLSearchParams(window.location.search).get(
+    'deviceWidth'
+  )
 
   const variable = previewId != null ? { id: previewId } : { slug: slug }
-console.log({variable})
-  /*uncomment the console.log to see how the variable is used in Brightspot and the front-end application*/
-  // console.log({ variable })
 
   const { data, loading, error } = useQuery(GET_COURSE, {
     variables: variable,
@@ -40,18 +38,36 @@ console.log({variable})
   }
 
   return (
-    <div className="course-container">
-      <h1 className="course-title">{data?.Course?.title}</h1>
-      <img src={underline} alt="underline" />
-      <h2>{data?.Course?.subtitle}</h2>
-      <p>{data?.Course?.description}</p>
-      <p>{data?.Course?.ageRange}</p>
-      <p>{data?.Course?.subject}</p>
-      <p></p>
-      {error && (
-        <p className="error">{`There was an error fetching data for the course: ${error} `}</p>
-      )}
-    </div>
+    <>
+      <div className="preview-information" data-preview={previewId || null}>
+        <p className="preview-text">{`previewId: ${previewId}`}</p>
+        <p className="preview-text">{`previewType: ${previewType}`}</p>
+        <p className="preview-text">{`deviceWidth: ${deviceWidth}`}</p>
+        <a
+          href="http://localhost/_debug/query"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Debug Tool
+        </a>
+      </div>
+      <div className="course-container">
+        <h1 className="course-title">{data?.Course?.title}</h1>
+        <img src={underline} alt="underline" />
+        <h2>{data?.Course?.subtitle}</h2>
+        <div className="course-subject-age-container">
+          <span className="course-subject-age with-margin">
+            {data?.Course?.ageRange}
+          </span>
+          <span className="course-subject-age">{data?.Course?.subject}</span>
+        </div>
+        <p className="course-description">{data?.Course?.description}</p>
+
+        {error && (
+          <p className="error">{`There was an error fetching data for the course: ${error} `}</p>
+        )}
+      </div>
+    </>
   )
 }
 

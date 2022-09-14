@@ -5,21 +5,21 @@ import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLA
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import JavaClass from 'brightspot-types/JavaClass'
+import JavaField from 'brightspot-types/JavaField'
 import JavaSet from 'brightspot-types/java/util/Set'
+import Placeholder from 'brightspot-types/com/psddev/cms/ui/form/Placeholder'
 import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import CourseViewModel from './CourseViewModel'
 import CoursesViewModel from './CoursesViewModel'
-import JavaField from 'brightspot-types/JavaField'
-import Placeholder from 'brightspot-types/com/psddev/cms/ui/form/Placeholder'
 
 export default class HeadlessPreviewEndpoint extends JavaClass(
   'brightspot.example.headless_preview.HeadlessPreviewEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
-  @Placeholder({value: 'http://localhost:3000/brightspot-preview'})
+  @Placeholder({ value: 'http://localhost:3000/courses/brightspot-preview' })
   @JavaField(String)
   previewUrl?: string
 

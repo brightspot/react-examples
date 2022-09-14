@@ -7,7 +7,6 @@ import Courses from './components/Courses'
 import NotFound from './components/NotFound'
 import Home from './components/Home'
 
-
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
   cache: new InMemoryCache(),
@@ -18,7 +17,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path='' element={<Home />} />
+          <Route path="" element={<Home />} />
           <Route path="courses" element={<Courses />} />
           <Route path="courses/:slug" element={<Course />} />
           <Route path="*" element={<NotFound />} />
