@@ -17,7 +17,6 @@
   background: var(--secondaryBackground);
   border-radius: 2px;
   height: 100%;
-  min-height: 200px;
 }
 
 .pageName {

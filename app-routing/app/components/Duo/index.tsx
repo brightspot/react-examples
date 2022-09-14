@@ -3,10 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Article } from '../../generated/graphql'
 
-// const imageArray = [
-//   { image: '/bluecat.png', alt: 'photo by Sarah Pflug on Burst by Shopify' },
-//   { image: '/cat.png', alt: 'photo by Sarah Pflug on Burst by Shopify' },
-// ]
+const imageArray = [
+  { image: '/bluecat.png', alt: 'photo by Sarah Pflug on Burst by Shopify' },
+  { image: '/cat.png', alt: 'photo by Sarah Pflug on Burst by Shopify' },
+]
 
 type PartArticle = Omit<Article, 'body'> | null
 
@@ -27,13 +27,13 @@ const Duo = ({ articles }: Props) => {
               <a>
                 <div className={styles.listItem}>
                   <div className={styles.imageContainer}>
-                    {/* <Image
+                    <Image
                       src={imageArray[index].image}
                       alt={imageArray[index].alt}
                       objectFit='cover'
                       layout='fill'
                       priority
-                    /> */}
+                    />
                   </div>
                   <div className={styles.textContainer}>
                     <p className={styles.pageName}>{article?.page?.name}</p>
