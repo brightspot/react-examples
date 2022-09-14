@@ -1,7 +1,10 @@
-import './App.css'
+import ArticleContainer from './components/Article/ArticleContainer'
+import './app.css'
 
-function App() {
-  return <div className="App"></div>
-}
+const App = () => (
+  <div className="app">
+    <ArticleContainer />
+  </div>
+)
 
 export default App

@@ -1,12 +1,25 @@
-import React from 'react'
+import App from './app'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from '@apollo/client'
 
-const client = new ApolloClient({
+const link = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
-  cache: new InMemoryCache(),
+  credentials: 'same-origin',
+  headers: {
+    'X-Client-ID': process.env.REACT_APP_GRAPHQL_CLIENT_ID,
+    'X-Client-Secret': process.env.REACT_APP_GRAPHQL_CLIENT_SECRET,
+  },
 })
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link,
+})
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <ApolloProvider client={client}>
