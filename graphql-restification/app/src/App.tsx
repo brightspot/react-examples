@@ -1,5 +1,5 @@
 import ArticleContainer from './components/Article/ArticleContainer'
-import './app.css'
+import './App.css'
 
 const App = () => (
   <div className="app">
