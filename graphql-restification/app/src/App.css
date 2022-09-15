@@ -17,15 +17,15 @@ body {
   height: 100vh;
 }
 
-.hello-world-container {
+.article-container {
   margin: 20px;
 }
 
-.hello-world-container h1 {
+.article-container h1 {
   font-size: 5rem;
 }
 
-.hello-world-container h2 {
+.article-container h2 {
   font-size: 4rem;
 }
 
