@@ -1,11 +1,32 @@
-query GetPage($name: String) {
-  Page(model: { name: $name }) {
+query GetPage($slug: String) {
+  Page(model: { slug: $slug }) {
     name
+    slug
     articles {
       headline
       publishDate
+      slug
       page {
         name
+        slug
+      }
+    }
+  }
+}
+
+query GetAllPages {
+  Pages {
+    pages {
+      name
+      slug
+      articles {
+        slug
+        headline
+        publishDate
+        page {
+          name
+          slug
+        }
       }
     }
   }

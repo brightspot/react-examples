@@ -16,6 +16,12 @@ export default class ArticleViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
+  getSlug(): string {
+    return this.model.slug
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
   getHeadline(): string {
     return this.model.headline
   }

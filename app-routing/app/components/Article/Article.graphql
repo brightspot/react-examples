@@ -1,7 +1,22 @@
-query GetArticle($headline: String) {
-  Article(model: { headline: $headline }) {
+query GetArticle($id: ID, $slug: String) {
+  Article(model: { slug: $slug, id: $id }) {
     body
     headline
     publishDate
+    slug
+  }
+}
+
+query GetAllArticles {
+  Articles {
+    articles {
+      slug
+      headline
+      publishDate
+      page {
+        name
+        slug
+      }
+    }
   }
 }

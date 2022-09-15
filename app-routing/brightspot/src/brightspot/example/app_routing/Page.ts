@@ -4,8 +4,7 @@ import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
-
-import App from './App'
+import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
 
 @DisplayName({ value: 'App Routing Page' })
 export default class Page extends JavaClass(
@@ -17,7 +16,12 @@ export default class Page extends JavaClass(
   @JavaRequired
   name: string
 
-  @JavaField(App)
+  @JavaField(String)
+  @Indexed({ unique: true })
   @JavaRequired
-  app: App
+  slug: string
+
+  beforeCommit(): void {
+    this.slug = StringUtils.toNormalized(this.slug)
+  }
 }

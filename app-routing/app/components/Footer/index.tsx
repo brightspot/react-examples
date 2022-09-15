@@ -6,7 +6,7 @@ const Footer = () => {
       <div className={styles.footerContainer}>
         <h4>
           &copy; <span className={styles.name}>News </span>
-          App Routing Tutorial
+          App Routing with Brightspot
         </h4>
       </div>
     </footer>

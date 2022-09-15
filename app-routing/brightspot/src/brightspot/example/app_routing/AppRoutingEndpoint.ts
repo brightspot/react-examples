@@ -9,9 +9,10 @@ import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import AppViewModel from './AppViewModel'
 import ArticleViewModel from './ArticleViewModel'
+import ArticlesViewModel from './ArticlesViewModel'
 import PageViewModel from './PageViewModel'
+import PagesViewModel from './PagesViewModel'
 
 export default class AppRoutingEndpoint extends JavaClass(
   'brightspot.example.app_routing.AppRoutingEndpoint',
@@ -23,24 +24,14 @@ export default class AppRoutingEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    const arr1 = [AppViewModel.class as Class<AppViewModel>].map(
+    return [
+      PageViewModel.class as Class<PageViewModel>,
+      ArticleViewModel.class as Class<ArticleViewModel>,
+      ArticlesViewModel.class as Class<ArticlesViewModel>,
+      PagesViewModel.class as Class<PagesViewModel>,
+    ].map(
       (c) => new ContentDeliveryEntryPointField(c)
-    )
-    const arr2 = [PageViewModel.class as Class<PageViewModel>].map(
-      (c) => new ContentDeliveryEntryPointField(c)
-    )
-
-    const arr3 = [ArticleViewModel.class as Class<ArticleViewModel>].map(
-      (c) => new ContentDeliveryEntryPointField(c)
-    )
-
-    const arr4 = arr1.concat(arr2)
-
-    const finalArr = arr4.concat(
-      arr3
     ) as unknown as List<ContentDeliveryEntryPointField>
-
-    return finalArr
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {

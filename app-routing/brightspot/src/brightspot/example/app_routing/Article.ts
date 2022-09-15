@@ -4,6 +4,7 @@ import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
+import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
 
 import Page from './Page'
 
@@ -12,6 +13,11 @@ export default class Article extends JavaClass(
   'brightspot.example.app_routing.Article',
   Content
 ) {
+  @JavaField(String)
+  @Indexed({ unique: true })
+  @JavaRequired
+  slug: string
+
   @JavaField(String)
   @Indexed({ unique: true })
   @JavaRequired
@@ -24,4 +30,8 @@ export default class Article extends JavaClass(
   @JavaRequired
   @Indexed
   page: Page
+
+  beforeCommit(): void {
+    this.slug = StringUtils.toNormalized(this.slug)
+  }
 }

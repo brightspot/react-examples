@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
@@ -10,35 +9,20 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import ArticleViewModel from './ArticleViewModel'
-import Page from './Page'
+import AppRoutingEndpoint from './AppRoutingEndpoint'
 
 @ViewInterface
-export default class PageViewModel extends JavaClass(
-  'brightspot.example.app_routing.PageViewModel',
-  ViewModel.Of(Page),
+export default class ArticlesViewModel extends JavaClass(
+  'brightspot.example.app_routing.ArticlesViewModel',
+  ViewModel.Of(AppRoutingEndpoint),
   PageEntryView
 ) {
   @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getSlug(): string {
-    return this.model.slug
-  }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getName(): string {
-    return this.model.name
-  }
-
-  @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
-    let articles = Query.from(Article.class)
-      .where('page matches  ?', this.model)
-      .selectAll()
-    return this.createViews(
-      ArticleViewModel.class as Class<ArticleViewModel>,
-      articles
-    ) as undefined as List<ArticleViewModel>
+    return super.createViews(
+      ArticleViewModel.class,
+      Query.from(Article.class).selectAll()
+    ) as unknown as List<ArticleViewModel>
   }
 }

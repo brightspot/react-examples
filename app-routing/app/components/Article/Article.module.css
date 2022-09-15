@@ -4,7 +4,7 @@
 }
 
 .datePublished {
-  color: var(--primaryBlue);
+  color: var(--darkBlue);
   font-style: italic;
   margin-bottom: 2rem;
 }

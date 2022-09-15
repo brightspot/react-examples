@@ -15,55 +15,52 @@ export type Scalars = {
   Float: number;
 };
 
-export type App = {
-  __typename?: 'App';
-  allArticles?: Maybe<Array<Maybe<Article>>>;
-  allPages?: Maybe<Array<Maybe<Page>>>;
-  title?: Maybe<Scalars['String']>;
-};
-
-export type AppModelInput = {
-  id?: InputMaybe<Scalars['ID']>;
-  title?: InputMaybe<Scalars['String']>;
-};
-
 export type Article = {
   __typename?: 'Article';
   body?: Maybe<Scalars['String']>;
   headline?: Maybe<Scalars['String']>;
   page?: Maybe<Page>;
   publishDate?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type ArticleModelInput = {
   headline?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
+  slug?: InputMaybe<Scalars['String']>;
+};
+
+export type Articles = {
+  __typename?: 'Articles';
+  articles?: Maybe<Array<Maybe<Article>>>;
 };
 
 export type Page = {
   __typename?: 'Page';
-  app?: Maybe<App>;
   articles?: Maybe<Array<Maybe<Article>>>;
   name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
 };
 
-export type PageEntry = App | Article | Page;
+export type PageEntry = Article | Articles | Page | Pages;
 
 export type PageModelInput = {
   id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
+};
+
+export type Pages = {
+  __typename?: 'Pages';
+  pages?: Maybe<Array<Maybe<Page>>>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  App?: Maybe<App>;
   Article?: Maybe<Article>;
+  Articles?: Maybe<Articles>;
   Page?: Maybe<Page>;
-};
-
-
-export type QueryAppArgs = {
-  model?: InputMaybe<AppModelInput>;
+  Pages?: Maybe<Pages>;
 };
 
 
@@ -76,120 +73,39 @@ export type QueryPageArgs = {
   model?: InputMaybe<PageModelInput>;
 };
 
-export type GetAppQueryVariables = Exact<{
-  title?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type GetAppQuery = { __typename?: 'Query', App?: { __typename?: 'App', title?: string | null, allPages?: Array<{ __typename?: 'Page', name?: string | null } | null> | null } | null };
-
-export type GetAppArticlesQueryVariables = Exact<{
-  title?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type GetAppArticlesQuery = { __typename?: 'Query', App?: { __typename?: 'App', allArticles?: Array<{ __typename?: 'Article', headline?: string | null, publishDate?: string | null, page?: { __typename?: 'Page', name?: string | null } | null } | null> | null } | null };
-
 export type GetArticleQueryVariables = Exact<{
-  headline?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  slug?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', body?: string | null, headline?: string | null, publishDate?: string | null } | null };
+export type GetArticleQuery = { __typename?: 'Query', Article?: { __typename?: 'Article', body?: string | null, headline?: string | null, publishDate?: string | null, slug?: string | null } | null };
+
+export type GetAllArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllArticlesQuery = { __typename?: 'Query', Articles?: { __typename?: 'Articles', articles?: Array<{ __typename?: 'Article', slug?: string | null, headline?: string | null, publishDate?: string | null, page?: { __typename?: 'Page', name?: string | null, slug?: string | null } | null } | null> | null } | null };
 
 export type GetPageQueryVariables = Exact<{
-  name?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', name?: string | null, articles?: Array<{ __typename?: 'Article', headline?: string | null, publishDate?: string | null, page?: { __typename?: 'Page', name?: string | null } | null } | null> | null } | null };
+export type GetPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', name?: string | null, slug?: string | null, articles?: Array<{ __typename?: 'Article', headline?: string | null, publishDate?: string | null, slug?: string | null, page?: { __typename?: 'Page', name?: string | null, slug?: string | null } | null } | null> | null } | null };
+
+export type GetAllPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const GetAppDocument = gql`
-    query GetApp($title: String) {
-  App(model: {title: $title}) {
-    title
-    allPages {
-      name
-    }
-  }
-}
-    `;
+export type GetAllPagesQuery = { __typename?: 'Query', Pages?: { __typename?: 'Pages', pages?: Array<{ __typename?: 'Page', name?: string | null, slug?: string | null, articles?: Array<{ __typename?: 'Article', slug?: string | null, headline?: string | null, publishDate?: string | null, page?: { __typename?: 'Page', name?: string | null, slug?: string | null } | null } | null> | null } | null> | null } | null };
 
-/**
- * __useGetAppQuery__
- *
- * To run a query within a React component, call `useGetAppQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAppQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAppQuery({
- *   variables: {
- *      title: // value for 'title'
- *   },
- * });
- */
-export function useGetAppQuery(baseOptions?: Apollo.QueryHookOptions<GetAppQuery, GetAppQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAppQuery, GetAppQueryVariables>(GetAppDocument, options);
-      }
-export function useGetAppLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAppQuery, GetAppQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAppQuery, GetAppQueryVariables>(GetAppDocument, options);
-        }
-export type GetAppQueryHookResult = ReturnType<typeof useGetAppQuery>;
-export type GetAppLazyQueryHookResult = ReturnType<typeof useGetAppLazyQuery>;
-export type GetAppQueryResult = Apollo.QueryResult<GetAppQuery, GetAppQueryVariables>;
-export const GetAppArticlesDocument = gql`
-    query GetAppArticles($title: String) {
-  App(model: {title: $title}) {
-    allArticles {
-      headline
-      publishDate
-      page {
-        name
-      }
-    }
-  }
-}
-    `;
 
-/**
- * __useGetAppArticlesQuery__
- *
- * To run a query within a React component, call `useGetAppArticlesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAppArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAppArticlesQuery({
- *   variables: {
- *      title: // value for 'title'
- *   },
- * });
- */
-export function useGetAppArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetAppArticlesQuery, GetAppArticlesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAppArticlesQuery, GetAppArticlesQueryVariables>(GetAppArticlesDocument, options);
-      }
-export function useGetAppArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAppArticlesQuery, GetAppArticlesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAppArticlesQuery, GetAppArticlesQueryVariables>(GetAppArticlesDocument, options);
-        }
-export type GetAppArticlesQueryHookResult = ReturnType<typeof useGetAppArticlesQuery>;
-export type GetAppArticlesLazyQueryHookResult = ReturnType<typeof useGetAppArticlesLazyQuery>;
-export type GetAppArticlesQueryResult = Apollo.QueryResult<GetAppArticlesQuery, GetAppArticlesQueryVariables>;
 export const GetArticleDocument = gql`
-    query GetArticle($headline: String) {
-  Article(model: {headline: $headline}) {
+    query GetArticle($id: ID, $slug: String) {
+  Article(model: {slug: $slug, id: $id}) {
     body
     headline
     publishDate
+    slug
   }
 }
     `;
@@ -206,7 +122,8 @@ export const GetArticleDocument = gql`
  * @example
  * const { data, loading, error } = useGetArticleQuery({
  *   variables: {
- *      headline: // value for 'headline'
+ *      id: // value for 'id'
+ *      slug: // value for 'slug'
  *   },
  * });
  */
@@ -221,15 +138,60 @@ export function useGetArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetArticleQueryHookResult = ReturnType<typeof useGetArticleQuery>;
 export type GetArticleLazyQueryHookResult = ReturnType<typeof useGetArticleLazyQuery>;
 export type GetArticleQueryResult = Apollo.QueryResult<GetArticleQuery, GetArticleQueryVariables>;
-export const GetPageDocument = gql`
-    query GetPage($name: String) {
-  Page(model: {name: $name}) {
-    name
+export const GetAllArticlesDocument = gql`
+    query GetAllArticles {
+  Articles {
     articles {
+      slug
       headline
       publishDate
       page {
         name
+        slug
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllArticlesQuery__
+ *
+ * To run a query within a React component, call `useGetAllArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllArticlesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
+      }
+export function useGetAllArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
+        }
+export type GetAllArticlesQueryHookResult = ReturnType<typeof useGetAllArticlesQuery>;
+export type GetAllArticlesLazyQueryHookResult = ReturnType<typeof useGetAllArticlesLazyQuery>;
+export type GetAllArticlesQueryResult = Apollo.QueryResult<GetAllArticlesQuery, GetAllArticlesQueryVariables>;
+export const GetPageDocument = gql`
+    query GetPage($slug: String) {
+  Page(model: {slug: $slug}) {
+    name
+    slug
+    articles {
+      headline
+      publishDate
+      slug
+      page {
+        name
+        slug
       }
     }
   }
@@ -248,7 +210,7 @@ export const GetPageDocument = gql`
  * @example
  * const { data, loading, error } = useGetPageQuery({
  *   variables: {
- *      name: // value for 'name'
+ *      slug: // value for 'slug'
  *   },
  * });
  */
@@ -263,3 +225,49 @@ export function useGetPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetPageQueryHookResult = ReturnType<typeof useGetPageQuery>;
 export type GetPageLazyQueryHookResult = ReturnType<typeof useGetPageLazyQuery>;
 export type GetPageQueryResult = Apollo.QueryResult<GetPageQuery, GetPageQueryVariables>;
+export const GetAllPagesDocument = gql`
+    query GetAllPages {
+  Pages {
+    pages {
+      name
+      slug
+      articles {
+        slug
+        headline
+        publishDate
+        page {
+          name
+          slug
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllPagesQuery__
+ *
+ * To run a query within a React component, call `useGetAllPagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllPagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllPagesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllPagesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllPagesQuery, GetAllPagesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllPagesQuery, GetAllPagesQueryVariables>(GetAllPagesDocument, options);
+      }
+export function useGetAllPagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllPagesQuery, GetAllPagesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllPagesQuery, GetAllPagesQueryVariables>(GetAllPagesDocument, options);
+        }
+export type GetAllPagesQueryHookResult = ReturnType<typeof useGetAllPagesQuery>;
+export type GetAllPagesLazyQueryHookResult = ReturnType<typeof useGetAllPagesLazyQuery>;
+export type GetAllPagesQueryResult = Apollo.QueryResult<GetAllPagesQuery, GetAllPagesQueryVariables>;

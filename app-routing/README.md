@@ -21,7 +21,7 @@ To run the front-end:
 ```
 cd app
 yarn
-yarn start
+yarn dev
 ```
 
 The front-end application will open automatically in the browser.

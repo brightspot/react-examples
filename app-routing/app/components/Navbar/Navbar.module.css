@@ -100,6 +100,7 @@
 
 .pageName {
   font-size: 1.2rem;
+  text-transform: lowercase;
 }
 
 @media (min-width: 768px) {

@@ -8,3 +8,8 @@
   color: var(--primaryBlack);
   margin-bottom: 4rem;
 }
+
+.bannerTitle {
+  font-size: 2.5rem;
+  text-transform: capitalize;
+}
