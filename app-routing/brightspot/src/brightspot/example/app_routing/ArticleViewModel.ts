@@ -8,6 +8,7 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import PageViewModel from './PageViewModel'
+
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
   'brightspot.example.app_routing.ArticleViewModel',

@@ -16,7 +16,7 @@ const Navbar = () => {
       setIsNavExpanded(false)
     }, 100)
   }
-  console.log({ pageList })
+
   return (
     <nav className={styles.navigation}>
       <h2 className={styles.logo}>
