@@ -7,11 +7,9 @@ import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import UrlsWidget from 'brightspot-types/com/psddev/cms/tool/content/UrlsWidget'
 
-import Section from './Section'
-
-@DisplayName({ value: 'App Routing Article' })
-export default class Article extends JavaClass(
-  'brightspot.example.app_routing.Article',
+@DisplayName({ value: 'App Routing Section' })
+export default class Section extends JavaClass(
+  'brightspot.example.app_routing.Section',
   Content,
   ContentEditWidgetDisplay
 ) {
@@ -22,15 +20,7 @@ export default class Article extends JavaClass(
 
   @JavaField(String)
   @JavaRequired
-  headline: string
-
-  @JavaField(String)
-  body?: string
-
-  @JavaField(Section)
-  @JavaRequired
-  @Indexed
-  section: Section
+  name: string
 
   [`shouldDisplayContentEditWidget(java.lang.String)`](widgetName: string): boolean {
     if (widgetName === UrlsWidget.class.getName()) {

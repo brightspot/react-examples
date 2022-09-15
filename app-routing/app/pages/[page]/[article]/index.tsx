@@ -11,7 +11,7 @@ const ArticlePage = () => {
   const { data, error, loading } = useGetArticleQuery({
     variables: {
       /* TRY-IT!: change query variable to headline instead of slug if using headline for the path */
-      slug: article,
+      headline: article,
     },
   })
 

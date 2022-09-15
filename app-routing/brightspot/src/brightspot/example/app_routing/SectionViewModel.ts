@@ -10,12 +10,12 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import ArticleViewModel from './ArticleViewModel'
-import Page from './Page'
+import Section from './Section'
 
 @ViewInterface
-export default class PageViewModel extends JavaClass(
-  'brightspot.example.app_routing.PageViewModel',
-  ViewModel.Of(Page),
+export default class SectionViewModel extends JavaClass(
+  'brightspot.example.app_routing.SectionViewModel',
+  ViewModel.Of(Section),
   PageEntryView
 ) {
   @JavaMethodParameters()
@@ -34,7 +34,7 @@ export default class PageViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
     let articles = Query.from(Article.class)
-      .where('page matches  ?', this.model)
+      .where('section matches  ?', this.model)
       .selectAll()
     return this.createViews(
       ArticleViewModel.class as Class<ArticleViewModel>,

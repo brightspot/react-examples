@@ -15,7 +15,7 @@ const List = ({ articles }: Props) => {
         {articles?.map((article: PartArticle, i: number) => {
           return (
             /* TRY-IT!: use article?.headline instead of article?.slug to change path to article */
-            <Link key={i} href={`/${article?.page?.slug}/${article?.slug}`}>
+            <Link key={i} href={`/${article?.page?.slug}/${article?.headline}`}>
               <a>
                 <div className={styles.listItem}>
                   <div className={styles.listTop}></div>

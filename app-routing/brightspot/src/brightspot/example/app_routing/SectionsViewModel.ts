@@ -7,22 +7,22 @@ import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import Page from './Page'
-import PageViewModel from './PageViewModel'
+import Section from './Section'
+import SectionViewModel from './SectionViewModel'
 import AppRoutingEndpoint from './AppRoutingEndpoint'
 
 @ViewInterface
-export default class PagesViewModel extends JavaClass(
-  'brightspot.example.app_routing.PagesViewModel',
+export default class SectionsViewModel extends JavaClass(
+  'brightspot.example.app_routing.SectionsViewModel',
   ViewModel.Of(AppRoutingEndpoint),
   PageEntryView
 ) {
   @JavaMethodParameters()
-  @JavaMethodReturn(List.Of(PageViewModel))
-  getPages(): List<PageViewModel> {
+  @JavaMethodReturn(List.Of(SectionViewModel))
+  getSections(): List<SectionViewModel> {
     return super.createViews(
-      PageViewModel.class,
-      Query.from(Page.class).selectAll()
-    ) as unknown as List<PageViewModel>
+      SectionViewModel.class,
+      Query.from(Section.class).selectAll()
+    ) as unknown as List<SectionViewModel>
   }
 }

@@ -7,7 +7,7 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
-import PageViewModel from './PageViewModel'
+import SectionViewModel from './SectionViewModel'
 
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
@@ -34,11 +34,11 @@ export default class ArticleViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
-  @JavaMethodReturn(PageViewModel)
-  getPage(): PageViewModel {
+  @JavaMethodReturn(SectionViewModel)
+  getSection(): SectionViewModel {
     return this.createView(
-      PageViewModel.class as Class<PageViewModel>,
-      this.model.page
+      SectionViewModel.class as Class<SectionViewModel>,
+      this.model.section
     )
   }
 
