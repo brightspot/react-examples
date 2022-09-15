@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Article } from '../../generated'
 import { GET_HELLO, POST_BRIGHTSPOT } from '../../api/api'
@@ -18,9 +18,9 @@ const ArticleContainer = () => {
     return response
   }
 
-  const getArticle = async () => {
-    if (!data?.isClicked) {
-      POST_BRIGHTSPOT()
+  const getArticle = async (input: string | null) => {
+    if (input) {
+      POST_BRIGHTSPOT(input)
         .then((res) => handleResponse(res, !data?.isClicked))
         .catch((error: Error) => handleError(error))
     } else {
@@ -45,6 +45,14 @@ const ArticleContainer = () => {
         errors.push(error.message)
       }
     }
+
+    article =
+      res?.data?.Article !== null
+        ? article
+        : (article = {
+            headline: 'Article not found',
+            subheadline: 'No article matches the path entered',
+          })
     setData({
       article,
       isClicked,
@@ -56,6 +64,19 @@ const ArticleContainer = () => {
     setData({ errors: [error.message] })
   }
 
+  let timeoutId: ReturnType<typeof setTimeout>
+  const debounce = (fn: Function, ms = 300) => {
+    return function (this: any, ...args: any[]) {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => fn.apply(this, args), ms)
+    }
+  }
+
+  const handleOnChange = (e: React.BaseSyntheticEvent) => {
+    e.preventDefault()
+    return debounce(() => getArticle(e?.target?.value), 1000)()
+  }
+
   useEffect(() => {
     getHelloWorldArticle()
       .then((res) => handleResponse(res))
@@ -64,7 +85,7 @@ const ArticleContainer = () => {
 
   return (
     <>
-      <div className="hello-world-container">
+      <div className="article-container">
         <ArticleComponent article={data?.article} />
       </div>
       {data?.errors?.map((error, i) => (
@@ -72,10 +93,10 @@ const ArticleContainer = () => {
           {error}
         </p>
       ))}
-      <button className="brightspot-button" onClick={getArticle}>
-        {' '}
-        {data?.isClicked ? 'Welcome Message' : 'Brightspot'}{' '}
-      </button>
+      <div className="input-wrapper">
+        <label htmlFor="path">Enter Article:</label>
+        <input required name="path" onChange={handleOnChange} />
+      </div>
     </>
   )
 }
