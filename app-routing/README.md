@@ -28,36 +28,45 @@ The front-end application will open automatically in the browser.
 
 ## Using the example application
 
-The front-end application is a simple news website. Content consists of: an app, pages, and articles.
-Publish an App content item. Add the title of the App (for example 'news') to your .env file in the `NEXT_PUBLIC_APP_TITLE` field.
+The front-end application is a simple news website. Content consists of pages and articles.
 
-Next, publish the following content in Brightspot:
+Publish the following content in Brightspot:
 
 1. Page(s)
 2. Article(s)
 
-Navigate to your front-end to see your content displayed.
+Navigate to your front-end application to see your content displayed!
 
 ## How everything works
 
-Brightspot gives you the power to customize Brightspot, add new classes, create endpoints, and much more with JS Classes. You can easily link related content to create an easy-to-use GraphQL query structure.
+JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript (TypeScript). 
+
+One powerful feature Brightspot provides ease of content modeling and querying for content data with GraphQL.
 
 Navigate to `brightspot/src/examples/app_routing`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
 #### JS Classes Files:
-
-- `App.ts`: the class that acts as the parent class for the application
-  - `@JavaRequired`: makes the field a required field
-  - `@Indexed({ unique: true })`: this annotation makes it possible to query using this field
-- `AppViewModel.ts`: note in particular the `getAllPages` and `getAllArticles` functions to enable querying for all of those content items that are children to the App content item
-- `Page.ts`: note the `app` field so the user can select the connecting App content item
-- `PageViewModel.ts`: note the `getArticles` function that uses the `Query` class to select Articles connected to a Page
+- `Page.ts`: the content model for a Page 
+  - `@JavaRequired`: make the field a required field
+  - `@Indexed({ unique: true })`: make the field a query variable
+  - `beforeCommit`: a callback in the database save life cycle to normalize the slug string
+- `PageViewModel.ts`: 
+  - `Query`: the Query API provides several methods for retrieving objects, filtering results, and performing actions on retrieved objects. In `PageViewModel`, Query is used to select Articles corresponding to the Page specified in the Article
+  - `createViews`: create an iterable over views using the specified view model class and model
+- `PagesViewModel.ts`: 
+  - `ViewModel.Of(AppRoutingEndpoint)`: specifying the `AppRoutingEndpoint` makes it possible to query for Pages without a query variable
+  - `createViews`: create an iterable over views using the specified view model class and model. Select all pages 
 - `Article.ts`: note the `page` field so the user can select the connecting Page content
-- `ArticleViewModel.ts`: note the `getPage` function that returns the connected Page for the Article
-- `AppRoutingEndpoint.ts`:
-  - `Singleton`: only one of it's kind
-  - `getPaths`: the path(s) for the endpoint
-  - `getQueryEntryFields()`: get all of the entry fields for the endpoint
+- `ArticleViewModel.ts`: 
+  - `createView`: create a view using the specified view model class and model
+- `ArticlesViewModel.ts`:
+  - `ViewModel.Of(AppRoutingEndpoint)`: specifying the `AppRoutingEndpoint` makes it possible to query for Articles without a query variable
+  - `createViews`: create an iterable over views using the specified view model class and model. Select all articles 
+- `AppRoutingEndpoint.ts`: the class that creates a custom Content Delivery Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. It has the following configurations:
+  - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
+  - `getQueryEntryFields`: specifies all of the entry fields for the endpoint
+  - `updateCorsConfiguration`: permit cross-origin resource sharing (CORS) to enable requests from localhost 
+  - `getAccessOption`: implicit access so an API key is not required
 
 #### Routing with Next.js
 
@@ -67,12 +76,10 @@ The front-end application uses the dynamic routing Next.js provides. For more in
 
 The following is a suggestion for learning more about JS Classes and Brightspot:
 
-1. Use other fields to query for data. What do you need to add to make a field query-able?
+1. Search for `TRY-IT!` in the front-end application. Follow the prompts to try using the `headline` field as a query field instead of slug for Article. Notice how the url to the Article is different versus using `slug`. 
+
+> **_Note_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to updated the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
 
 ## Troubleshooting
 
-1. My front-end application is not fetching data....
-
-- Make sure you created an App content item, and added the title in `app/.env` (`NEXT_PUBLIC_APP_TITLE`)
-
-For other issues, refer to the [Common Issues](/README.md) section in the respository README for assistance.
+Refer to the [Common Issues](/README.md) section in the respository README for assistance.

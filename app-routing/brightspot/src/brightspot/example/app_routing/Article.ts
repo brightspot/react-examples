@@ -7,6 +7,7 @@ import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Require
 import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
 
 import Page from './Page'
+import SuggestedMaximum from 'brightspot-types/com/psddev/cms/db/ToolUi$SuggestedMaximum'
 
 @DisplayName({ value: 'App Routing Article' })
 export default class Article extends JavaClass(

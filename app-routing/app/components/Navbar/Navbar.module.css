@@ -9,7 +9,7 @@
 }
 
 .logo {
-  color: var(--primaryRed);
+  color: var(--primaryBlue);
   font-size: 2rem;
   margin-left: 10px;
   text-transform: uppercase;
@@ -33,12 +33,12 @@
 .closeIcon {
   height: 30px;
   width: 30px;
-  color: var(--primaryRed);
+  color: var(--primaryBlue);
 }
 
 .hamburgerIcon:hover,
 .closeIcon:hover {
-  color: var(--secondaryRed);
+  color: var(--darkBlue);
 }
 
 .close {
@@ -124,7 +124,7 @@
   }
 
   .navigationMenu li a:hover {
-    color: var(--primaryRed);
+    color: var(--primaryBlue);
   }
 
   .hamburger {

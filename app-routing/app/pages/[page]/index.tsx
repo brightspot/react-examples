@@ -7,11 +7,11 @@ import styles from '../../styles/pages.module.css'
 
 const SectionPage = () => {
   const router = useRouter()
-  const pageSlug = router.query.page as string
+  const page = router.query.page as string
 
   const { data, error, loading } = useGetPageQuery({
     variables: {
-      slug: pageSlug,
+      slug: page,
     },
   })
 
@@ -22,7 +22,7 @@ const SectionPage = () => {
         <h3>No articles... 🤔</h3>
       </div>
     )
-  console.log({ data })
+
   return (
     <>
       <Banner name={data?.Page?.name} />

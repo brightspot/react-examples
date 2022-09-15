@@ -7,10 +7,11 @@ import styles from '../../../styles/pages.module.css'
 const ArticlePage = () => {
   const router = useRouter()
 
-  const articleSlug = router.query.article as string
+  const article = router.query.article as string
   const { data, error, loading } = useGetArticleQuery({
     variables: {
-      slug: articleSlug,
+      /* TRY-IT!: change query variable to headline instead of slug if using headline for the path */
+      slug: article,
     },
   })
 

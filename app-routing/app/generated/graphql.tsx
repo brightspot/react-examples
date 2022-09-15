@@ -74,8 +74,8 @@ export type QueryPageArgs = {
 };
 
 export type GetArticleQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
   slug?: InputMaybe<Scalars['String']>;
+  headline?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -100,8 +100,8 @@ export type GetAllPagesQuery = { __typename?: 'Query', Pages?: { __typename?: 'P
 
 
 export const GetArticleDocument = gql`
-    query GetArticle($id: ID, $slug: String) {
-  Article(model: {slug: $slug, id: $id}) {
+    query GetArticle($slug: String, $headline: String) {
+  Article(model: {slug: $slug, headline: $headline}) {
     body
     headline
     publishDate
@@ -122,8 +122,8 @@ export const GetArticleDocument = gql`
  * @example
  * const { data, loading, error } = useGetArticleQuery({
  *   variables: {
- *      id: // value for 'id'
  *      slug: // value for 'slug'
+ *      headline: // value for 'headline'
  *   },
  * });
  */

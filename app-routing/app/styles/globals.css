@@ -2,13 +2,12 @@
 
 /* Variables */
 :root {
-  --primaryRed: #ed1c24;
-  --secondaryRed: #b51015;
   --primaryTextColor: #757575;
   --secondaryGrey: #eaeaea;
   --tertiaryGrey: #f0f0f0;
   --primaryBlue: #0477c9;
   --darkBlue: #2a5975;
+  --lightBlue: #00d4ff;
   --primaryBackground: #fff;
   --primaryBlack: #232b2b;
   --primaryBackground: #f9f9f9;

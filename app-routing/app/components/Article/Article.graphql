@@ -1,5 +1,5 @@
-query GetArticle($id: ID, $slug: String) {
-  Article(model: { slug: $slug, id: $id }) {
+query GetArticle($slug: String, $headline: String) {
+  Article(model: { slug: $slug, headline: $headline }) {
     body
     headline
     publishDate

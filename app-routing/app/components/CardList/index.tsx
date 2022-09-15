@@ -9,13 +9,12 @@ type Props = {
 }
 
 const List = ({ articles }: Props) => {
-  console.log(articles)
   return (
     <section className={styles.listSection}>
       <div className={styles.listGrid}>
         {articles?.map((article: PartArticle, i: number) => {
-          console.log(article)
           return (
+            /* TRY-IT!: use article?.headline instead of article?.slug to change path to article */
             <Link key={i} href={`/${article?.page?.slug}/${article?.slug}`}>
               <a>
                 <div className={styles.listItem}>
