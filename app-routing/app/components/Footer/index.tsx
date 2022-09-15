@@ -5,8 +5,15 @@ const Footer = () => {
     <footer>
       <div className={styles.footerContainer}>
         <h4>
-          &copy; <span className={styles.name}>News </span>
-          App Routing with Brightspot
+          App Routing with{' '}
+          <a
+            href="https://www.brightspot.com/"
+            target="_blank"
+            rel="noreferrer"
+            className={styles.name}
+          >
+            Brightspot
+          </a>
         </h4>
       </div>
     </footer>
