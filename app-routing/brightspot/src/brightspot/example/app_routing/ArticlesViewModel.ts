@@ -14,8 +14,7 @@ import AppRoutingEndpoint from './AppRoutingEndpoint'
 @ViewInterface
 export default class ArticlesViewModel extends JavaClass(
   'brightspot.example.app_routing.ArticlesViewModel',
-  ViewModel.Of(AppRoutingEndpoint),
-  PageEntryView
+  ViewModel.Of(AppRoutingEndpoint)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ArticleViewModel))

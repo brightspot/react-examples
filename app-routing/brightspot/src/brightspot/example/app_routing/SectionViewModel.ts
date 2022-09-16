@@ -12,6 +12,7 @@ import Article from './Article'
 import ArticleViewModel from './ArticleViewModel'
 import Section from './Section'
 
+
 @ViewInterface
 export default class SectionViewModel extends JavaClass(
   'brightspot.example.app_routing.SectionViewModel',

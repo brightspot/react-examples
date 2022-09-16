@@ -14,8 +14,7 @@ import AppRoutingEndpoint from './AppRoutingEndpoint'
 @ViewInterface
 export default class SectionsViewModel extends JavaClass(
   'brightspot.example.app_routing.SectionsViewModel',
-  ViewModel.Of(AppRoutingEndpoint),
-  PageEntryView
+  ViewModel.Of(AppRoutingEndpoint)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(SectionViewModel))

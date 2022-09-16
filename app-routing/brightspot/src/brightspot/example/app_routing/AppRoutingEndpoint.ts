@@ -13,6 +13,8 @@ import ArticleViewModel from './ArticleViewModel'
 import ArticlesViewModel from './ArticlesViewModel'
 import SectionViewModel from './SectionViewModel'
 import SectionsViewModel from './SectionsViewModel'
+import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
+
 
 export default class AppRoutingEndpoint extends JavaClass(
   'brightspot.example.app_routing.AppRoutingEndpoint',
@@ -25,8 +27,9 @@ export default class AppRoutingEndpoint extends JavaClass(
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
-      SectionViewModel.class as Class<SectionViewModel>,
-      ArticleViewModel.class as Class<ArticleViewModel>,
+      // SectionViewModel.class as Class<SectionViewModel>,
+      // ArticleViewModel.class as Class<ArticleViewModel>,
+      PageEntryView.class as Class<PageEntryView>,
       ArticlesViewModel.class as Class<ArticlesViewModel>,
       SectionsViewModel.class as Class<SectionsViewModel>,
     ].map(

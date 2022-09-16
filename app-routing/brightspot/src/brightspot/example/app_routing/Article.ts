@@ -8,11 +8,13 @@ import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Require
 import UrlsWidget from 'brightspot-types/com/psddev/cms/tool/content/UrlsWidget'
 
 import Section from './Section'
+import SlugData from './SlugData'
 
 @DisplayName({ value: 'App Routing Article' })
 export default class Article extends JavaClass(
   'brightspot.example.app_routing.Article',
-  Content,
+  // Content,
+  SlugData,
   ContentEditWidgetDisplay
 ) {
   @JavaField(String)

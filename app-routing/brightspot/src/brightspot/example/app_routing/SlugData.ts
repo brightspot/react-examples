@@ -6,31 +6,21 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import UrlsWidget from 'brightspot-types/com/psddev/cms/tool/content/UrlsWidget'
-import SlugData from './SlugData'
+import Modification from 'brightspot-types/com/psddev/dari/db/Modification'
+import ModificationClasses from 'brightspot-types/com/psddev/dari/db/Modification$Classes'
+import Section from './Section'
+import Article from './Article'
+import Abstract from 'brightspot-types/com/psddev/dari/db/Recordable$Abstract'
 
-@DisplayName({ value: 'App Routing Section' })
-export default class Section extends JavaClass(
-  'brightspot.example.app_routing.Section',
-  // Content,
-  SlugData,
-  ContentEditWidgetDisplay
+
+//TODO: work on this functionality
+// @Abstract
+export default class SlugData extends JavaClass(
+  'brightspot.example.app_routing.SlugData',
+  Content
 ) {
   @JavaField(String)
   @Indexed({ unique: true })
   @JavaRequired
-  slug: string
-
-  @JavaField(String)
-  @JavaRequired
-  name: string;
-
-  [`shouldDisplayContentEditWidget(java.lang.String)`](
-    widgetName: string
-  ): boolean {
-    if (widgetName === UrlsWidget.class.getName()) {
-      return false
-    } else {
-      return true
-    }
-  }
+  slug2: string
 }
