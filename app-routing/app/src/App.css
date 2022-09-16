@@ -1,0 +1,375 @@
+/* Global*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+/* Variables */
+:root {
+  --primaryTextColor: #757575;
+  --secondaryGrey: #eaeaea;
+  --tertiaryGrey: #f0f0f0;
+  --primaryBlue: #0477c9;
+  --lightBlue: #248fdb;
+  --primaryBackground: #fff;
+  --primaryBlack: #232b2b;
+  --primaryBackground: #f9f9f9;
+  --secondaryBackground: #fff;
+  --boxShadow: 0 2px 0 rgb(0 0 0 / 5%);
+  --radius: 4px;
+}
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Noto Sans', sans-serif;
+  color: var(--primaryTextColor);
+  background: var(--primaryBackground);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+/* Navbar*/
+nav {
+  padding: 10px;
+  min-height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+}
+
+.nav-logo {
+  color: var(--primaryBlue);
+  font-size: 2rem;
+  margin-left: 10px;
+  text-transform: uppercase;
+}
+
+.nav-menuButton {
+  display: block;
+  border: 0;
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+}
+
+.nav-menuIcon,
+.nav-closeIcon {
+  height: 30px;
+  width: 30px;
+  color: var(--primaryBlue);
+}
+
+.nav-menuIcon:hover,
+.nav-closeIcon:hover {
+  color: var(--darkBlue);
+}
+
+.nav-close {
+  height: 40px;
+  width: 40px;
+  margin: 20px 20px 0 0;
+  border: 0;
+  background-color: transparent;
+  float: right;
+}
+
+.nav-closeHidden {
+  display: none;
+}
+
+.nav-menuExpanded {
+  display: flex;
+  flex-direction: column;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  position: fixed;
+  height: 100%;
+  background-color: var(--secondaryBackground);
+  padding-left: 0;
+  z-index: 99;
+  align-items: center;
+  justify-content: center;
+  display: block;
+  margin: 0;
+}
+
+.nav-menuExpanded ul {
+  margin-top: 5rem;
+}
+.nav-menu li {
+  text-align: center;
+  margin: 0;
+  list-style-type: none;
+  width: 100%;
+  display: none;
+}
+
+.nav-menuExpanded li {
+  text-align: center;
+  margin: 0;
+  list-style-type: none;
+  width: 100%;
+  padding: 10px;
+}
+
+.nav-menu li:hover {
+  background-color: #eee;
+}
+
+.nav-menuExpanded ul {
+  display: block;
+}
+
+.nav-pageName {
+  font-size: 1.4rem;
+  text-transform: lowercase;
+}
+
+@media (min-width: 768px) {
+  .nav-menu {
+    margin-left: auto;
+  }
+
+  .nav-menu li {
+    display: block;
+  }
+
+  .nav-menu ul {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+  }
+  .nav-menu li a {
+    padding: 20px;
+    color: var(--primaryBlack);
+    font-weight: 600;
+  }
+
+  .nav-menu li a:hover {
+    color: var(--primaryBlue);
+  }
+
+  .nav-menuButton {
+    display: none;
+  }
+}
+
+/* Home */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.container {
+  padding: calc(8px + 3.5625vw);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* CardList*/
+.cardList-section {
+  margin-bottom: 4rem;
+  width: 100%;
+}
+
+.cardList-grid {
+  display: grid;
+  grid-template-columns: 100%;
+  row-gap: 10px;
+  grid-auto-rows: 1fr;
+}
+
+.cardList-item {
+  margin: 5px;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  background: var(--secondaryBackground);
+  border-radius: 4px;
+  height: 100%;
+}
+
+.cardList-textContainer {
+  padding: 1rem 0.5rem;
+}
+
+.cardList-pageName {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: var(--darkBlue);
+}
+
+.cardList-articleHeadline {
+  margin: 0;
+  overflow: hidden;
+  white-space: wrap;
+  font-size: 1.5rem;
+  text-overflow: ellipsis;
+  color: var(--primaryBlack);
+}
+
+@media (min-width: 786px) {
+  .cardList-grid {
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (min-width: 1240px) {
+  .cardList-grid {
+    grid-template-columns: 33% 33% 33%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .cardList-grid {
+    grid-template-columns: 25% 25% 25% 25%;
+  }
+}
+
+/* List */
+.list-item {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.list-item[data-first] {
+  border-top: 1px solid #d9d9d9;
+}
+
+.list-item h2:hover {
+  color: var(--primaryBlue);
+}
+
+/* Article */
+.article-body {
+  line-height: 1.7;
+  font-size: 1.2rem;
+}
+
+.article-datePublished {
+  color: var(--primaryBlue);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.article-headline {
+  color: var(--primaryBlack);
+  font-size: 1.8rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 1024px) {
+  .article-body {
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .article-headline {
+    font-size: 2rem;
+  }
+}
+
+/* Banner */
+.banner-container {
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--tertiaryGrey);
+  color: var(--primaryBlack);
+  margin-bottom: 4rem;
+}
+
+.banner-title {
+  font-size: 2.5rem;
+  text-transform: capitalize;
+}
+
+/* Footer */
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  border-top: 1px solid var(--primaryTextColor);
+}
+
+.footer-name {
+  color: var(--primaryBlue);
+}
+
+/* NotFound */
+.notFound-container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8rem;
+  line-height: 2;
+}
+
+.notFound-container div {
+  width: 90%;
+}
+
+.notFound-container h2 {
+  font-size: 3rem;
+}
+
+.notFound-container h2 {
+  font-size: 1.5rem;
+}
+.notFound-goHome {
+  padding: 1rem 2rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--secondaryBackground);
+  background-color: var(--primaryBlue);
+  color: var(--secondaryBackground);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-top: 2rem;
+  transition: background-color linear 0.2s;
+}
+
+.notFound-goHome:hover {
+  background-color: var(--lightBlue);
+}
+
+@media (min-width: 786px) {
+  .notFound-container div {
+    width: 50%;
+  }
+}

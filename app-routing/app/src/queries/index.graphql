@@ -1,0 +1,56 @@
+query GetAllArticles {
+  Articles {
+    articles {
+      slug
+      headline
+      publishDate
+      section {
+        name
+        slug
+      }
+    }
+  }
+}
+
+query GetArticle($slug: String) {
+  Article(model: { slug: $slug }) {
+    body
+    headline
+    publishDate
+    slug
+  }
+}
+
+query GetAllSections {
+  Sections {
+    sections {
+      name
+      slug
+      articles {
+        slug
+        headline
+        publishDate
+        section {
+          name
+          slug
+        }
+      }
+    }
+  }
+}
+
+query GetSection($slug: String) {
+  Section(model: { slug: $slug }) {
+    name
+    slug
+    articles {
+      headline
+      publishDate
+      slug
+      section {
+        name
+        slug
+      }
+    }
+  }
+}
