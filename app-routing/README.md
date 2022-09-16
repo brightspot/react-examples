@@ -21,6 +21,7 @@ To run the front-end:
 ```
 cd app
 yarn
+yarn codegen
 yarn start
 ```
 
