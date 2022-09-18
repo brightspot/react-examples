@@ -5,13 +5,13 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { RoutingContext } from './RoutingContext'
 
 const Navbar = () => {
+  const context = useContext(RoutingContext)
   const [isNavExpanded, setIsNavExpanded] = useState(false)
-  const value = useContext(RoutingContext)
   const { data, error } = useGetAllSectionsQuery()
 
   if (error) console.log(error.message)
 
-  const pageList = data?.Sections?.sections
+  const sectionsList = data?.Sections?.sections
 
   function handleNavigation() {
     setTimeout(() => {
@@ -20,14 +20,13 @@ const Navbar = () => {
   }
 
   const linkPath = (id: string, slug: string) => {
-    console.log({ slug })
-    if (value === 1 && id) {
+    if (context?.routingOption === 1) {
       return `${id}`
-    } else if (value === 2 && slug) {
-      return `foo/${slug}`
+    } else if (context?.routingOption === 2) {
+      return `section/${slug}`
     }
   }
-  console.log({ pageList })
+
   return (
     <nav>
       <h2 className="nav-logo">
@@ -44,10 +43,12 @@ const Navbar = () => {
           <AiOutlineClose className="nav-closeIcon" />
         </button>
         <ul>
-          {pageList?.map((item, i) => (
+          {sectionsList?.map((item, i) => (
             <li key={i} onClick={handleNavigation}>
-                <Link to={`/${linkPath(item?.id!, item?.slug!)}`} className="nav-pageName">
-              {/* <Link to={`/${item?.id}`} className="nav-pageName"> */}
+              <Link
+                to={`/${linkPath(item?.id || '', item?.slug || '')}`}
+                className="nav-pageName"
+              >
                 {item?.name}
               </Link>
             </li>

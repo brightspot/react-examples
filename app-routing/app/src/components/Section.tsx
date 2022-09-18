@@ -8,24 +8,24 @@ import { useContext } from 'react'
 import { RoutingContext } from './RoutingContext'
 
 const Section = () => {
+  const context = useContext(RoutingContext)
   const { content, section } = useParams()
-  console.log(content)
-  const value = useContext(RoutingContext)
-  console.log({ value })
 
-  const sectionVariables = value === 1 ? {id: content} : value === 2? {slug: section} : {}
+  // Routing Option 1: id, RoutingOption 2: slug
+  const sectionVariables =
+    context?.routingOption === 1
+      ? { id: content }
+      : context?.routingOption === 2
+      ? { slug: section }
+      : {}
   console.log({ sectionVariables })
   const { data, error, loading } = useGetSectionQuery({
-    variables: sectionVariables
-    // variables: {
-    //   id: content, // Routing Option 1
-    //   slug: section // Routing Option 2
-    // }
+    variables: sectionVariables,
   })
 
   if (error) console.log(error.message)
   if (!data?.Section && !loading) return <NotFound />
-    console.log({ data })
+
   return (
     <>
       <Banner name={data?.Section?.name} />

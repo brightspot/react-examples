@@ -1,0 +1,17 @@
+query GetAllArticles {
+  Articles {
+    articles {
+      slug
+      headline
+      id
+      tags {
+        category
+      }
+      section {
+        name
+        slug
+        id
+      }
+    }
+  }
+}

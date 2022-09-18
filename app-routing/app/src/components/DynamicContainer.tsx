@@ -7,31 +7,26 @@ import NotFound from './NotFound'
 const DynamicContainer = () => {
   const { section, content } = useParams()
 
-  const { data, error } = useGetContentItemQuery({
+  const { data, error, loading } = useGetContentItemQuery({
     variables: {
-        id: content
-    }
+      id: content,
+    },
   })
 
   if (error) console.log(error.message)
-  console.log({ content })
+  if (loading) return <div>Loading...</div>
 
-  console.log({ data })
-  if(data?.PageEntry?.__typename ==='Article' ) {
-    console.log('Article!!')
+  if (data?.PageEntry?.__typename === 'Article') {
     if (data.PageEntry.section?.id === section) {
-      return <Article article={content}/>
+      return <Article />
     } else {
       return <NotFound />
     }
-  } else if (data?.PageEntry?.__typename ==='Section') {
-    console.log('Section!!')
+  } else if (data?.PageEntry?.__typename === 'Section') {
     return <Section />
-  } 
+  }
   // display NotFound page if content is not Article or Section
-  return (
-    <NotFound />
-  )
+  return <NotFound />
 }
 
 export default DynamicContainer

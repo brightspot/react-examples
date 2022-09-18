@@ -1,0 +1,15 @@
+query GetContentItem($id: ID) {
+  PageEntry(model: { id: $id }) {
+    ... on Article {
+      __typename
+      id
+      section {
+        id
+      }
+    }
+    ... on Section {
+      __typename
+      id
+    }
+  }
+}

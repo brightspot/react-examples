@@ -1,0 +1,11 @@
+query GetArticle($slug: String, $id: ID) {
+  Article(model: { slug: $slug, id: $id }) {
+    body
+    headline
+    publishDate
+    section {
+      slug
+      id
+    }
+  }
+}

@@ -1,0 +1,9 @@
+query GetAllSections {
+  Sections {
+    sections {
+      name
+      slug
+      id
+    }
+  }
+}
