@@ -7,20 +7,15 @@ import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import UrlsWidget from 'brightspot-types/com/psddev/cms/tool/content/UrlsWidget'
 
-@DisplayName({ value: 'App Routing Section' })
-export default class Section extends JavaClass(
-  'brightspot.example.app_routing.Section',
+export default class Tag extends JavaClass(
+  'brightspot.example.app_routing.Tag',
   Content,
   ContentEditWidgetDisplay
 ) {
-  @JavaField(String)
-  @Indexed({ unique: true })
-  @JavaRequired
-  slug: string
 
   @JavaField(String)
   @JavaRequired
-  name: string;
+  category: string;
 
   [`shouldDisplayContentEditWidget(java.lang.String)`](
     widgetName: string

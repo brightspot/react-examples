@@ -1,13 +1,15 @@
 import { useGetArticleQuery } from '../generated'
-import { useParams } from 'react-router-dom'
 
 import NotFound from './NotFound'
 
-const Article = () => {
-  const { article } = useParams()
+type Props = {
+  article?: string
+}
+
+const Article = ({article}: Props) => {
   const { data, error, loading } = useGetArticleQuery({
     variables: {
-      slug: article,
+      id: article,
     },
   })
   if (error) console.log(error.message)

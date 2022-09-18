@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useGetAllSectionsQuery } from '../generated'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
+import { RoutingContext } from './RoutingContext'
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false)
+  const value = useContext(RoutingContext)
   const { data, error } = useGetAllSectionsQuery()
 
   if (error) console.log(error.message)
@@ -17,6 +19,15 @@ const Navbar = () => {
     }, 100)
   }
 
+  const linkPath = (id: string, slug: string) => {
+    console.log({ slug })
+    if (value === 1 && id) {
+      return `${id}`
+    } else if (value === 2 && slug) {
+      return `foo/${slug}`
+    }
+  }
+  console.log({ pageList })
   return (
     <nav>
       <h2 className="nav-logo">
@@ -35,7 +46,8 @@ const Navbar = () => {
         <ul>
           {pageList?.map((item, i) => (
             <li key={i} onClick={handleNavigation}>
-              <Link to={`/${item?.slug}`} className="nav-pageName">
+                <Link to={`/${linkPath(item?.id!, item?.slug!)}`} className="nav-pageName">
+              {/* <Link to={`/${item?.id}`} className="nav-pageName"> */}
                 {item?.name}
               </Link>
             </li>

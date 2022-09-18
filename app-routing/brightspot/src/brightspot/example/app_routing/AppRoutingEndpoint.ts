@@ -27,11 +27,11 @@ export default class AppRoutingEndpoint extends JavaClass(
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
-      // SectionViewModel.class as Class<SectionViewModel>,
-      // ArticleViewModel.class as Class<ArticleViewModel>,
-      PageEntryView.class as Class<PageEntryView>,
+      SectionViewModel.class as Class<SectionViewModel>,
+      ArticleViewModel.class as Class<ArticleViewModel>,
       ArticlesViewModel.class as Class<ArticlesViewModel>,
       SectionsViewModel.class as Class<SectionsViewModel>,
+      PageEntryView.class as Class<PageEntryView>,
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>

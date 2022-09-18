@@ -8,7 +8,10 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import SectionViewModel from './SectionViewModel'
-
+import Tag from './Tag'
+import TagViewModel from './TagViewModel'
+import List from 'brightspot-types/java/util/List'
+import Query from 'brightspot-types/com/psddev/dari/db/Query'
 
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
@@ -43,9 +46,25 @@ export default class ArticleViewModel extends JavaClass(
     )
   }
 
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(List.Of(TagViewModel))
+  getTags(): List<TagViewModel> {
+    return this.createViews(
+      TagViewModel.class as Class<TagViewModel>,
+      this.model.tags
+    ) as undefined as List<TagViewModel>
+  }
+
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getPublishDate(): string {
     return this.model.getPublishDate().toString()
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getId(): string {
+    return this.model.getId().toString()
   }
 }

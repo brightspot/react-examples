@@ -217,6 +217,10 @@ main {
   height: 100%;
 }
 
+.cardList-item[data-trending] {
+  background-color: yellow;
+}
+
 .cardList-textContainer {
   padding: 1rem 0.5rem;
 }

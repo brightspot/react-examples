@@ -32,6 +32,12 @@ export default class SectionViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getId(): string {
+    return this.model.getId().toString()
+  }
+
+  @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
     let articles = Query.from(Article.class)

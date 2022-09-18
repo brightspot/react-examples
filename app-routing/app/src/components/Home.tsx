@@ -1,5 +1,4 @@
 import { useGetAllArticlesQuery } from '../generated'
-
 import Banner from './Banner'
 import CardList from './CardList'
 
@@ -14,6 +13,7 @@ const Home = () => {
       </div>
     )
   console.log({ data })
+
   return (
     <>
       <Banner name="News At a Glance" />
