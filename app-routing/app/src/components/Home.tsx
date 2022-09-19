@@ -1,35 +1,40 @@
-import { useGetAllArticlesQuery } from '../generated'
-import { useContext } from 'react'
-import { RoutingContext } from './RoutingContext'
-import useSessionStorage from './useSessionStorage'
+import { useGetAllArticlesQuery, useGetAllTagsQuery } from '../generated'
 
 import Banner from './Banner'
 import CardList from './CardList'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
-  const { data, error, loading } = useGetAllArticlesQuery()
-  const context = useContext(RoutingContext)
-  const [user, setUser] = useSessionStorage<string>('user', '')
+  const {
+    data: articlesData,
+    error: articlesError,
+    loading: articlesLoading,
+  } = useGetAllArticlesQuery()
+  const { data: tagsData, error: tagsError } = useGetAllTagsQuery()
 
-  if (error) console.log(error.message)
-  if (!data?.Articles && !loading)
+  if (articlesError) console.log(articlesError.message)
+  if (tagsError) console.log(tagsError.message)
+  if (!articlesData?.Articles && !articlesLoading)
     return (
       <div className="message">
         <h3>No data... 🤔</h3>
       </div>
     )
-console.log('logged in as ', user)
+
   return (
     <>
       <Banner name="News At a Glance" />
-      <button onClick={() => context?.setRoutingOption(1)}>routing 1</button>
-      <button onClick={() => context?.setRoutingOption(2)}>routing 2</button>
-      <button onClick={() => setUser('Brightspot User') }>Login</button>
-      <button onClick={() => setUser('') }>Log Out</button>
+      {tagsData?.Tags?.tags?.map((tag, i) => {
+        return (
+          <Link className="home-tags" key={i} to={`/${tag?.id}`}>
+            {tag?.category}
+          </Link>
+        )
+      })}
       <div className="container">
-        {data?.Articles?.articles && (
+        {articlesData?.Articles?.articles && (
           <>
-            <CardList articles={data?.Articles?.articles} />
+            <CardList articles={articlesData?.Articles?.articles} />
           </>
         )}
       </div>

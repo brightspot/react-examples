@@ -11,10 +11,11 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ArticleViewModel from './ArticleViewModel'
 import ArticlesViewModel from './ArticlesViewModel'
+import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
 import SectionViewModel from './SectionViewModel'
 import SectionsViewModel from './SectionsViewModel'
-import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
-
+import TagViewModel from './TagViewModel'
+import TagsViewModel from './TagsViewModel'
 
 export default class AppRoutingEndpoint extends JavaClass(
   'brightspot.example.app_routing.AppRoutingEndpoint',
@@ -27,10 +28,12 @@ export default class AppRoutingEndpoint extends JavaClass(
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
-      SectionViewModel.class as Class<SectionViewModel>,
       ArticleViewModel.class as Class<ArticleViewModel>,
       ArticlesViewModel.class as Class<ArticlesViewModel>,
+      SectionViewModel.class as Class<SectionViewModel>,
       SectionsViewModel.class as Class<SectionsViewModel>,
+      TagViewModel.class as Class<TagViewModel>,
+      TagsViewModel.class as Class<TagsViewModel>,
       PageEntryView.class as Class<PageEntryView>,
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)

@@ -1,29 +1,28 @@
-import { useGetSectionQuery } from '../generated'
+import { useGetTagQuery } from '../generated'
 import { useParams } from 'react-router-dom'
 
 import Banner from './Banner'
 import List from './List'
 import NotFound from './NotFound'
 
-const Section = () => {
+const Tag = () => {
   const { content } = useParams()
-
-  const { data, error, loading } = useGetSectionQuery({
+  const { data, error, loading } = useGetTagQuery({
     variables: {
       id: content,
     },
   })
 
   if (error) console.log(error.message)
-  if (!data?.Section && !loading) return <NotFound />
+  if (!data?.Tag && !loading) return <NotFound />
 
   return (
     <>
-      <Banner name={`Section: ${data?.Section?.name}`} />
+      <Banner name={`Tag: ${data?.Tag?.category}`} />
       <div className="container">
-        {data?.Section?.articles && (
+        {data?.Tag?.articles && (
           <>
-            <List articles={data?.Section?.articles} />
+            <List articles={data?.Tag?.articles} />
           </>
         )}
       </div>
@@ -31,4 +30,4 @@ const Section = () => {
   )
 }
 
-export default Section
+export default Tag

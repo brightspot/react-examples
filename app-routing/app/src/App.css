@@ -196,6 +196,14 @@ main {
   margin: 0 auto;
 }
 
+.home-tags {
+  margin-left: 1rem;
+  padding: 0.5rem;
+  border-radius: 30px;
+  background-color: var(--primaryBlue);
+  color: var(--primaryBackground);
+}
+
 /* CardList*/
 .cardList-section {
   margin-bottom: 4rem;

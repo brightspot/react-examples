@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { useGetAllSectionsQuery } from '../generated'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
-import { RoutingContext } from './RoutingContext'
 
 const Navbar = () => {
-  const context = useContext(RoutingContext)
   const [isNavExpanded, setIsNavExpanded] = useState(false)
   const { data, error } = useGetAllSectionsQuery()
 
@@ -17,14 +15,6 @@ const Navbar = () => {
     setTimeout(() => {
       setIsNavExpanded(false)
     }, 100)
-  }
-
-  const linkPath = (id: string, slug: string) => {
-    if (context?.routingOption === 1) {
-      return `${id}`
-    } else if (context?.routingOption === 2) {
-      return `section/${slug}`
-    }
   }
 
   return (
@@ -43,20 +33,9 @@ const Navbar = () => {
           <AiOutlineClose className="nav-closeIcon" />
         </button>
         <ul>
-        <li onClick={handleNavigation}>
-              <Link
-                to={`/tag/protected`}
-                className="nav-pageName"
-              >
-                Premium
-              </Link>
-            </li>
           {sectionsList?.map((item, i) => (
             <li key={i} onClick={handleNavigation}>
-              <Link
-                to={`/${linkPath(item?.id || '', item?.slug || '')}`}
-                className="nav-pageName"
-              >
+              <Link to={`/${item?.id}`} className="nav-pageName">
                 {item?.name}
               </Link>
             </li>

@@ -9,6 +9,8 @@ query GetArticle($slug: String, $id: ID) {
     }
     tags {
       category
+      id
+      slug
     }
   }
 }

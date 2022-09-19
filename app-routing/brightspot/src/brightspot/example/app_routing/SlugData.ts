@@ -12,7 +12,6 @@ import Section from './Section'
 import Article from './Article'
 import Abstract from 'brightspot-types/com/psddev/dari/db/Recordable$Abstract'
 
-
 //TODO: work on this functionality
 // @Abstract
 export default class SlugData extends JavaClass(

@@ -6,6 +6,9 @@ query GetContentItem($id: ID) {
       section {
         id
       }
+      tags {
+        id
+      }
     }
     ... on Section {
       __typename

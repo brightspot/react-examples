@@ -10,7 +10,6 @@ import UrlsWidget from 'brightspot-types/com/psddev/cms/tool/content/UrlsWidget'
 
 import Section from './Section'
 import Tag from './Tag'
-
 @DisplayName({ value: 'App Routing Article' })
 export default class Article extends JavaClass(
   'brightspot.example.app_routing.Article',
@@ -31,7 +30,7 @@ export default class Article extends JavaClass(
 
   @JavaField(Section)
   @Indexed
-  section: Section;
+  section: Section
 
   @JavaField(List.Of(Tag))
   @Indexed
