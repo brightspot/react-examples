@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { useGetAllSectionsQuery } from '../generated'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
+import { useGetAllSectionsQuery } from '../generated'
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false)

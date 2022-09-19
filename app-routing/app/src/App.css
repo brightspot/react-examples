@@ -8,6 +8,7 @@
   --tertiaryGrey: #f0f0f0;
   --primaryBlue: #0477c9;
   --lightBlue: #248fdb;
+  --teal: rgb(20, 191, 150);
   --primaryBackground: #fff;
   --primaryBlack: #232b2b;
   --primaryBackground: #f9f9f9;
@@ -41,6 +42,10 @@ a {
   justify-content: center;
   align-items: center;
   margin-top: 4rem;
+}
+
+.loading {
+  margin: 2rem 4rem;
 }
 
 /* Navbar*/
@@ -196,11 +201,18 @@ main {
   margin: 0 auto;
 }
 
+.home-tagsContainer {
+  margin: 0 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .home-tags {
-  margin-left: 1rem;
-  padding: 0.5rem;
+  margin: 0.3rem;
+  padding: 0.3rem 0.4rem;
   border-radius: 30px;
-  background-color: var(--primaryBlue);
+  font-weight: 800;
+  background-color: var(--teal);
   color: var(--primaryBackground);
 }
 
@@ -290,6 +302,7 @@ main {
 .article-body {
   line-height: 1.7;
   font-size: 1.2rem;
+  margin-top: 2rem;
 }
 
 .article-datePublished {
@@ -304,9 +317,30 @@ main {
   margin: 2rem 0;
 }
 
+.article-sectionName {
+  display: inline-block;
+  margin-right: 5px;
+  text-transform: uppercase;
+}
+.article-sectionName:hover {
+  color: var(--primaryBlue);
+}
+
+.article-tagLink {
+  border-radius: 30px;
+  background-color: var(--secondaryGrey);
+  color: var(--primaryBlack);
+  padding: 2px 4px;
+  margin-left: 2px;
+}
+
+.article-tagLink:hover {
+  color: var(--primaryBlue);
+}
+
 @media (min-width: 1024px) {
   .article-body {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
   }
 }
 
@@ -368,6 +402,7 @@ main {
 .notFound-container h2 {
   font-size: 1.5rem;
 }
+
 .notFound-goHome {
   padding: 1rem 2rem;
   border-radius: var(--radius);

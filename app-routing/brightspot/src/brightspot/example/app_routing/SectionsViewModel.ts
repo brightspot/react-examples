@@ -6,9 +6,9 @@ import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
+import AppRoutingEndpoint from './AppRoutingEndpoint'
 import Section from './Section'
 import SectionViewModel from './SectionViewModel'
-import AppRoutingEndpoint from './AppRoutingEndpoint'
 
 @ViewInterface
 export default class SectionsViewModel extends JavaClass(

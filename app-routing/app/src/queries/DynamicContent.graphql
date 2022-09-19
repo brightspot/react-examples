@@ -3,14 +3,12 @@ query GetContentItem($id: ID) {
     ... on Article {
       __typename
       id
-      section {
-        id
-      }
-      tags {
-        id
-      }
     }
     ... on Section {
+      __typename
+      id
+    }
+    ... on Tag {
       __typename
       id
     }

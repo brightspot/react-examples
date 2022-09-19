@@ -14,6 +14,7 @@ const Tag = () => {
   })
 
   if (error) console.log(error.message)
+  if (loading) return <div className="loading">loading...</div>
   if (!data?.Tag && !loading) return <NotFound />
 
   return (

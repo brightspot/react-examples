@@ -6,6 +6,7 @@ query GetArticle($slug: String, $id: ID) {
     section {
       slug
       id
+      name
     }
     tags {
       category
