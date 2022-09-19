@@ -7,8 +7,10 @@ import Article from './components/Article'
 import DynamicContainer from './components/DynamicContainer'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
+import ProtectedRoute from './ProtectedRoute'
 import RoutingProvider from './components/RoutingContext'
 import Section from './components/Section'
+import ProtectedPage from './components/ProtectedPage'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -31,6 +33,9 @@ root.render(
               path="section/:section/article/:article"
               element={<Article />}
             />
+            {/* Protected Route with Tag*/}
+            <Route path="tag/:tag" element={<ProtectedRoute user={JSON.parse(sessionStorage?.getItem('user') || '')}><ProtectedPage /></ProtectedRoute>}/>
+
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

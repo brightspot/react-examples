@@ -9,12 +9,11 @@ type Props = {
   articles: PartArticle[]
 }
 
+
 const CardList = ({ articles }: Props) => {
   const location = useLocation() // used to return current pathname if no routing option provided
   const context = useContext(RoutingContext)
-
   const [searchParams, setSearchParams] = useSearchParams()
-  const showTrendingArticles = searchParams.get('trending') === 'true'
 
   const linkPath = (id: string, slug: string) => {
     if (context?.routingOption === 1) {
@@ -27,16 +26,23 @@ const CardList = ({ articles }: Props) => {
     }
   }
 
+  const filteredArticles = () => {
+    if(!searchParams.get('q')) {
+      return articles
+    }
+    return articles.filter(x => searchParams?.get('q') && x?.headline && x?.headline?.toLowerCase().includes(searchParams?.get('q')?.toLowerCase()!))
+  }
+
+
   return (
     <section className="cardList-section">
-      <button onClick={() => setSearchParams({ trending: 'true' })}>
-        Click for trending
-      </button>
-      <button onClick={() => setSearchParams({})}>Click for All</button>
+        <input placeholder='search headlines' onChange={(e) => setSearchParams({q: e.target?.value})}/>
+        
       <div className="cardList-grid">
-        {articles?.map((article: PartArticle, i: number) => {
+        {filteredArticles()?.map((article: PartArticle, i: number) => {
           return (
             <Link
+              className='cardList-link'
               key={i}
               to={linkPath(
                 `/${article?.section?.id}/${article?.id}`,
@@ -45,9 +51,6 @@ const CardList = ({ articles }: Props) => {
             >
               <div
                 className="cardList-item"
-                data-trending={
-                  showTrendingArticles && article?.tags ? true : null
-                }
               >
                 <div className="cardList-textContainer">
                   <p className="cardList-pageName">{article?.section?.name}</p>

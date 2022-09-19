@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 // thank you to https://usehooks.com/useLocalStorage/
 
-export default function useSessionStorage<T>(key: string, initialValue: T) {
+export default function useSessionStorage<T>(key?: string, initialValue?: T) {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -11,7 +11,10 @@ export default function useSessionStorage<T>(key: string, initialValue: T) {
     }
     try {
       // Get from local storage by key
-      const item = window.sessionStorage.getItem(key)
+      let item
+      if(key) {
+        item = window.sessionStorage.getItem(key)
+      }
       // Parse stored json or if none return initialValue
       return item ? JSON.parse(item) : initialValue
     } catch (error) {
@@ -30,7 +33,7 @@ export default function useSessionStorage<T>(key: string, initialValue: T) {
       // Save state
       setStoredValue(valueToStore)
       // Save to local storage
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && key) {
         window.sessionStorage.setItem(key, JSON.stringify(valueToStore))
       }
     } catch (error) {

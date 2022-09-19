@@ -217,8 +217,12 @@ main {
   height: 100%;
 }
 
-.cardList-item[data-trending] {
-  background-color: yellow;
+.cardList-item[data-notTrending] {
+  display: none;
+}
+
+.cardList-link[data-notTrending] {
+  display: none;
 }
 
 .cardList-textContainer {

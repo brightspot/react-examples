@@ -43,6 +43,14 @@ const Navbar = () => {
           <AiOutlineClose className="nav-closeIcon" />
         </button>
         <ul>
+        <li onClick={handleNavigation}>
+              <Link
+                to={`/tag/protected`}
+                className="nav-pageName"
+              >
+                Premium
+              </Link>
+            </li>
           {sectionsList?.map((item, i) => (
             <li key={i} onClick={handleNavigation}>
               <Link
