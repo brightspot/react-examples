@@ -34,7 +34,7 @@ In Brightspot, publish some Color content. Add the color name and hex value. Aft
 ## How everything works
 Brightspot makes it possible to create content that you can then query for using the GraphQL API. In addition, you can change the schema that your GraphQL endpoint provides with ease. While you can do this all editorially, JS Classes make it incredibly simple to create content and schema programatically.
 
-Navigate to `brightspot/src/examples/content-delivery`. This directory contains the JS Classes files that are uploaded to Brightspot.
+Navigate to `brightspot/src/examples/content_delivery`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
 #### JS Classes Files:
 - `Color.ts`: the model (class) that contains the business logic (fields, etc)
