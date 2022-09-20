@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import NotFound from './NotFound'
 
 const Article = () => {
-  const { sectionOrTag, article } = useParams()
+  const { section, article } = useParams()
 
   const { data, error, loading } = useGetArticleQuery({
     variables: {
@@ -21,9 +21,9 @@ const Article = () => {
 
   if (
     data &&
-    data.Article?.section?.id !== sectionOrTag &&
+    data.Article?.section?.id !== section &&
     data &&
-    !tags?.includes(sectionOrTag)
+    !tags?.includes(section)
   ) {
     return <NotFound />
   }

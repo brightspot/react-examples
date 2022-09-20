@@ -20,7 +20,7 @@ root.render(
         <Route path="/" element={<App />}>
           <Route path="" element={<Home />} />
           <Route path=":content" element={<DynamicContainer />} />
-          <Route path=":sectionOrTag/:article" element={<Article />} />
+          <Route path=":section/:article" element={<Article />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { Article } from '../generated'
 
@@ -9,12 +9,11 @@ type Props = {
 }
 
 const List = ({ articles }: Props) => {
-  const { content } = useParams()
   return (
     <section className="cardList-section">
       {articles?.map((article: PartArticle, i: number) => {
         return (
-          <Link key={i} to={`/${content}/${article?.slug}`}>
+          <Link key={i} to={`/${article?.section?.id}/${article?.slug}`}>
             <div className="list-item" data-first={i === 0 ? true : null}>
               {article?.section?.name && (
                 <p className="cardList-pageName">{article?.section?.name}</p>

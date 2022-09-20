@@ -4,7 +4,6 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 
-
 //TODO: work on this functionality
 // @Abstract
 export default class SlugData extends JavaClass(
