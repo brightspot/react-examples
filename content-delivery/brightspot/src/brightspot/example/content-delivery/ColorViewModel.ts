@@ -8,7 +8,7 @@ import Color from './Color'
 
 @ViewInterface
 export default class ColorViewModel extends JavaClass(
-  'brightspot.example.colors.ColorViewModel',
+  'brightspot.example.content_delivery.ColorViewModel',
   ViewModel.Of(Color)
 ) {
   @JavaMethodParameters()

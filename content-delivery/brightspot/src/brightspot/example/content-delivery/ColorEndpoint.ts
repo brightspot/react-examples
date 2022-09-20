@@ -12,7 +12,7 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import ColorViewModel from './ColorViewModel'
 
 export default class ColorEndpoint extends JavaClass(
-  'brightspot.example.colors.ColorEndpoint',
+  'brightspot.example.content_delivery.ColorEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {

@@ -6,7 +6,7 @@ import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 
 export default class Color extends JavaClass(
-  'brightspot.example.colors.Color',
+  'brightspot.example.content_delivery.Color',
   Content
 ) {
   @Indexed({ unique: true })
