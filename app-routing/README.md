@@ -29,12 +29,15 @@ The front-end application will open automatically in the browser.
 
 ## Using the example application
 
-The front-end application is a simple news website. Content consists of pages and articles.
+The front-end application is a simple news website. Content consists of pages, tags, and articles.
 
 Publish the following content in Brightspot:
 
 1. Sections(s)
 2. Article(s)
+3. Tag(s)
+
+> **_Note_** When choosing a slug, avoid spaces, slashes. It is also best to use lowercase letters. An example of a good slug: `my-example-page`. An example of a bad slug: `my Example/page`. 
 
 Navigate to your front-end application to see your content displayed!
 
@@ -42,37 +45,23 @@ Navigate to your front-end application to see your content displayed!
 
 JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript (TypeScript). 
 
-One powerful feature Brightspot provides ease of content modeling and querying for content data with GraphQL.
+One powerful feature Brightspot provides is ease of content modeling and querying for content data with GraphQL.
 
 Navigate to `brightspot/src/examples/app_routing`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
-#### JS Classes Files:
-- `Section.ts`: the content model for a Section
-  - `@JavaRequired`: make the field a required field
-  - `@Indexed({ unique: true })`: make the field a query variable
-- `SectionViewModel.ts`: 
-  - `Query`: the Query API provides several methods for retrieving objects, filtering results, and performing actions on retrieved objects. In `SectionViewModel`, Query is used to select Articles corresponding to the Section specified in the Article
-  - `createViews`: create an iterable over views using the specified view model class and model
-- `SectionsViewModel.ts`: 
-  - `ViewModel.Of(AppRoutingEndpoint)`: specifying the `AppRoutingEndpoint` makes it possible to query for Sections without a query variable
-  - `createViews`: create an iterable over views using the specified view model class and model. Select all Sections
-- `Article.ts`: note the `section` field so the user can select the connecting Section content
-- `ArticleViewModel.ts`: 
-  - `createView`: create a view using the specified view model class and model
-- `ArticlesViewModel.ts`:
-  - `ViewModel.Of(AppRoutingEndpoint)`: specifying the `AppRoutingEndpoint` makes it possible to query for Articles without a query variable
-  - `createViews`: create an iterable over views using the specified view model class and model. Select all articles 
-- `AppRoutingEndpoint.ts`: the class that creates a custom Content Delivery Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. It has the following configurations:
-  - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
-  - `getQueryEntryFields`: specifies all of the entry fields for the endpoint
-  - `updateCorsConfiguration`: permit cross-origin resource sharing (CORS) to enable requests from localhost 
-  - `getAccessOption`: implicit access so an API key is not required
+#### Points to note in JS Classes files:
+- `ViewModel.Of(AppRoutingEndpoint)`: specifying the `AppRoutingEndpoint` makes it possible to query for Content without a query variable
+- `PageEntryView`: adding `PageEntryView` to the List of query entry fields for `AppRoutingEndpoint` make those query fields available using the `AppRoutingEndpoint`. All View Models that implement the `PageEntryView` interface will display as fields under the `PageEntry` field in GraphQL Explorer.
+
+#### Points to note in the front-end application:
+- `DyanmicContainer.tsx`: this component uses the `PageEntry` entry field to verify the Content type. The resulting component that is displayed is determined by checking the typename returned by GraphQL. 
 
 ## Try it yourself
 
 The following is a suggestion for learning more about app routing with JS Classes and Brightspot:
 
-1. Notice how the url in `app/index.tsx` is formatted to ensure a false match does not occur. Try changing parts of the url. You should see a `NotFound` page. 
+1. Try changing parts of the url. Verify the path returns the `NotFound` page if any of the path is incorrect.
+2. Create a Subsection or other Content type that is a nested component to Section. See if you can implement routing in the client as: `/section/subsection/article`. What are issues you need to consider? 
 
 > **_Note_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to updated the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
 

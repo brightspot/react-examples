@@ -1,9 +1,0 @@
-query GetAllTags {
-  Tags {
-    tags {
-      slug
-      id
-      category
-    }
-  }
-}

@@ -39,7 +39,7 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(SectionViewModel)
   getSection(): SectionViewModel {
-    return this.createView(
+    return super.createView(
       SectionViewModel.class as Class<SectionViewModel>,
       this.model.section
     )
@@ -48,10 +48,10 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(JavaSet.Of(TagViewModel))
   getTags(): JavaSet<TagViewModel> {
-    return this.createViews(
+    return super.createViews(
       TagViewModel.class as Class<TagViewModel>,
       this.model.tags
-    ) as undefined as List<TagViewModel>
+    ) as unknown as List<TagViewModel>
   }
 
   @JavaMethodParameters()

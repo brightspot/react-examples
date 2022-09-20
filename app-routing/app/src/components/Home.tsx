@@ -1,20 +1,15 @@
 import { Link } from 'react-router-dom'
-import { useGetAllArticlesQuery, useGetAllTagsQuery } from '../generated'
+import { useGetAllTagsAndArticlesQuery } from '../generated'
 
 import Banner from './Banner'
 import CardList from './CardList'
 
 const Home = () => {
-  const {
-    data: articlesData,
-    error: articlesError,
-    loading: articlesLoading,
-  } = useGetAllArticlesQuery()
-  const { data: tagsData, error: tagsError } = useGetAllTagsQuery()
+  const { data, error, loading } = useGetAllTagsAndArticlesQuery()
 
-  if (articlesError) console.log(articlesError.message)
-  if (tagsError) console.log(tagsError.message)
-  if (!articlesData?.Articles && !articlesLoading)
+  if (error) console.log(error.message)
+
+  if (!data?.Articles && !loading)
     return (
       <div className="message">
         <h3>No data... 🤔</h3>
@@ -25,18 +20,16 @@ const Home = () => {
     <>
       <Banner name="News At a Glance" />
       <div className="home-tagsContainer">
-        {tagsData?.Tags?.tags?.map((tag, i) => {
-          return (
-            <Link className="home-tags" key={i} to={`/${tag?.id}`}>
-              {tag?.category}
-            </Link>
-          )
-        })}
+        {data?.Tags?.tags?.map((tag, i) => (
+          <Link className="home-tags" key={i} to={`/${tag?.id}`}>
+            {tag?.category}
+          </Link>
+        ))}
       </div>
       <div className="container">
-        {articlesData?.Articles?.articles && (
+        {data?.Articles?.articles && (
           <>
-            <CardList articles={articlesData?.Articles?.articles} />
+            <CardList articles={data?.Articles?.articles} />
           </>
         )}
       </div>

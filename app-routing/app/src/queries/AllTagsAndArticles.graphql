@@ -1,4 +1,11 @@
-query GetAllArticles {
+query GetAllTagsAndArticles {
+  Tags {
+    tags {
+      category
+      id
+      slug
+    }
+  }
   Articles {
     articles {
       slug
