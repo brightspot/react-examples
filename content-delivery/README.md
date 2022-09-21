@@ -29,7 +29,7 @@ yarn start
 The frontend application will open automatically in the browser.
 
 ## Using the example application
-In Brightspot, publish some Color content. Add the color name and hex value. After publishing the content, input the color name in the frontend application input field. You should see the color name and hex value.
+In Brightspot, publish some **Color** content. Add the color name and hex value. After publishing the content, input the color name in the frontend application input field. You should see the color name and hex value.
 
 ## How everything works
 Brightspot makes it possible to create content that you can then query for using the GraphQL API. In addition, you can change the schema that your GraphQL endpoint provides with ease. While you can do this all editorially, JS Classes make it incredibly simple to create content and schema programatically.
