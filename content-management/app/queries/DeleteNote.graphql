@@ -1,0 +1,10 @@
+  mutation DeleteNote($id: ID = "") {
+    brightspot_example_content_management_NoteDelete(
+      id: $id
+      permanently: true
+    ) {
+      _id
+      description
+      title
+    }
+  }

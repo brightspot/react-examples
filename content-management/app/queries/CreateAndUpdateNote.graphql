@@ -1,0 +1,34 @@
+mutation CreateAndUpdateNote(
+    $toolUser: ToolUser
+    $id: DiffId
+    $description: String
+    $title: String
+  ) {
+    brightspot_example_content_management_NoteSave(
+      toolUser: $toolUser
+      diffs: {
+        id: $id
+        brightspot_example_content_management_NoteDiff: {
+          description: $description
+          title: $title
+        }
+      }
+      id: $id
+    ) {
+      _id
+      description
+      title
+      _globals {
+        com_psddev_cms_db_Content_ObjectModification {
+          updateDate
+          updateUser {
+            username
+          }
+          publishDate
+          publishUser {
+            username
+          }
+        }
+      }
+    }
+  }
