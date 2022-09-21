@@ -33,7 +33,7 @@ const Courses = () => {
       <div className="cards-container">
         {data?.Courses?.courses?.map((course: Course, i: number) => {
           return (
-            <Link className="card-link" to={`/courses/${course.slug}`}>
+            <Link className="card-link" to={`/courses/${course.slug}`} key={i}>
               <div className="course-card">
                 <h3 className="course-cardTitle">{course.title}</h3>
                 <div className="subject-age-container">

@@ -105,15 +105,7 @@ nav {
 .logo {
   font-size: 2rem;
   color: var(--primaryColor);
-  color: var(--primaryTextColor);
-}
-
-.logo-icon {
-  height: 40px;
-  width: 40px;
-  color: var(--primaryColor);
-  margin-bottom: -7px;
-  margin-right: 4px;
+  font-weight: 800;
 }
 
 .links {
