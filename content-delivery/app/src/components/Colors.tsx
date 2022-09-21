@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-const ColorQuery = `\
-query ColorQuery($name: String = "") {
+const ColorQuery = `
+query ColorQuery($name: String) {
   Color(model: {name: $name}) {
     name
     hexValue
@@ -18,24 +18,24 @@ type ColorResponse = {
   errors?: string[]
 }
 
+const dataRequestParams = (input: string) => {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: ColorQuery,
+      variables: {
+        name: `${input}`,
+      },
+    }),
+  }
+}
+
 const Colors = () => {
   const [colorResponse, setColorResponse] = useState<ColorResponse>()
   const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL ?? ''
-
-  const dataRequestParams = (input: string) => {
-    return {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: ColorQuery,
-        variables: {
-          name: `${input}`,
-        },
-      }),
-    }
-  }
 
   const handleResponse = (res: any) => {
     let colorData: ColorData | undefined
@@ -63,7 +63,7 @@ const Colors = () => {
     })
   }
 
-  function fetchAndSetContent(input: string) {
+  const fetchAndSetContent = (input: string) => {
     if (!input || input.trim() === '') {
       setColorResponse({})
       return
@@ -77,6 +77,7 @@ const Colors = () => {
 
   const hexValue = colorResponse?.colorData?.hexValue
   const colorName = colorResponse?.colorData?.name
+
   return (
     <div className="container">
       <div className="input-wrapper">

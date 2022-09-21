@@ -4,7 +4,7 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 ## What you will learn
 - How a custom Content Delivery API endpoint is created with JS Classes and how to add query entry fields to that endpoint
 - What the core structure of a View Model and Content Class looks like with JS Classes
-- How to create a simple front-end application with [React](https://reactjs.org/) and [Apollo Client](https://www.apollographql.com/docs/react/) that displays content published in Brightspot
+- How to create a simple front-end application with [React](https://reactjs.org/) that displays content published in Brightspot
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `content-delivery` directory:
 
