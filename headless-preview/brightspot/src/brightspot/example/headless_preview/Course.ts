@@ -1,4 +1,5 @@
 import Class from 'brightspot-types/java/lang/Class'
+
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import ContentDeliveryPreviewType from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryPreviewType'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
