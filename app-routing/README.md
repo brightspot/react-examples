@@ -49,9 +49,9 @@ The front-end application is a simple news website. Content consists of pages, t
 
 Publish the following content in Brightspot:
 
-1. Sections(s)
-2. Article(s)
-3. Tag(s)
+1. **Sections**(s)
+2. **Article**(s)
+3. **Tag**(s)
 
 > **_Note_** When choosing a slug, avoid spaces, slashes and non-ASCII characters. It is also best to use the same case for all letters. An example of a good slug: `my-example-page`. An example of a bad slug: `my Example/page`. 
 
@@ -66,14 +66,14 @@ Navigate to `brightspot/src/examples/app_routing`. This directory contains the J
 - `PageEntryView`: adding `PageEntryView` to the List of query entry fields for `AppRoutingEndpoint` make those query fields available using the `AppRoutingEndpoint`. All View Models that implement the `PageEntryView` interface will display as fields under the `PageEntry` field in GraphQL Explorer.
 
 #### Points to note in the front-end application:
-- `DynamicContainer.tsx`: this component uses the `PageEntry` entry field to verify the Content type. The resulting component that is displayed is determined by checking the typename returned by GraphQL. This makes it possible to use the following Route for both a Section and Tag:
+- `DynamicContainer.tsx`: this component uses the `PageEntry` entry field to verify the Content type. The resulting component that is displayed is determined by checking the typename returned by GraphQL. This makes it possible to use the following route for both a **Section** and **Tag**:
 
 (`app/src/index.tsx`):
 ```js
     <Route path=":content" element={<DynamicContainer />} />
 ```
 
-- In `app/src/List.tsx` the Link always uses the path with the Section as the first part of the path, even when the List is used from `Tag.tsx`. This ensures that the url for the Article is always the same (`section/article`). 
+- In `app/src/List.tsx` the Link always uses the path with the **Section** as the first part of the path, even when the List is used from `Tag.tsx`. This ensures that the url for the **Article** is always the same (`section/article`). 
 ## Try it yourself
 
 The following is a suggestion for learning more about app routing with JS Classes and Brightspot:
