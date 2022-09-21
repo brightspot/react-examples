@@ -38,7 +38,10 @@ Navigate to `brightspot/src/examples/headless_preview`. This directory contains 
 - `Course.ts`: the class that contains the business logic (fields, etc)
   - `getPreviewTypes`: create a new instance of a `ContentDeliveryPreviewType` and set the url to either a url set in the HeadlessPreviewEndpoint or to the default of `http://localhost:3000/courses/brightspot-preview`
 
-To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. By adding a check for the `previewId` in the front-end application, you can either use the route or `previewId` to display content. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` file (JS Class), but you can add any name after `http://localhost:3000/courses` to see each course page in the Brightspot preview panel. Brightspot will use the `previewId` instead of the `title`. Navigate to `app/src/index.ts` to review the routing, and to `app/src/components/Course/index.ts` to see how the `previewId` is used.
+To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. By adding a check for the `previewId` in the front-end application, you can either use the route or `previewId` to display content. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` file (JS Class), but you can add any name after `http://localhost:3000/courses` to see each course page in the Brightspot preview panel. Brightspot will use the `previewId` instead of the `title`. 
+
+#### Front-end:
+Navigate to `app/src/index.ts` to review the routing, and to `app/src/components/Course.tsx` to see how the `previewId` is used.
 
 You will also notice that the `previewType` and `previewWidth` values appear in preview mode. These values are helpful in identifying the View Model and/or endpoint that the `previewId` corresponds to. The `previewWidth` show the screen width set in the Brightspot preview panel.
 

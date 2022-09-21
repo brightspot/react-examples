@@ -33,9 +33,6 @@ export default class Course extends JavaClass(
   title: string
 
   @JavaField(String)
-  subtitle?: string
-
-  @JavaField(String)
   @JavaRequired
   @Values({
     value: [

@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Oxygen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap');
 
 :root {
   --primaryColor: #2250f4;
-  --primaryBlue: #587ef8;
   --teal: #30c8c9;
   --pink: #ec709a;
-  --primaryTextColor: #4b4545;
+  --primaryTextColor: #262626;
   --secondaryTextColor: #787171;
   --grayscaleTwo: #f1eced;
   --grayscaleOne: #dadce0;
@@ -14,7 +13,6 @@
   --spacing: 0.1rem;
   --radius: 0.25rem;
   --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 *,
@@ -28,8 +26,8 @@
 body {
   font-family: 'Oxygen', sans-serif;
   line-height: 1.5;
-  font-size: 0.875rem;
   background-color: var(--clr-white);
+  font-size: 1.8rem;
 }
 
 ul {
@@ -54,27 +52,16 @@ h4 {
 }
 
 h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--primaryTextColor);
-}
-
-h2 {
-  font-size: 2rem;
-  color: var(--primaryTextColor);
+  font-size: 2.8rem;
 }
 
 h3 {
   font-size: 1.5rem;
 }
 
-h4 {
-  font-size: 1.4rem;
-}
-
 p {
-  font-size: 1.3rem;
   color: var(--secondaryTextColor);
+  font-size: 1.3rem;
 }
 
 nav {
@@ -167,9 +154,11 @@ nav {
 }
 
 .link-text {
+  font-size: 1rem;
   padding: 2px;
   border-radius: var(--radius);
 }
+
 .link-text:hover {
   background: var(--grayscaleTwo);
   color: var(--primaryBlue);
@@ -199,14 +188,31 @@ nav {
   margin: 0 auto;
 }
 
+.preview-button {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: var(--primaryColor);
+  padding-top: 4px;
+}
+
+.preview-button:hover {
+  cursor: pointer;
+}
+
 .preview-information {
-  display: none;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.2s ease;
 }
 
 .preview-information[data-preview] {
-  display: block;
   padding: 2px 10px;
   width: 100%;
+  max-height: 1000px;
+  opacity: 1;
   overflow-wrap: break-word;
   border-bottom: 1px solid var(--grayscaleOne);
 }
@@ -226,50 +232,7 @@ nav {
 }
 
 .course-title {
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.home-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  margin-top: 10%;
-}
-
-.home-title {
-  font-size: 2rem;
   font-weight: 800;
-  margin-bottom: 2rem;
-}
-
-.accent {
-  background-color: var(--teal);
-  color: var(--clr-white);
-  padding: 4px 20px;
-  border-radius: var(--radius);
-  font-family: 'Dancing Script', cursive;
-  font-size: 2.5rem;
-  text-transform: capitalize;
-}
-
-.home-cta {
-  padding: 1rem 2rem;
-  border-radius: var(--radius);
-  border: 2px solid var(--clr-white);
-  background-color: var(--primaryColor);
-  color: var(--clr-white);
-  font-size: 1.3rem;
-  font-weight: 500;
-  margin-top: 2rem;
-  transition: background-color linear 0.2s;
-}
-
-.home-cta:hover {
-  background-color: var(--primaryBlue);
 }
 
 .cards-container {
@@ -285,7 +248,7 @@ nav {
 
 .course-card {
   margin: 0 1rem;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius);
@@ -293,8 +256,12 @@ nav {
   height: 100%;
 }
 
-.course-subtitle {
+.course-cardTitle {
   flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .subject-age-container {
@@ -329,7 +296,6 @@ nav {
 .loading {
   text-align: center;
   margin-top: 4rem;
-  font-size: 2rem;
   color: var(--primaryTextColor);
 }
 
@@ -337,6 +303,18 @@ nav {
   width: 100%;
   margin: 6rem auto;
   padding: 2rem;
+}
+
+.home-button {
+  padding: 1rem 2rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--clr-white);
+  background-color: var(--primaryColor);
+  color: var(--clr-white);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-top: 2rem;
+  transition: background-color linear 0.2s;
 }
 
 .question-container {
@@ -381,8 +359,8 @@ nav {
 }
 
 @media screen and (min-width: 786px) {
-  .home-title {
-    font-size: 2.7rem;
+  .cards-container {
+    grid-template-columns: 50% 50%;
   }
 
   .menu-icon {
@@ -405,14 +383,12 @@ nav {
   }
 }
 
-@media screen and (min-width: 1024px) {
-  .cards-container {
-    grid-template-columns: 50% 50%;
-  }
-}
-
 @media screen and (min-width: 1240px) {
+  .course-title {
+    font-size: 4rem;
+  }
+
   .cards-container {
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 25% 25% 25% 25%;
   }
 }

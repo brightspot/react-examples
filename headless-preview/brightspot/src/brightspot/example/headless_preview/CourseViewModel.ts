@@ -27,12 +27,6 @@ export default class CourseViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getSubtitle(): string {
-    return this.model.subtitle
-  }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(String)
   getAgeRange(): string {
     return this.model.ageRange
   }

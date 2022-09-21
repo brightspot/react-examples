@@ -9,11 +9,10 @@ const NotFound = () => {
         <span className="question-right">?</span>
       </div>
       <h1>Oops!</h1>
-      <h2>Sorry, </h2>
-      <p>the page you were trying to access doesn't exist.</p>
+      <p>Sorry, the page you were trying to access doesn't exist.</p>
 
       <Link to="/">
-        <button className="home-cta"> Return to homepage</button>
+        <button className="home-button"> Return to homepage</button>
       </Link>
     </div>
   )

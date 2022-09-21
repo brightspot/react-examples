@@ -16,7 +16,7 @@ const GET_COURSES = gql`
 
 function App() {
   const { data, error, loading } = useQuery(GET_COURSES)
-  if (loading) return <h3 className="loading">Loading...</h3>
+  if (loading) return <div className="loading">Loading...</div>
   if (error) console.log(error.message)
   return (
     <>

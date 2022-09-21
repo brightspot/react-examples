@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Course from './components/Course'
 import Courses from './components/Courses'
 import NotFound from './components/NotFound'
-import Home from './components/Home'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -17,8 +16,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="" element={<Home />} />
-          <Route path="courses" element={<Courses />} />
+          <Route path="" element={<Courses />} />
           <Route path="courses/:slug" element={<Course />} />
           <Route path="*" element={<NotFound />} />
         </Route>
