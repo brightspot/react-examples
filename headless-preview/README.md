@@ -6,7 +6,7 @@ Refer to the [README](/README.md) at the root of the `react-examples` repository
 
 To upload JS Classes in Brightspot (http://localhost/cms):
 
-```
+```sh
 cd brightspot
 yarn
 npx brightspot types download
@@ -16,7 +16,7 @@ npx brightspot types upload src
 
 To run the front-end:
 
-```
+```sh
 cd app
 yarn
 yarn start
