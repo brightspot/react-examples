@@ -40,15 +40,21 @@ const Course = () => {
   return (
     <>
       <div className="preview-information" data-preview={previewId || null}>
-        <p className="preview-text">{`previewId: ${previewId}`}</p>
-        <p className="preview-text">{`previewType: ${previewType}`}</p>
-        <p className="preview-text">{`deviceWidth: ${deviceWidth}`}</p>
+        <span className="preview-text">previewId: </span>
+        <span>{`${previewId}`}</span>
+        <br />
+        <span className="preview-text">previewType: </span>
+        <span>{`${previewType}`}</span>
+        <br />
+        <span className="preview-text">deviceWidth: </span>
+        <span>{`${deviceWidth}`}</span>
+        <br />
         <a
           href="http://localhost/_debug/query"
           rel="noreferrer"
           target="_blank"
         >
-          Debug Tool
+          <span className="preview-link">Debug Tool</span>
         </a>
       </div>
       <div className="course-container">

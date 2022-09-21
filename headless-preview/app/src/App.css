@@ -4,8 +4,6 @@
   --primaryColor: #2250f4;
   --primaryBlue: #587ef8;
   --teal: #30c8c9;
-  --yellow: #ffe497;
-  --lightYellow: #f7e8c0;
   --pink: #ec709a;
   --primaryTextColor: #4b4545;
   --secondaryTextColor: #787171;
@@ -43,7 +41,7 @@ a {
 }
 
 span {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 h1,
@@ -206,16 +204,25 @@ nav {
 }
 
 .preview-information[data-preview] {
-  display: flex;
-  flex-direction: column;
+  display: block;
   padding: 2px 10px;
-  background-color: var(--yellow);
   width: 100%;
   overflow-wrap: break-word;
+  border-bottom: 1px solid var(--grayscaleOne);
 }
 
 .preview-text {
-  font-size: 0.9rem;
+  font-size: 1rem;
+  margin-right: 1rem;
+  color: #000;
+  font-weight: 800;
+}
+
+.preview-link {
+  text-transform: uppercase;
+  font-weight: 800;
+  line-height: 2;
+  color: var(--primaryColor);
 }
 
 .course-title {
