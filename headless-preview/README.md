@@ -39,17 +39,11 @@ Navigate to `brightspot/src/examples/headless_preview`. This directory contains 
   - `getPreviewTypes`: create a new instance of a `ContentDeliveryPreviewType` and set the url to a url to show the front-end Course page: `http://localhost:3000/courses/brightspot-preview`
 
 #### Front-end
-To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. Brightspot also provides the `previewType` and `deviceWidth` in preview mode. By adding a check for the `previewId` and `previewType` in the front-end application, you can query for the Course information using the `previewId`. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` JS Class file. This path is specified in the front-end routing in `app/src.index.tsx`. There are also two components in `app/src/components`: `BrightspotPreview.tsx` and `AppView.tsx`. If you are in preview mode (i.e viewing the page in Brightspot), the path routes through `BrightspotPreview.tsx` and then displays the `Course.tsx` component. If you are not in preview mode, the path routes through `AppView.tsx` and then displays the `Course.tsx` component. Note how the query variable differs based on the path.
+To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. Brightspot also provides the `previewType` and `deviceWidth` in preview mode. By adding a check for the `previewId` and `previewType` in the front-end application, you can query for the Course information using the `previewId`. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` JS Class file. This designated path is specified in the front-end routing in `app/src.index.tsx`. There are also two components in `app/src/components`: `BrightspotPreview.tsx` and `AppView.tsx`. If you are in preview mode (i.e viewing the page in Brightspot), the path routes through `BrightspotPreview.tsx` and then displays the `Course.tsx` component. If you are not in preview mode, the path routes through `AppView.tsx` and then displays the `Course.tsx` component. Note how the query variable differs based on the path.
 
 In addition, notice how `Link` also has a check (in both `app/src/components/Navbar.tsx` and `app/src/components/Courses.tsx`) to route to the correct path based on preview mode. 
 
-Why does this added check for preview mode exist? In this example, preview mode displays additional content on the front-end, so these checks are needed. In your application, you might not need to perform these additional checks if your preview mode does nothing different than the app view mode. If you don't need a check, you can just route to the `Course.tsx` component with the path: 
-
-```js
- <Route path="courses/:slug" element={<AppView />} />
-```
-
-and then make the graphQl query request for the Course information in the `Course.tsx` file. 
+These checks for preview mode vs. non-preview mode ensure that only the preview uses the preview path.
 ## Try it yourself
 The following are suggestions for diving deeper into the Preview functionality:
 
