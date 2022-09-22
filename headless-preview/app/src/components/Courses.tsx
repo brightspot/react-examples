@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
-import { previewId, previewType } from '../index'
 import GET_ALL_COURSES from '../queries/GetAllCourses'
 
 type Course = {
@@ -23,27 +22,17 @@ const Courses = () => {
     <div className="course-container">
       <h1>All Courses</h1>
       <div className="cards-container">
-        {data?.Courses?.courses?.map((course: Course, i: number) => {
-          return (
-            <Link
-              className="card-link"
-              to={
-                previewId && previewType
-                  ? '/courses/brightspot-preview'
-                  : `/courses/${course.slug}`
-              }
-              key={i}
-            >
-              <div className="course-card">
-                <h3 className="course-cardTitle">{course.title}</h3>
-                <div className="subject-age-container">
-                  <span className="course-subject-age">{course.subject}</span>
-                  <span className="course-subject-age">{course.ageRange}</span>
-                </div>
+        {data?.Courses?.courses?.map((course: Course, i: number) => (
+          <Link className="card-link" to={`/courses/${course.slug}`} key={i}>
+            <div className="course-card">
+              <h3 className="course-cardTitle">{course.title}</h3>
+              <div className="subject-age-container">
+                <span className="course-subject-age">{course.subject}</span>
+                <span className="course-subject-age">{course.ageRange}</span>
               </div>
-            </Link>
-          )
-        })}
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import Course from './Course'
 import NotFound from './NotFound'
 import GET_COURSE from '../queries/GetCourse'
 
-const AppView = () => {
+const CourseContainer = () => {
   const { slug } = useParams()
   const { data, loading, error } = useQuery(GET_COURSE, {
     variables: {
@@ -31,4 +31,4 @@ const AppView = () => {
   )
 }
 
-export default AppView
+export default CourseContainer

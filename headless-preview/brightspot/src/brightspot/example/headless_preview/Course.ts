@@ -1,4 +1,5 @@
 import Class from 'brightspot-types/java/lang/Class'
+import List from 'brightspot-types/java/util/List'
 
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import ContentDeliveryPreviewType from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryPreviewType'
@@ -6,7 +7,6 @@ import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
-import List from 'brightspot-types/java/util/List'
 import Preview from 'brightspot-types/com/psddev/cms/db/Preview'
 import PreviewType from 'brightspot-types/com/psddev/cms/preview/PreviewType'
 import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
@@ -16,6 +16,7 @@ import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
 import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
 
 import HeadlessPreviewEndpoint from './HeadlessPreviewEndpoint'
+import CourseViewModel from 'brightspot-types/brightspot/example/headless_preview/CourseViewModel'
 
 export default class Course extends JavaClass(
   'brightspot.example.headless_preview.Course',
@@ -37,15 +38,15 @@ export default class Course extends JavaClass(
   @JavaRequired
   @Values({
     value: [
-      '1st grade',
-      '2nd grade',
-      '3rd grade',
-      '4th grade',
-      '5th grade',
-      '6th grade',
-      '7th grade',
-      '8th grade',
-      'highschool',
+      '1st Grade',
+      '2nd Grade',
+      '3rd Grade',
+      '4th Grade',
+      '5th Grade',
+      '6th Grade',
+      '7th Grade',
+      '8th Grade',
+      'Highschool',
     ],
   })
   ageRange: string
@@ -83,6 +84,8 @@ export default class Course extends JavaClass(
       ).previewUrl || 'http://localhost:3000/courses/brightspot-preview'
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
     contentDeliveryPreviewType.setPreviewUrl(headlessPreviewUrl)
+    //TODO: this should be used instead of PageEntryView
+    // contentDeliveryPreviewType.setEntryViewClass('brightspot.example.headless_preview.CourseViewModel')
 
     return [contentDeliveryPreviewType] as unknown as List<PreviewType>
   }

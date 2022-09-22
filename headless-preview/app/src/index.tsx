@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Courses from './components/Courses'
 import NotFound from './components/NotFound'
 import BrightspotPreview from './components/BrightspotPreview'
-import AppView from './components/AppView'
+import CourseContainer from './components/CourseContainer'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -13,12 +13,9 @@ const client = new ApolloClient({
 })
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-export const previewId = new URLSearchParams(window.location.search).get(
-  'previewId'
-)
-export const previewType = new URLSearchParams(window.location.search).get(
-  'typename'
-)
+const previewId = new URLSearchParams(window.location.search).get('previewId')
+
+const previewType = new URLSearchParams(window.location.search).get('typename')
 
 root.render(
   <ApolloProvider client={client}>
@@ -26,7 +23,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="" element={<Courses />} />
-          <Route path="courses/:slug" element={<AppView />} />
+          <Route path="courses/:slug" element={<CourseContainer />} />
           <Route
             path="courses/brightspot-preview"
             element={

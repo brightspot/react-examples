@@ -29,6 +29,8 @@ Make sure you have your front-end application running so you can see how the Pre
 
 Publish a **Course** content item in Brightspot. Make sure to enter a title; the rest of the fields are optional. You can see your content updating in the preview as you are inputting text.
 
+> **_Note_** If you do not see the Preview Panel, click on the eye icon to the left of the **PUBLISH** button. 
+
 ## How everything works
 Brightspot gives you the power to customize Brightspot, add new classes, create endpoints, and much more with JS Classes. One helpful feature Brightspot provides is a Preview Panel when you are creating content.
 
@@ -40,8 +42,6 @@ Navigate to `brightspot/src/examples/headless_preview`. This directory contains 
 
 #### Front-end
 To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. Brightspot also provides the `previewType` and `deviceWidth` in preview mode. By adding a check for the `previewId` and `previewType` in the front-end application, you can query for the Course information using the `previewId`. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` JS Class file. This designated path is specified in the front-end routing in `app/src.index.tsx`. There are also two components in `app/src/components`: `BrightspotPreview.tsx` and `AppView.tsx`. If you are in preview mode (i.e viewing the page in Brightspot), the path routes through `BrightspotPreview.tsx` and then displays the `Course.tsx` component. If you are not in preview mode, the path routes through `AppView.tsx` and then displays the `Course.tsx` component. Note how the query variable differs based on the path.
-
-In addition, notice how `Link` also has a check (in both `app/src/components/Navbar.tsx` and `app/src/components/Courses.tsx`) to route to the correct path based on preview mode. 
 
 These checks for preview mode vs. non-preview mode ensure that only the preview uses the preview path.
 ## Try it yourself
