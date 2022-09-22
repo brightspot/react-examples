@@ -26,9 +26,7 @@ const Article = () => {
       <h1 className="article-headline">{data?.Article?.headline}</h1>
       <p className="article-datePublished">{data?.Article?.publishDate}</p>
       <Link to={`/${data?.Article?.section?.id}`}>
-        <p className="article-sectionName">
-          {data?.Article?.section?.name || 'various'}
-        </p>
+        <p className="article-sectionName">{data?.Article?.section?.name}</p>
       </Link>
       {data?.Article?.tags?.map((tag, i) => {
         return (

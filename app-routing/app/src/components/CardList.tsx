@@ -24,9 +24,7 @@ const CardList = ({ articles }: Props) => {
             >
               <div className="cardList-item">
                 <div className="cardList-textContainer">
-                  <p className="cardList-pageName">
-                    {article?.section?.name || 'various'}
-                  </p>
+                  <p className="cardList-pageName">{article?.section?.name}</p>
                   <h2 className="cardList-articleHeadline">
                     {article?.headline}
                   </h2>
