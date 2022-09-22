@@ -1,8 +1,9 @@
 import Class from 'brightspot-types/java/lang/Class'
+import List from 'brightspot-types/java/util/List'
+
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
-import List from 'brightspot-types/java/util/List'
 import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'

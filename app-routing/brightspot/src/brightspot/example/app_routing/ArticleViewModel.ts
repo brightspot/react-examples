@@ -1,9 +1,10 @@
 import Class from 'brightspot-types/java/lang/Class'
+import JavaSet from 'brightspot-types/java/util/Set'
+import List from 'brightspot-types/java/util/List'
+
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
-import JavaSet from 'brightspot-types/java/util/Set'
-import List from 'brightspot-types/java/util/List'
 import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
@@ -39,10 +40,12 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(SectionViewModel)
   getSection(): SectionViewModel {
-    return super.createView(
-      SectionViewModel.class as Class<SectionViewModel>,
-      this.model.section
-    )
+    if (this.model.section) {
+      return super.createView(
+        SectionViewModel.class as Class<SectionViewModel>,
+        this.model.section
+      )
+    } else return null
   }
 
   @JavaMethodParameters()

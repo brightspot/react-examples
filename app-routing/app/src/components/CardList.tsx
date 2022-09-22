@@ -16,11 +16,17 @@ const CardList = ({ articles }: Props) => {
             <Link
               className="cardList-link"
               key={i}
-              to={`/${article?.section?.id}/${article?.slug}`}
+              to={
+                article?.section?.id
+                  ? `/${article?.section?.id}/${article?.slug}`
+                  : `/${article?.id}`
+              }
             >
               <div className="cardList-item">
                 <div className="cardList-textContainer">
-                  <p className="cardList-pageName">{article?.section?.name}</p>
+                  <p className="cardList-pageName">
+                    {article?.section?.name || 'various'}
+                  </p>
                   <h2 className="cardList-articleHeadline">
                     {article?.headline}
                   </h2>

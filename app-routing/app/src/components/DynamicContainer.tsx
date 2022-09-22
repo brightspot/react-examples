@@ -1,6 +1,7 @@
 import { useGetContentItemQuery } from '../generated'
 import { useParams } from 'react-router-dom'
 
+import Article from './Article'
 import NotFound from './NotFound'
 import Section from './Section'
 import Tag from './Tag'
@@ -17,7 +18,7 @@ const DynamicContainer = () => {
   if (loading) return <div>Loading...</div>
 
   if (data?.PageEntry?.__typename === 'Article') {
-    return <NotFound />
+    return <Article />
   } else if (data?.PageEntry?.__typename === 'Section') {
     return <Section />
   } else if (data?.PageEntry?.__typename === 'Tag') {

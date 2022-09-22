@@ -13,7 +13,14 @@ const List = ({ articles }: Props) => {
     <section className="cardList-section">
       {articles?.map((article: PartArticle, i: number) => {
         return (
-          <Link key={i} to={`/${article?.section?.id}/${article?.slug}`}>
+          <Link
+            key={i}
+            to={
+              article?.section?.id
+                ? `/${article?.section?.id}/${article?.slug}`
+                : `/${article?.id}`
+            }
+          >
             <div className="list-item" data-first={i === 0 ? true : null}>
               {article?.section?.name && (
                 <p className="cardList-pageName">{article?.section?.name}</p>
