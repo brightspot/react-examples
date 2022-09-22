@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { BiChevronDown } from 'react-icons/bi'
+import { previewId, previewType } from '../index'
 
 type Props = {
   courses: [{ title?: string; slug?: string }]
@@ -42,7 +43,11 @@ export function Navbar({ courses }: Props) {
                 <li key={i} data-show={showLinks || null}>
                   <Link
                     onClick={() => setShowLinks(false)}
-                    to={`/courses/${course.slug}`}
+                    to={
+                      previewId && previewType
+                        ? '/courses/brightspot-preview'
+                        : `/courses/${course.slug}`
+                    }
                     className="link-item"
                     data-show={showLinks || null}
                   >

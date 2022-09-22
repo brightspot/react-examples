@@ -36,20 +36,26 @@ Navigate to `brightspot/src/examples/headless_preview`. This directory contains 
 
 #### JS Classes Files:
 - `Course.ts`: the class that contains the business logic (fields, etc)
-  - `getPreviewTypes`: create a new instance of a `ContentDeliveryPreviewType` and set the url to either a url set in the `HeadlessPreviewEndpoint` or to the default of `http://localhost:3000/courses/brightspot-preview`
+  - `getPreviewTypes`: create a new instance of a `ContentDeliveryPreviewType` and set the url to a url to show the front-end Course page: `http://localhost:3000/courses/brightspot-preview`
 
-To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. By adding a check for the `previewId` in the front-end application, you can either use the route or `previewId` to display content. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` file (JS Class), but you can add any name after `http://localhost:3000/courses` to see each course page in the Brightspot preview panel. Brightspot will use the `previewId` instead of the `title`. 
+#### Front-end
+To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. Brightspot also provides the `previewType` and `deviceWidth` in preview mode. By adding a check for the `previewId` and `previewType` in the front-end application, you can query for the Course information using the `previewId`. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` JS Class file. This path is specified in the front-end routing in `app/src.index.tsx`. There are also two components in `app/src/components`: `BrightspotPreview.tsx` and `AppView.tsx`. If you are in preview mode (i.e viewing the page in Brightspot), the path routes through `BrightspotPreview.tsx` and then displays the `Course.tsx` component. If you are not in preview mode, the path routes through `AppView.tsx` and then displays the `Course.tsx` component. Note how the query variable differs based on the path.
 
-#### Front-end:
-Navigate to `app/src/index.ts` to review the routing, and to `app/src/components/Course.tsx` to see how the `previewId` is used.
+In addition, notice how `Link` also has a check (in both `app/src/components/Navbar.tsx` and `app/src/components/Courses.tsx`) to route to the correct path based on preview mode. 
 
-You will also notice that the `previewType` and `previewWidth` values appear in preview mode. These values are helpful in identifying the View Model and/or endpoint that the `previewId` corresponds to. The `previewWidth` show the screen width set in the Brightspot preview panel.
+Why does this added check for preview mode exist? In this example, preview mode displays additional content on the front-end, so these checks are needed. In your application, you might not need to perform these additional checks if your preview mode does nothing different than the app view mode. If you don't need a check, you can just route to the `Course.tsx` component with the path: 
 
+```js
+ <Route path="courses/:slug" element={<AppView />} />
+```
+
+and then make the graphQl query request for the Course information in the `Course.tsx` file. 
 ## Try it yourself
 The following are suggestions for diving deeper into the Preview functionality:
 
 1. Update page content in Brightspot and verify it updates in the Preview Panel before publishing.
-2. Click on the `Debug Tool` link that displays in preview mode (at the bottom of the yellow preview banner). Enter the `previewId` into the input field to query for ID or predicate to view details about the content associated with the `previewId`.
+2. Click on the `Debug Tool` link that displays in preview mode (at the bottom of the yellow preview banner). This will route you to information on the **Course** content item you are viewing in Brightspot.
+3. Change the device size in preview by selecting a different screen size from the dropdown menu above the preview panel. Start typing in a field to change the Course information. Notice how the device width updates. 
 
 ## Troubleshooting
 Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.

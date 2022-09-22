@@ -1,18 +1,7 @@
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
-
-const GET_COURSES_DETAILED = gql`
-  query getAllCoursesDetailed {
-    Courses {
-      courses {
-        ageRange
-        slug
-        subject
-        title
-      }
-    }
-  }
-`
+import { previewId, previewType } from '../index'
+import GET_ALL_COURSES from '../queries/GetAllCourses'
 
 type Course = {
   ageRange?: string
@@ -23,9 +12,12 @@ type Course = {
 }
 
 const Courses = () => {
-  const { data, error, loading } = useQuery(GET_COURSES_DETAILED)
+  const { data, error, loading } = useQuery(GET_ALL_COURSES)
   if (loading) return <div className="loading">Loading...</div>
-  if (error) console.log(error.message)
+  if (error)
+    return (
+      <p className="error">{`There was an error fetching courses: ${error.message} `}</p>
+    )
 
   return (
     <div className="course-container">
@@ -33,7 +25,15 @@ const Courses = () => {
       <div className="cards-container">
         {data?.Courses?.courses?.map((course: Course, i: number) => {
           return (
-            <Link className="card-link" to={`/courses/${course.slug}`} key={i}>
+            <Link
+              className="card-link"
+              to={
+                previewId && previewType
+                  ? '/courses/brightspot-preview'
+                  : `/courses/${course.slug}`
+              }
+              key={i}
+            >
               <div className="course-card">
                 <h3 className="course-cardTitle">{course.title}</h3>
                 <div className="subject-age-container">

@@ -223,6 +223,11 @@ nav {
   color: var(--primaryColor);
 }
 
+.preview-width {
+  padding: 0.3rem 1rem;
+  border-radius: 33px;
+}
+
 .course-title {
   font-weight: 800;
 }
