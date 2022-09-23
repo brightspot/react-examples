@@ -45,7 +45,12 @@ const MovieContainer = () => {
       </div>
       <div className="input-wrapper">
         <label htmlFor="path">Enter Movie Path:</label>
-        <input required name="path" onChange={handleOnChange} />
+        <input
+          required
+          name="path"
+          onChange={handleOnChange}
+          defaultValue={movieData?.path}
+        />
       </div>
     </>
   )
