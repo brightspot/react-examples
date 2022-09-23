@@ -14,6 +14,7 @@ After starting Brightspot and your frontend application, refer to the README loc
 
 - [Node](https://nodejs.org/en/) version 16 or higher
 - [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/)
+- [Yarn](https://classic.yarnpkg.com/lang/en/) version 1 (classic)
 
 ## Starting Brightspot 🚀
 
