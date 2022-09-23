@@ -23,7 +23,7 @@ export function Navbar({ courses }: Props) {
       <div className="nav-center">
         <div className="nav-header">
           <Link to="/" onClick={() => setShowLinks(false)}>
-            <span className="logo">Learning Fun</span>
+            <h3 className="logo">Learning Fun</h3>
           </Link>
 
           <button className="nav-toggle" onClick={toggleLinks}>
@@ -31,13 +31,13 @@ export function Navbar({ courses }: Props) {
               className="menu-icon"
               data-reverse={showLinks || null}
             />
-            <span className="course-label">
+            <div className="course-label">
               <BiChevronDown
                 className="down-chevron"
                 data-reverse={showLinks || null}
               />
               <p>Courses</p>
-            </span>
+            </div>
           </button>
         </div>
         <div className="links-container" data-show={showLinks || null}>
@@ -50,9 +50,7 @@ export function Navbar({ courses }: Props) {
                   className="link-item"
                   data-show={showLinks || null}
                 >
-                  <span className="link-text">
-                    {course?.title?.toLowerCase()}
-                  </span>
+                  <p className="link-text">{course?.title?.toLowerCase()}</p>
                 </Link>
               </li>
             ))}

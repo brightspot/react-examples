@@ -27,14 +27,7 @@ root.render(
           <Route
             path="courses/brightspot-preview"
             element={
-              previewId && previewType ? (
-                <BrightspotPreview
-                  previewId={previewId}
-                  previewType={previewType}
-                />
-              ) : (
-                <NotFound />
-              )
+              previewId && previewType ? <BrightspotPreview /> : <NotFound />
             }
           />
           <Route path="*" element={<NotFound />} />

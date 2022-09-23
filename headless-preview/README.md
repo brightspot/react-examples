@@ -44,6 +44,7 @@ Navigate to `brightspot/src/examples/headless_preview`. This directory contains 
 To see the preview update while editing content in Brightspot, you need to access the `previewId` that Brightspot assigns to content. Brightspot also provides the `previewType` and `deviceWidth` in preview mode. By adding a check for the `previewId` and `previewType` in the front-end application, you can query for the Course information using the `previewId`. In this example, `http://localhost:3000/courses/brightspot-preview` is used in the `Course.ts` JS Class file. This designated path is specified in the front-end routing in `app/src.index.tsx`. There are also two components in `app/src/components`: `BrightspotPreview.tsx` and `AppView.tsx`. If you are in preview mode (i.e viewing the page in Brightspot), the path routes through `BrightspotPreview.tsx` and then displays the `Course.tsx` component. If you are not in preview mode, the path routes through `AppView.tsx` and then displays the `Course.tsx` component. Note how the query variable differs based on the path.
 
 These checks for preview mode vs. non-preview mode ensure that only the preview uses the preview path.
+
 ## Try it yourself
 The following are suggestions for diving deeper into the Preview functionality:
 

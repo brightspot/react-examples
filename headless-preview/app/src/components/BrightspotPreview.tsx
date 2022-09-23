@@ -4,12 +4,12 @@ import NotFound from './NotFound'
 import GET_COURSE from '../queries/GetCourse'
 import PreviewBanner from './PreviewBanner'
 
-type Props = {
-  previewId: string
-  previewType: string
-}
+const BrightspotPreview = () => {
+  const previewId = new URLSearchParams(window.location.search).get('previewId')
+  const previewType = new URLSearchParams(window.location.search).get(
+    'typename'
+  )
 
-const BrightspotPreview = ({ previewId, previewType }: Props) => {
   const { data, loading, error } = useQuery(GET_COURSE, {
     variables: {
       id: previewId,
