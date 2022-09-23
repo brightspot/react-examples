@@ -1,0 +1,6 @@
+query Movie($path: String) {
+  Movie(model: { path: $path }) {
+    title
+    description
+  }
+}
