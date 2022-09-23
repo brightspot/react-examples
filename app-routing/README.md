@@ -44,8 +44,9 @@ The front-end application will open automatically in the browser.
 - `/section/article`
 
 > **_Note_** The above url structure is a basic example! URL structure is something that must be carefully designed to fit the needs of your application. This example is designed to show the building blocks available. You can build off of this basic structure to create various complex routing designs. 
+
 ## Using the example application
-The front-end application is a simple news website. Content consists of pages, tags, and articles.
+The front-end application is a simple news website. Content consists of sections, tags, and articles.
 
 Publish the following content in Brightspot:
 

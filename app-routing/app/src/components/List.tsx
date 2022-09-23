@@ -23,9 +23,11 @@ const List = ({ articles }: Props) => {
           >
             <div className="list-item" data-first={i === 0 ? true : null}>
               {article?.section?.name && (
-                <p className="cardList-pageName">{article?.section?.name}</p>
+                <span className="cardList-pageName">
+                  {article?.section?.name}
+                </span>
               )}
-              <h2 className="cardList-articleHeadline">{article?.headline}</h2>
+              <h4 className="cardList-articleHeadline">{article?.headline}</h4>
             </div>
           </Link>
         )

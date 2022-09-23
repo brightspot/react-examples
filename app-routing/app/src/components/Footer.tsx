@@ -2,7 +2,7 @@ const Footer = () => {
   return (
     <footer>
       <div className="footer-container">
-        <h4>
+        <p>
           App Routing with{' '}
           <a
             href="https://www.brightspot.com/"
@@ -12,7 +12,7 @@ const Footer = () => {
           >
             Brightspot
           </a>
-        </h4>
+        </p>
       </div>
     </footer>
   )

@@ -24,7 +24,10 @@ const Article = () => {
   return (
     <div className="container">
       <h1 className="article-headline">{data?.Article?.headline}</h1>
-      <p className="article-datePublished">{data?.Article?.publishDate}</p>
+      <span className="article-datePublished">
+        {data?.Article?.publishDate}
+      </span>
+      <br />
       <Link to={`/${data?.Article?.section?.id}`}>
         <p className="article-sectionName">{data?.Article?.section?.name}</p>
       </Link>

@@ -23,12 +23,12 @@ const CardList = ({ articles }: Props) => {
               }
             >
               <div className="cardList-item">
-                <div className="cardList-textContainer">
-                  <p className="cardList-pageName">{article?.section?.name}</p>
-                  <h2 className="cardList-articleHeadline">
-                    {article?.headline}
-                  </h2>
-                </div>
+                <h4 className="cardList-articleHeadline">
+                  {article?.headline}
+                </h4>
+                <span className="cardList-pageName">
+                  {article?.section?.name}
+                </span>
               </div>
             </Link>
           )

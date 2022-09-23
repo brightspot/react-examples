@@ -1,46 +1,57 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineMenu } from 'react-icons/ai'
+import { BiChevronDown } from 'react-icons/bi'
 import { useGetAllSectionsQuery } from '../generated'
 
 const Navbar = () => {
-  const [isNavExpanded, setIsNavExpanded] = useState(false)
+  const [showLinks, setShowLinks] = useState(false)
+  const toggleLinks = () => {
+    setShowLinks(!showLinks)
+  }
   const { data, error } = useGetAllSectionsQuery()
-
-  if (error) console.log(error.message)
 
   const sectionsList = data?.Sections?.sections
 
-  function handleNavigation() {
-    setTimeout(() => {
-      setIsNavExpanded(false)
-    }, 100)
-  }
-
+  if (error) console.log(error.message)
   return (
     <nav>
-      <h2 className="nav-logo">
-        <Link to="/">News</Link>
-      </h2>
-      <button className="nav-menuButton" onClick={() => setIsNavExpanded(true)}>
-        <AiOutlineMenu className="nav-menuIcon" />
-      </button>
-      <div className={isNavExpanded ? 'nav-menuExpanded' : 'nav-menu'}>
-        <button
-          className={isNavExpanded ? 'nav-close' : 'nav-closeHidden'}
-          onClick={handleNavigation}
-        >
-          <AiOutlineClose className="nav-closeIcon" />
-        </button>
-        <ul>
-          {sectionsList?.map((item, i) => (
-            <li key={i} onClick={handleNavigation}>
-              <Link to={`/${item?.id}`} className="nav-pageName">
-                {item?.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div className="nav-center">
+        <div className="nav-header">
+          <Link to="/" onClick={() => setShowLinks(false)}>
+            <h2 className="logo">News</h2>
+          </Link>
+
+          <button className="nav-toggle" onClick={toggleLinks}>
+            <AiOutlineMenu
+              className="menu-icon"
+              data-reverse={showLinks || null}
+            />
+            <div className="course-label">
+              <BiChevronDown
+                className="down-chevron"
+                data-reverse={showLinks || null}
+              />
+              <p>Courses</p>
+            </div>
+          </button>
+        </div>
+        <div className="links-container" data-show={showLinks || null}>
+          <ul className="links" data-show={showLinks || null}>
+            {sectionsList?.map((section, i: number) => (
+              <li key={i} data-show={showLinks || null}>
+                <Link
+                  onClick={() => setShowLinks(false)}
+                  to={`/${section?.id}`}
+                  className="link-item"
+                  data-show={showLinks || null}
+                >
+                  <p className="link-text">{section?.name}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </nav>
   )

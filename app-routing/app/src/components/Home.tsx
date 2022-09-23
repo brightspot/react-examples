@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom'
 import { useGetAllTagsAndArticlesQuery } from '../generated'
-
-import Banner from './Banner'
 import CardList from './CardList'
 
 const Home = () => {
@@ -18,7 +16,9 @@ const Home = () => {
 
   return (
     <>
-      <Banner name="News At a Glance" />
+      <div className="home-title">
+        <h1>Welcome to News</h1>
+      </div>
       <div className="home-tagsContainer">
         {data?.Tags?.tags?.map((tag, i) => (
           <Link className="home-tags" key={i} to={`/${tag?.id}`}>
