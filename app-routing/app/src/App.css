@@ -238,7 +238,7 @@ main {
 .home-title {
   color: white;
   background-color: var(--primaryBlue);
-  padding: 4rem;
+  padding: 7rem 2rem;
   text-align: center;
   margin-bottom: 4rem;
 }
