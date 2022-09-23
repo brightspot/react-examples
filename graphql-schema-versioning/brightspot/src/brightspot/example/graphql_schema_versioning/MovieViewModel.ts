@@ -13,13 +13,13 @@ export default class MovieViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getHeadline(): string {
+  getTitle(): string {
     return this.model.title
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getSubheadline(): string {
+  getDescription(): string {
     return this.model.description
   }
 }
