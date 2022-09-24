@@ -4,7 +4,10 @@ import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react'
 import Portal from '../Portal'
 import FocusTrap from 'focus-trap-react'
 
-import { Mutation } from '../../generated/graphql'
+import {
+  Mutation,
+  CreateAndUpdateNoteMutationVariables,
+} from '../../generated/graphql'
 import { runErrorWithTimeout } from '../../lib/utils'
 
 type Props = {
@@ -33,13 +36,6 @@ type Props = {
   >
 }
 
-type DataToSubmit = {
-  id: string | undefined | null
-  title?: string | undefined | null
-  description?: string | undefined | null
-  toolUser?: string | undefined | null
-}
-
 function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
   const [error, setError] = useState<string | null>(null)
 
@@ -55,7 +51,9 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
   const url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/update`
 
   const params = () => {
-    let dataToSubmit: DataToSubmit = { id: formData?.id }
+    let dataToSubmit: CreateAndUpdateNoteMutationVariables = {
+      id: formData?.id,
+    }
     if (titleRef?.current?.value !== formData?.title) {
       dataToSubmit.title = titleRef?.current?.value
     }

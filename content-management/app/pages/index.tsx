@@ -7,6 +7,7 @@ import {
   Brightspot_Example_Content_Management_Note,
 } from '../generated/graphql'
 import { insertItem } from '../lib/utils'
+
 import Container from '../components/Container'
 import Navbar from '../components/Navbar'
 import PaginationBar from '../components/PaginationBar'
@@ -18,20 +19,22 @@ const Home: NextPage = () => {
   const [error, setError] = useState<string | null>(null)
   const [numberPages, setNumberPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
-  const [limit, setLimit] = useState<number | null>(null)
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
+
+  const limit = 2
   const pageNumberList = 5
+
   const dataRequestParams = {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'GET',
   }
-
+  // used to calculate the offset number used when querying for Notes
   const calculateOffset = (pageNumber: number): number => {
     let offset = 0
-    if (limit && pageNumber > 0) {
+    if (pageNumber > 0) {
       const index = pageNumber - 1
       offset = limit * index
     }
@@ -92,7 +95,8 @@ const Home: NextPage = () => {
     if (res?.brightspot_example_content_management_NoteQuery?.items) {
       checkPagination(pageNum)
       if (newItem) {
-        if (limit && items.length >= limit) {
+        if (items.length >= limit) {
+          // make sure new Note is added as first item for the current view of paginated Notes
           setItems(
             insertItem(
               res?.brightspot_example_content_management_NoteQuery?.items?.slice(
@@ -120,22 +124,18 @@ const Home: NextPage = () => {
       res?.brightspot_example_content_management_NoteQuery?.pageInfo &&
       newItem
     ) {
-      const { count, limit } =
+      const { count } =
         res.brightspot_example_content_management_NoteQuery.pageInfo
-      if (limit) {
-        setNumberPages(Math.ceil((count + 1) / limit))
-        setLimit(limit)
-      }
+      // If new Note, update the numberPages by 1
+      setNumberPages(Math.ceil((count + 1) / limit))
     } else if (
       res?.brightspot_example_content_management_NoteQuery?.pageInfo &&
       !newItem
     ) {
-      const { count, limit } =
+      // setNumberPages since number of Notes since Note might have been deleted
+      const { count } =
         res.brightspot_example_content_management_NoteQuery.pageInfo
-      if (limit) {
-        setNumberPages(Math.ceil(count / limit))
-        setLimit(limit)
-      }
+      setNumberPages(Math.ceil(count / limit))
     }
   }
 
@@ -155,16 +155,13 @@ const Home: NextPage = () => {
           setItems(res.brightspot_example_content_management_NoteQuery.items)
         }
         if (res?.brightspot_example_content_management_NoteQuery?.pageInfo) {
-          const { count, limit } =
+          const { count } =
             res.brightspot_example_content_management_NoteQuery.pageInfo
           setNumberPages(Math.ceil(count / limit))
-          setLimit(limit)
         }
       })
       .catch((err: Error) => {
-        if (!error) {
-          setError(err.message)
-        }
+        setError(err.message)
       })
   }, [error])
 

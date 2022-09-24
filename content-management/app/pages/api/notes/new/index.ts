@@ -3,6 +3,7 @@ import client from '../../../../lib/apollo-client'
 import {
   CreateAndUpdateNoteDocument,
   CreateAndUpdateNoteMutation,
+  CreateAndUpdateNoteMutationVariables,
 } from '../../../../generated/graphql'
 
 export default async function handler(
@@ -10,7 +11,9 @@ export default async function handler(
   res: NextApiResponse<CreateAndUpdateNoteMutation>
 ) {
   try {
-    let editVariables: any = { toolUser: req.body.toolUser }
+    let editVariables: CreateAndUpdateNoteMutationVariables = {
+      toolUser: req.body.toolUser,
+    }
 
     if (req.body.title) {
       editVariables.title = req.body.title

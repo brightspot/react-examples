@@ -1,8 +1,8 @@
 query GetNotes(
   $arguments: [String]
   $predicate: String = "* matches ?"
-  $offset: Long = 0
-  $limit: Int = 20
+  $offset: Long
+  $limit: Int
 ) {
   brightspot_example_content_management_NoteQuery(
     sorts: { order: descending, options: "cms.content.updateDate" }
@@ -29,7 +29,6 @@ query GetNotes(
     }
     pageInfo {
       count
-      limit
     }
   }
 }

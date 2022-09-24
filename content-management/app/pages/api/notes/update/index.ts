@@ -3,24 +3,19 @@ import client from '../../../../lib/apollo-client'
 import {
   CreateAndUpdateNoteDocument,
   CreateAndUpdateNoteMutation,
+  CreateAndUpdateNoteMutationVariables,
 } from '../../../../generated/graphql'
-
-type Variables = {
-  toolUser: string
-  title?: string
-  description?: string
-  id: string
-}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<CreateAndUpdateNoteMutation>
 ) {
   try {
+    const updateVariables: CreateAndUpdateNoteMutationVariables = req.body
     const { data } = await client.mutate({
       mutation: CreateAndUpdateNoteDocument,
       fetchPolicy: 'no-cache',
-      variables: req.body,
+      variables: updateVariables,
     })
     res.status(200).json(data)
   } catch (error: any) {

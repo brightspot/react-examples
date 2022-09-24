@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import {
   Brightspot_Example_Content_Management_Note,
   Mutation,
+  CreateAndUpdateNoteMutationVariables,
 } from '../../generated/graphql'
 import { assertIsNode, runErrorWithTimeout } from '../../lib/utils'
 
@@ -17,12 +18,6 @@ type Props = {
   pageNumber: number
 }
 
-type SubmittedData = {
-  title?: string
-  description?: string
-  toolUser?: string
-}
-
 const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
@@ -31,7 +26,7 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
   const [error, setError] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
   const url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/new`
-  const params = (data: SubmittedData) => {
+  const params = (data: CreateAndUpdateNoteMutationVariables) => {
     return {
       body: JSON.stringify(data),
       method: 'POST',
@@ -61,7 +56,6 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
 
   const processResponse = (res: Mutation) => {
     if (res.brightspot_example_content_management_NoteSave) {
-      // TODO: assign correct type to newItem
       const newItem: Brightspot_Example_Content_Management_Note =
         res.brightspot_example_content_management_NoteSave
       if (newItem) {

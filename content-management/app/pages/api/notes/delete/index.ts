@@ -3,6 +3,7 @@ import client from '../../../../lib/apollo-client'
 import {
   DeleteNoteDocument,
   DeleteNoteMutation,
+  DeleteNoteMutationVariables,
 } from '../../../../generated/graphql'
 
 export default async function handler(
@@ -10,12 +11,11 @@ export default async function handler(
   res: NextApiResponse<DeleteNoteMutation>
 ) {
   try {
+    const deleteVariables: DeleteNoteMutationVariables = { id: req.body }
     const { data } = await client.mutate({
       mutation: DeleteNoteDocument,
       fetchPolicy: 'no-cache',
-      variables: {
-        id: req.body,
-      },
+      variables: deleteVariables,
     })
     res.status(200).json(data)
   } catch (error: any) {

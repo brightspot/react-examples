@@ -3600,7 +3600,7 @@ export type GetNotesQueryVariables = Exact<{
 }>;
 
 
-export type GetNotesQuery = { __typename?: 'Query', brightspot_example_content_management_NoteQuery?: { __typename?: 'brightspot_example_content_management_NoteQueryResult', items: Array<{ __typename?: 'brightspot_example_content_management_Note', title?: string | null, description?: string | null, _id?: string | null, _globals?: { __typename?: 'Globals', com_psddev_cms_db_Content_ObjectModification?: { __typename?: 'com_psddev_cms_db_Content_ObjectModification', updateDate?: any | null, publishDate?: any | null, publishUser?: { __typename?: 'com_psddev_cms_db_ToolUser', username?: string | null } | null, updateUser?: { __typename?: 'com_psddev_cms_db_ToolUser', username?: string | null } | null } | null } | null }>, pageInfo?: { __typename?: 'PageInfo', count?: any | null, limit?: number | null } | null } | null };
+export type GetNotesQuery = { __typename?: 'Query', brightspot_example_content_management_NoteQuery?: { __typename?: 'brightspot_example_content_management_NoteQueryResult', items: Array<{ __typename?: 'brightspot_example_content_management_Note', title?: string | null, description?: string | null, _id?: string | null, _globals?: { __typename?: 'Globals', com_psddev_cms_db_Content_ObjectModification?: { __typename?: 'com_psddev_cms_db_Content_ObjectModification', updateDate?: any | null, publishDate?: any | null, publishUser?: { __typename?: 'com_psddev_cms_db_ToolUser', username?: string | null } | null, updateUser?: { __typename?: 'com_psddev_cms_db_ToolUser', username?: string | null } | null } | null } | null }>, pageInfo?: { __typename?: 'PageInfo', count?: any | null } | null } | null };
 
 
 export const CreateAndUpdateNoteDocument = gql`
@@ -3693,7 +3693,7 @@ export type DeleteNoteMutationHookResult = ReturnType<typeof useDeleteNoteMutati
 export type DeleteNoteMutationResult = Apollo.MutationResult<DeleteNoteMutation>;
 export type DeleteNoteMutationOptions = Apollo.BaseMutationOptions<DeleteNoteMutation, DeleteNoteMutationVariables>;
 export const GetNotesDocument = gql`
-    query GetNotes($arguments: [String], $predicate: String = "* matches ?", $offset: Long = 0, $limit: Int = 20) {
+    query GetNotes($arguments: [String], $predicate: String = "* matches ?", $offset: Long, $limit: Int) {
   brightspot_example_content_management_NoteQuery(
     sorts: {order: descending, options: "cms.content.updateDate"}
     where: {predicate: $predicate, arguments: $arguments}
@@ -3719,7 +3719,6 @@ export const GetNotesDocument = gql`
     }
     pageInfo {
       count
-      limit
     }
   }
 }
