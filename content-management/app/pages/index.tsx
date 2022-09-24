@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
 
-  const limit = 2
+  const limit = 20
   const pageNumberList = 5
 
   const dataRequestParams = {
