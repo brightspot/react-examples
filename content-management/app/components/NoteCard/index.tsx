@@ -13,7 +13,7 @@ import {
   runErrorWithTimeout,
   convertTimestamp,
   assertIsNode,
-} from '../../lib/utils'
+} from '../../helpers/utils'
 import Modal from '../Modal'
 
 type Props = {
@@ -93,6 +93,8 @@ const NoteCard = ({
     if (res?.brightspot_example_content_management_NoteDelete?._id) {
       const id = res?.brightspot_example_content_management_NoteDelete._id
       return id
+    } else if (res) {
+      setError(res as unknown as string)
     }
   }
 

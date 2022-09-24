@@ -8,7 +8,7 @@ import {
   Mutation,
   CreateAndUpdateNoteMutationVariables,
 } from '../../generated/graphql'
-import { runErrorWithTimeout } from '../../lib/utils'
+import { runErrorWithTimeout } from '../../helpers/utils'
 
 type Props = {
   isOpen: boolean
@@ -95,6 +95,8 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
             ?.com_psddev_cms_db_Content_ObjectModification?.updateDate,
       })
       setIsOpen(false)
+    } else if (res) {
+      setError(res as unknown as string)
     }
   }
 

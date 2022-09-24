@@ -6,7 +6,7 @@ import {
   Mutation,
   CreateAndUpdateNoteMutationVariables,
 } from '../../generated/graphql'
-import { assertIsNode, runErrorWithTimeout } from '../../lib/utils'
+import { assertIsNode, runErrorWithTimeout } from '../../helpers/utils'
 
 type Props = {
   getItems: (
@@ -72,6 +72,8 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
         usernameRef.current.value = ''
       }
       setExpanded(false)
+    } else if (res) {
+      setError(res as unknown as string)
     }
   }
 

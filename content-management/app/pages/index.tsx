@@ -6,7 +6,7 @@ import {
   Query,
   Brightspot_Example_Content_Management_Note,
 } from '../generated/graphql'
-import { insertItem } from '../lib/utils'
+import { insertItem } from '../helpers/utils'
 
 import Container from '../components/Container'
 import Navbar from '../components/Navbar'

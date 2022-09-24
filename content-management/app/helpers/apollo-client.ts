@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
-/* Key Points 🔑: 
-1. Check the Network tab when a network request is made. Notice that the client Id and client secret are not shown
+/* Key Point 🔑: 
+1. These environment variables are securely hidden since the application makes network call with API Routes
 */
 
 const client = new ApolloClient({

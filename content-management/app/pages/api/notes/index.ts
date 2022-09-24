@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import client from '../../../lib/apollo-client'
+import client from '../../../helpers/apollo-client'
 import {
   GetNotesQuery,
   GetNotesDocument,
@@ -23,7 +23,6 @@ export default async function handler(
       offset: req.query.offset,
       predicate: req.query.p ? 'not _id matches ?' : undefined,
     }
-    console.log({ getNotesVariables })
     const { data } = await client.query({
       query: GetNotesDocument,
       fetchPolicy: 'no-cache',

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import client from '../../../../lib/apollo-client'
+import client from '../../../../helpers/apollo-client'
 import {
   CreateAndUpdateNoteDocument,
   CreateAndUpdateNoteMutation,
@@ -33,7 +33,7 @@ export default async function handler(
     if (error.networkError) {
       res.status(error.networkError.statusCode).json(error.message)
     } else {
-      res.status(500).json(error.message)
+      res.status(400).json(error.message)
     }
   }
 }
