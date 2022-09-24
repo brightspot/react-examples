@@ -1,16 +1,17 @@
-import Notes from '../Notes'
-import CreateNoteForm from '../CreateNoteForm'
 import styles from './Container.module.css'
-import { Data } from '../../pages/index'
 import { Dispatch, SetStateAction } from 'react'
 
+import { Brightspot_Example_Content_Management_Note } from '../../generated/graphql'
+import CreateNoteForm from '../CreateNoteForm'
+import Notes from '../Notes'
+
 type Props = {
-  items: Data[]
+  items: Brightspot_Example_Content_Management_Note[]
   getItems: (
     pageNumber: number,
     predicate: boolean,
     queryItem?: string,
-    newItem?: Data
+    newItem?: Brightspot_Example_Content_Management_Note
   ) => void
   pageNumber: number
   setPageNumber: Dispatch<SetStateAction<number>>

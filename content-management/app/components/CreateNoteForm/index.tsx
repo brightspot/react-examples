@@ -1,6 +1,10 @@
-import { useState, useRef, useEffect } from 'react'
 import styles from './CreateNoteForm.module.css'
-import { Data } from '../../pages'
+import { useState, useRef, useEffect } from 'react'
+
+import {
+  Brightspot_Example_Content_Management_Note,
+  Mutation,
+} from '../../generated/graphql'
 import { assertIsNode, runErrorWithTimeout } from '../../lib/utils'
 
 type Props = {
@@ -8,7 +12,7 @@ type Props = {
     pageNumber: number,
     predicate: boolean,
     queryItem?: string,
-    newItem?: Data
+    newItem?: Brightspot_Example_Content_Management_Note
   ) => void
   pageNumber: number
 }
@@ -17,27 +21,6 @@ type SubmittedData = {
   title?: string
   description?: string
   toolUser?: string
-}
-
-type QueryResponse = {
-  error?: string
-  brightspot_example_content_management_NoteSave?: {
-    _id: string
-    title: string
-    description: string
-    _globals: {
-      com_psddev_cms_db_Content_ObjectModification: {
-        publishDate: number
-        publishUser: {
-          username: string
-        }
-        updateDate: number
-        updateUser: {
-          username: string
-        }
-      }
-    }
-  }
 }
 
 const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
@@ -76,10 +59,15 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
     }
   }, [expanded])
 
-  const processResponse = (res: QueryResponse) => {
+  const processResponse = (res: Mutation) => {
     if (res.brightspot_example_content_management_NoteSave) {
-      const newItem = res.brightspot_example_content_management_NoteSave
-      getItems(pageNumber, false, '', newItem)
+      // TODO: assign correct type to newItem
+      const newItem: Brightspot_Example_Content_Management_Note =
+        res.brightspot_example_content_management_NoteSave
+      if (newItem) {
+        getItems(pageNumber, false, '', newItem)
+      }
+
       if (titleRef?.current?.value) {
         titleRef.current.value = ''
       }
@@ -90,8 +78,6 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
         usernameRef.current.value = ''
       }
       setExpanded(false)
-    } else if (res.error) {
-      setError(res.error)
     }
   }
 

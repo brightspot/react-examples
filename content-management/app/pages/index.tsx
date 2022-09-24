@@ -1,44 +1,20 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import Head from 'next/head'
+
+import {
+  Query,
+  Brightspot_Example_Content_Management_Note,
+} from '../generated/graphql'
+import { insertItem } from '../lib/utils'
 import Container from '../components/Container'
 import Navbar from '../components/Navbar'
-import Head from 'next/head'
 import PaginationBar from '../components/PaginationBar'
-import { insertItem } from '../lib/utils'
-
-export type Data = {
-  title: string
-  description: string
-  _id: string
-  _globals: {
-    com_psddev_cms_db_Content_ObjectModification: {
-      publishDate: number
-      publishUser: {
-        username: string
-      }
-      updateDate: number
-      updateUser: {
-        username: string
-      }
-    }
-  }
-}
-
-type PageInfo = {
-  count: number
-  limit: number
-}
-
-type QueryResponse = {
-  error?: string
-  brightspot_example_content_management_NoteQuery?: {
-    items?: Data[]
-    pageInfo?: PageInfo
-  }
-}
 
 const Home: NextPage = () => {
-  const [items, setItems] = useState<Data[]>([])
+  const [items, setItems] = useState<
+    Brightspot_Example_Content_Management_Note[]
+  >([])
   const [error, setError] = useState<string | null>(null)
   const [numberPages, setNumberPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
@@ -109,20 +85,17 @@ const Home: NextPage = () => {
   }
 
   const processResponse = (
-    res: QueryResponse,
+    res: Query,
     pageNum: number,
-    newItem?: Data
+    newItem?: Object
   ): void => {
-    if (res.error) {
-      setError(res.error)
-    }
     if (res?.brightspot_example_content_management_NoteQuery?.items) {
       checkPagination(pageNum)
       if (newItem) {
         if (limit && items.length >= limit) {
           setItems(
             insertItem(
-              res?.brightspot_example_content_management_NoteQuery?.items.slice(
+              res?.brightspot_example_content_management_NoteQuery?.items?.slice(
                 0,
                 -1
               ),
@@ -140,7 +113,7 @@ const Home: NextPage = () => {
           )
         }
       } else {
-        setItems(res.brightspot_example_content_management_NoteQuery.items)
+        setItems(res?.brightspot_example_content_management_NoteQuery?.items)
       }
     }
     if (
@@ -149,19 +122,24 @@ const Home: NextPage = () => {
     ) {
       const { count, limit } =
         res.brightspot_example_content_management_NoteQuery.pageInfo
-      setNumberPages(Math.ceil((count + 1) / limit))
-      setLimit(limit)
+      if (limit) {
+        setNumberPages(Math.ceil((count + 1) / limit))
+        setLimit(limit)
+      }
     } else if (
       res?.brightspot_example_content_management_NoteQuery?.pageInfo &&
       !newItem
     ) {
       const { count, limit } =
         res.brightspot_example_content_management_NoteQuery.pageInfo
-      setNumberPages(Math.ceil(count / limit))
-      setLimit(limit)
+      if (limit) {
+        setNumberPages(Math.ceil(count / limit))
+        setLimit(limit)
+      }
     }
   }
 
+  // used to intially load notes for first paginated section
   useEffect(() => {
     const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
     const params = {
@@ -173,9 +151,6 @@ const Home: NextPage = () => {
     fetch(baseUrl, params)
       .then((res) => res.json())
       .then((res) => {
-        if (res.error) {
-          setError(res.error)
-        }
         if (res.brightspot_example_content_management_NoteQuery.items) {
           setItems(res.brightspot_example_content_management_NoteQuery.items)
         }
@@ -193,12 +168,13 @@ const Home: NextPage = () => {
       })
   }, [error])
 
-  function getItems(
+  //used to get Notes after initial page load
+  const getItems = (
     pageNumber: number,
     predicate: boolean,
     queryItem?: string,
-    newItem?: Data
-  ) {
+    newItem?: Brightspot_Example_Content_Management_Note
+  ) => {
     fetch(urlBuilder(pageNumber, predicate, queryItem), dataRequestParams)
       .then((res) => res.json())
       .then((res) => processResponse(res, pageNumber, newItem))

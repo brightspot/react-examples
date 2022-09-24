@@ -1,14 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import client from '../../../../lib/apollo-client'
-import { DELETE_NOTE } from '../../../../queries'
+import {
+  DeleteNoteDocument,
+  DeleteNoteMutation,
+} from '../../../../generated/graphql'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<DeleteNoteMutation>
 ) {
   try {
     const { data } = await client.mutate({
-      mutation: DELETE_NOTE,
+      mutation: DeleteNoteDocument,
       fetchPolicy: 'no-cache',
       variables: {
         id: req.body,
@@ -16,6 +19,10 @@ export default async function handler(
     })
     res.status(200).json(data)
   } catch (error: any) {
-    res.status(400).json({ error: error.message })
+    if (error.networkError) {
+      res.status(error.networkError.statusCode).json(error.message)
+    } else {
+      res.status(500).json(error.message)
+    }
   }
 }

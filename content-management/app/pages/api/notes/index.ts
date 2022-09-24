@@ -1,15 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import client from '../../../lib/apollo-client'
-import { GET_NOTES } from '../../../queries'
+import { GetNotesQuery, GetNotesDocument } from '../../../generated/graphql'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<GetNotesQuery>
 ) {
   res.setHeader('Cache-Control', 'no-store')
   try {
     const { data } = await client.query({
-      query: GET_NOTES,
+      query: GetNotesDocument,
       fetchPolicy: 'no-cache',
       variables: {
         arguments: req.query.q || '*',
@@ -19,6 +19,10 @@ export default async function handler(
     })
     res.status(200).json(data)
   } catch (error: any) {
-    res.status(400).json({ error: error.message })
+    if (error.networkError) {
+      res.status(error.networkError.statusCode).json(error.message)
+    } else {
+      res.status(500).json(error.message)
+    }
   }
 }

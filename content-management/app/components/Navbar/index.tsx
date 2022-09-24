@@ -1,16 +1,18 @@
+import styles from './Navbar.module.css'
+import React, { useState, useRef, useEffect } from 'react'
+
 import { FiSearch } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
-import React, { useState, useRef, useEffect } from 'react'
 import { BsPencilSquare } from 'react-icons/bs'
-import { Data } from '../../pages'
-import styles from './Navbar.module.css'
+
+import { Brightspot_Example_Content_Management_Note } from '../../generated/graphql'
 
 type Props = {
   getItems: (
     pageNumber: number,
     predicate: boolean,
     queryItem?: string,
-    newItem?: Data
+    newItem?: Brightspot_Example_Content_Management_Note
   ) => void
   pageNumber: number
 }

@@ -1,10 +1,11 @@
 import Class from 'brightspot-types/java/lang/Class'
+import JavaSet from 'brightspot-types/java/util/Set'
+import List from 'brightspot-types/java/util/List'
+
 import ContentManagementApiEndpoint from 'brightspot-types/com/psddev/graphql/cma/ContentManagementApiEndpoint'
 import ContentManagementEntryPointField from 'brightspot-types/com/psddev/graphql/cma/ContentManagementEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import JavaClass from 'brightspot-types/JavaClass'
-import JavaSet from 'brightspot-types/java/util/Set'
-import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import ToolUser from 'brightspot-types/com/psddev/cms/db/ToolUser'
 

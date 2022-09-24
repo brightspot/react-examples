@@ -1,15 +1,16 @@
-import NoteCard from '../NoteCard'
 import styles from './Notes.module.css'
-import { Data } from '../../pages/index'
 import { Dispatch, SetStateAction } from 'react'
 
+import { Brightspot_Example_Content_Management_Note } from '../../generated/graphql'
+import NoteCard from '../NoteCard'
+
 type Props = {
-  items: Data[]
+  items: Brightspot_Example_Content_Management_Note[]
   getItems: (
     pageNumber: number,
     predicate: boolean,
     queryItem?: string,
-    newItem?: Data
+    newItem?: Brightspot_Example_Content_Management_Note
   ) => void
   pageNumber: number
   setPageNumber: Dispatch<SetStateAction<number>>
@@ -19,13 +20,13 @@ const Notes = ({ items, getItems, pageNumber, setPageNumber }: Props) => {
   return (
     <div className={styles.container}>
       {items &&
-        items.map((item: Data) => (
+        items.map((item: Brightspot_Example_Content_Management_Note) => (
           <NoteCard
             items={items}
             getItems={getItems}
             pageNumber={pageNumber}
             setPageNumber={setPageNumber}
-            title={item.title}
+            title={item?.title}
             description={item.description}
             id={item._id}
             key={item._id}

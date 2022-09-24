@@ -1,8 +1,10 @@
-import { Dispatch, SetStateAction } from 'react'
 import styles from './PaginationBar.module.css'
+import { Dispatch, SetStateAction } from 'react'
+
 import { FiChevronRight } from 'react-icons/fi'
 import { FiChevronLeft } from 'react-icons/fi'
-import { Data } from '../../pages'
+
+import { Brightspot_Example_Content_Management_Note } from '../../generated/graphql'
 
 type Props = {
   numberPages: number
@@ -10,7 +12,7 @@ type Props = {
     pageNumber: number,
     predicate: boolean,
     queryItem?: string,
-    newItem?: Data
+    newItem?: Brightspot_Example_Content_Management_Note
   ) => void
   pageNumber: number
   setPageNumber: Dispatch<SetStateAction<number>>

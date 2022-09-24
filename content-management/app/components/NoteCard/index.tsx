@@ -1,42 +1,38 @@
-import { useState, useEffect, useRef, SetStateAction, Dispatch } from 'react'
 import styles from './NoteCard.module.css'
-import Modal from '../Modal'
-import { Data } from '../../pages'
+import { useState, useEffect, useRef, SetStateAction, Dispatch } from 'react'
+
 import { IoEllipsisVertical } from 'react-icons/io5'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { MdOutlineEdit } from 'react-icons/md'
+
+import {
+  Brightspot_Example_Content_Management_Note,
+  Mutation,
+} from '../../generated/graphql'
 import {
   runErrorWithTimeout,
   convertTimestamp,
   assertIsNode,
 } from '../../lib/utils'
+import Modal from '../Modal'
 
 type Props = {
-  title: string
-  description: string
-  id: string
-  publishUser: string
-  publishDate: number
-  updateDate: number
-  updateUser: string
-  items: Data[]
+  title: string | undefined | null
+  description: string | undefined | null
+  id: string | undefined | null
+  publishUser: string | undefined | null
+  publishDate: number | undefined | null
+  updateDate: number | undefined | null
+  updateUser: string | undefined | null
+  items: Brightspot_Example_Content_Management_Note[] | undefined | null
   getItems: (
     pageNumber: number,
     predicate: boolean,
     queryItem?: string,
-    newItem?: Data
+    newItem?: Brightspot_Example_Content_Management_Note
   ) => void
   pageNumber: number
   setPageNumber: Dispatch<SetStateAction<number>>
-}
-
-type QueryResponse = {
-  error?: string
-  brightspot_example_content_management_NoteDelete?: {
-    title: string
-    description: string
-    _id: string
-  }
 }
 
 const NoteCard = ({
@@ -93,17 +89,15 @@ const NoteCard = ({
     runErrorWithTimeout(error, setError, 3000)
   }, [error])
 
-  const processResponse = (res: QueryResponse) => {
+  const processResponse = (res: Mutation) => {
     if (res?.brightspot_example_content_management_NoteDelete?._id) {
       const id = res?.brightspot_example_content_management_NoteDelete._id
       return id
-    } else if (res.error) {
-      setError(res.error)
     }
   }
 
   const updatePageItems = (id?: string) => {
-    if (id && items.length === 1 && pageNumber > 1) {
+    if (id && items?.length === 1 && pageNumber > 1) {
       getItems(pageNumber - 1, true, id)
       setPageNumber(pageNumber - 1)
     } else if (id) {
