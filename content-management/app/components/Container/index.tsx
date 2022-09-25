@@ -1,7 +1,7 @@
 import styles from './Container.module.css'
 import { Dispatch, SetStateAction } from 'react'
 
-import { Brightspot_Example_Content_Management_Note } from '../../generated/graphql'
+import { Brightspot_Example_Content_Management_Note } from 'generated/graphql'
 import CreateNoteForm from '../CreateNoteForm'
 import Notes from '../Notes'
 

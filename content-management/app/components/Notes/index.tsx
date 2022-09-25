@@ -1,7 +1,7 @@
 import styles from './Notes.module.css'
 import { Dispatch, SetStateAction } from 'react'
 
-import { Brightspot_Example_Content_Management_Note } from '../../generated/graphql'
+import { Brightspot_Example_Content_Management_Note } from 'generated/graphql'
 import NoteCard from '../NoteCard'
 
 type Props = {

@@ -1,22 +1,22 @@
 import styles from './Modal.module.css'
-import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react'
+import { Dispatch, SetStateAction, useState, useRef } from 'react'
 
 import Portal from '../Portal'
 import FocusTrap from 'focus-trap-react'
+import { IoClose } from 'react-icons/io5'
 
 import {
   Mutation,
   CreateAndUpdateNoteMutationVariables,
-} from '../../generated/graphql'
-import { runErrorWithTimeout } from '../../helpers/utils'
+} from 'generated/graphql'
 
 type Props = {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
   formData: {
     id: string | null | undefined
-    title?: string | null | undefined
-    description?: string | null | undefined
+    title: string | null | undefined
+    description: string | null | undefined
     publishUser: string | null | undefined
     publishDate: number | null | undefined
     updateUser: string | null | undefined
@@ -43,10 +43,6 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
   const usernameRef = useRef<HTMLInputElement>(null)
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    runErrorWithTimeout(error, setError, 5000)
-  }, [error])
 
   const url = `${process.env.NEXT_PUBLIC_HOST}/api/notes/update`
 
@@ -160,7 +156,17 @@ function Modal({ isOpen, setIsOpen, formData, setFormData }: Props) {
                 ref={usernameRef}
               />
               <div className={styles.bottom}>
-                {error && <span className={styles.error}>{error}</span>}
+                {error && (
+                  <>
+                    <button
+                      className={styles.errorCloseBtn}
+                      onClick={() => setError(null)}
+                    >
+                      <IoClose className={styles.errorCloseIcon} />
+                    </button>
+                    <span className={styles.error}>{error}</span>
+                  </>
+                )}
                 <button
                   type="button"
                   className={styles.button}

@@ -32,12 +32,6 @@
   color: var(--moduleBgColor);
 }
 
-.error {
-  font-size: 0.9rem;
-  color: var(--primaryRed);
-  font-style: italic;
-}
-
 .user {
   height: 30px;
   width: 30px;

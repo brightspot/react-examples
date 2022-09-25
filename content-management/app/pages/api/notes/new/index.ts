@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import client from '../../../../helpers/apollo-client'
+import client from 'helpers/apollo-client'
 import {
   CreateAndUpdateNoteDocument,
   CreateAndUpdateNoteMutation,
   CreateAndUpdateNoteMutationVariables,
-} from '../../../../generated/graphql'
+} from 'generated/graphql'
 
 export default async function handler(
   req: NextApiRequest,

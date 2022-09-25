@@ -1,24 +1,7 @@
-import { Dispatch, SetStateAction } from 'react'
-
 // refer to Stack Overflow response: https://stackoverflow.com/questions/71193818/react-onclick-argument-of-type-eventtarget-is-not-assignable-to-parameter-of-t
 function assertIsNode(e: EventTarget | null): asserts e is Node {
   if (!e || !('nodeType' in e)) {
     throw new Error(`Node expected`)
-  }
-}
-
-function runErrorWithTimeout(
-  errorState: string | null,
-  setErrorState: Dispatch<SetStateAction<string | null>>,
-  milliseconds: number
-) {
-  if (errorState) {
-    const timeId = setTimeout(() => {
-      setErrorState(null)
-    }, milliseconds)
-    return () => {
-      clearTimeout(timeId)
-    }
   }
 }
 
@@ -43,4 +26,4 @@ const insertItem = (arr: any[], index: number, newItem: any) => [
   ...arr.slice(index),
 ]
 
-export { runErrorWithTimeout, convertTimestamp, insertItem, assertIsNode }
+export { convertTimestamp, insertItem, assertIsNode }

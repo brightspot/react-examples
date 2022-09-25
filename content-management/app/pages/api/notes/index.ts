@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import client from '../../../helpers/apollo-client'
+import client from 'helpers/apollo-client'
 import {
   GetNotesQuery,
   GetNotesDocument,
   GetNotesQueryVariables,
-} from '../../../generated/graphql'
+} from 'generated/graphql'
 
 /* Key Points 🔑: 
 1. arguments: default to all notes ('*') unless using search 

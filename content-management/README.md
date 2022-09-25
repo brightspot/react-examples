@@ -3,6 +3,10 @@ In this tutorial, you will learn how to use a Content Management API Endpoint pr
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## What you will learn
+1. How to create a Content Management API endpoint with Brightspot's JS Classes
+2. How to create a front-end application with [Next.js](https://nextjs.org/), [Apollo Client](https://www.apollographql.com/docs/react/), and [GraphQl Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started) that can perform all CRUD operations
+
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. If you have run an example application before, make sure you have the docker instance for the example applications running, then follow the quick-start steps:
 

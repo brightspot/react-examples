@@ -1,19 +1,15 @@
 import styles from './NoteCard.module.css'
 import { useState, useEffect, useRef, SetStateAction, Dispatch } from 'react'
 
-import { IoEllipsisVertical } from 'react-icons/io5'
+import { IoEllipsisVertical, IoClose } from 'react-icons/io5'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { MdOutlineEdit } from 'react-icons/md'
 
 import {
   Brightspot_Example_Content_Management_Note,
   Mutation,
-} from '../../generated/graphql'
-import {
-  runErrorWithTimeout,
-  convertTimestamp,
-  assertIsNode,
-} from '../../helpers/utils'
+} from 'generated/graphql'
+import { convertTimestamp, assertIsNode } from 'helpers/utils'
 import Modal from '../Modal'
 
 type Props = {
@@ -85,10 +81,6 @@ const NoteCard = ({
     }
   }, [showOptions])
 
-  useEffect(() => {
-    runErrorWithTimeout(error, setError, 3000)
-  }, [error])
-
   const processResponse = (res: Mutation) => {
     if (res?.brightspot_example_content_management_NoteDelete?._id) {
       const id = res?.brightspot_example_content_management_NoteDelete._id
@@ -130,7 +122,17 @@ const NoteCard = ({
         key={id}
         data-hide={isOpen ? true : null}
       >
-        {error && <span className={styles.error}>{error}</span>}
+        {error && (
+          <>
+            <button
+              className={styles.errorCloseBtn}
+              onClick={() => setError(null)}
+            >
+              <IoClose className={styles.errorCloseIcon} />
+            </button>
+            <span className={styles.error}>{error}</span>
+          </>
+        )}
         <div className={styles.noteForm}>
           <div className={styles.inputFieldTitle}>{formData.title}</div>
           <div className={styles.inputFieldText}>{formData.description}</div>

@@ -73,6 +73,22 @@
   margin-right: 7px;
 }
 
+.errorCloseBtn {
+  border: 0;
+  background: transparent;
+}
+
+.errorCloseBtn:hover {
+  cursor: pointer;
+}
+
+.errorCloseIcon {
+  margin-right: 4px;
+  height: 15px;
+  width: 15px;
+  color: var(--primaryRed);
+}
+
 @media (min-width: 1024px) {
   .card {
     width: 60%;

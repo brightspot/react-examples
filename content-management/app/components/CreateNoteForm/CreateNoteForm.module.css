@@ -59,6 +59,22 @@
   font-style: italic;
 }
 
+.errorCloseBtn {
+  border: 0;
+  background: transparent;
+}
+
+.errorCloseBtn:hover {
+  cursor: pointer;
+}
+
+.errorCloseIcon {
+  margin-right: 4px;
+  height: 15px;
+  width: 15px;
+  color: var(--primaryRed);
+}
+
 .wrapper {
   margin-bottom: 5px;
   width: 100%;

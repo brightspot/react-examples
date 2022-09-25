@@ -1,12 +1,14 @@
 import styles from './CreateNoteForm.module.css'
 import { useState, useRef, useEffect } from 'react'
 
+import { IoClose } from 'react-icons/io5'
+
 import {
   Brightspot_Example_Content_Management_Note,
   Mutation,
   CreateAndUpdateNoteMutationVariables,
-} from '../../generated/graphql'
-import { assertIsNode, runErrorWithTimeout } from '../../helpers/utils'
+} from 'generated/graphql'
+import { assertIsNode } from 'helpers/utils'
 
 type Props = {
   getItems: (
@@ -35,10 +37,6 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
       },
     }
   }
-
-  useEffect(() => {
-    runErrorWithTimeout(error, setError, 3000)
-  }, [error])
 
   useEffect(() => {
     const closeOnMouseClickOutside = ({ target }: MouseEvent) => {
@@ -147,7 +145,17 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
             title="User name"
           />
         </div>
-        {error && <p className={styles.error}>{error}</p>}
+        {error && (
+          <>
+            <button
+              className={styles.errorCloseBtn}
+              onClick={() => setError(null)}
+            >
+              <IoClose className={styles.errorCloseIcon} />
+            </button>
+            <span className={styles.error}>{error}</span>
+          </>
+        )}
       </div>
       <div
         className={`${styles.bottom} ${
