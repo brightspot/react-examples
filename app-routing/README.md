@@ -6,9 +6,10 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 2. How to set up a GraphQL endpoint in Brightspot that can:
     - check content types based on `id` or other specified field
     - display fields for other specified content
-3. How to create a front-end application with [React](https://reactjs.org/), [Apollo Client](https://www.apollographql.com/docs/react/), [GraphQl Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started), and [React Router](https://reactrouter.com/en/main) to display provided by Brightspot
+3. How to create a front-end application with [React](https://reactjs.org/), [Apollo Client](https://www.apollographql.com/docs/react/), [GraphQl Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started), and [React Router](https://reactrouter.com/en/main) powered by Brightspot
 ## Related examples
 - [Brightspot Routing](https://github.com/brightspot/react-examples)  
+
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `hello-world` directory:
 
