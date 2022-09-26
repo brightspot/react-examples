@@ -8,7 +8,6 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import SectionViewModel from './SectionViewModel'
-import Long from 'brightspot-types/java/lang/Long'
 
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
