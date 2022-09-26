@@ -22,7 +22,7 @@ const persistedQueriesLink = createPersistedQueryLink({
   // sha256,
   generateHash: async (schema: DocumentNode) => {
     console.log(print(schema))
-    const result = await sha256(print(schema))
+    const result = await sha1(print(schema))
     console.log('result', result)
     return result
   },
