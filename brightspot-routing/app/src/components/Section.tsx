@@ -16,7 +16,7 @@ const Section = () => {
 
   if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
-  if (!data?.Section && !loading) return <NotFound />
+  if (!data?.Section) return <NotFound />
 
   return (
     <>
