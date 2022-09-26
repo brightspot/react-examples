@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client'
 
-const HelloWorld = gql`
-  query HelloWorld($path: String = "") {
-    HelloWorld(path: $path) {
-      title
-      text
+const GET_FOO = gql`
+  query GetFoo($foo: String) {
+    Foo(model: { foo: $foo }) {
+      body
+      foo
     }
   }
 `
 
-export default HelloWorld
+export default GET_FOO

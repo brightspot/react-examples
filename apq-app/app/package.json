@@ -8,6 +8,7 @@
     "@types/react": "18.0.0",
     "@types/react-dom": "18.0.0",
     "crypto-hash": "2.0.1",
+    "crypto-js": "^4.1.1",
     "graphql": "16.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -39,6 +40,8 @@
     ]
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "@types/object-hash": "^2.2.1",
     "eslint-config-prettier": "8.5.0",
     "prettier": "2.7.1"
   }

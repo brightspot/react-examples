@@ -15,8 +15,10 @@ import Sha256PersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graph
 
 import CustomAutomaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/CustomAutomaticPersistedQueryProtocol'
 import PersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryProtocol'
+import AutomaticPersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graphql/pqp/AutomaticPersistedQueryHashAlgorithm'
 // import AutomaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/AutomaticPersistedQueryProtocol'
-
+import CustomContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/CustomContentDeliveryApiEndpoint'
+import ClassFinder from 'brightspot-types/com/psddev/dari/util/ClassFinder'
 export default class ApqEndpoint extends JavaClass(
   'brightspot.example.apq.ApqEndpoint',
   ContentDeliveryApiEndpoint,
@@ -24,6 +26,13 @@ export default class ApqEndpoint extends JavaClass(
 ) {
   getPaths(): JavaSet<string> {
     return ['/graphql/delivery/apq'] as unknown as JavaSet<string>
+  }
+  [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
+    let apq = new CustomAutomaticPersistedQueryProtocol()
+    const FooHashAlgorithm = ClassFinder.getClass('brightspot.example.apq.FooHashAlgorithm')
+    const fooHash = new FooHashAlgorithm()
+    apq.setHashAlgorithm(fooHash)
+    return apq
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
@@ -42,20 +51,6 @@ export default class ApqEndpoint extends JavaClass(
     corsConfiguration.addAllowedOrigin('localhost')
   }
 
-  [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
-    let apq = new CustomAutomaticPersistedQueryProtocol()
-
-    // apq[
-    //   'setHashAlgorithm(com.psddev.graphql.pqp.AutomaticPersistedQueryHashAlgorithm)'
-    // ](new FooHashAlgorithm())
-    // apq[
-    //   'setHashAlgorithm(com.psddev.graphql.pqp.AutomaticPersistedQueryHashAlgorithm)'
-    // ](new Sha256PersistedQueryHashAlgorithm())
-    const hashAlgorithm = apq['getHashAlgorithm()']()
-
-    console.log('HASH ', hashAlgorithm)
-    return apq
-  }
   getApiAccessOption(): GraphQLApiAccessOption {
     return new GraphQLApiAccessOptionImplicit()
   }
