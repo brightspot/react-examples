@@ -1,0 +1,11 @@
+query GetArticle($path: String) {
+  Article(model: { path: $path }) {
+    headline
+    body
+    publishDate
+    section {
+      name
+      path
+    }
+  }
+}

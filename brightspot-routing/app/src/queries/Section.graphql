@@ -1,0 +1,10 @@
+query GetSection($path: String) {
+  Section(model: { path: $path }) {
+    path
+    name
+    articles {
+      headline
+      publishDate
+    }
+  }
+}

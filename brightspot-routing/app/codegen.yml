@@ -1,6 +1,6 @@
 overwrite: true
 schema: ${REACT_APP_GRAPHQL_URL}
-documents: './src/components/**/*.graphql'
+documents: './src/queries/*.graphql'
 generates:
   ./src/generated.ts:
     plugins:

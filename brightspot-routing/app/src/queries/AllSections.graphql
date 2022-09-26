@@ -1,0 +1,8 @@
+query GetAllSections {
+  Sections {
+    sections {
+      path
+      name
+    }
+  }
+}
