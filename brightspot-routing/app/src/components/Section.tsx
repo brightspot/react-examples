@@ -24,10 +24,7 @@ const Section = () => {
       <div className="container">
         {data?.Section?.articles && (
           <>
-            <List
-              sectionPath={data.Section.path}
-              articles={data?.Section?.articles}
-            />
+            <List section={data.Section} />
           </>
         )}
       </div>
