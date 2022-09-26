@@ -1,0 +1,44 @@
+import Class from 'brightspot-types/java/lang/Class'
+import JavaClass from 'brightspot-types/JavaClass'
+import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
+import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+import List from 'brightspot-types/java/util/List'
+
+import Query from 'brightspot-types/com/psddev/dari/db/Query'
+import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
+import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
+
+import Section from './Section'
+import Article from './Article'
+import ArticleViewModel from './ArticleViewModel'
+
+@ViewInterface
+export default class SectionViewModel extends JavaClass(
+  'brightspot.example.brightspot_routing.SectionViewModel',
+  ViewModel.Of(Section)
+) {
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getName(): string {
+    return this.model.name
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getPath(): string {
+    return this.model.getPermalink()
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(List.Of(ArticleViewModel))
+  getArticles(): List<ArticleViewModel> {
+    const articles = Query.from(Article.class)
+      .where('section matches ?', this.model)
+      .selectAll()
+
+    return super.createViews(
+      ArticleViewModel.class as Class<ArticleViewModel>,
+      articles
+    ) as unknown as List<ArticleViewModel>
+  }
+}
