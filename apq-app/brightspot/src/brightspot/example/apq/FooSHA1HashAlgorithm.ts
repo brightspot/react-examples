@@ -4,8 +4,8 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 
-export default class FooHashAlgorithm extends JavaClass(
-  'brightspot.example.apq.FooHashAlgorithm',
+export default class FooSHA1HashAlgorithm extends JavaClass(
+  'brightspot.example.apq.FooSHA1HashAlgorithm',
   AutomaticPersistedQueryHashAlgorithm
 ) {
   @JavaMethodReturn(String)

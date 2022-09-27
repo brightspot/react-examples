@@ -11,25 +11,48 @@ function App() {
   })
 
   if (loading) return <div className="hello-world-message">Loading...</div>
-  if (error)
-    return (
-      <div className="hello-world-message">{`Error! ${error.message}`}</div>
-    )
-
+ 
   const hashedValue = sessionStorage.getItem('hash')
   const secret = sessionStorage.getItem('secret')
-
+  const method = sessionStorage.getItem('method')
   return (
     <div className="App">
+      <select onChange={(e) => {
+        sessionStorage.setItem('hash-type', e.target.value)
+        window.location.reload();
+      }
+    }
+    defaultValue={sessionStorage?.getItem('hash-type') || ''}
+    >
+        <option></option>
+        <option>default</option>
+        <option>Sha-256</option>
+        <option>Sha-1</option>
+      </select>
+
+      <select onChange={(e) => {
+        sessionStorage.setItem('set-secret', e.target.value)
+        window.location.reload();
+      }
+    }
+    defaultValue={sessionStorage?.getItem('set-secret') || ''}
+    >
+        <option></option>
+        <option>yes</option>
+        <option>no</option>
+      </select>
       <h1>Automatic Persisted Query</h1>
+      {error && (
+          <div className="hello-world-message">{`Error! ${error.message}`}</div>
+      )}
       <h2>Foo: {data?.Foo?.foo}</h2>
       <h3>
         <b>Body: </b>
         {data?.Foo?.body}
       </h3>
       <p>
-        <b>Query: </b>
-        {print(GET_FOO)}
+        <b>Method: </b>
+        {method}
       </p>
       <p>
         <b>Hash: </b>
