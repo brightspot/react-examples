@@ -11,17 +11,27 @@ export default class FooHashAlgorithm extends JavaClass(
   @JavaMethodReturn(String)
   @JavaMethodParameters()
   getPersistedQueryHashKey(): string {
-    return 'sha256Hash' // set string at sha256Hash since Apollo sends all hashs in sha256Hash field
+    return 'sha1Hash'
   }
 
   @JavaMethodReturn(String)
   @JavaMethodParameters(String, String)
   calculateHash(sharedSecret: string, query: string): string {
-    const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
-      'SHA-1',
-      query
-    )
-    const result = Utils.hex(hashedValue)
+    let result
+    if(sharedSecret) {
+      const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
+        'SHA-1',
+        sharedSecret.concat(query)
+      )
+      result = Utils.hex(hashedValue)
+    } else if (!sharedSecret) {
+      const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
+        'SHA-1',
+        query
+      )
+      result = Utils.hex(hashedValue)
+    }
+
     return result
   }
 }

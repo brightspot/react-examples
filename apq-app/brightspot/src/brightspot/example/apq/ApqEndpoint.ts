@@ -15,10 +15,8 @@ import Sha256PersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graph
 
 import CustomAutomaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/CustomAutomaticPersistedQueryProtocol'
 import PersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryProtocol'
-import AutomaticPersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graphql/pqp/AutomaticPersistedQueryHashAlgorithm'
-// import AutomaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/AutomaticPersistedQueryProtocol'
-import CustomContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/CustomContentDeliveryApiEndpoint'
 import ClassFinder from 'brightspot-types/com/psddev/dari/util/ClassFinder'
+
 export default class ApqEndpoint extends JavaClass(
   'brightspot.example.apq.ApqEndpoint',
   ContentDeliveryApiEndpoint,
@@ -32,6 +30,8 @@ export default class ApqEndpoint extends JavaClass(
     const FooHashAlgorithm = ClassFinder.getClass('brightspot.example.apq.FooHashAlgorithm')
     const fooHash = new FooHashAlgorithm()
     apq.setHashAlgorithm(fooHash)
+    apq.setSharedSecret('mandi')
+    console.log('YEAH!! ', apq)
     return apq
   }
 
