@@ -1,10 +1,11 @@
 import { useGetArticleQuery } from '../generated'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 
 import NotFound from './NotFound'
 
 const Article = () => {
   const { section, article } = useParams()
+  const navigate = useNavigate()
   const { data, error, loading } = useGetArticleQuery({
     variables: {
       path: article,
@@ -18,7 +19,12 @@ const Article = () => {
   // removes leading '/' when comparing to url param
   if (data?.Article?.section?.path?.slice(1) !== section) return <NotFound />
 
-  let publishDate = new Date()
+  // redirects to new URL if user navigated to old URL
+  if (data?.Article?.path?.slice(1) !== article) {
+    navigate(`${data?.Article?.section?.path}${data?.Article?.path}`)
+  }
+
+  let publishDate = new Date(data?.Article?.publishDate || 0)
 
   return (
     <div className="container">

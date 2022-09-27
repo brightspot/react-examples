@@ -1,5 +1,6 @@
 query GetArticle($path: String) {
   Article(model: { path: $path }) {
+    path
     headline
     body
     publishDate
