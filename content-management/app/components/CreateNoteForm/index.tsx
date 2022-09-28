@@ -76,6 +76,7 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
   }
 
   const submitNewNote = async () => {
+    setError(null)
     const inputTitle = titleRef?.current?.value
     const inputDescription = descriptionRef?.current?.value
     const inputUsername = usernameRef?.current?.value
@@ -174,6 +175,7 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
           type="button"
           onClick={() => {
             setExpanded(false)
+            setError(null)
             if (titleRef?.current?.value) titleRef.current.value = ''
             if (descriptionRef?.current?.value)
               descriptionRef.current.value = ''
