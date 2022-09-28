@@ -110,70 +110,24 @@ select {
   border-radius: var(--radius);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width: 100%;
-  height: 400px;
-  overflow: hidden;
   background-color: var(--white);
   padding: 1.5rem;
   overflow-wrap: break-word;
-  position: relative;
 }
 
 .title {
   color: var(--textPrimary);
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 p {
-  display: -webkit-box;
   color: var(--textSecondary);
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
-button {
-  background-color: var(--white);
-  border-radius: var(--radius);
-  font-weight: 500;
-  border: 1px solid var(--indigo);
-  color: var(--indigo);
-  padding: 0.5em 1em;
-  margin-top: 1rem;
-  position: absolute;
-  bottom: 10px;
+.body {
+  color: var(--textSecondary);
+  margin-bottom: 2rem;
 }
 
-button:hover {
-  cursor: pointer;
-}
-
-.overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  padding: 1.5rem;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.overlay-text {
-  color: var(--white);
-}
-
-.slide-in .overlay {
-  background-color: var(--indigo);
-  color: var(--white);
-  transform: translateX(-100%);
-  -webkit-transition: transform 0.3s ease-out;
-  -o-transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-}
-
-.slide-in .card[data-details] .overlay {
-  transform: translateX(0);
+.label {
+  font-weight: 800;
 }

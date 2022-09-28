@@ -1,24 +1,23 @@
 import AutomaticPersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graphql/pqp/AutomaticPersistedQueryHashAlgorithm'
-import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
+import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import JavaClass from 'brightspot-types/JavaClass'
-import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
-import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
+import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 
+@DisplayName({ value: 'SHA-1' })
 export default class CustomSHA1HashAlgorithm extends JavaClass(
   'brightspot.example.apq.CustomSHA1HashAlgorithm',
   AutomaticPersistedQueryHashAlgorithm
 ) {
-  @JavaMethodReturn(String)
-  @JavaMethodParameters()
-  getPersistedQueryHashKey(): string {
+  [`getPersistedQueryHashKey()`](): string {
     return 'sha1Hash'
   }
 
-  @JavaMethodReturn(String)
-  @JavaMethodParameters(String, String)
-  calculateHash(sharedSecret: string, query: string): string {
+  [`calculateHash(java.lang.String,java.lang.String)`](
+    sharedSecret: string,
+    query: string
+  ): string {
     let result
-    if(sharedSecret) {
+    if (sharedSecret) {
       const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
         'SHA-1',
         sharedSecret.concat(query)
@@ -31,7 +30,6 @@ export default class CustomSHA1HashAlgorithm extends JavaClass(
       )
       result = Utils.hex(hashedValue)
     }
-
     return result
   }
 }
