@@ -17,13 +17,13 @@ import { sha256, sha1, sha512 } from 'crypto-hash'
 import { print } from 'graphql/language/printer'
 
 const hashType = sessionStorage.getItem('hash-type')
-let firstTimeError = ''
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
+  let firstTimeError = ''
   if (graphQLErrors)
     graphQLErrors.forEach(({ message }) => {
       if (message === 'PersistedQueryNotFound') {
@@ -38,8 +38,6 @@ let result = ''
 let secret = ''
 
 const persistedQueriesLink = createPersistedQueryLink({
-  // sha256,
-  // generateHash: generatCustomHash(query),
   generateHash: async (schema: DocumentNode) => {
     secret = process.env.REACT_APP_HASH_SECRET!
     const message = secret.concat(print(schema))
@@ -92,7 +90,6 @@ const additiveLink = from([customLink, errorLink, httpLink])
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  // uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
   link: persistedQueriesLink.concat(additiveLink),
 })
 
