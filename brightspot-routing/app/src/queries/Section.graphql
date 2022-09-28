@@ -3,6 +3,7 @@ query GetSection($path: String) {
     path
     name
     articles {
+      path
       headline
       publishDate
     }
