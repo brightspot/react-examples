@@ -44,10 +44,10 @@ function App() {
           {error && <p>{`Error: ${error.message}`}</p>}
           <h2 className="title">{data?.ApqItem?.title}</h2>
           <p className="body">{data?.ApqItem?.body}</p>
-          <p className="label">Method:</p>        
-            <p>{methodExplanation()}</p>
-            <p className="label">Hash:</p>
-            <p>{hashedValue}</p>         
+          <p className="label">Method:</p>
+          <p>{methodExplanation()}</p>
+          <p className="label">Hash:</p>
+          <p>{hashedValue}</p>
         </article>
       </div>
     </div>
