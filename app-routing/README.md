@@ -11,7 +11,7 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 - [Brightspot Routing](https://github.com/brightspot/react-examples)  
 
 ## Running the example application
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `hello-world` directory:
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `app-routing` directory:
 
 To upload JS Classes in Brightspot (http://localhost/cms):
 
@@ -34,17 +34,17 @@ yarn start
 
 The front-end application will open automatically in the browser.
 
-## Before using the example application: key principles of good url routing
-1. An item should only have one exact path (example: an article should not have multiple possible urls)
-2. A url should be hackable: you should be able to backtrack to get to different sections
-3. A url should have a consistent heirarchy for displaying content (example: `section/subsection/article`) 
+## Before using the example application: key principles of good URL routing
+1. An item should only have one exact path (example: an article should not have multiple possible URLs)
+2. A URL should be hackable: you should be able to backtrack to get to different sections
+3. A URL should have a consistent hierarchy for displaying content (example: `section/subsection/article`) 
 
-### Url routing for this application
+### URL routing for this application
 - `/tag`
 - `/section/child-section/child-section`
 - `/section/article`
 
-> **_Note_** The above url structure is a basic example! URL structure is something that must be carefully designed to fit the needs of your application. This example is designed to show the building blocks available. You can build off of this basic structure to create various complex routing designs. 
+> **_Note_** The above URL structure is a basic example! URL structure is something that must be carefully designed to fit the needs of your application. This example is designed to show the building blocks available. You can build off of this basic structure to create various complex routing designs. 
 
 ## Using the example application
 The front-end application is a simple news website. Content consists of sections, tags, and articles.
@@ -78,7 +78,7 @@ Navigate to `brightspot/src/examples/app_routing`. This directory contains the J
 
 The following is a suggestion for learning more about app routing with JS Classes and Brightspot:
 
-1. Try changing parts of the url. Verify the path returns the `NotFound` page if any of the path is incorrect.
+1. Try changing parts of the URL. Verify the path returns the `NotFound` page if any of the path is incorrect.
 
 > **_Note_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to updated the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
 
