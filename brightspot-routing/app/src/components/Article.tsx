@@ -1,4 +1,5 @@
 import { useGetArticleQuery } from '../generated'
+import { useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 
 import NotFound from './NotFound'
@@ -12,17 +13,23 @@ const Article = () => {
     },
   })
 
+  useEffect(() => {
+    // redirects to new section path if user navigates to old section path
+    if (data?.Article && data.Article.section?.path?.slice(1) !== section) {
+      navigate(`${data.Article.section?.path}${data.Article.path}`)
+    }
+    // redirects to new article path if user navigates to old article path
+    if (data?.Article && data.Article.path?.slice(1) !== article) {
+      navigate(`${data.Article.section?.path}${data.Article.path}`)
+    }
+  }, [data, section, article, navigate])
+
   if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
   if (!data?.Article) return <NotFound />
 
   // removes leading '/' when comparing to url param
   if (data.Article.section?.path?.slice(1) !== section) return <NotFound />
-
-  // redirects to new URL if user navigated to old URL
-  if (data?.Article.path?.slice(1) !== article) {
-    navigate(`${data.Article.section?.path}${data.Article.path}`)
-  }
 
   let publishDate = new Date(data.Article.publishDate || 0)
 

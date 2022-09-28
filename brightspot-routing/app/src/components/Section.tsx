@@ -1,4 +1,5 @@
 import { useGetSectionQuery } from '../generated'
+import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import Banner from './Banner'
@@ -15,14 +16,16 @@ const Section = () => {
     },
   })
 
+  useEffect(() => {
+    // redirects to new URL if user navigated to old URL
+    if (data?.Section && data?.Section?.path?.slice(1) !== section) {
+      navigate(`${data?.Section?.path}`)
+    }
+  }, [data, section, navigate])
+
   if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
   if (!data?.Section) return <NotFound />
-
-  // redirects to new URL if user navigated to old URL
-  if (data.Section.path?.slice(1) !== section) {
-    navigate(`${data.Section.path}`)
-  }
 
   return (
     <>
