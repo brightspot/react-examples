@@ -4,13 +4,18 @@ Thanks to GraphQL's ability to only retrieve data requested, seldom are there ch
 
 *https://graphql.org/learn/best-practices/#versioning*
 
+## What you will learn
+1. How to view Schemas Versions via Brightspot or with [GraphQL Inspector](https://www.the-guild.dev/graphql/inspector/docs/introduction)
+2. How to compare Schema Versions via Brightspot or with GraphQL Inspector
+3. How to use GraphQL Inspector to monitor changes before running [Codegen](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to generate new types/schemas
+
 ## Running the example application
 
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `hello-world` directory:
 
 To upload JS Classes in Brightspot (http://localhost/cms):
 
-```
+```sh
 cd brightspot
 yarn
 npx brightspot types download
@@ -30,68 +35,23 @@ yarn start
 
 Go to the home page and click on the (+) icon to the right of the search bar, you will see the newly created Movie Content Type. 
 
-Click on the Movie Content Type to create a new Movie. Enter a 'Title' and 'Description'.
+Click on the Movie Content Type to create a new Movie. Enter the following for the fields:
+
+Title: Spiderman: No Way Home
+Description: Peter Parker's secret identity is revealed to the entire world. Desperate for help, Peter turns to Doctor Strange to make the world forget that he is Spider-Man. The spell goes horribly wrong and shatters the multiverse, bringing in monstrous villains that could destroy the world.
 
 and now on the top right click 'Publish', notice that there is now a Permalink based on the title.
 
-## Step 2: GraphQL Hello World
+## Step 2 Codegen
 
-Now that there is `Movie` content published, click on the hamburger menu in the top left corner and click on `Developer → GraphQL Explorer`.
-
-At the top of the page there is a dropdown for `Select GraphQL Endpoint`.
-Select the previously created `Movie Endpoint` endpoint.
-
-The `GraphQL Explorer` allowed for easy query testing endpoints.
-
-Under the `Explorer` section, on selection of `Movie`, the fields available on the GraphQL schema will appear. Notice that the middle section under `GraphiQL` has now generated a query. This is being built based on selections.
-
-Select `model`, a further two fields will appear, **id** and **path**, check the **path** box. Notice that double quotes `"_"` have appeared but also, a `$`. Select the `$` to change your query into one that accepts a variable, in this case a string.
-
-Check the `Title` and `description` boxes to add those fields to the query.
-
-The final query should look like the code below after changing `MyQuery` to `MovieQuery`. For more information on creating GraphQL queries visit [graphql.org/learn/queries/](graphql.org/learn/queries/)
-
-```js
-query MovieQuery {
-  Movie(model: {path: ""}) {
-    headline
-    subheadline
-  }
-}
-```
-
-You will need to pull up the **QUERY VARIABLES** section below the GraphiQL section in the middle panel. Type in the following with the content's path:
-
-```json
-{
-  "path": "/path-here"
-}
-```
-
-Click the play icon to test and if successful you will see the following response on the right, confirming that the endpoint works.
-
-```json
-{
-  "data": {
-    "Movie": {
-      "Title": "Movie Title",
-      "description": "Movie Description"
-    }
-  }
-}
-```
-## Step 4 Codegen
-
-The `codegen.yml` file located `graphql-schema-versioning/app/codegen.yml`will take the query we created previously (as it is included in `graphql-schema-versioning/app/src/components/MovieQuery.graphql`)
+The `codegen.yml` file located `graphql-schema-versioning/app/codegen.yml`will take the query created previously (as it is included in `graphql-schema-versioning/app/src/components/MovieQuery.graphql`)
 as well as the schema from
 `http://localhost/graphql/delivery/movies`
 and will generate a `generated.ts` file in the `graphql-schema-versioning/app/src` folder.
 
-This file will contain the query that used as well as the types based on the schema that with TypeScript.
+This file will contain the GraphQL query as well as the types based on the schema that correspond to that query.
 
-## Step 5 Checking Schema Versions
-
-## Step 5 Add Article Content Type Fields
+## Step 3 Updating Schema
 
 After testing and loading the schema and types in the application, make some changes to the `Movie` Content Type and View Model. 
 
@@ -104,8 +64,8 @@ The files requiring editing are:
 
 Start with `Movie.ts` add the following code:
 ```js
-  @JavaField(Number)
-  releaseDate?: number
+  @JavaField(Long)
+  releaseYear?: number
 
   @JavaField(String)
   director?: string;
@@ -115,8 +75,8 @@ Now, the GraphQL Endpoint needs to know to update the schema for these fields. M
 ```js
   @JavaMethodParameters()
   @JavaMethodReturn(Number)
-  getReleaseDate(): number {
-    return this.model.releaseDate
+  getReleaseYear(): number {
+    return this.model.releaseYear
   }
 
   @JavaMethodParameters()
@@ -131,13 +91,13 @@ From the `graphql-schema-versioning/brightspot` directory run:
 npx brightspot types upload src
 ```
 
-The content types should now be updated. Navigate to the API. Go to the Menu => APIs and click on **Movie Endpoint** and then click save.
+The content types should now be updated. Navigate to the API. Go to the Menu => Admin => APIs and click on **Movie Endpoint** and then click save.
 
-Head back to the graphql explorer and notice the new fields added to the schema for **Movie**.
+To check via Brightspot, head to the graphql explorer and notice the new fields added to the schema for **Movie**.
 
-## Step 6 GraphQL Schema Versions
+## Step 4 GraphQL Schema Versions via Brightspot
 
-After confirming with the GraphQL Explorer that the newly created fields are available, navigate back to the API. Go to the Menu => APIs
+Go to the Menu => Admin => APIs
 
 On the left rail, click on our **Movie Endpoint**. 
 
@@ -156,7 +116,7 @@ schema {
 type Movie {
   description: String
   director: String
-  releaseDate: Float
+  releaseYear: Int
   title: String
 }
 
@@ -174,82 +134,74 @@ Go back to the CMS tab which should still be on the GraphQL Version form, click 
 
 This will display a side by side comparison of the schemas to compare the changes. 
 
-## Step 7 Updating Our App
+## Step 5 GraphQL Schema Versions via GraphQL Inspector
 
-Codegen is a very useful tool. Head back to the front-end react application `graphql-schema-versioning/app`. The application will still run as there have been no breaking changes made to the schema. Though the types and schema has not been updated in the `generated.ts` file.
+From the root of the application `graphql-schema-versioning/app` there is a script included in this example called `downloadSchemas.mjs`. It will use the included **Schema Versions Endpoint** located `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersionEndpoint.ts` to make a post request using the **SchemaQuery.graphql** to return the two most recent schemas and save the files to: `graphql-schema-versioning/app/schemas`. They will have the time stamps in their filenames so that there is no confusion as to which is the most recent.
 
-The file does not have the field **director**  or **realeaseDate** in it's type or Movie query:
-```js
-export type MovieQuery = { 
-  __typename?: 'Query', 
-  Movie?: { 
-    __typename?: 'Movie', 
-    title?: string | null, 
-    description?: string | null 
-    } | null 
-  };
-
-```
-```js
-export type Movie = {
-  __typename?: 'Movie';
-  description?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-};
+To run the script, run:
+```sh
+yarn schemas
 ```
 
-Make sure the app is not running and run:
+Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Now run the following with **file1** being the old schema and **file2** being the new schema:
+```sh
+npx graphql-inspector diff ./schemas/file1 ./schemas/file2
+```
+
+The graphql-inspector will run and display the changes along with the number of changes that were made. If there are no breaking changes, it will return a 'success' message after the changes are displayed. If there are breaking changes, it will return an ERROR message. This will let the user know whether or not to run Codegen. If there is a breaking change, the user may not want to pull that schema.
+
+```
+Detected the following changes (2) between schemas:
+
+✔  Field director was added to object type Movie
+✔  Field releaseYear was added to object type Movie
+success No breaking changes detected
+```
+## Step 6 Updating The App
+
+Head back to the front-end react application `graphql-schema-versioning/app`. The application will still run as there have been no breaking changes made to the schema. Though the types and schema have not been updated in the `generated.ts` file.
+
+The file does not have the field **director**  or **realeaseYear** in it's type or Movie query
+
+Run:
 ```
 yarn codegen
 ```
 
-Now our `generated.ts` file contains the new schema:
+Now the `generated.ts` file should contain the new schema.
+
+Notice the query is still the same and needs to be updated too, to retrieve those new fields and then display them in the front-end. The application will still run again because there are no breaking changes but even if the `graphql-schema-versioning/app/src/components/Movie.tsx` file were to be changed to try and add the fields for **releaseYear** and **director**, it would not break but there would be nothing displayed: 
+
+Movie:
 ```js
-export type MovieQuery = { 
-  __typename?: 'Query', 
-  Movie?: { 
-    __typename?: 'Movie', 
-    title?: string | null, 
-    description?: string | null 
-    } | null 
-  };
+import { useMovieQuery } from '../generated'
 
-```
-```js
-export type Movie = {
-  __typename?: 'Movie';
-  description?: Maybe<Scalars['String']>;
-  director?: Maybe<Scalars['String']>;
-  releaseDate?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['String']>;
-};
-```
+const Movie = () => {
+  const { loading, error, data } = useMovieQuery({
+    variables: {
+      path: '/spiderman-no-way-home',
+    },
+  })
 
-Notice the query is still the same...because it needs to be updated too, to retrieve those new fields and then display in the front-end. The application will still run again because there are no breaking changes but even if the `graphql-schema-versioning/app/src/components/MovieComponent.tsx` file were to be changed to try and add the fields for **releaseDate** and **director**, it would not break but there would be nothing displayed: 
-
-MovieComponent:
-```js
-import { Movie } from '../generated'
-interface Props {
-  movie: Movie | undefined
-}
-
-const MovieComponent = ({ movie }: Props) => {
-  if (movie === undefined) return <></>
-  if (!movie) return <div>The movie does not exist (404)</div>
-  const { title, description, director, releaseDate } = movie
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>{error?.message}</div>
 
   return (
-    <div className="movie">
-      <h1>{title}</h1>
-      <h2>{description}</h2>
-      <h2>{director}</h2>
-      <h2>{releaseDate}</h2>
-    </div>
+    <>
+      {data?.Movie && (
+        <div>
+          <h1>{data.Movie?.title}</h1>
+          <h2>{data?.Movie.description}</h2>
+          <h2>{data?.Movie.releaseYear}</h2>
+          <h2>{data?.Movie.director}</h2>
+        </div>
+      )}
+    </>
   )
 }
 
-export default MovieComponent
+export default Movie
+
 ```
 
 Update `graphql-schema-versioning/app/src/components/MovieQuery.graphql` to:
@@ -259,7 +211,7 @@ query Movie($path: String) {
     title
     description
     director
-    releaseDate
+    releaseYear
   }
 }
 ```
@@ -270,14 +222,30 @@ yarn codegen
 ```
 Once more.
 
-As long as the movie has all the fields published in Brightspot, they will render on the front-end.
+As long as the movie content has all the fields published in Brightspot, they will render on the front-end.
 
-Here is an application that is easily managed. So what kind of thing could break the app?
+## Try it yourself
 
-If you were to go back to the `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/Movie.ts` file and removed one of the fields there and in the view model `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts`. You will have a problem in the front end because now that field just does not exist.
+If you were to go back to the `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/Movie.ts` file and removed one of the fields there and in the view model `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts` and then upload into Brightspot. There would be a problem in the front end because now that field just does not exist.
 
-Run Codegen once more and there will be an error that there is no field for the specified removed field.
+Be sure to go to the **Movie Endpoint** in Brightspot and click save. Once the schemas are updated, if you were to run from the app directory `graphql-schema-versioning/app`:
 
-This is bad practice, when new GraphQL fields are added, it's expected to leave the old ones behind and simply change the data requested. There should only be additions to new fields and then updating the query for the new field, running Codegen and then update the application. Though if you don't update the application, it still should not break.
+```
+yarn schemas
+```
+Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Now run the following with **file1** being the old schema and **file2** being the new schema:
+```sh
+npx graphql-inspector diff ./schemas/file1 ./schemas/file2
+```
+
+The graphql-inspector cli will display the breaking changes.
+
+Run Codegen once more and there will be an error that there is no field for the specified removed field that the query `graphql-schema-versioning/app/src/components/MovieQuery.graphql` is asking for.
+
+This is bad practice, when new GraphQL fields are added, it's expected to leave the old ones behind, depracate them and simply change the data requested. There should only be additions to new fields and then updating the query for the new field, check with graphql-inspector and if all is well, running Codegen and then update the application.
 
 GraphQL unlike REST APIs gives us the ability to stay up to date on new fields but not have the need to change the code unless there is a need for the new fields and one can simply adjust the query.
+
+## Troubleshooting
+
+Only one file downloaded when running the schemas script? There is only one schema at the endpoint. Be sure to go into Brightspot => Menu => Admin => APIS and save your **Movie Endpoint**.
