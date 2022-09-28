@@ -1,9 +1,9 @@
-import MovieContainer from './components/MovieContainer'
+import Movie from './components/Movie'
 import './App.css'
 
 const App = () => (
   <div className="App">
-    <MovieContainer />
+    <Movie />
   </div>
 )
 

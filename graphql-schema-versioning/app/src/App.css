@@ -11,3 +11,7 @@ body {
   text-align: center;
   margin-top: 10em;
 }
+
+.App > div {
+  padding: 0 10%;
+}
