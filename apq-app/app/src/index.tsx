@@ -11,42 +11,47 @@ import {
   from,
 } from '@apollo/client'
 import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries'
-import {
-  sha256,
-  sha1,
-} from 'crypto-hash'
+import { onError } from '@apollo/client/link/error'
+import { sha256, sha1, sha512 } from 'crypto-hash'
 
 import { print } from 'graphql/language/printer'
 
 const hashType = sessionStorage.getItem('hash-type')
-const setSecret = sessionStorage.getItem('set-secret')
-console.log({ hashType })
+let firstTimeError = ''
+
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
 })
 
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message }) => {
+      if (message === 'PersistedQueryNotFound') {
+        firstTimeError = 'PersistedQueryNotFound'
+      }
+    })
+  if (firstTimeError) alert(firstTimeError)
+  if (networkError) console.log(`[Network error]: ${networkError}`)
+})
+
 let result = ''
 let secret = ''
-// let method = ''
 
 const persistedQueriesLink = createPersistedQueryLink({
   // sha256,
   // generateHash: generatCustomHash(query),
   generateHash: async (schema: DocumentNode) => {
-    secret = process.env.REACT_APP_HASH_SALT!
+    secret = process.env.REACT_APP_HASH_SECRET!
+    const message = secret.concat(print(schema))
 
-    window.sessionStorage.setItem('secret', secret)
-    // const message = hashType === 'default' ? print(schema): secret.concat(print(schema))
-    const message = (): string | void => {
-      if (setSecret === 'yes') {
-        console.log('you are here in yes')
-        secret.concat(print(schema))
-      } else if (setSecret === 'no') {
-        console.log('you are here in no')
-        return print(schema)
-      } else console.log('an error occurered getting the query string to hash')
-    }
-    result = hashType ==='Sha-256' ? await sha256(message() || '') : hashType ==='Sha-1' ? await sha1(message() || ''): hashType ==='default' ? await sha256(message() || '') : await sha256(message() || '')
+    result =
+      hashType === 'Sha-256'
+        ? await sha256(message)
+        : hashType === 'Sha-1'
+        ? await sha1(message)
+        : hashType === 'Sha-512'
+        ? await sha512(message)
+        : await sha256(message)
     window.sessionStorage.setItem('hash', result)
     return result
   },
@@ -55,7 +60,6 @@ const persistedQueriesLink = createPersistedQueryLink({
 
 const customLink = new ApolloLink((operation, forward) => {
   if (hashType === 'Sha-256') {
-    console.log('HASH is 256!!!')
     operation.extensions = {
       persistedQuery: {
         version: 1,
@@ -63,27 +67,28 @@ const customLink = new ApolloLink((operation, forward) => {
       },
     }
   } else if (hashType === 'Sha-1') {
-    console.log('you are HERE!!!')
     operation.extensions = {
       persistedQuery: {
         version: 1,
         sha1Hash: result,
       },
     }
-  } else if (hashType === 'default') {
-    console.log('HASH is default!!!')
+  } else if (hashType === 'Sha-512') {
     operation.extensions = {
       persistedQuery: {
         version: 1,
-        sha256Hash: result,
+        sha512Hash: result,
       },
     }
   }
-  sessionStorage.setItem('method', operation.getContext().fetchOptions.method || 'POST')
+  sessionStorage.setItem(
+    'method',
+    operation.getContext().fetchOptions.method || 'POST'
+  )
   return forward(operation)
 })
 
-const additiveLink = from([customLink, httpLink])
+const additiveLink = from([customLink, errorLink, httpLink])
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

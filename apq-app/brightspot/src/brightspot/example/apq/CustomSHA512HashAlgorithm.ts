@@ -4,14 +4,14 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 
-export default class FooSHA1HashAlgorithm extends JavaClass(
-  'brightspot.example.apq.FooSHA1HashAlgorithm',
+export default class CustomSHA512HashAlgorithm extends JavaClass(
+  'brightspot.example.apq.CustomSHA512HashAlgorithm',
   AutomaticPersistedQueryHashAlgorithm
 ) {
   @JavaMethodReturn(String)
   @JavaMethodParameters()
   getPersistedQueryHashKey(): string {
-    return 'sha1Hash'
+    return 'sha512Hash'
   }
 
   @JavaMethodReturn(String)
@@ -20,13 +20,13 @@ export default class FooSHA1HashAlgorithm extends JavaClass(
     let result
     if(sharedSecret) {
       const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
-        'SHA-1',
+        'SHA-512',
         sharedSecret.concat(query)
       )
       result = Utils.hex(hashedValue)
     } else if (!sharedSecret) {
       const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
-        'SHA-1',
+        'SHA-256',
         query
       )
       result = Utils.hex(hashedValue)
