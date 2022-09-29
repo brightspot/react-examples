@@ -6,8 +6,9 @@ const Home = () => {
   const { data, error, loading } = useGetAllTagsAndArticlesQuery()
 
   if (error) console.log(error.message)
+  if (loading) return <div className="loading">loading...</div>
 
-  if (!data?.Articles && !loading)
+  if (!data?.Articles)
     return (
       <div className="message">
         <h3>No data... 🤔</h3>

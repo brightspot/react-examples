@@ -16,15 +16,15 @@ const Section = () => {
 
   if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
-  if (!data?.Section && !loading) return <NotFound />
+  if (!data?.Section) return <NotFound />
 
   return (
     <>
       <Banner name={`Section: ${data?.Section?.name}`} />
       <div className="container">
-        {data?.Section?.articles && (
+        {data.Section?.articles && (
           <>
-            <List articles={data?.Section?.articles} />
+            <List articles={data.Section?.articles} />
           </>
         )}
       </div>

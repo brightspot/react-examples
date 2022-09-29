@@ -15,15 +15,15 @@ const Tag = () => {
 
   if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
-  if (!data?.Tag && !loading) return <NotFound />
+  if (!data?.Tag) return <NotFound />
 
   return (
     <>
       <Banner name={`Tag: ${data?.Tag?.category}`} />
       <div className="container">
-        {data?.Tag?.articles && (
+        {data.Tag?.articles && (
           <>
-            <List articles={data?.Tag?.articles} />
+            <List articles={data.Tag?.articles} />
           </>
         )}
       </div>

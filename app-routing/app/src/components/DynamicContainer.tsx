@@ -17,15 +17,16 @@ const DynamicContainer = () => {
   if (error) console.log(error.message)
   if (loading) return <div>Loading...</div>
 
-  if (data?.PageEntry?.__typename === 'Article') {
-    return <Article />
-  } else if (data?.PageEntry?.__typename === 'Section') {
-    return <Section />
-  } else if (data?.PageEntry?.__typename === 'Tag') {
-    return <Tag />
+  switch (data?.PageEntry?.__typename) {
+    case 'Article':
+      return <Article />
+    case 'Section':
+      return <Section />
+    case 'Tag':
+      return <Tag />
+    default:
+      return <NotFound />
   }
-  // display NotFound page if content is not Article or Section
-  return <NotFound />
 }
 
 export default DynamicContainer
