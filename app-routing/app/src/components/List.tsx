@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 
-import { Article, Maybe } from '../generated'
+import { Article } from '../generated'
 
+type PartialArticle = Omit<Article, 'body'> | null
 type Props = {
-  articles: Maybe<Array<Maybe<Article>>>
+  articles: PartialArticle[]
 }
 
 const List = ({ articles }: Props) => {
