@@ -25,6 +25,7 @@ function App() {
       return 'POST and an error occured'
     }
   }
+
   return (
     <div className="App">
       <div className="slide-in">
