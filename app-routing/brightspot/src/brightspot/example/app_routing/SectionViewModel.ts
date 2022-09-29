@@ -41,7 +41,7 @@ export default class SectionViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
     let articles = Query.from(Article.class)
-      .where('section matches  ?', this.model)
+      .where('section = ?', this.model)
       .selectAll()
     return super.createViews(
       ArticleViewModel.class as Class<ArticleViewModel>,
