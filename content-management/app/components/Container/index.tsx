@@ -17,18 +17,16 @@ type Props = {
   setPageNumber: Dispatch<SetStateAction<number>>
 }
 
-const Container = ({ items, getItems, pageNumber, setPageNumber }: Props) => {
-  return (
-    <section className={styles.section}>
-      <CreateNoteForm getItems={getItems} pageNumber={pageNumber} />
-      <Notes
-        getItems={getItems}
-        items={items}
-        pageNumber={pageNumber}
-        setPageNumber={setPageNumber}
-      />
-    </section>
-  )
-}
+const Container = ({ items, getItems, pageNumber, setPageNumber }: Props) => (
+  <section className={styles.section}>
+    <CreateNoteForm getItems={getItems} pageNumber={pageNumber} />
+    <Notes
+      getItems={getItems}
+      items={items}
+      pageNumber={pageNumber}
+      setPageNumber={setPageNumber}
+    />
+  </section>
+)
 
 export default Container

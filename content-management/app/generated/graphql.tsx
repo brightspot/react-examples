@@ -3586,7 +3586,7 @@ export type CreateAndUpdateNoteMutationVariables = Exact<{
 export type CreateAndUpdateNoteMutation = { __typename?: 'Mutation', brightspot_example_content_management_NoteSave?: { __typename?: 'brightspot_example_content_management_Note', _id?: string | null, description?: string | null, title?: string | null, _globals?: { __typename?: 'Globals', com_psddev_cms_db_Content_ObjectModification?: { __typename?: 'com_psddev_cms_db_Content_ObjectModification', updateDate?: any | null, publishDate?: any | null, updateUser?: { __typename?: 'com_psddev_cms_db_ToolUser', username?: string | null } | null, publishUser?: { __typename?: 'com_psddev_cms_db_ToolUser', username?: string | null } | null } | null } | null } | null };
 
 export type DeleteNoteMutationVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
+  id: Scalars['ID'];
 }>;
 
 
@@ -3658,7 +3658,7 @@ export type CreateAndUpdateNoteMutationHookResult = ReturnType<typeof useCreateA
 export type CreateAndUpdateNoteMutationResult = Apollo.MutationResult<CreateAndUpdateNoteMutation>;
 export type CreateAndUpdateNoteMutationOptions = Apollo.BaseMutationOptions<CreateAndUpdateNoteMutation, CreateAndUpdateNoteMutationVariables>;
 export const DeleteNoteDocument = gql`
-    mutation DeleteNote($id: ID = "") {
+    mutation DeleteNote($id: ID!) {
   brightspot_example_content_management_NoteDelete(id: $id, permanently: true) {
     _id
     description

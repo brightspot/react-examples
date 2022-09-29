@@ -28,7 +28,11 @@ const PaginationBar = ({
   maxPageNumberLimit,
   minPageNumberLimit,
 }: Props) => {
-  const pages = Array.from(new Array(numberPages), (_, i) => i + 1)
+  const pages: number[] = []
+  for (let i = 1; i <= numberPages; i++) {
+    pages.push(i)
+  }
+
   return (
     <div className={styles.paginationBarContainer}>
       {numberPages > 1 && (
