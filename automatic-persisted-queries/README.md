@@ -64,7 +64,11 @@ Navigate to `brightspot/src/examples/automatic_persisted_queries`. This director
 - Custom Hash Algorithms: if a custom hash algorithm is not created, Brightspot will default to the `Sha256PersistedQueryHashAlgorithm` for automatic persisted queries 
 
 #### Points to note in the front-end application:
-- `createPersistedQueryLink`: Apollo Client makes it simple to implement automatic persisted queries on the client side. The default hashing algorithm is SHA-256. Refer to the Apollo Client documentation for further informaion.  
+- `createPersistedQueryLink`: Apollo Client makes it simple to implement automatic persisted queries on the client side. The default hashing algorithm is SHA-256. Refer to the Apollo Client documentation for further information. 
+
+A green error banner will appear if the first render warning appeared but then on the second network call the request was succesful. This will occur the first time a new query is run in the front-end.
+
+A red error banner will appear if the first render warning appeared and then the second network call was not successful. This will happen when the hash is not recognized by the server.
 
 > **_Note_** This is purely an example application! In production, it is important to hide the secret that is hashed with the query.
  

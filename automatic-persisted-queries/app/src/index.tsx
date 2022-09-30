@@ -16,6 +16,7 @@ import { sha256, sha1, sha512 } from 'crypto-hash'
 import { print } from 'graphql/language/printer'
 
 const hashType = sessionStorage.getItem('hash-type')
+sessionStorage.removeItem('initial-error') // reset initial error "PersistedQueryNotFound" on render
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -29,18 +30,18 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         firstTimeError = 'PersistedQueryNotFound'
       }
     })
-  if (firstTimeError) alert(firstTimeError)
+  if (firstTimeError) {
+    sessionStorage.setItem('initial-error', firstTimeError)
+  }
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
 let result = ''
-let secret = ''
 
 const persistedQueriesLink = createPersistedQueryLink({
   generateHash: async (schema: DocumentNode) => {
-    secret = process.env.REACT_APP_HASH_SECRET!
+    const secret = process.env.REACT_APP_HASH_SECRET!
     const message = secret.concat(print(schema))
-
     result =
       hashType === 'Sha-256'
         ? await sha256(message)

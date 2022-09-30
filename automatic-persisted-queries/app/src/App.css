@@ -20,6 +20,8 @@ body {
   --textPrimary: #141b22;
   --textSecondary: #747070;
   --indigo: #0477c9;
+  --success: #e4fbec;
+  --error: #fde2e2;
   --ash: #eaeef6;
   --radius: 4px;
 }
@@ -69,18 +71,12 @@ h4 {
 }
 
 p,
-a {
+a,
+span {
   color: var(--secondaryTextColor);
   --min: 1rem;
   --val: 1.3rem;
   --max: 1.4rem;
-}
-
-span {
-  color: var(--secondaryTextColor);
-  --min: 0.8rem;
-  --val: 1rem;
-  --max: 1.2rem;
 }
 
 body {
@@ -130,4 +126,24 @@ p {
 
 .label {
   font-weight: 800;
+}
+
+.error-container[data-color='red'] {
+  display: block;
+  background-color: var(--error);
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--radius);
+  border-left: 5px solid red;
+}
+
+.error-container[data-color='green'] {
+  display: block;
+  background-color: var(--success);
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--radius);
+  border-left: 5px solid green;
+}
+
+.error-container[data-color=''] {
+  display: none;
 }
