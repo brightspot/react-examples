@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import { AiOutlineMenu } from 'react-icons/ai'
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { BiChevronDown } from 'react-icons/bi'
 import { useGetAllSectionsQuery } from '../generated'
 
@@ -28,12 +28,16 @@ const Navbar = () => {
               className="menu-icon"
               data-reverse={showLinks || null}
             />
-            <div className="course-label">
+            <AiOutlineClose
+              className="close-icon"
+              data-reverse={showLinks || null}
+            />
+            <div className="sectionsMenu-label">
               <BiChevronDown
                 className="down-chevron"
                 data-reverse={showLinks || null}
               />
-              <p>Courses</p>
+              <p>Sections</p>
             </div>
           </button>
         </div>
