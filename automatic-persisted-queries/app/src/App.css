@@ -136,12 +136,20 @@ p {
   border-left: 5px solid red;
 }
 
+.error-container[data-color='red'] p{
+  color: red;
+}
+
 .error-container[data-color='green'] {
   display: block;
   background-color: var(--success);
   padding: 0.3rem 0.5rem;
   border-radius: var(--radius);
   border-left: 5px solid green;
+}
+
+.error-container[data-color='green'] p{
+  color: green;
 }
 
 .error-container[data-color=''] {
