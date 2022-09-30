@@ -10,6 +10,7 @@ import {
 1. arguments: default to all notes ('*') unless using search 
 2. offset: 0 to show the first batch of notes, and increases by limit value for (ex: if limit is 2, offset is: 0, 2, 4...)
 3. predicate: default to all in /query/GetNotes.graphql unless a Note _id is specified, then the query returns every Note except Note with specified _id (used for NoteCard when Note is deleted)
+4. limit: amount of items returned per paginated page
 */
 
 export default async function handler(
@@ -22,7 +23,9 @@ export default async function handler(
       arguments: req.query.q || '*',
       offset: req.query.offset,
       predicate: req.query.p ? 'not _id matches ?' : undefined,
+      limit: parseInt(req.query.limit as string),
     }
+    console.log({ getNotesVariables }) // added to clearly display variables used in query
     const { data } = await client.query({
       query: GetNotesDocument,
       fetchPolicy: 'no-cache',

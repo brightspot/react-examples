@@ -45,6 +45,7 @@ Navigate to `brightspot/src/examples/content_management`. This directory contain
 - `NotesEndpointClient.ts`: the class that creates an API Client. The API Client has a client ID and API Key that are stored in the `app/.env` file to access the CMA Endpoint
 
 > **_Note_** A CMA Endpoint requires an API Client with an client ID and API Key. Normally, this is created by an admin editorially in Brightspot. For convenience, an API Client has been generated programatically.
+
 #### Queries:
 All queries are located in `app/queries`:
 
@@ -56,6 +57,8 @@ All queries are located in `app/queries`:
 
 #### API Routes
 All GraphQL queries are made using [API Routes](https://nextjs.org/docs/api-routes/introduction) provided by Next.js. Navigate to `pages/api/notes` to see how the GraphQL query requests are made. By using the API Routes, the client Id and API key are kept from being a part of the front-end bundle for increased security.
+
+Console logs have been added to show what variables are sent when making network requests. 
 
 > **_Note_** This application is for demonstration purposes only. In a production-level application, you would want to implement authentication. Although this application requires a username for creating new content and updating content in the frontend, further authentication would be needed.
 

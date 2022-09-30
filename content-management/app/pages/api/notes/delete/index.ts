@@ -12,6 +12,7 @@ export default async function handler(
 ) {
   try {
     const deleteVariables: DeleteNoteMutationVariables = { id: req.body }
+    console.log({ deleteVariables }) // added to clearly display variables used in query
     const { data } = await client.mutate({
       mutation: DeleteNoteDocument,
       fetchPolicy: 'no-cache',

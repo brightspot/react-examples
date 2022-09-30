@@ -22,6 +22,7 @@ export default async function handler(
       editVariables.description = req.body.description
     }
     // id generated on creation
+    console.log({ editVariables }) // added to clearly display variables used in query
 
     const { data } = await client.mutate({
       mutation: CreateAndUpdateNoteDocument,

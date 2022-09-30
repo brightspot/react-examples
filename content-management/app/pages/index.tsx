@@ -22,8 +22,8 @@ const Home: NextPage = () => {
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
 
-  const limit = 20
-  const pageNumberList = 5
+  const limit = 20 // determines how many notes are shown per paginated page
+  const pageNumberList = 5 // determines how many page numbers are shown in pagination bar. If > 5 pages, ellipses will appear in pagination bar
 
   const dataRequestParams = {
     headers: {
@@ -31,10 +31,11 @@ const Home: NextPage = () => {
     },
     method: 'GET',
   }
-  // used to calculate the offset number used when querying for Notes
-  const calculateOffset = (pageNumber: number): number => {
+  // used to calculate the offset number used when querying for Notes. The search parameter is to flag when searching (Navbar)
+  const calculateOffset = (pageNumber: number, search: boolean): number => {
     let offset = 0
-    if (pageNumber > 0) {
+    // if searching, the offset remains at 0
+    if (!search && pageNumber > 0) {
       const index = pageNumber - 1
       offset = limit * index
     }
@@ -49,20 +50,26 @@ const Home: NextPage = () => {
     let url = ''
     if (queryItem) {
       if (predicate) {
+        //predicate is used when deleting a note. Therefore the search flag is false
         url = `${
           process.env.NEXT_PUBLIC_HOST
         }/api/notes/?offset=${calculateOffset(
-          pageNumber
-        )}&q=${queryItem}&p=true`
+          pageNumber,
+          false
+        )}&q=${queryItem}&p=true&limit=${limit}`
       } else {
+        // if queryItem and no predicate, then using search so search flag is true
         url = `${
           process.env.NEXT_PUBLIC_HOST
-        }/api/notes/?offset=${calculateOffset(pageNumber)}&q=${queryItem}`
+        }/api/notes/?offset=${calculateOffset(
+          pageNumber,
+          true
+        )}&q=${queryItem}&limit=${limit}`
       }
     } else if (!queryItem) {
       url = `${
         process.env.NEXT_PUBLIC_HOST
-      }/api/notes/?offset=${calculateOffset(pageNumber)}`
+      }/api/notes/?offset=${calculateOffset(pageNumber, false)}&limit=${limit}`
     }
     return url
   }
@@ -139,9 +146,9 @@ const Home: NextPage = () => {
     }
   }
 
-  // used to intially load notes for first paginated section
+  // used to initially load notes
   useEffect(() => {
-    const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0`
+    const baseUrl = `${process.env.NEXT_PUBLIC_HOST}/api/notes/?offset=0&limit=${limit}`
     const params = {
       headers: {
         'Content-Type': 'application/json',
