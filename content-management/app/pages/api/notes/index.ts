@@ -25,7 +25,7 @@ export default async function handler(
       predicate: req.query.p ? 'not _id matches ?' : undefined,
       limit: parseInt(req.query.limit as string),
     }
-    console.log({ getNotesVariables }) // added to clearly display variables used in query
+
     const { data } = await client.query({
       query: GetNotesDocument,
       fetchPolicy: 'no-cache',

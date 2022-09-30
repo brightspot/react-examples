@@ -12,7 +12,7 @@ export default async function handler(
 ) {
   try {
     const updateVariables: CreateAndUpdateNoteMutationVariables = req.body
-    console.log({ updateVariables }) // added to clearly display variables used in query
+
     const { data } = await client.mutate({
       mutation: CreateAndUpdateNoteDocument,
       fetchPolicy: 'no-cache',

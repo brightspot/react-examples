@@ -3695,7 +3695,7 @@ export type DeleteNoteMutationOptions = Apollo.BaseMutationOptions<DeleteNoteMut
 export const GetNotesDocument = gql`
     query GetNotes($arguments: [String], $predicate: String = "* matches ?", $offset: Long, $limit: Int) {
   brightspot_example_content_management_NoteQuery(
-    sorts: {order: descending, options: "cms.content.updateDate"}
+    sorts: {order: ascending, options: "cms.content.updateDate"}
     where: {predicate: $predicate, arguments: $arguments}
     offset: $offset
     limit: $limit

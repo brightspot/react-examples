@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5)
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0)
 
-  const limit = 20 // determines how many notes are shown per paginated page
+  const limit = 2 // determines how many notes are shown per paginated page
   const pageNumberList = 5 // determines how many page numbers are shown in pagination bar. If > 5 pages, ellipses will appear in pagination bar
 
   const dataRequestParams = {
