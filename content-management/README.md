@@ -53,7 +53,7 @@ All queries are located in `app/queries`:
 - `CreateAndUpdateNote.graphql`: either create a new note (if no id is provided) or update an existing one
 - `DeleteNote.graphql`: delete a note by id - add `permanently: true` to delete without archiving.
 
-[GraphQl Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started) is used to generate code from the GraphQl schema based on the content uploaded to Brightspot. This helps makes development faster and more consistent since queries, mutations, hooks etc are already typed. If you update your GraphQL query files, be sure to run `yarn codgen` to update your generated files (found in the `app/generated` directory).
+[GraphQl Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started) is used to generate code from the GraphQl schema based on the content uploaded to Brightspot. This helps makes development faster and more consistent since queries, mutations, hooks etc are already typed. If you update your GraphQL query files, be sure to run `yarn codegen` to update your generated files (found in the `app/generated` directory).
 
 #### API Routes
 All GraphQL queries are made using [API Routes](https://nextjs.org/docs/api-routes/introduction) provided by Next.js. Navigate to `pages/api/notes` to see how the GraphQL query requests are made. By using the API Routes, the client Id and API key are kept from being a part of the front-end bundle for increased security.
