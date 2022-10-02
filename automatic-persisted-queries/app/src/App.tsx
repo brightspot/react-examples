@@ -66,8 +66,8 @@ function App() {
             </p>
           )}
         </div>
-        <h2 className="title">{data?.ApqItem?.title}</h2>
-        <p className="body">{data?.ApqItem?.body}</p>
+        <h1 className="title">{data?.ApqItem?.title}</h1>
+        <h2 className="body">{data?.ApqItem?.body}</h2>
         <p className="label">Method:</p>
         <p>{methodExplanation()}</p>
         <p className="label">Hash:</p>
