@@ -13,7 +13,7 @@ export default class Movie extends JavaClass(
 ) {
   @JavaRequired
   @JavaField(String)
-  title?: string
+  title: string
 
   @JavaField(String)
   description?: string;
