@@ -11,7 +11,7 @@ Thanks to GraphQL's ability to only retrieve data requested, seldom are there ch
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `hello-world` directory:
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `graphql-schema-versioning` directory:
 
 To upload JS Classes in Brightspot (http://localhost/cms):
 
@@ -33,9 +33,9 @@ yarn start
 ```
 ## Step 1: Publishing Movie Content
 
-Go to the home page and click on the (+) icon to the right of the search bar, you will see the newly created Movie Content Type. 
+Go to the home page and click on the (+) icon to the right of the search bar, you will see the newly created **Movie** Content Type. 
 
-Click on the Movie Content Type to create a new Movie. Enter the following for the fields:
+Click on the **Movie** Content Type to create a new **Movie**. Enter the following for the fields:
 
 Title: Spiderman: No Way Home
 Description: Peter Parker's secret identity is revealed to the entire world. Desperate for help, Peter turns to Doctor Strange to make the world forget that he is Spider-Man. The spell goes horribly wrong and shatters the multiverse, bringing in monstrous villains that could destroy the world.
@@ -53,14 +53,10 @@ This file will contain the GraphQL query as well as the types based on the schem
 
 ## Step 3 Updating Schema
 
-After testing and loading the schema and types in the application, make some changes to the `Movie` Content Type and View Model. 
+After testing and loading the schema and types in the application, make some changes to the **Movie** Content Type and View Model. 
 
-It is located:
-`graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/*`
-
-The files requiring editing are:
-`Movie.ts`
-`MovieViewModel.ts`
+They are located:
+`graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/`
 
 Start with `Movie.ts` add the following code:
 ```js
@@ -71,7 +67,7 @@ Start with `Movie.ts` add the following code:
   director?: string;
 ```
 
-Now, the GraphQL Endpoint needs to know to update the schema for these fields. Move on to `MovieViewModel.ts` and add the following code:
+Moving on to the GraphQL Endpoint which needs to know to update the schema for these fields. Add to `MovieViewModel.ts` with the following code:
 ```js
   @JavaMethodParameters()
   @JavaMethodReturn(Number)
@@ -91,24 +87,21 @@ From the `graphql-schema-versioning/brightspot` directory run:
 npx brightspot types upload src
 ```
 
-The content types should now be updated. Navigate to the API. Go to the Menu => Admin => APIs and click on **Movie Endpoint** and then click save.
+The content types should now be updated. Navigate to the API. Go to the **Menu** => **Admin** => **APIs** and click on **Movie Endpoint** and then click **SAVE**.
 
-To check via Brightspot, head to the graphql explorer and notice the new fields added to the schema for **Movie**.
+To check via Brightspot, head to the GraphQL Explorer and notice the new fields added to the schema for **Movie**.
 
 ## Step 4 GraphQL Schema Versions via Brightspot
 
-Go to the Menu => Admin => APIs
+Go to the **Menu** => **Admin** => **APIs**
 
 On the left rail, click on our **Movie Endpoint**. 
 
-On the right hand side, click on the elipses (...) within the form:
+On the right hand side, click on the elipses (...) within the form, click on ADVANCED and you will see a page with a list of Schema Versions. Notice they are in time order too.
 
-Click on advanced and you will see a page with a list of 'Schema Versions':
+Click on the eye icon of the latest version, it should be number 1. There will be a popup with for the GraphQL Version. Scroll down and under **Schema** click on the **text/plain** link. It should open a new tab/page with our schema along with types that will look like this:
 
-Notice they are in time order too. So if we click on the earliest data and time, that will be the first schema.
-
-Click on the eye icon of the latest version, it should be number 1. You will get a popup with a form for the GraphQL Version. Scroll down and under 'Schema' click on the 'text/plain' link. It should open a new tab/page with our schema along with types that will look like this:
-```
+```graphql
 schema {
   query: Query
 }
@@ -130,7 +123,7 @@ input MovieModelInput {
 }
 ```
 
-Go back to the CMS tab which should still be on the GraphQL Version form, click on the 'COMPARE WITH PREVIOUS' button.
+Go back to the CMS tab which should still be on the GraphQL Schema Version form, click on the **COMPARE WITH PREVIOUS** button.
 
 This will display a side by side comparison of the schemas to compare the changes. 
 
@@ -143,14 +136,14 @@ To run the script, run:
 yarn schemas
 ```
 
-Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Now run the following with **file1** being the old schema and **file2** being the new schema:
+Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Now run the following with **<file1>** being the old schema and **<file2>** being the new schema:
 ```sh
-npx graphql-inspector diff ./schemas/file1 ./schemas/file2
+npx graphql-inspector diff ./schemas/<file1 old schema> ./schemas/<file2 new schema>
 ```
 
 The graphql-inspector will run and display the changes along with the number of changes that were made. If there are no breaking changes, it will return a 'success' message after the changes are displayed. If there are breaking changes, it will return an ERROR message. This will let the user know whether or not to run Codegen. If there is a breaking change, the user may not want to pull that schema.
 
-```
+```sh
 Detected the following changes (2) between schemas:
 
 ✔  Field director was added to object type Movie
@@ -179,7 +172,7 @@ import { useMovieQuery } from '../generated'
 const Movie = () => {
   const { loading, error, data } = useMovieQuery({
     variables: {
-      path: '/spiderman-no-way-home',
+      path: 'spiderman-no-way-home',
     },
   })
 
@@ -222,7 +215,7 @@ yarn codegen
 ```
 Once more.
 
-As long as the movie content has all the fields published in Brightspot, they will render on the front-end.
+As long as the **Movie** content has all the fields published in Brightspot, they will render on the front-end.
 
 ## Try it yourself
 
@@ -242,10 +235,12 @@ The graphql-inspector cli will display the breaking changes.
 
 Run Codegen once more and there will be an error that there is no field for the specified removed field that the query `graphql-schema-versioning/app/src/components/MovieQuery.graphql` is asking for.
 
-This is bad practice, when new GraphQL fields are added, it's expected to leave the old ones behind, depracate them and simply change the data requested. There should only be additions to new fields and then updating the query for the new field, check with graphql-inspector and if all is well, running Codegen and then update the application.
+This is bad practice, when new GraphQL fields are added, it's expected to leave the old ones behind, deprecate them and simply change the data requested. There should only be additions to new fields and then updating the query for the new field, check with graphql-inspector and if all is well, running Codegen and then update the application.
 
 GraphQL unlike REST APIs gives us the ability to stay up to date on new fields but not have the need to change the code unless there is a need for the new fields and one can simply adjust the query.
 
 ## Troubleshooting
 
-Only one file downloaded when running the schemas script? There is only one schema at the endpoint. Be sure to go into Brightspot => Menu => Admin => APIS and save your **Movie Endpoint**.
+Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+
+Only one file downloaded when running the schemas script? There is only one schema at the endpoint. Be sure to go into Brightspot => **Menu** => **Admin** => **APIS** and save your **Movie Endpoint**.
