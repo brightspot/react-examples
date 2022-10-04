@@ -29,31 +29,31 @@ yarn start
 The frontend application will open automatically in the browser.
 
 ## Using the example application
-In Brightspot, publish some **Color** content. Add the color name and hex value. After publishing the content, input the color name in the frontend application input field. You should see the color name and hex value.
+In Brightspot, create **Color** content by clicking the **+** button found next to the search field and selecting **Color** from the dropdown menu. Fill in the **Name** and **Hex Value** fields with data and then click the green **PUBLISH** button. After publishing content, input the **Color** name in the frontend application input field. You should see the **Color** name and hex value.
 
 ## How everything works
 Brightspot makes it possible to create content that you can then query for using the GraphQL API. In addition, you can change the schema that your GraphQL endpoint provides with ease. While you can do this all editorially, JS Classes make it incredibly simple to create content and schema programatically.
 
-Navigate to `brightspot/src/examples/content_delivery`. This directory contains the JS Classes files that are uploaded to Brightspot.
+Navigate to `brightspot/src/brightspot/examples/content_delivery`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
 #### JS Classes Files:
-- `Color.ts`: the model (class) that contains the business logic (fields, etc)
+- `Color.ts`: the class that defines the data model (fields, etc)
 - `ColorViewModel.ts`: the class that contains logic requirements needed for the view (the frontend application)
   - getter functions determine what fields will be included in the schema
 - `ColorEndpoint.ts`: the class that creates a custom Content Delivery Endpoint with the following configurations:
-  - `Singleton`: create a 'one and only' instance of the custom endpoint
+  - `Singleton`: create a single instance of the custom endpoint so that custom endpoint can be selected from the endpoint dropdown menu in Brightspot's GraphQL Explorer
   - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
-  - `getQueryEntryFields`: use the View Model class to determine the schema for the custom endpoint
+  - `getQueryEntryFields`: specify the View Model class that drives the schema for the custom endpoint
   - `updateCorsConfiguration`: permit cross-origin resource sharing (CORS) to enable requests from localhost
   - `getAccessOption`: implicit access so an API key is not required
 
 ## Try it yourself
 The following are suggestions for learning more about JS Classes and Brightspot:
 
-1. Add a new field for your Color content: one idea is to add a complementary hex value that you can use on the frontend as an accent.
+1. Add a new field for your **Color** content: one idea is to add a complementary hex value that you can use on the frontend as an accent.
 2. Add the `@JavaRequired` decorator above the field of your choice to make the field required. See what happens when you try to leave that field blank in Brightspot.
-3. Try changing the path and then check in Brightspot: navigate to `Admin`, `APIs`, and then your endpoint. You will see the endpoint listed there. Make sure to add the new path in your `app/.env` file!
-4. Create a Color content item with the name `Brightspot` and no hex value. Look at the `ColorViewModel.ts` file. Guess what color will appear. Now confirm on the frontend.
+3. Try changing the path and then check in Brightspot: navigate to **Admin**, **APIs**, and then your endpoint. You will see the endpoint listed there. Make sure to add the new path in your `app/.env` file!
+4. Create a **Color** content item with the name `Brightspot` and no hex value. Look at the `ColorViewModel.ts` file. Guess what color will appear. Now confirm on the frontend.
 
 ## Troubleshooting
 Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
