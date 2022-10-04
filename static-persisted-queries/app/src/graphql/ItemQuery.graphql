@@ -1,0 +1,6 @@
+query GetItem($title: String = "hello") {
+  SpqItem(model: { title: $title }) {
+    title
+    body
+  }
+}

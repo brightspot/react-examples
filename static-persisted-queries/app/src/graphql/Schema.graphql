@@ -1,0 +1,17 @@
+schema {
+  query: Query
+}
+
+type Query {
+  SpqItem(id: ID, model: SpqItemModelInput): SpqItem
+}
+
+type SpqItem {
+  body: String
+  title: String
+}
+
+input SpqItemModelInput {
+  id: ID
+  title: String
+}
