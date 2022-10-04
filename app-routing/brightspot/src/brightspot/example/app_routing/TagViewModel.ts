@@ -43,7 +43,7 @@ export default class TagViewModel extends JavaClass(
     let articles = Query.from(Article.class)
       .where('tags matches  ?', this.model)
       .selectAll()
-    return super.createViews(
+    return this.createViews(
       ArticleViewModel.class as Class<ArticleViewModel>,
       articles
     ) as unknown as List<ArticleViewModel>

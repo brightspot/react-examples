@@ -19,7 +19,7 @@ export default class TagsViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(TagViewModel))
   getTags(): List<TagViewModel> {
-    return super.createViews(
+    return this.createViews(
       TagViewModel.class,
       Query.from(Tag.class).selectAll()
     ) as unknown as List<TagViewModel>

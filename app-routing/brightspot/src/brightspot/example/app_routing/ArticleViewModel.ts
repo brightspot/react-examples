@@ -42,7 +42,7 @@ export default class ArticleViewModel extends JavaClass(
   getSection(): SectionViewModel {
     if (this.model.section) {
       // TODO: Remove the  null check for tags once null object issue resolved with createView(s)
-      return super.createView(
+      return this.createView(
         SectionViewModel.class as Class<SectionViewModel>,
         this.model.section
       )
@@ -54,7 +54,7 @@ export default class ArticleViewModel extends JavaClass(
   getTags(): JavaSet<TagViewModel> {
     // TODO: Remove the  null check for tags once null object issue resolved with createView(s)
     if (this.model.tags) {
-      return super.createViews(
+      return this.createViews(
         TagViewModel.class as Class<TagViewModel>,
         this.model.tags
       ) as unknown as List<TagViewModel>

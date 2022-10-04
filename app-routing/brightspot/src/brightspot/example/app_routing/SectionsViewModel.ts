@@ -19,7 +19,7 @@ export default class SectionsViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(SectionViewModel))
   getSections(): List<SectionViewModel> {
-    return super.createViews(
+    return this.createViews(
       SectionViewModel.class,
       Query.from(Section.class).selectAll()
     ) as unknown as List<SectionViewModel>
