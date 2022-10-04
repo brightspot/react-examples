@@ -50,7 +50,7 @@ export function Navbar({ courses }: Props) {
                   className="link-item"
                   data-show={showLinks || null}
                 >
-                  <p className="link-text">{course?.title?.toLowerCase()}</p>
+                  <p className="link-text">{course?.title}</p>
                 </Link>
               </li>
             ))}

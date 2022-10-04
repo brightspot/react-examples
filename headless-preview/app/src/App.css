@@ -143,7 +143,6 @@ nav {
 
 .link-item {
   color: var(--primaryTextColor);
-  text-transform: capitalize;
   letter-spacing: var(--spacing);
   display: block;
   padding: 5px;

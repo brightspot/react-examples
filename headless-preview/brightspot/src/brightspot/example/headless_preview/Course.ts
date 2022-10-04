@@ -12,11 +12,10 @@ import PreviewType from 'brightspot-types/com/psddev/cms/preview/PreviewType'
 import PreviewTypeSupplier from 'brightspot-types/com/psddev/cms/preview/PreviewTypeSupplier'
 import Note from 'brightspot-types/com/psddev/cms/db/ToolUi$Note'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
-import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
 import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
 
 import HeadlessPreviewEndpoint from './HeadlessPreviewEndpoint'
-import CourseViewModel from 'brightspot-types/brightspot/example/headless_preview/CourseViewModel'
+// import CourseViewModel from './CourseViewModel'
 
 export default class Course extends JavaClass(
   'brightspot.example.headless_preview.Course',
@@ -24,15 +23,14 @@ export default class Course extends JavaClass(
   PreviewTypeSupplier
 ) {
   @JavaField(String)
+  @JavaRequired
+  title: string
+
+  @JavaField(String)
   @Indexed({ unique: true })
   @JavaRequired
   @Note({ value: 'slug used for course url' })
   slug: string
-
-  @JavaField(String)
-  @JavaRequired
-  @Indexed({ unique: true })
-  title: string
 
   @JavaField(String)
   @JavaRequired
@@ -69,11 +67,7 @@ export default class Course extends JavaClass(
 
   @JavaField(String)
   @JavaRequired
-  description?: string
-
-  beforeCommit(): void {
-    this.slug = StringUtils.toNormalized(this.slug)
-  }
+  description?: string;
 
   [`getPreviewTypes(com.psddev.cms.db.Preview)`](
     preview: Preview
