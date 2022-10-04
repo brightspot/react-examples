@@ -75,7 +75,7 @@ const CreateNoteForm = ({ getItems, pageNumber }: Props) => {
     }
   }
 
-  const submitNewNote = async () => {
+  const submitNewNote = () => {
     setError(null)
     const inputTitle = titleRef?.current?.value
     const inputDescription = descriptionRef?.current?.value
