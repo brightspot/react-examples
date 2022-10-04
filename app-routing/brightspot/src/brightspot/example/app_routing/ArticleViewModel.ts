@@ -21,14 +21,14 @@ export default class ArticleViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getSlug(): string {
-    return this.model.slug
+  getHeadline(): string {
+    return this.model.headline
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getHeadline(): string {
-    return this.model.headline
+  getSlug(): string {
+    return this.model.slug
   }
 
   @JavaMethodParameters()
@@ -41,6 +41,7 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodReturn(SectionViewModel)
   getSection(): SectionViewModel {
     if (this.model.section) {
+      // TODO: Remove the  null check for tags once null object issue resolved with createView(s)
       return super.createView(
         SectionViewModel.class as Class<SectionViewModel>,
         this.model.section
@@ -51,10 +52,13 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(JavaSet.Of(TagViewModel))
   getTags(): JavaSet<TagViewModel> {
-    return super.createViews(
-      TagViewModel.class as Class<TagViewModel>,
-      this.model.tags
-    ) as unknown as List<TagViewModel>
+    // TODO: Remove the  null check for tags once null object issue resolved with createView(s)
+    if (this.model.tags) {
+      return super.createViews(
+        TagViewModel.class as Class<TagViewModel>,
+        this.model.tags
+      ) as unknown as List<TagViewModel>
+    } else return null
   }
 
   @JavaMethodParameters()

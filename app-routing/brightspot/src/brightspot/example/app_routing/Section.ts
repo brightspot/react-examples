@@ -14,13 +14,13 @@ export default class Section extends JavaClass(
   ContentEditWidgetDisplay
 ) {
   @JavaField(String)
-  @Indexed({ unique: true })
   @JavaRequired
-  slug: string
+  name: string
 
   @JavaField(String)
+  @Indexed({ unique: true })
   @JavaRequired
-  name: string;
+  slug: string;
 
   [`shouldDisplayContentEditWidget(java.lang.String)`](
     widgetName: string

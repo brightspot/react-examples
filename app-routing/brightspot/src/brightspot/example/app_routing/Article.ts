@@ -19,13 +19,13 @@ export default class Article extends JavaClass(
   ContentEditWidgetDisplay
 ) {
   @JavaField(String)
+  @JavaRequired
+  headline: string
+
+  @JavaField(String)
   @Indexed({ unique: true })
   @JavaRequired
   slug: string
-
-  @JavaField(String)
-  @JavaRequired
-  headline: string
 
   @JavaField(String)
   body?: string

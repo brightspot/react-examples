@@ -21,14 +21,14 @@ export default class SectionViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getSlug(): string {
-    return this.model.slug
+  getName(): string {
+    return this.model.name
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getName(): string {
-    return this.model.name
+  getSlug(): string {
+    return this.model.slug
   }
 
   @JavaMethodParameters()

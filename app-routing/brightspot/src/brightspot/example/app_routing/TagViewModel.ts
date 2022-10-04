@@ -21,14 +21,14 @@ export default class TagViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getSlug(): string {
-    return this.model.slug
+  getCategory(): string {
+    return this.model.category
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getCategory(): string {
-    return this.model.category
+  getSlug(): string {
+    return this.model.slug
   }
 
   @JavaMethodParameters()
