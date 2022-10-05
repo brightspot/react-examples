@@ -4,12 +4,12 @@ import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import Article from './User'
+import User from './User'
 
 @ViewInterface
-export default class ArticleViewModel extends JavaClass(
-  'brightspot.example.restification.ArticleViewModel',
-  ViewModel.Of(Article)
+export default class UserViewModel extends JavaClass(
+  'brightspot.example.restification.UserViewModel',
+  ViewModel.Of(User)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
