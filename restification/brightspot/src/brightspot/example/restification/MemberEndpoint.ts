@@ -9,11 +9,12 @@ import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import UserViewModel from './UserViewModel'
+import MemberViewModel from './MemberViewModel'
+import MembersViewModel from './MembersViewModel'
 
-@DisplayName({ value: 'User API: Restification' })
-export default class UserAPI extends JavaClass(
-  'brightspot.example.restification.UserAPI',
+@DisplayName({ value: 'Member API: Restification' })
+export default class MemberEndpoint extends JavaClass(
+  'brightspot.example.restification.MemberEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
@@ -24,7 +25,7 @@ export default class UserAPI extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [UserViewModel.class].map(
+    return [MemberViewModel.class, MembersViewModel.class].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }

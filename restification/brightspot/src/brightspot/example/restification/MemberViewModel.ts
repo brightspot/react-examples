@@ -4,17 +4,17 @@ import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import User from './User'
+import Member from './Member'
 
 @ViewInterface
-export default class UserViewModel extends JavaClass(
-  'brightspot.example.restification.UserViewModel',
-  ViewModel.Of(User)
+export default class MemberViewModel extends JavaClass(
+  'brightspot.example.restification.MemberViewModel',
+  ViewModel.Of(Member)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
-  getUsername(): string {
-    return this.model.username
+  getDisplayName(): string {
+    return this.model.displayName
   }
 
   @JavaMethodParameters()
