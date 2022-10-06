@@ -1,0 +1,6 @@
+query MyQuery($title: String) {
+  SpqItem(model: { title: $title }) {
+    body
+    title
+  }
+}
