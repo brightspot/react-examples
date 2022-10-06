@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
 
 interface ArticleData {
@@ -28,20 +28,7 @@ const ArticleContainer = () => {
 
   const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL ?? ''
 
-  const dataRequestParams = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: ArticleMarkQuery,
-      variables: {
-        path: 'marked-text',
-      },
-    }),
-  }
-
-  const handleResponse = (res: any, setArticle: Function) => {
+  const handleResponse = (res: any) => {
     let articleData: ArticleData | undefined
     let errors: string[] = []
     if (res?.data?.Article) {
@@ -68,14 +55,29 @@ const ArticleContainer = () => {
     })
   }
 
-  const fetchArticleData = async () =>
-    await fetch(GRAPHQL_URL, dataRequestParams).then((res) => res.json())
+  const fetchArticleData = useCallback(async () => {
+    const dataRequestParams = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: ArticleMarkQuery,
+        variables: {
+          path: 'marked-text',
+        },
+      }),
+    }
+
+    await fetch(GRAPHQL_URL, dataRequestParams)
+      .then((res) => res.json())
+      .then((res) => handleResponse(res))
+      .catch((error: Error) => handleError(error))
+  }, [GRAPHQL_URL])
 
   useEffect(() => {
     fetchArticleData()
-      .then((res) => handleResponse(res, setArticle))
-      .catch((error: Error) => handleError(error))
-  })
+  }, [fetchArticleData])
 
   return (
     <div>
