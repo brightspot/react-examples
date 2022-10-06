@@ -57,7 +57,7 @@ Navigate to your front-end application. Try selecting the different algorithms a
 
 ## How everything works
 JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript (TypeScript). One powerful feature Brightspot provides is ease of content modeling and querying for content data with GraphQL.
-Navigate to `brightspot/src/examples/automatic_persisted_queries`. This directory contains the JS Classes files that are uploaded to Brightspot.
+Navigate to `brightspot/src/examples/automatic_persisted_queries`. This directory contains the JS Class files that are uploaded to Brightspot.
 
 #### Points to note in JS Classes files:
 - `getPersistedQueryProtocol`: this function in `ApqEndpoint.ts` enables automatic persisted queries for the endpoint. This function also determines the hash algorithm and secret (optional) 
@@ -75,7 +75,7 @@ A red error banner will appear if the first render warning appeared and then the
 ## Try it yourself
 The following is a suggestion for learning more about automatic persisted queries with JS Classes and Brightspot:
 
-1. Look at the network tab when sending new queries. To modify a query, simply change part of the query structure (remove a field for example). Notice how the server and client respond.
+- Look at the network tab when sending new queries. To modify a query, simply change part of the query structure (remove a field for example). Notice how the server and client respond.
 
 ## Troubleshooting
 Refer to the [Common Issues](/README.md) section in the respository README for assistance.
