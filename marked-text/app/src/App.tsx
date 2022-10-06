@@ -1,9 +1,10 @@
 import './App.css'
+import ArticleContainer from './components/ArticleContainer'
 
 function App() {
   return (
     <div className="App">
-      <h1>Sample App</h1>
+      <ArticleContainer />
     </div>
   )
 }
