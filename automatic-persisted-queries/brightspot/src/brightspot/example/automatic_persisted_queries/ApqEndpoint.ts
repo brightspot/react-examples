@@ -34,8 +34,9 @@ export default class ApqEndpoint extends JavaClass(
   }
   [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
     let protocol = new AutomaticPersistedQueryProtocol()
-    const endpointHash = this.hash
-    protocol.setHashAlgorithm(endpointHash)
+
+    protocol.setHashAlgorithm(this.hash)
+
     protocol.setSharedSecret('secret')
     return protocol
   }
@@ -49,7 +50,7 @@ export default class ApqEndpoint extends JavaClass(
   setCorsConfiguration(
     corsConfiguration: CustomGraphQLCorsConfiguration
   ): void {
-    corsConfiguration['getAllowedOrigins()']()
+    corsConfiguration.getAllowedOrigins()
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {

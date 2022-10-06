@@ -1,5 +1,6 @@
-import AutomaticPersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graphql/pqp/AutomaticPersistedQueryHashAlgorithm'
 import JavaClass from 'brightspot-types/JavaClass'
+
+import AutomaticPersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graphql/pqp/AutomaticPersistedQueryHashAlgorithm'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 
@@ -16,21 +17,12 @@ export default class CustomSHA512HashAlgorithm extends JavaClass(
     sharedSecret: string,
     query: string
   ): string {
-    let result
     if (sharedSecret) {
-      const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
-        'SHA-512',
-        sharedSecret.concat(query)
-      )
-      result = Utils.hex(hashedValue)
-    } else if (!sharedSecret) {
-      const hashedValue = Utils['hash(java.lang.String,java.lang.String)'](
-        'SHA-256',
-        query
-      )
-      result = Utils.hex(hashedValue)
+      const hashedValue = Utils.hash('SHA-512', sharedSecret + query)
+      return Utils.hex(hashedValue)
+    } else {
+      const hashedValue = Utils.hash('SHA-512', query)
+      return Utils.hex(hashedValue)
     }
-
-    return result
   }
 }
