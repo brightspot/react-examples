@@ -19,7 +19,7 @@ enum HashType {
   SHA512 = 'Sha-512',
 }
 
-const hashType = sessionStorage.getItem('hash-type')
+let hashType = sessionStorage.getItem('hash-type') || 'Sha-256'
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -46,6 +46,9 @@ const persistedQueriesLink = createPersistedQueryLink({
 })
 
 const customLink = new ApolloLink((operation, forward) => {
+  /* the default key name is sha256Hash in the persistedQuery object
+  if another hash type  than SHA-256 is used, this key name must be changed
+  a check for either sha256Hash or the other hashKey is needed because of the way Apollo rerenders */
   if (hashType === HashType.SHA1) {
     operation.extensions = {
       persistedQuery: {

@@ -34,7 +34,7 @@ function App() {
         <div>
           {error && (
             <p>
-              <span className="label">Error: </span>
+              <span className="label">Error:</span>
               {error.message}
             </p>
           )}
