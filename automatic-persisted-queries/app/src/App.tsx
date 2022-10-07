@@ -1,16 +1,36 @@
 import './App.css'
-import { useQuery } from '@apollo/client'
-import GET_ITEM from './GetItem'
+import { SetStateAction, useEffect, useState } from 'react'
+import { useLazyQuery, gql } from '@apollo/client'
+import { print } from 'graphql/language/printer'
 
 function App() {
-  const { loading, error, data } = useQuery(GET_ITEM, {
+  const [queryName, setQueryName] = useState('GetItem')
+
+  const GET_ITEM = gql`
+  query ${queryName}($title: String) {
+    ApqItem(model: { title: $title }) {
+      title
+      body
+    }
+  }
+`
+
+  console.log(print(GET_ITEM))
+  const [getItem, { loading, error, data }] = useLazyQuery(GET_ITEM, {
+    fetchPolicy: 'no-cache',
+    notifyOnNetworkStatusChange: true,
     variables: {
       // change the title to that of your ApqItem if it is not 'Hello'
       title: 'Hello',
     },
   })
 
-  if (loading) return <div></div>
+  useEffect(() => {
+    console.log('running useEffect, ', queryName)
+    getItem()
+  }, [])
+
+  if (loading) return <div>Loading...</div>
 
   const hashedValue = sessionStorage.getItem('hash')
   const method = sessionStorage.getItem('method')
@@ -18,14 +38,20 @@ function App() {
 
   const methodExplanation = () => {
     if (method === 'POST' && !error) {
-      return 'POST since this is the first time sending the query hash'
+      return 'POST because this is the first time sending the query hash'
     } else if (method === 'GET' && !error) {
-      return 'GET successful since the server correctly identified the hash'
+      return 'GET successful because the server correctly identified the hash'
     } else if (method === 'GET' && error) {
       return 'GET but an error occurred'
     } else if (method === 'POST' && error) {
       return 'POST and an error occured'
     }
+  }
+
+  const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
+    sessionStorage.removeItem('initial-error') // need to reset initial error here in case index.tsx does not get rerendered, which happens on input onChange
+    setQueryName(e.target.value)
+    getItem()
   }
 
   return (
@@ -43,6 +69,10 @@ function App() {
           <option value="Sha-256">Sha-256</option>
           <option value="Sha-1">Sha-1</option>
         </select>
+        <label>
+          Add title here:
+          <input defaultValue={queryName} onChange={handleChange} />
+        </label>
         <div
           className="error-container"
           data-color={
@@ -73,6 +103,7 @@ function App() {
         <p className="label">Hash:</p>
         <p>{hashedValue}</p>
       </article>
+      <pre>{print(GET_ITEM)}</pre>
     </div>
   )
 }

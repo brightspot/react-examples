@@ -15,18 +15,25 @@ import { sha256, sha1, sha512 } from 'crypto-hash'
 
 import { print } from 'graphql/language/printer'
 
+enum HashType {
+  SHA256 = 'Sha-256',
+  SHA1 = 'Sha-1',
+  SHA512 = 'Sha-512',
+}
+
 const hashType = sessionStorage.getItem('hash-type')
 sessionStorage.removeItem('initial-error') // reset initial error "PersistedQueryNotFound" on render
+let firstTimeError = ''
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  let firstTimeError = ''
   if (graphQLErrors)
     graphQLErrors.forEach(({ message }) => {
       if (message === 'PersistedQueryNotFound') {
+        console.log('you are here in persisted query not found zone')
         firstTimeError = 'PersistedQueryNotFound'
       }
     })
@@ -36,20 +43,20 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
-let result = ''
-
 const persistedQueriesLink = createPersistedQueryLink({
   generateHash: async (schema: DocumentNode) => {
     const secret = process.env.REACT_APP_HASH_SECRET!
     const message = secret.concat(print(schema))
-    result =
-      hashType === 'Sha-256'
-        ? await sha256(message)
-        : hashType === 'Sha-1'
-        ? await sha1(message)
-        : hashType === 'Sha-512'
-        ? await sha512(message)
-        : await sha256(message)
+    let result = ''
+    if (hashType === HashType.SHA256) {
+      result = await sha256(message)
+    } else if (hashType === HashType.SHA1) {
+      result = await sha1(message)
+    } else if (hashType === HashType.SHA512) {
+      result = await sha512(message)
+    } else {
+      console.log('no hash provided')
+    }
     window.sessionStorage.setItem('hash', result)
     return result
   },
@@ -57,27 +64,27 @@ const persistedQueriesLink = createPersistedQueryLink({
 })
 
 const customLink = new ApolloLink((operation, forward) => {
-  if (hashType === 'Sha-256') {
+  console.log(operation.extensions.persistedQuery, hashType)
+  if (hashType === HashType.SHA1) {
     operation.extensions = {
       persistedQuery: {
         version: 1,
-        sha256Hash: result,
+        sha1Hash: operation.extensions.persistedQuery.sha256Hash
+          ? operation.extensions.persistedQuery.sha256Hash
+          : operation.extensions.persistedQuery.sha1Hash,
       },
     }
-  } else if (hashType === 'Sha-1') {
+    console.log(operation.extensions.persistedQuery)
+  } else if (hashType === HashType.SHA512) {
     operation.extensions = {
       persistedQuery: {
         version: 1,
-        sha1Hash: result,
+        sha512Hash: operation.extensions.persistedQuery.sha256Hash
+          ? operation.extensions.persistedQuery.sha256Hash
+          : operation.extensions.persistedQuery.sha512Hash,
       },
     }
-  } else if (hashType === 'Sha-512') {
-    operation.extensions = {
-      persistedQuery: {
-        version: 1,
-        sha512Hash: result,
-      },
-    }
+    console.log(operation.extensions.persistedQuery, hashType)
   }
   sessionStorage.setItem(
     'method',
