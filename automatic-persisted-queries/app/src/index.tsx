@@ -10,9 +10,7 @@ import {
   from,
 } from '@apollo/client'
 import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries'
-import { onError } from '@apollo/client/link/error'
 import { sha256, sha1, sha512 } from 'crypto-hash'
-
 import { print } from 'graphql/language/printer'
 
 enum HashType {
@@ -22,25 +20,9 @@ enum HashType {
 }
 
 const hashType = sessionStorage.getItem('hash-type')
-sessionStorage.removeItem('initial-error') // reset initial error "PersistedQueryNotFound" on render
-let firstTimeError = ''
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
-})
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach(({ message }) => {
-      if (message === 'PersistedQueryNotFound') {
-        console.log('you are here in persisted query not found zone')
-        firstTimeError = 'PersistedQueryNotFound'
-      }
-    })
-  if (firstTimeError) {
-    sessionStorage.setItem('initial-error', firstTimeError)
-  }
-  if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
 const persistedQueriesLink = createPersistedQueryLink({
@@ -64,7 +46,6 @@ const persistedQueriesLink = createPersistedQueryLink({
 })
 
 const customLink = new ApolloLink((operation, forward) => {
-  console.log(operation.extensions.persistedQuery, hashType)
   if (hashType === HashType.SHA1) {
     operation.extensions = {
       persistedQuery: {
@@ -74,7 +55,6 @@ const customLink = new ApolloLink((operation, forward) => {
           : operation.extensions.persistedQuery.sha1Hash,
       },
     }
-    console.log(operation.extensions.persistedQuery)
   } else if (hashType === HashType.SHA512) {
     operation.extensions = {
       persistedQuery: {
@@ -84,8 +64,8 @@ const customLink = new ApolloLink((operation, forward) => {
           : operation.extensions.persistedQuery.sha512Hash,
       },
     }
-    console.log(operation.extensions.persistedQuery, hashType)
   }
+
   sessionStorage.setItem(
     'method',
     operation.getContext().fetchOptions.method || 'POST'
@@ -93,7 +73,7 @@ const customLink = new ApolloLink((operation, forward) => {
   return forward(operation)
 })
 
-const additiveLink = from([customLink, errorLink, httpLink])
+const additiveLink = from([customLink, httpLink])
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

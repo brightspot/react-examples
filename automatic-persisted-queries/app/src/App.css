@@ -13,29 +13,18 @@
   --black: #000;
   --textPrimary: #141b22;
   --textSecondary: #4b4545;
+  --brightspotRed: #ee0120;
   --indigo: #0477c9;
-  --success: #e4fbec;
-  --error: #fde2e2;
   --radius: 4px;
-
-  --fs-xl: clamp(3.5rem, 12vw + 1rem, 12rem);
-  --fs-600: 2rem;
-  --fs-400: 1rem;
-}
-
-@media (min-width: 786px) {
-  :root {
-    --fs-600: 3rem;
-    --fs-400: 1.125rem;
-  }
+  --code: #eee;
 }
 
 body {
-  font-size: var(--fs-400);
   line-height: 1.6;
   font-family: 'Roboto', sans-serif;
   min-height: 100vh;
   width: 100%;
+  color: var(--textPrimary);
 }
 
 #root {
@@ -44,22 +33,34 @@ body {
 
 h1 {
   font-weight: 800;
-  line-height: 1;
-  font-size: var(--fs-xl);
+  font-size: 4rem;
+  color: var(--brightspotRed);
 }
 
 h2 {
-  font-size: var(--fs-600);
-  line-height: 1.2;
-  color: var(--textSecondary);
+  font-size: 2rem;
 }
 
 p,
 a,
 option,
 select,
+pre,
 span {
   color: var(--textSecondary);
+  font-size: 1.1rem;
+}
+
+pre {
+  background-color: var(--code);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  margin-top: 2rem;
+  padding: 0.2rem;
 }
 
 .App {
@@ -91,34 +92,7 @@ select {
 .label {
   font-weight: 700;
   text-transform: uppercase;
-}
-
-.error-container[data-color='red'] {
-  display: block;
-  background-color: var(--error);
-  padding: 0.3rem 0.5rem;
-  border-radius: var(--radius);
-  border-left: 5px solid red;
-}
-
-.error-container[data-color='red'] p,
-.error-container[data-color='red'] span {
-  color: red;
-}
-
-.error-container[data-color='green'] {
-  display: block;
-  background-color: var(--success);
-  padding: 0.3rem 0.5rem;
-  border-radius: var(--radius);
-  border-left: 5px solid green;
-}
-
-.error-container[data-color='green'] p,
-.error-container[data-color='green'] span {
-  color: green;
-}
-
-.error-container[data-color=''] {
-  display: none;
+  font-size: 1.2rem;
+  color: var(--textPrimary);
+  margin-top: 0.2rem;
 }

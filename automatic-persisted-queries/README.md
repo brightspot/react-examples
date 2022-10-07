@@ -34,8 +34,12 @@ The front-end application will open automatically in the browser.
 ## Using the example application
 The front-end application displays the **ApqItem** created in Brightspot. Three different hash algorithms are available: the default (SHA-256), SHA-512, and SHA-1.
 
-In Brightspot, first publish an **ApqItem**. Either use the title 'Hello' or make sure the change the title variable value in `app/App.tsx`.
-Next, navigate to **Admin** -> **APIs**, then select **Apq Endpoint**. Select a hash from the dropdown in the **Apq Endpoint** form. Click **SAVE**. Navigate to **GraphQL Explorer** by clicking the menu button on the top left, then selecting **GraphQL Explorer**. Select **Apq Endpoint** from the dropdown menu, then query for the **ApqItem** you created using title for the query variable. After running the query, click on the cog button on the top right. Select **Persisted Query Extension**. You will see a **POST Body** like the following:
+In Brightspot, first publish an **ApqItem**:
+
+**title**: Brightspot
+**body**: Automatic persisted queries
+
+Next, navigate to **Admin** => **APIs**, then select **Apq Endpoint**. Select a hash from the dropdown in the **Apq Endpoint** form. Click **SAVE**. Navigate to **GraphQL Explorer** by clicking the menu button on the top left, then selecting **GraphQL Explorer**. Select **Apq Endpoint** from the dropdown menu, then query for the **ApqItem** you created using title for the query variable. After running the query, click on the cog button on the top right. Select **Persisted Query Extension**. You will see a **POST Body** like the following:
 
 ```json
 {
@@ -66,16 +70,25 @@ Navigate to `brightspot/src/examples/automatic_persisted_queries`. This director
 #### Points to note in the front-end application:
 - `createPersistedQueryLink`: Apollo Client makes it simple to implement automatic persisted queries on the client side. The default hashing algorithm is SHA-256. Refer to the Apollo Client documentation for further information. 
 
-A green error banner will appear if the first render warning appeared but then on the second network call the request was succesful. This will occur the first time a new query is run in the front-end.
-
-A red error banner will appear if the first render warning appeared and then the second network call was not successful. This will happen when the hash is not recognized by the server.
-
 > **_Note_** This is purely an example application! In production, it is important to hide the secret that is hashed with the query.
  
 ## Try it yourself
 The following is a suggestion for learning more about automatic persisted queries with JS Classes and Brightspot:
 
-- Look at the network tab when sending new queries. To modify a query, simply change part of the query structure (remove a field for example). Notice how the server and client respond.
+- Look at the network tab when sending new queries. To modify a query, simply change the query name after the `query` keyword in `app/src/GetItem.tsx`, then refresh the browser. Notice how the server and client respond. 
+
+Example of changing query name:
+
+```graphql
+query hi($title: String) {
+  ApqItem(model: {title: $title}) {
+    title
+    body
+  }
+}
+```
+
+Notice in the UI how the method changes to POST on the first render, then GET on further renders.
 
 ## Troubleshooting
 Refer to the [Common Issues](/README.md) section in the respository README for assistance.
