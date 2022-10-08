@@ -9,16 +9,20 @@ import GraphQLSchemaVersion from 'brightspot-types/com/psddev/graphql/GraphQLSch
 import JavaClass from 'brightspot-types/JavaClass'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
+import SpqEndpoint from './SpqEndpoint'
+import SpqProtocol from './SpqProtocol'
+
+import SpqItem from './SpqItem'
 export default class MappingEndpoint extends JavaClass(
   'brightspot.example.static_persisted_queries.MappingEndpoint',
   ContentManagementApiEndpoint,
   Singleton
 ) {
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
-    let schemaClass = GraphQLSchemaVersion.class as Class<GraphQLSchemaVersion>
-    // TODO: figure this logic out to set a mappingClass --> let mappingClass = ??
+    let mappingClass = SpqProtocol.class as Class<SpqProtocol>
+    console.log('😊 😊 😊 😊 😊', mappingClass)
     let entryPointField1 = new ContentManagementEntryPointField(
-      schemaClass,
+      mappingClass,
       true
     )
 

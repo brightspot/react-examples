@@ -17,24 +17,29 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import StorageItem from 'brightspot-types/com/psddev/dari/util/StorageItem'
 
 import SpqItemViewModel from './SpqItemViewModel'
-
+import SpqProtocol from './SpqProtocol'
+import Nullable from 'brightspot-types/Nullable'
 @DisplayName({ value: 'SPQ Endpoint' })
-export default class ApqEndpoint extends JavaClass(
+export default class SpqEndpoint extends JavaClass(
   'brightspot.example.static_persisted_queries.SpqEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
-  @JavaField(StorageItem)
-  mappingFile: StorageItem
+  // @JavaField(StorageItem)
+  // mappingFile: StorageItem
 
   getPaths(): JavaSet<string> {
     return ['/graphql/delivery/spq'] as unknown as JavaSet<string>
   }
 
-  [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
-    let customProtocol = new CustomStaticPersistedQueryProtocol()
-    customProtocol.setPersistedQueryMappingFile(this.mappingFile || null)
-    return customProtocol
+  [`getPersistedQueryProtocol()`](): PersistedQueryProtocol | null {
+    let customProtocol = new SpqProtocol()
+
+    // customProtocol.setPersistedQueryMappingFile(this.mappingFile)
+
+    if (customProtocol) {
+      return customProtocol
+    } else return null
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
