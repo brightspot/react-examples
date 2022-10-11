@@ -1,6 +1,6 @@
-query MyQuery($title: String) {
+query GetSpqItem($title: String) {
   SpqItem(model: { title: $title }) {
-    body
     title
+    body
   }
 }

@@ -1,3 +1,3 @@
 {
-   "0b29600db9217e6d55573f9bcc055130b754dc9a7b9b081f3493a7181bfce1cd": "query MyQuery($title: String) {\n  SpqItem(model: {title: $title}) {\n    body\n    title\n    __typename\n  }\n}"
+   "078d01a5247f9813068ff8a0293315085037eed715dd0234ee4be16ba5548657": "query GetSpqItem($title: String) {\n  SpqItem(model: {title: $title}) {\n    title\n    body\n    __typename\n  }\n}"
 }

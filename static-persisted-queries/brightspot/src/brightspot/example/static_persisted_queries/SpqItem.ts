@@ -1,7 +1,8 @@
-import Content from 'brightspot-types/com/psddev/cms/db/Content'
-import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
+
+import Content from 'brightspot-types/com/psddev/cms/db/Content'
+import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 
 export default class SpqItem extends JavaClass(

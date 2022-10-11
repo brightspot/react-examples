@@ -1,15 +1,18 @@
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
-import StaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/StaticPersistedQueryProtocol'
 import Map from 'brightspot-types/java/util/Map'
+
+import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import ObjectUtils from 'brightspot-types/com/psddev/dari/util/ObjectUtils'
+import StaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/StaticPersistedQueryProtocol'
 
 export default class SpqProtocol extends JavaClass(
   'brightspot.example.static_persisted_queries.SpqProtocol',
   StaticPersistedQueryProtocol
 ) {
+  @DisplayName({ value: 'Version' })
   @JavaField(String)
-  name: string
+  version: string
 
   @JavaField(String)
   spqMappingFile: string;

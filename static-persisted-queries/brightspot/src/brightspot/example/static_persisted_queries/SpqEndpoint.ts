@@ -1,4 +1,6 @@
 import Class from 'brightspot-types/java/lang/Class'
+import JavaClass from 'brightspot-types/JavaClass'
+import JavaField from 'brightspot-types/JavaField'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
@@ -9,8 +11,6 @@ import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayN
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
-import JavaClass from 'brightspot-types/JavaClass'
-import JavaField from 'brightspot-types/JavaField'
 import PersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryProtocol'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 

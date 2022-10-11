@@ -1,10 +1,10 @@
 import './App.css'
-import { useMyQueryQuery } from './generated'
+import { useGetSpqItemQuery } from './generated'
 
 function App() {
-  const { data, loading, error } = useMyQueryQuery({
+  const { data, loading, error } = useGetSpqItemQuery({
     variables: {
-      title: 'hello',
+      title: 'Brightspot',
     },
   })
   if (error) return <div>Error: {error.message}</div>
