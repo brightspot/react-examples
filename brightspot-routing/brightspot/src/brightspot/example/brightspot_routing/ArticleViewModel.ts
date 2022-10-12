@@ -3,16 +3,19 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 
+import DirectoryData from 'brightspot-types/com/psddev/cms/db/Directory$Data'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import SectionViewModel from './SectionViewModel'
+import DirectoryDataViewModel from './DirectoryDataViewModel'
 
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
   'brightspot.example.brightspot_routing.ArticleViewModel',
-  ViewModel.Of(Article)
+  ViewModel.Of(Article),
+  // TODO: implement marker interface
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
@@ -41,11 +44,21 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(SectionViewModel)
   getSection(): SectionViewModel {
+    // TODO: remove null check once createView null object issue is resolved
     if (this.model.section) {
       return super.createView(
         SectionViewModel.class as Class<SectionViewModel>,
         this.model.section
       )
     } else return null
+  }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(DirectoryDataViewModel)
+  getDirectoryData(): DirectoryDataViewModel {
+    return this.createView(
+      DirectoryDataViewModel.class as Class<DirectoryDataViewModel>,
+      this.model.as(DirectoryData.class)
+    )
   }
 }
