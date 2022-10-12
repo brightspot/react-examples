@@ -1,44 +1,21 @@
-import { useGetSectionQuery } from '../generated'
-import { useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { Section } from '../generated'
 
 import Banner from './Banner'
 import List from './List'
-import NotFound from './NotFound'
 
-const Section = () => {
-  const { section } = useParams()
-  const navigate = useNavigate()
+type Props = {
+  section: Section
+}
 
-  const { data, error, loading } = useGetSectionQuery({
-    variables: {
-      path: section,
-    },
-  })
-
-  useEffect(() => {
-    // redirects to new URL if user navigated to old URL
-    if (data?.Section && data?.Section?.path?.slice(1) !== section) {
-      navigate(`${data?.Section?.path}`)
-    }
-  }, [data, section, navigate])
-
-  if (error) console.log(error.message)
-  if (loading) return <div className="loading">loading...</div>
-  if (!data?.Section) return <NotFound />
-
+const SectionComponent = ({ section }: Props) => {
   return (
     <>
-      <Banner name={`Section: ${data?.Section?.name}`} />
+      <Banner name={`Section: ${section?.name}`} />
       <div className="container">
-        {data.Section.articles && (
-          <>
-            <List section={data.Section} />
-          </>
-        )}
+        {section.articles && <List articles={section.articles} />}
       </div>
     </>
   )
 }
 
-export default Section
+export default SectionComponent
