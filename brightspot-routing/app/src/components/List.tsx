@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
-import { Section } from '../generated'
+import { Maybe, Article } from '../generated'
 
 type Props = {
-  section: Section
+  articles: Maybe<Article>[]
 }
 
-const List = ({ section }: Props) => (
+const List = ({ articles }: Props) => (
   <section className="cardList-section">
-    {section.articles &&
-      section.articles.map((article, i) => (
-        <Link key={i} to={`${section.path}${article?.path}`}>
+    {articles &&
+      articles.map((article, i) => (
+        <Link key={i} to={`${article?.path || '/'}`}>
           <div className="list-item" data-first={i === 0 ? true : null}>
             {article?.section?.name && (
               <p className="cardList-pageName">{article?.section?.name}</p>
