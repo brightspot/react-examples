@@ -11,7 +11,7 @@ const Navbar = () => {
   }
   const { data, error } = useGetAllSectionsQuery()
 
-  const sectionsList = data?.Sections?.sections
+  const sectionsList = data?.AllSections?.sections
 
   if (error) console.log(error.message)
 
