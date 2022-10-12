@@ -5,7 +5,7 @@ import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DirectoryItem from 'brightspot-types/com/psddev/cms/db/Directory$Item'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
-import ReadOnly from 'brightspot-types/com/psddev/cms/db/ToolUi$ReadOnly'
+import Optional from 'brightspot-types/java/util/Optional'
 import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import Site from 'brightspot-types/com/psddev/cms/db/Site'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
@@ -14,7 +14,7 @@ import Section from './Section'
 
 @DisplayName({ value: 'Brightspot Routing Article' })
 export default class Article extends JavaClass(
-  'brightspot.example.brightspot_routing',
+  'brightspot.example.brightspot_routing.Article',
   Content,
   DirectoryItem
 ) {
@@ -27,20 +27,12 @@ export default class Article extends JavaClass(
 
   @JavaField(Section)
   @Indexed
-  @Required
-  section?: Section;
+  section?: Section
 
-  @JavaField(String)
-  @Indexed({ unique: true })
-  @Required
-  @ReadOnly
-  url?: string
+  createPermalink(site: Site): string {
+    const sectionSlug = Utils.toNormalized(Optional.ofNullable(this.section?.name).orElse(''))
+    const headlineSlug = '/' + Utils.toNormalized(Optional.ofNullable(this.headline).orElse(''))
 
-  beforeSave(): void {
-    this.url = this.getPermalink()
-  }
-
-  [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
-    return Utils.toNormalized(this.headline)
+    return sectionSlug + headlineSlug
   }
 }

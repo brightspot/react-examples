@@ -4,8 +4,6 @@ import JavaField from 'brightspot-types/JavaField'
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DirectoryItem from 'brightspot-types/com/psddev/cms/db/Directory$Item'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
-import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
-import ReadOnly from 'brightspot-types/com/psddev/cms/db/ToolUi$ReadOnly'
 import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import Site from 'brightspot-types/com/psddev/cms/db/Site'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
@@ -17,19 +15,10 @@ export default class Section extends JavaClass(
   DirectoryItem
 ) {
   @JavaField(String)
-  name?: string;
-
-  @JavaField(String)
-  @Indexed({ unique: true })
   @Required
-  @ReadOnly
-  url?: string
+  name?: string
 
-  beforeSave(): void {
-    this.url = this.getPermalink()
-  }
-
-  [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
+  createPermalink(site: Site): string {
     return Utils.toNormalized(this.name)
   }
 }
