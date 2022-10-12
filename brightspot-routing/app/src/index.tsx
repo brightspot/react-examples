@@ -1,16 +1,31 @@
 import ReactDOM from 'react-dom/client'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  DefaultOptions,
+} from '@apollo/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import App from './App'
-import Article from './components/Article'
+import Content from './components/Content'
 import Home from './components/Home'
-import NotFound from './components/NotFound'
-import Section from './components/Section'
+
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+  },
+}
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
   cache: new InMemoryCache(),
+  defaultOptions: defaultOptions,
 })
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -19,9 +34,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="" element={<Home />} />
-          <Route path=":section" element={<Section />} />
-          <Route path=":section/:article" element={<Article />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<Content />} />
         </Route>
       </Routes>
     </BrowserRouter>
