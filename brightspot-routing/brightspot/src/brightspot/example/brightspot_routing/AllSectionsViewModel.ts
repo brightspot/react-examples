@@ -13,8 +13,8 @@ import Section from './Section'
 import SectionViewModel from './SectionViewModel'
 
 @ViewInterface
-export default class SectionsViewModel extends JavaClass(
-  'brightspot.example.brightspot_routing.SectionsViewModel',
+export default class AllSectionsViewModel extends JavaClass(
+  'brightspot.example.brightspot_routing.AllSectionsViewModel',
   ViewModel.Of(BrightspotRoutingEndpoint)
 ) {
   @JavaMethodParameters()
@@ -22,7 +22,7 @@ export default class SectionsViewModel extends JavaClass(
   getSections(): List<SectionViewModel> {
     return super.createViews(
       SectionViewModel.class as Class<SectionViewModel>,
-      Query.from(Section.class).selectAll()
-    ) as unknown as List<SectionViewModel>
+      Query.from(Section.class).where('cms.directory.paths != missing').selectAll()
+    ) as List<SectionViewModel>
   }
 }

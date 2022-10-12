@@ -1,10 +1,16 @@
 query GetAllArticles {
-  Articles {
+  AllArticles {
     articles {
       path
       headline
       body
       publishDate
+      directoryData {
+        paths {
+          path
+          isRedirect
+        }
+      }
       section {
         path
         name

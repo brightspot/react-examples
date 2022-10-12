@@ -1,5 +1,5 @@
 query GetAllSections {
-  Sections {
+  AllSections {
     sections {
       path
       name
