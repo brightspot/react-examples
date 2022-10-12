@@ -1,19 +1,15 @@
 import { Link } from 'react-router-dom'
-import { Articles } from '../generated'
+import { AllArticles } from '../generated'
 
 type Props = {
-  articles: Articles
+  allArticles: AllArticles
 }
 
-const CardList = ({ articles }: Props) => (
+const CardList = ({ allArticles }: Props) => (
   <section className="cardList-section">
     <div className="cardList-grid">
-      {articles.articles?.map((article, i) => (
-        <Link
-          className="cardList-link"
-          key={i}
-          to={`${article?.section?.path}${article?.path}`}
-        >
+      {allArticles.articles?.map((article, i) => (
+        <Link className="cardList-link" key={i} to={`${article?.path || '/'}`}>
           <div className="cardList-item">
             <h4 className="cardList-articleHeadline">{article?.headline}</h4>
             <span className="cardList-pageName">{article?.section?.name}</span>

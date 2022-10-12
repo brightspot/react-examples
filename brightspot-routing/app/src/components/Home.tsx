@@ -13,9 +13,9 @@ const Home = () => {
         <h1>Welcome to News</h1>
       </div>
       <div className="container">
-        {data?.Articles && (
+        {data?.AllArticles && (
           <>
-            <CardList articles={data?.Articles} />
+            <CardList allArticles={data?.AllArticles} />
           </>
         )}
       </div>
