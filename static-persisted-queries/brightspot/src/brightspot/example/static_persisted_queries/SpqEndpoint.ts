@@ -16,6 +16,9 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import SpqItemViewModel from './SpqItemViewModel'
 import SpqProtocol from './SpqProtocol'
+import WebRequest from 'brightspot-types/com/psddev/dari/web/WebRequest'
+import Query from 'brightspot-types/com/psddev/dari/db/Query'
+import ReadOnly from 'brightspot-types/com/psddev/cms/db/ToolUi$ReadOnly'
 
 @DisplayName({ value: 'SPQ Endpoint' })
 export default class SpqEndpoint extends JavaClass(
@@ -23,15 +26,17 @@ export default class SpqEndpoint extends JavaClass(
   ContentDeliveryApiEndpoint,
   Singleton
 ) {
-  @JavaField(SpqProtocol)
-  spqProtocol: SpqProtocol
-
   getPaths(): JavaSet<string> {
     return ['/graphql/delivery/spq'] as unknown as JavaSet<string>
   }
 
   [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
-    return this.spqProtocol
+    let version = WebRequest.getCurrent().getHeader('X-App-Version')
+    // NOTE: currently if the Query result is null no whitelist will be applied. In the near future an API key will be added
+    // for regular requests, but not for Persisted Query requests. Therefore, all queries not on a whitelist will require an API key
+    return Query.from(SpqProtocol.class)
+      .where('version = ?', version)
+      .first() as unknown as PersistedQueryProtocol
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
@@ -48,9 +53,19 @@ export default class SpqEndpoint extends JavaClass(
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
     corsConfiguration.addAllowedOrigin('localhost')
+    corsConfiguration.addAllowedHeader('X-App-Version')
   }
 
   getApiAccessOption(): GraphQLApiAccessOption {
     return new GraphQLApiAccessOptionImplicit()
+  }
+
+  @ReadOnly
+  @JavaField(List.Of(SpqProtocol))
+  spqProtocols: List<SpqProtocol>
+  onCreate() {
+    this.spqProtocols = Query.from(
+      SpqProtocol.class
+    ).selectAll() as List<SpqProtocol>
   }
 }
