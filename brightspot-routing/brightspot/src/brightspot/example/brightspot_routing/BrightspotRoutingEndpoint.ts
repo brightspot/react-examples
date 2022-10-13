@@ -26,7 +26,7 @@ export default class BrightspotRoutingEndpoint extends JavaClass(
     ] as unknown as JavaSet<string>
   }
 
-  getQueryEntryFields(): List<ContentDeliveryEntryPointField> {
+  [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
       AllArticlesViewModel.class as Class<AllArticlesViewModel>,
       AllSectionsViewModel.class as Class<AllSectionsViewModel>,

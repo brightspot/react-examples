@@ -18,7 +18,7 @@ export default class Section extends JavaClass(
   @Required
   name?: string
 
-  createPermalink(site: Site): string {
+  [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
     return Utils.toNormalized(this.name)
   }
 }

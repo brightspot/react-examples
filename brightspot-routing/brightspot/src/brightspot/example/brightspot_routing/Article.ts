@@ -29,7 +29,7 @@ export default class Article extends JavaClass(
   @Indexed
   section?: Section
 
-  createPermalink(site: Site): string {
+  [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
     const sectionSlug = Utils.toNormalized(
       Optional.ofNullable(this.section?.name).orElse('')
     )
