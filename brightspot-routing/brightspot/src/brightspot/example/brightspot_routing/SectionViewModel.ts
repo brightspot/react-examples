@@ -9,10 +9,10 @@ import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import Section from './Section'
 import Article from './Article'
 import ArticleViewModel from './ArticleViewModel'
 import DirectoryDataViewModel from './DirectoryDataViewModel'
+import Section from './Section'
 
 @ViewInterface
 export default class SectionViewModel extends JavaClass(
