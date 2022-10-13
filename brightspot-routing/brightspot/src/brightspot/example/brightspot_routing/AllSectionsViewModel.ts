@@ -4,6 +4,7 @@ import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import List from 'brightspot-types/java/util/List'
 
+import DirectoryStatic from 'brightspot-types/com/psddev/cms/db/Directory$Static'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
@@ -22,7 +23,7 @@ export default class AllSectionsViewModel extends JavaClass(
   getSections(): List<SectionViewModel> {
     return super.createViews(
       SectionViewModel.class as Class<SectionViewModel>,
-      Query.from(Section.class).where('cms.directory.paths != missing').selectAll()
+      Query.from(Section.class).where(DirectoryStatic.hasPathPredicate()).selectAll()
     ) as List<SectionViewModel>
   }
 }
