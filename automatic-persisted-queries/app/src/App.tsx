@@ -1,6 +1,5 @@
 import './App.css'
 import { useQuery } from '@apollo/client'
-import { print } from 'graphql/language/printer'
 import GET_ITEM from './GetItem'
 
 function App() {
@@ -50,7 +49,6 @@ function App() {
         <p>{method}</p>
         <p className="label">Hash:</p>
         <p>{hashedValue}</p>
-        <pre>{print(GET_ITEM)}</pre>
       </article>
     </div>
   )
