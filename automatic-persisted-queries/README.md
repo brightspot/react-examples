@@ -39,7 +39,7 @@ In Brightspot, first publish an **ApqItem**:
 **title**: Brightspot
 **body**: Automatic Persisted Queries
 
-Next, navigate to **Admin** => **APIs**, then select **Apq Endpoint**. Select a hash from the dropdown in the **Apq Endpoint** form. Click **SAVE**. If none is selected, the endpoint will use the default hash SHA-256. Navigate to **GraphQL Explorer** by clicking the menu button on the top left, then selecting **GraphQL Explorer**. Select **Apq Endpoint** from the dropdown menu, then query for the **ApqItem** you created using title for the query variable. After running the query, click on the cog button on the top right. Select **Persisted Query Extension**. You will see a **POST Body** like the following:
+Next, navigate to **Admin** &rarr; **APIs**, then select **Apq Endpoint**. Select a hash from the dropdown in the **Apq Endpoint** form. Click **SAVE**. If none is selected, the endpoint will use the default hash SHA-256. Navigate to **GraphQL Explorer** by clicking the menu button on the top left, then selecting **GraphQL Explorer**. Select **Apq Endpoint** from the dropdown menu, then query for the **ApqItem** you created using title for the query variable. After running the query, click on the cog button on the top right. Select **Persisted Query Extension**. You will see a **POST Body** like the following:
 
 ```json
 {
