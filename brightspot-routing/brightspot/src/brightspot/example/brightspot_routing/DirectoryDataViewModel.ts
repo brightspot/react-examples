@@ -17,7 +17,7 @@ export default class DirectoryDataViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(JavaSet.Of(DirectoryPathViewModel))
   getPaths(): JavaSet<DirectoryPathViewModel> {
-    return super.createViews(
+    return this.createViews(
       DirectoryPathViewModel.class,
       this.model.as(DirectoryData.class).getPaths()
     ) as JavaSet<DirectoryPathViewModel>

@@ -46,7 +46,7 @@ export default class ArticleViewModel extends JavaClass(
   getSection(): SectionViewModel {
     // TODO: remove null check once createView null object issue is resolved
     if (this.model.section) {
-      return super.createView(
+      return this.createView(
         SectionViewModel.class as Class<SectionViewModel>,
         this.model.section
       )
