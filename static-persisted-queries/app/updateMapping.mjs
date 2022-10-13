@@ -1,7 +1,6 @@
 import fs from 'fs'
 import * as dotenv from 'dotenv'
 
-
 dotenv.config()
 
 const { version } = JSON.parse(fs.readFileSync('./package.json'))
@@ -27,12 +26,12 @@ const mappingQueryForId = JSON.stringify({
     }
   }
   `,
-  variables: { predicate: "version = ?", arguments: version }
+  variables: { predicate: 'version = ?', arguments: version },
 })
 
-
-const mappingMutation = (id) => JSON.stringify({
-  query: `mutation postMapping($version: String, $spqMappingFile: String, $id: DiffId) {
+const mappingMutation = (id) =>
+  JSON.stringify({
+    query: `mutation postMapping($version: String, $spqMappingFile: String, $id: DiffId) {
         brightspot_example_static_persisted_queries_SpqProtocolSave(
           diffs: {brightspot_example_static_persisted_queries_SpqProtocolDiff: {version: $version, spqMappingFile: $spqMappingFile}}
           id: $id
@@ -41,25 +40,29 @@ const mappingMutation = (id) => JSON.stringify({
           spqMappingFile
         }
       }`,
-  variables: { id: id, version, spqMappingFile },
-})
+    variables: { id: id, version, spqMappingFile },
+  })
 
 fetch(process.env.MAPPING_URL, {
   method: 'POST',
   headers: headers,
-  body: mappingQueryForId
-}).then((res) => res.json())
-.then((res) =>  {
-  const id = res?.data?.brightspot_example_static_persisted_queries_SpqProtocolQuery?.items[0]?._id
-  return fetch(process.env.MAPPING_URL, {
-    method: 'POST',
-    headers: headers,
-    body: mappingMutation(id)
+  body: mappingQueryForId,
+})
+  .then((res) => res.json())
+  .then((res) => {
+    const id =
+      res?.data?.brightspot_example_static_persisted_queries_SpqProtocolQuery
+        ?.items[0]?._id
+    return fetch(process.env.MAPPING_URL, {
+      method: 'POST',
+      headers: headers,
+      body: mappingMutation(id),
+    })
   })
-}
-).then((res) => {
-  if(res.ok) {
-    return res.json()
-  }
-}). then((res) => console.log(res))
-.catch((err) => console.log(err))
+  .then((res) => {
+    if (res.ok) {
+      return res.json()
+    }
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err))

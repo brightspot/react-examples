@@ -1,6 +1,6 @@
 {
   "name": "static-persisted-queries",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "dependencies": {
@@ -50,7 +50,7 @@
     "@graphql-codegen/typescript-operations": "2.5.1",
     "@graphql-codegen/typescript-react-apollo": "3.3.1",
     "crypto-hash": "2.0.1",
-    "dotenv": "^16.0.3",
+    "dotenv": "16.0.3",
     "eslint-config-prettier": "8.5.0",
     "graphql-codegen-persisted-query-ids": "0.1.2",
     "graphql-tag": "2.12.6",
