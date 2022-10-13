@@ -52,6 +52,7 @@ export default class SpqEndpoint extends JavaClass(
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
+    super.updateCorsConfiguration(corsConfiguration)
     corsConfiguration.addAllowedOrigin('localhost')
     corsConfiguration.addAllowedHeader('X-App-Version')
   }

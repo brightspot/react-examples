@@ -50,12 +50,12 @@ JS Classes give you the power to customize Brightspot, add new classes, create e
 Navigate to `brightspot/src/examples/static_persisted_queries`. This directory contains the JS Class files that are uploaded to Brightspot.
 
 #### Points to note in JS Classes files:
-- `getPersistedQueryProtocol`: this function in `SpqEndpoint.ts` enables persisted queries for the endpoint. The function identifies the version passed in the `X-App-Version` request header field, and queries for the `SpqProtocol` class that has the same version
-- `SpqProtocol.ts`: this class contains the `spqMappingFile` and the front-end application version number sent from the front-end using the CMA endpoint found in `MappingEndpoint.ts`  
+- `getPersistedQueryProtocol`: this function in `SpqEndpoint.ts` enables persisted queries for the endpoint. The function identifies the version passed in the `X-App-Version` request header field, and queries for the `SpqProtocol` class that has the same version.
+- `SpqProtocol.ts`: this class contains the `spqMappingFile` and the front-end application version number sent from the front-end using the CMA endpoint found in `MappingEndpoint.ts`.  
 
 #### Points to note in the front-end application:
-- `codegen.yml`: In addition to running Codegen to generate code from your GraphQL schema and GraphQL operations, running `yarn codegen` also creates a whitelist (`app/persisted-query-ids/server.json`) of SHA-256 hashes and their respective query strings
-- `updateMapping.mjs`: this file is run using the script `yarn mapping`. When you run the `yarn mapping` script, you make a POST request to the MappingEndpoint (`brightspot/src/brightspot/example/static_persisted_queries/MappingEndpoint.ts`) to create or update an **SpqProtocol** item. If the version whitelist does not exist, a new whitelist will be created in Brightspot identical to the whitelist in the front-end (`app/persisted-query-ids/server.json`)
+- `codegen.yml`: In addition to running Codegen to generate code from your GraphQL schema and GraphQL operations, running `yarn codegen` also creates a whitelist (`app/persisted-query-ids/server.json`) of SHA-256 hashes and their respective query strings.
+- `updateMapping.mjs`: this file is run using the script `yarn mapping`. When you run the `yarn mapping` script, you make a POST request to the MappingEndpoint (`brightspot/src/brightspot/example/static_persisted_queries/MappingEndpoint.ts`) to create or update an **SpqProtocol** item. If the version whitelist does not exist, a new whitelist will be created in Brightspot identical to the whitelist in the front-end (`app/persisted-query-ids/server.json`).
 
 ## Try it yourself
 The following are suggestions for learning more about static persisted queries with JS Classes and Brightspot:
