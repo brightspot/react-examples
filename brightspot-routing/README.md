@@ -4,9 +4,9 @@ This example highlights how to use JS Classes, the [Brightspot GraphQL API](http
 
 ## What you will learn
 
-1. How to auto-generate permalinks based on user input.
-2. How to query for content using `path` as a query variable with Brightspot's GraphQL API.
-3. How to route a [React](https://reactjs.org/) application based on redirects entered into Brightspot.
+1. How to auto-generate permalinks based on user input
+2. How to query for content using `path` as a query variable with Brightspot's GraphQL API
+3. How to route a [React](https://reactjs.org/) application based on redirects entered into Brightspot
 
 ## Related examples
 
@@ -65,7 +65,7 @@ Navigate to `brightspot/src/examples/brightspot_routing`. This directory contain
 #### Points to note in the JS Class files:
 
 - `ViewModel.Of(BrightspotRoutingEndpoint)`: `AllSectionsViewModel` and `AllArticlesViewModel` specify the `BrightspotRoutingEndpoint` which makes it possible to query for content without using a query variable.
-- `DirectoryItem`: `Article.ts` and `Section.ts` will generate Java Classes that implement `DirectoryItem`. This enables the use of the `createPermalink()` method to automatically generate permalinks. It exposes the permalink and redirect data entered into the URLs widget on a content type's edit page. It also adds `path` as a query variable
+- `DirectoryItem`: `Article.ts` and `Section.ts` will generate Java Classes that implement `DirectoryItem`. This enables the use of the `createPermalink()` method to automatically generate permalinks. It exposes the permalink and redirect data entered into the URLs widget on a content type's edit page. It also adds `path` as a query variable.
 - `DirectoryDataViewModel`: This returns a list of a content type's permalink paths and whether each one is a redirect or not. The React app can use this information to handle redirects.
 
 #### Points to note in the React application:
@@ -83,7 +83,7 @@ Navigate to `brightspot/src/examples/brightspot_routing`. This directory contain
 The following is a suggestion for learning more about routing with JS Classes and Brightspot:
 
 1. Try adding additional permalinks, aliases, or redirects to a Section or Article in Brightspot through the URLs widget on the content edit page. Navigate to those paths by manually entering the URL into a browser.
-2. In Brightspot, navigate to Sites & Settings -> Global -> CMS -> Advanced and toggle the Always Generate Permalinks field and the Single Generated Permalink field. Experiment with how those affect permalink generation.
+2. In Brightspot, navigate to **Sites & Settings &rarr; Global &rarr; CMS &rarr; Advanced** and toggle the **Always Generate Permalinks** field and the **Single Generated Permalink** field. Experiment with how those affect permalink generation.
 
 > **_Note_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to update the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
 
