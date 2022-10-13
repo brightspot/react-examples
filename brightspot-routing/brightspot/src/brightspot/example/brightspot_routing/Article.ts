@@ -30,8 +30,11 @@ export default class Article extends JavaClass(
   section?: Section
 
   createPermalink(site: Site): string {
-    const sectionSlug = Utils.toNormalized(Optional.ofNullable(this.section?.name).orElse(''))
-    const headlineSlug = '/' + Utils.toNormalized(Optional.ofNullable(this.headline).orElse(''))
+    const sectionSlug = Utils.toNormalized(
+      Optional.ofNullable(this.section?.name).orElse('')
+    )
+    const headlineSlug =
+      '/' + Utils.toNormalized(Optional.ofNullable(this.headline).orElse(''))
 
     return sectionSlug + headlineSlug
   }

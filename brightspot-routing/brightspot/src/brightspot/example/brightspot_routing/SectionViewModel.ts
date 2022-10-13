@@ -17,7 +17,7 @@ import Section from './Section'
 @ViewInterface
 export default class SectionViewModel extends JavaClass(
   'brightspot.example.brightspot_routing.SectionViewModel',
-  ViewModel.Of(Section),
+  ViewModel.Of(Section)
   // TODO: implement marker interface
 ) {
   @JavaMethodParameters()

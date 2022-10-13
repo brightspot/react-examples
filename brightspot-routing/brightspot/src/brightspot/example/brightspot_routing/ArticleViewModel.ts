@@ -14,7 +14,7 @@ import DirectoryDataViewModel from './DirectoryDataViewModel'
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
   'brightspot.example.brightspot_routing.ArticleViewModel',
-  ViewModel.Of(Article),
+  ViewModel.Of(Article)
   // TODO: implement marker interface
 ) {
   @JavaMethodParameters()

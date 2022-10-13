@@ -23,6 +23,8 @@ export default class DirectoryPathViewModel extends JavaClass(
   @JavaMethodReturn(Boolean)
   getIsRedirect(): boolean {
     return this.model.getType() === PathType.REDIRECT ||
-      this.model.getType() === PathType.REDIRECT_TEMPORARY ? true : false
+      this.model.getType() === PathType.REDIRECT_TEMPORARY
+      ? true
+      : false
   }
 }

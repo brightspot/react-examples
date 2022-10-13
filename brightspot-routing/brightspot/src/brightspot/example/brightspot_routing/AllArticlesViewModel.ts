@@ -23,7 +23,9 @@ export default class AllArticlesViewModel extends JavaClass(
   getArticles(): List<ArticleViewModel> {
     return super.createViews(
       ArticleViewModel.class as Class<ArticleViewModel>,
-      Query.from(Article.class).where(DirectoryStatic.hasPathPredicate()).selectAll()
+      Query.from(Article.class)
+        .where(DirectoryStatic.hasPathPredicate())
+        .selectAll()
     ) as List<ArticleViewModel>
   }
 }
