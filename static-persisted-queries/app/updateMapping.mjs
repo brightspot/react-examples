@@ -64,5 +64,9 @@ fetch(process.env.MAPPING_URL, {
       return res.json()
     }
   })
-  .then((res) => console.log(res))
+  .then((res) =>
+    console.log(
+      `✅ successfully updated mapping for version: ${res?.data?.brightspot_example_static_persisted_queries_SpqProtocolSave?.version}`
+    )
+  )
   .catch((err) => console.log(err))

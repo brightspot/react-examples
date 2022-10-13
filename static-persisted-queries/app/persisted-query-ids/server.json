@@ -1,3 +1,0 @@
-{
-   "078d01a5247f9813068ff8a0293315085037eed715dd0234ee4be16ba5548657": "query GetSpqItem($title: String) {\n  SpqItem(model: {title: $title}) {\n    title\n    body\n    __typename\n  }\n}"
-}

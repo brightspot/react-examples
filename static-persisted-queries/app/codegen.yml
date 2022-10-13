@@ -9,10 +9,6 @@ generates:
       - typescript-react-apollo
     config:
       withHooks: true
-  # persisted-query-ids/client.json:
-  #   - graphql-codegen-persisted-query-ids:
-  #         output: client
-  #         algorithm: sha256
 
   persisted-query-ids/server.json:
     - graphql-codegen-persisted-query-ids:

@@ -28,7 +28,7 @@ const headersLink = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      // make sure to add to access-control-allow-headers for Brightspot
+      // also added to access-control-allow-headers in Brightspot
       'X-App-Version': version,
     },
   }))

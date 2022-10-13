@@ -11,3 +11,13 @@ body {
   text-align: center;
   margin-top: 10em;
 }
+
+h1 {
+  color: #ee0120;
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #4b4545;
+}

@@ -32,8 +32,8 @@ export default class SpqEndpoint extends JavaClass(
 
   [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
     let version = WebRequest.getCurrent().getHeader('X-App-Version')
-    // NOTE: currently if the Query result is null no whitelist will be applied. In the near future an API key will be added
-    // for regular requests, but not for Persisted Query requests. Therefore, all queries not on a whitelist will require an API key
+    /* NOTE: currently if the Query result is null no whitelist will be applied. In the near future an API key will be added
+     for requests. Therefore, all queries not on a whitelist will require an API key */
     return Query.from(SpqProtocol.class)
       .where('version = ?', version)
       .first() as unknown as PersistedQueryProtocol
