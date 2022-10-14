@@ -1,20 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, createElement } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
 import { Mark, MarkedText } from '../brightspot-marked-text/types'
 import { markedText } from '../brightspot-marked-text/marked-text'
-import {
-  ParagraphComponent,
-  LineBreakComponent,
-  StrongComponent,
-  ItalicComponent,
-  UnderlineComponent,
-  SubScriptComponent,
-  SuperScriptComponent,
-  StrikethroughComponent,
-  OLComponent,
-  ULComponent,
-  LiComponent,
-} from './StyledComponents'
+import TagComponent from './StyledComponents'
 
 interface ArticleData {
   headline: string
@@ -88,69 +76,10 @@ const ArticleContainer = () => {
     children: Array<String | React.ReactElement>
   ) => {
     if (mark === null) return ''
-    const { name, start, end } = mark
-    if (name === 'p') {
-      return (
-        <ParagraphComponent
-          key={`${name}-${start}-${end}`}
-          children={children}
-        />
-      )
-    }
-    if (name === 'br') {
-      return <LineBreakComponent key={`${name}-${start}-${end}`} />
-    }
-    if (name === 'b') {
-      return (
-        <StrongComponent key={`${name}-${start}-${end}`} children={children} />
-      )
-    }
-    if (name === 'i') {
-      return (
-        <ItalicComponent key={`${name}-${start}-${end}`} children={children} />
-      )
-    }
-    if (name === 'u') {
-      return (
-        <UnderlineComponent
-          key={`${name}-${start}-${end}`}
-          children={children}
-        />
-      )
-    }
-    if (name === 's') {
-      return (
-        <StrikethroughComponent
-          key={`${name}-${start}-${end}`}
-          children={children}
-        />
-      )
-    }
-    if (name === 'sub') {
-      return (
-        <SubScriptComponent
-          key={`${name}-${start}-${end}`}
-          children={children}
-        />
-      )
-    }
-    if (name === 'sup') {
-      return (
-        <SuperScriptComponent
-          key={`${name}-${start}-${end}`}
-          children={children}
-        />
-      )
-    }
-    if (name === 'ol') {
-      return <OLComponent key={`${name}-${start}-${end}`} children={children} />
-    }
-    if (name === 'ul') {
-      return <ULComponent key={`${name}-${start}-${end}`} children={children} />
-    }
-    if (name === 'li') {
-      return <LiComponent key={`${name}-${start}-${end}`} children={children} />
-    }
+    const articleData = article
+    debugger
+    const { name, start, end, __typename } = mark
+    return <TagComponent typeName={__typename} tag={name} children={children} />
   }
 
   if (article?.articleData)
