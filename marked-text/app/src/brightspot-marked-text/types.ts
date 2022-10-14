@@ -4,6 +4,7 @@ export interface MarkedText {
 }
 
 export interface Mark {
+  __typename: string
   name: string
   start: number
   end: number
