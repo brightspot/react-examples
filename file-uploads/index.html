@@ -1,0 +1,56 @@
+<!DOCTYPE>
+<html lang="en">
+<head>
+    <title>CMA StorageItem Upload Example</title>
+</head>
+<body>
+<input type="file" id="file-selector">
+<script>
+    (() => {
+        const fileSelector = document.getElementById('file-selector');
+        fileSelector.addEventListener('change', (event) => {
+
+            const file = event.target.files[0];
+            const query = `mutation UploadFile($file: StorageItemInput) {
+      brightspot_example_file_uploads_FileUploadContentSave(
+        diffs: {brightspot_example_file_uploads_FileUploadContentDiff: {file: $file}}
+      ) {
+        _id
+        file {
+          securePublicUrl
+          contentType
+          path
+          publicUrl
+        }
+      }
+    }`
+            const variables = { file: null }
+            const operations = { query, variables }
+            const map = { 0: ['variables.file'] }
+
+            const formData = new FormData();
+            formData.append('operations', JSON.stringify(operations))
+            formData.append('map', JSON.stringify(map))
+            formData.append('0', file, file.name)
+
+            fetch('http://localhost/graphql/management/test', {
+                method: 'POST',
+                headers: {
+                    'x-client-id': '00000183d750dd5badf3ffde0ebf0000',
+                    'x-client-secret': 'bDTXVOo5wXbiUv3abbO8MxQsNyzlANsNIMNfoFt'
+                },
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(responseData => {
+                    console.log('Success:', responseData);
+                    document.body.innerHTML = '<div>Upload Successful!</div>'
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    })();
+</script>
+</body>
+</html>
