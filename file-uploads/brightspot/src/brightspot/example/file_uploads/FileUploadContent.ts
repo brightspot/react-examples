@@ -9,7 +9,7 @@ export default class FileUploadContent extends JavaClass(
   Content
 ) {
   @JavaField(String)
-  name: string
+  name?: string
 
   @JavaField(StorageItem)
   file: StorageItem
