@@ -26,7 +26,7 @@ export default class Article extends JavaClass(
     toolbar: GuideFieldRichTextToolbar.class,
     lines: 5,
   })
-  body?: string;
+  body?: string
 
   [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
     return Utils.toNormalized(this.headline)
