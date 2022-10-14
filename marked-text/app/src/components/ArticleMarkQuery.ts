@@ -19,6 +19,12 @@ query ArticleMarkQuery($path: String) {
               }
             }
           }
+          ... on RichTextMark {
+            __typename
+            start
+            end
+            descendants
+          }
         }
       }
     }
