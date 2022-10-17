@@ -1,0 +1,8 @@
+query Movies {
+  Movies {
+    movies {
+      title
+      description
+    }
+  }
+}

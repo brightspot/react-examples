@@ -15,3 +15,21 @@ body {
 .App > div {
   padding: 0 10%;
 }
+
+.movies-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.movie-card {
+  border-right: solid #ee0120;
+  border-bottom: solid #ee0120;
+  border-radius: 12px;
+}
+
+.movie-image {
+  width: 30%;
+}

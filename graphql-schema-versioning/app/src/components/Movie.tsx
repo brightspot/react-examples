@@ -1,25 +1,15 @@
-import { useMovieQuery } from '../generated'
+import { Movie } from '../generated'
 
-const Movie = () => {
-  const { loading, error, data } = useMovieQuery({
-    variables: {
-      path: '/spiderman-no-way-home',
-    },
-  })
+const MovieComponent = ({ title, description }: Movie) => (
+  <div className="movie-card">
+    <h1>{title}</h1>
+    <h2>{description}</h2>
+    <img
+      className="movie-image"
+      src="https://img.freepik.com/premium-vector/movie-camera-vector-icon-isolated-object-white-background_661273-89.jpg"
+      alt="movie"
+    />
+  </div>
+)
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>{error?.message}</div>
-
-  return (
-    <>
-      {data?.Movie && (
-        <div>
-          <h1>{data.Movie?.title}</h1>
-          <h2>{data?.Movie.description}</h2>
-        </div>
-      )}
-    </>
-  )
-}
-
-export default Movie
+export default MovieComponent
