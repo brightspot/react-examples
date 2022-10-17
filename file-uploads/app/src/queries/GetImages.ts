@@ -14,6 +14,7 @@ const GET_IMAGES = gql`
           }
         }
         _id
+        name
       }
     }
   }

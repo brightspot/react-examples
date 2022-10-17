@@ -24,12 +24,11 @@ ul {
   margin-top: 2rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 10px;
 }
 
 .image-gallery > li {
-  flex-basis: 350px; /* width: 350px; */
+  flex-basis: 350px;
   min-height: 100px;
   display: flex;
   align-items: center;
@@ -49,15 +48,25 @@ ul {
 
 .delete {
   position: absolute;
-  color: black;
-  top: 0;
+  color: #958f8f;
+  top: 4px;
   right: 4px;
   font-size: 30px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 7px;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .delete:hover {
   cursor: pointer;
-  color: #ee0120;
+  opacity: 0.8;
 }
 
 input[type='file'] {
@@ -83,7 +92,7 @@ input[type='file'] {
   position: absolute;
   bottom: 0;
   background: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  background: rgba(0, 0, 0, 0.5);
   color: #f1f1f1;
   width: 310px;
   transition: 0.5s ease;

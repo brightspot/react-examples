@@ -3,6 +3,19 @@ import { useMutation, useQuery } from '@apollo/client'
 import UPLOAD_IMAGE from './queries/UploadImage'
 import GET_IMAGES from './queries/GetImages'
 import DELETE_IMAGE from './queries/DeleteImage'
+import { ChangeEvent } from 'react'
+
+type ImageItem = {
+  file: {
+    contentType: string
+    securePublicUrl: string
+    metadata: {
+      entries: [{ value: string }]
+    }
+  }
+  name: string
+  _id: string
+}
 
 function App() {
   const [UploadImage, { error: imageError }] = useMutation(UPLOAD_IMAGE, {
@@ -13,15 +26,19 @@ function App() {
   })
 
   const [DeleteImage, { error: deleteImageError }] = useMutation(DELETE_IMAGE, {
-    onCompleted: (deletedFiledata) => {
+    onCompleted: () => {
       refetch()
-      console.log(deletedFiledata)
     },
   })
 
-  const handleFileUpload = (e: any) => {
-    const file = e.target.files[0]
-    UploadImage({ variables: { file } })
+  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log('handling file upload')
+    const file = e?.target?.files && e?.target?.files[0]
+    const name = file?.name
+    console.log(file?.size, name)
+    UploadImage({ variables: { file } }).then(() => {
+      e.target.value = '' // reset file upload input after completed
+    })
   }
 
   const handleDelete = (id: string) => {
@@ -40,12 +57,12 @@ function App() {
       {imageError && <div>{imageError.message}</div>}
       <label className="file-upload">
         Upload Image
-        <input type="file" name="file" onChange={handleFileUpload} />
+        <input type="file" name="file" onChange={(e) => handleFileUpload(e)} />
       </label>
       <div className="container">
         <ul className="image-gallery">
           {data?.brightspot_example_file_uploads_ImageQuery?.items.map(
-            (item: any) => (
+            (item: ImageItem) => (
               <li key={item?._id}>
                 <span
                   className="delete"
