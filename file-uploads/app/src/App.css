@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -9,4 +10,90 @@ body {
 
 .App {
   text-align: center;
+}
+
+h1 {
+  margin-bottom: 4rem;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.image-gallery {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.image-gallery > li {
+  flex-basis: 350px; /* width: 350px; */
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid #f1eced;
+  border-radius: 4px;
+}
+
+.image-gallery li img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+
+.delete {
+  position: absolute;
+  color: black;
+  top: 0;
+  right: 4px;
+  font-size: 30px;
+}
+
+.delete:hover {
+  cursor: pointer;
+  color: #ee0120;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.file-upload {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 22px;
+  color: #fff;
+  background: #ee0120;
+  border: 2px solid #ee0120;
+}
+
+.file-upload:hover {
+  background-color: #fff;
+  color: #ee0120;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 310px;
+  transition: 0.5s ease;
+  opacity: 0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+li:hover .overlay {
+  opacity: 1;
 }

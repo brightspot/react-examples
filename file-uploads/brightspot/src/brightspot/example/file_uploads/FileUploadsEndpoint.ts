@@ -8,18 +8,16 @@ import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQ
 import JavaClass from 'brightspot-types/JavaClass'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-
-import FileUploadContent from './FileUploadContent'
+import Image from './Image'
 export default class NotesEndpoint extends JavaClass(
   'brightspot.example.file_uploads.FileUploadsEndpoint',
   ContentManagementApiEndpoint,
   Singleton
 ) {
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
-    let fileUploadContentClass = FileUploadContent.class as Class<FileUploadContent>
-  
-    let entryPointField = new ContentManagementEntryPointField(fileUploadContentClass, true)
+    let image = Image.class as Class<Image>
 
+    let entryPointField = new ContentManagementEntryPointField(image, true)
 
     return [
       entryPointField,
