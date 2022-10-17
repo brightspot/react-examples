@@ -5,8 +5,9 @@ import List from 'brightspot-types/java/util/List'
 import ContentManagementApiEndpoint from 'brightspot-types/com/psddev/graphql/cma/ContentManagementApiEndpoint'
 import ContentManagementEntryPointField from 'brightspot-types/com/psddev/graphql/cma/ContentManagementEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
-import GraphQLSchemaVersion from 'brightspot-types/com/psddev/graphql/GraphQLSchemaVersion'
 import JavaClass from 'brightspot-types/JavaClass'
+
+import GraphQLSchemaVersion from 'brightspot-types/com/psddev/graphql/GraphQLSchemaVersion'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 export default class SchemaVersionEndpoint extends JavaClass(
@@ -15,16 +16,12 @@ export default class SchemaVersionEndpoint extends JavaClass(
   Singleton
 ) {
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
-    let schemaClass = GraphQLSchemaVersion.class as Class<GraphQLSchemaVersion>
-
-    let entryPointField1 = new ContentManagementEntryPointField(
-      schemaClass,
+    let schemaClass = new ContentManagementEntryPointField(
+      GraphQLSchemaVersion.class,
       true
     )
 
-    return [
-      entryPointField1,
-    ] as unknown as List<ContentManagementEntryPointField>
+    return [schemaClass] as unknown as List<ContentManagementEntryPointField>
   }
   getPaths(): JavaSet<string> {
     return ['/graphql/management/schema-versions'] as unknown as JavaSet<string>
