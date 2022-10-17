@@ -1,16 +1,12 @@
 import { exec } from 'child_process'
+import axios from 'axios'
 
 const SCHEMA_URL = 'http://localhost/graphql/management/schema-versions'
-const headers = new Headers()
 
-headers.append('X-Client-ID', '49b4fa3b444e34498db8d9199d7861f7')
-headers.append('X-Client-Secret', '1b1b957c-04cc-362c-810f-695862b9e96a')
-
-const graphqlSchemaQuery = JSON.stringify({
-  query: `
+const graphqlSchemaQuery = `
     query Schemas {
       versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
-        where: { predicate: "endpoint/getLabel = ?", arguments: "Movie Endpoint" }
+        where: { predicate: "endpoint/getLabel = ?", arguments: "Schema Versioning Movie Endpoint" }
         sorts: { order: descending, options: "timestamp" }
         limit: 2
       ) {
@@ -29,15 +25,7 @@ const graphqlSchemaQuery = JSON.stringify({
         }
       }
     }
-  `,
-})
-
-const requestOptions = {
-  method: 'POST',
-  headers: headers,
-  body: graphqlSchemaQuery,
-  redirect: 'follow',
-}
+  `
 
 const downloadSchemas = async (schemaUrls) => {
   await schemaUrls.forEach((schema) => {
@@ -54,9 +42,18 @@ const parseSchemaURLS = (schemas) => {
 
 const fetchSchemas = async (url) => {
   let schemas
-  await fetch(url, requestOptions)
-    .then((resp) => resp.json())
-    .then((res) => (schemas = res.data.versions.items))
+  await axios({
+    method: 'post',
+    url: SCHEMA_URL,
+    headers: {
+      'X-Client-ID': '49b4fa3b444e34498db8d9199d7861f7',
+      'X-Client-Secret': '1b1b957c-04cc-362c-810f-695862b9e96a',
+    },
+    data: {
+      query: graphqlSchemaQuery,
+    },
+    redirect: 'follow',
+  }).then((res) => (schemas = res.data.data.versions.items))
 
   parseSchemaURLS(schemas)
 }
