@@ -15,9 +15,7 @@ export default class NotesEndpoint extends JavaClass(
   Singleton
 ) {
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
-    let image = Image.class as Class<Image>
-
-    let entryPointField = new ContentManagementEntryPointField(image, true)
+    let entryPointField = new ContentManagementEntryPointField(Image.class as Class<Image>, true)
 
     return [
       entryPointField,

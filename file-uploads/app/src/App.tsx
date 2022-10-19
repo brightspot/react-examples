@@ -1,9 +1,12 @@
 import './App.css'
 import { useMutation, useQuery } from '@apollo/client'
+import { useState } from 'react'
+import { ChangeEvent } from 'react'
+import { RiDeleteBinLine } from 'react-icons/ri'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 import UPLOAD_IMAGE from './queries/UploadImage'
 import GET_IMAGES from './queries/GetImages'
 import DELETE_IMAGE from './queries/DeleteImage'
-import { ChangeEvent } from 'react'
 
 type ImageItem = {
   file: {
@@ -18,24 +21,27 @@ type ImageItem = {
 }
 
 function App() {
-  const [UploadImage, { error: imageError }] = useMutation(UPLOAD_IMAGE, {
-    onCompleted: (uploadedFiledata) => {
+  const [errorMessage, setErrorMessage] = useState('')
+  const [UploadImage] = useMutation(UPLOAD_IMAGE, {
+    onError: (err) => {
+      setErrorMessage(err.message)
+    },
+    onCompleted: () => {
       refetch()
-      console.log(uploadedFiledata)
     },
   })
 
-  const [DeleteImage, { error: deleteImageError }] = useMutation(DELETE_IMAGE, {
+  const [DeleteImage] = useMutation(DELETE_IMAGE, {
+    onError: (err) => {
+      setErrorMessage(err.message)
+    },
     onCompleted: () => {
       refetch()
     },
   })
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('handling file upload')
     const file = e?.target?.files && e?.target?.files[0]
-    const name = file?.name
-    console.log(file?.size, name)
     UploadImage({ variables: { file } }).then(() => {
       e.target.value = '' // reset file upload input after completed
     })
@@ -45,31 +51,38 @@ function App() {
     DeleteImage({ variables: { id: id } })
   }
 
-  const { data, loading, error, refetch } = useQuery(GET_IMAGES)
+  const { data, loading, refetch } = useQuery(GET_IMAGES, {
+    onError: (err) => {
+      setErrorMessage(err.message)
+    },
+  })
 
-  if (error) return <div>{error.message}</div>
   if (loading) return <div>Loading...</div>
-  if (deleteImageError) return <div>{deleteImageError.message}</div>
 
   return (
     <div className="App">
       <h1>File Uploads</h1>
-      {imageError && <div>{imageError.message}</div>}
       <label className="file-upload">
         Upload Image
         <input type="file" name="file" onChange={(e) => handleFileUpload(e)} />
       </label>
       <div className="container">
+        {errorMessage && (
+          <p className="error">
+            <AiOutlineCloseCircle
+              className="error-close"
+              onClick={() => setErrorMessage('')}
+            />
+            {errorMessage}
+          </p>
+        )}
         <ul className="image-gallery">
           {data?.brightspot_example_file_uploads_ImageQuery?.items.map(
             (item: ImageItem) => (
               <li key={item?._id}>
-                <span
-                  className="delete"
-                  onClick={() => handleDelete(item?._id)}
-                >
-                  &times;
-                </span>
+                <div className="delete" onClick={() => handleDelete(item?._id)}>
+                  <RiDeleteBinLine />
+                </div>
                 <img src={item?.file?.securePublicUrl} alt={item.name} />
                 <div className="overlay">
                   {item?.file?.metadata?.entries[0].value}

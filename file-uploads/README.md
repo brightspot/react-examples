@@ -122,7 +122,7 @@ Your result should look similar to the following:
 }
 ```
 
-You can also view metadata for an Image by selecting a published Image Item from the dashboard, then clicking on the three ellipses (**•••**) on the top right of the image, then select **Source Data**. 
+You can also view metadata for an Image by selecting a published Image Item from the dashboard, then clicking on the three ellipsis (**•••**) on the top right of the image, then select **Source Data**. 
 #### Points to note in the front-end application:
 - `createUploadLink`: this function is provided from the NPM package [apollo-upload-client](https://github.com/jaydenseric/apollo-upload-client). This function creates a terminating Apollo Link for Apollo Client that fetches a [GraphQL multipart request](https://github.com/jaydenseric/graphql-multipart-request-spec) if the GraphQL variables contain files. 
 
