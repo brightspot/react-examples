@@ -85,13 +85,13 @@ From the `graphql-schema-versioning/brightspot` directory run the following comm
 npx brightspot types upload src
 ```
 
-To check via Brightspot, navigate to the GraphQL Explorer and it will show the new fields added to the schema for **Movie**.
+To check via Brightspot, navigate to the GraphQL Explorer and it will show the new fields added to the schema for **Movie** in the **Schema Versioning Movie Endpoint**.
 
 ## Step 4 Tracking GraphQL Schema Versions via Brightspot
 
 Navigate to the **Menu** &rarr; **Admin** &rarr; **APIs**
 
-On the left rail, click on **Movie Endpoint**.
+On the left rail, click on **Schema Versioning Movie Endpoint**.
 
 Click on the ellipsis on the right side of the page and select **ADVANCED** to see a list of Schema Versions in chronological order.
 
@@ -198,7 +198,7 @@ const MovieComponent = ({
       src="https://img.freepik.com/premium-vector/movie-camera-vector-icon-isolated-object-white-background_661273-89.jpg"
       alt="movie"
     />
-    <h3>{releaseTear}</h3>
+    <h3>{releaseYear}</h3>
     <h3>{director}</h3>
   </div>
 )
