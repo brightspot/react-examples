@@ -1,9 +1,10 @@
 import './App.css'
 import { useMutation, useQuery } from '@apollo/client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ChangeEvent } from 'react'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { HiInformationCircle } from 'react-icons/hi'
 import UPLOAD_IMAGE from './queries/UploadImage'
 import GET_IMAGES from './queries/GetImages'
 import DELETE_IMAGE from './queries/DeleteImage'
@@ -13,7 +14,7 @@ type ImageItem = {
     contentType: string
     securePublicUrl: string
     metadata: {
-      entries: [{ value: string }]
+      json: string
     }
   }
   name: string
@@ -22,6 +23,21 @@ type ImageItem = {
 
 function App() {
   const [errorMessage, setErrorMessage] = useState('')
+  const [showImageMetadata, setShowImageMetadata] = useState('')
+  const infoRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (infoRef.current && !infoRef.current.contains(e.target)) {
+        setShowImageMetadata('')
+      }
+    }
+    document.addEventListener('click', handleClickOutside, true)
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true)
+    }
+  })
+
   const [UploadImage] = useMutation(UPLOAD_IMAGE, {
     onError: (err) => {
       setErrorMessage(err.message)
@@ -41,6 +57,7 @@ function App() {
   })
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    setErrorMessage('')
     const file = e?.target?.files && e?.target?.files[0]
     UploadImage({ variables: { file } }).then(() => {
       e.target.value = '' // reset file upload input after completed
@@ -48,6 +65,7 @@ function App() {
   }
 
   const handleDelete = (id: string) => {
+    setErrorMessage('')
     DeleteImage({ variables: { id: id } })
   }
 
@@ -56,6 +74,14 @@ function App() {
       setErrorMessage(err.message)
     },
   })
+
+  const handleShowImageMetadata = (id: string) => {
+    if (showImageMetadata === id) {
+      setShowImageMetadata('')
+    } else {
+      setShowImageMetadata(id)
+    }
+  }
 
   if (loading) return <div>Loading...</div>
 
@@ -83,10 +109,23 @@ function App() {
                 <div className="delete" onClick={() => handleDelete(item?._id)}>
                   <RiDeleteBinLine />
                 </div>
-                <img src={item?.file?.securePublicUrl} alt={item.name} />
-                <div className="overlay">
-                  {item?.file?.metadata?.entries[0].value}
+                <div
+                  className="info"
+                  ref={infoRef}
+                  onClick={() => {
+                    handleShowImageMetadata(item?._id)
+                  }}
+                >
+                  <HiInformationCircle />
                 </div>
+                <div
+                  className="popup"
+                  data-show={showImageMetadata === item?._id ? true : null}
+                >
+                  <p>Metadata:</p>
+                  <pre>{item.file.metadata.json}</pre>
+                </div>
+                <img src={item?.file?.securePublicUrl} alt={item.name} />
               </li>
             )
           )}

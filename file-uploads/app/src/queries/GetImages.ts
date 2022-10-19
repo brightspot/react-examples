@@ -1,16 +1,14 @@
 import { gql } from '@apollo/client'
 
 const GET_IMAGES = gql`
-  query GetImages($keys: [String!] = ["originalFilename"]) {
+  query GetImages {
     brightspot_example_file_uploads_ImageQuery {
       items {
         file {
           securePublicUrl
           contentType
           metadata {
-            entries(keys: $keys) {
-              value
-            }
+            json
           }
         }
         _id

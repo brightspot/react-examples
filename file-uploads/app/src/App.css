@@ -13,6 +13,9 @@ body {
   width: 100%;
 }
 
+img {
+  max-width: 100%;
+}
 h1 {
   margin-bottom: 2rem;
 }
@@ -40,11 +43,11 @@ ul {
 }
 
 .image-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 10px;
+  gap: 16px;
   padding: 0;
   margin: 16px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .image-gallery > li {
@@ -58,9 +61,8 @@ ul {
 
 .image-gallery li img {
   object-fit: cover;
-  width: 100%;
-  height: 100%;
-  vertical-align: middle;
+  max-width: 100%;
+  max-height: 30vh;
   border-radius: 4px;
 }
 
@@ -87,8 +89,56 @@ ul {
   opacity: 0.8;
 }
 
+.info {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  color: #000;
+  font-size: 1.3rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  padding: 5px;
+  z-index: 15;
+}
+
 input[type='file'] {
   display: none;
+}
+
+.info:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.popup {
+  display: none;
+}
+
+.popup[data-show] {
+  display: block;
+  position: absolute;
+  top: 23px;
+  left: 22px;
+  background-color: #fff;
+  max-width: 800px;
+  text-align: left;
+  padding: 1rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  z-index: 10;
+}
+
+pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
 }
 
 .file-upload {
@@ -104,23 +154,4 @@ input[type='file'] {
 .file-upload:hover {
   background-color: #fff;
   color: #ee0120;
-}
-
-.overlay {
-  position: absolute;
-  bottom: 0;
-  background: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.5);
-  color: #f1f1f1;
-  width: calc(100% - 2em);
-  transition: 0.5s ease;
-  opacity: 0;
-  color: white;
-  font-size: 20px;
-  padding: 20px;
-  text-align: center;
-}
-
-li:hover .overlay {
-  opacity: 1;
 }

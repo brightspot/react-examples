@@ -42,9 +42,7 @@ npx brightspot types upload src
 ## Using the example application
 The front-end application displays **Image** items stored in Brightspot. 
 
-Once you have the front-end application running, select an image to upload. Click **Upload Image** in the browser. You should see your image appear. If you select a file that is not an image, you should see an error in the browser. You can also delete uploaded images by clicking the **X** on the top right of the image card. 
-
-If you hover over the image card, you will see the file name. 
+Once you have the front-end application running, select an image to upload. Click **Upload Image** in the browser. You should see your image appear. If you select a file that is not an image, you should see an error in the browser. You can delete uploaded images by clicking the **X** on the top right of the image card. Click on the information icon on the top left of the image card to view metadata for the image.
  
 ## How everything works
 JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript (TypeScript). One powerful feature Brightspot provides is ease of content modeling and querying for content data with GraphQL. Navigate to `brightspot/src/examples/file_uploads`. This directory contains the JS Class files that are uploaded to Brightspot.
@@ -123,6 +121,8 @@ Your result should look similar to the following:
 ```
 
 You can also view metadata for an Image by selecting a published Image Item from the dashboard, then clicking on the three ellipsis (**•••**) on the top right of the image, then select **Source Data**. 
+
+Finally, you can choose to display fetch metadata as one large json output. The metadata shown in the front-end for this application uses the json data.
 #### Points to note in the front-end application:
 - `createUploadLink`: this function is provided from the NPM package [apollo-upload-client](https://github.com/jaydenseric/apollo-upload-client). This function creates a terminating Apollo Link for Apollo Client that fetches a [GraphQL multipart request](https://github.com/jaydenseric/graphql-multipart-request-spec) if the GraphQL variables contain files. 
 
