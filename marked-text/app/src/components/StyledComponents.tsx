@@ -9,6 +9,7 @@ interface ConvertedElementProps {
 }
 
 const TagComponent = ({ typeName, tag, children }: TagElProps) => {
+  // This example is only using HTML Marks
   if (typeName === 'RichTextMark') return <span></span>
   if (tag === 'br') return <LineBreakComponent />
   const Tag = `${tag}` as React.ElementType

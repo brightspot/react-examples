@@ -1,25 +1,24 @@
 import { MarkedText, Mark, VisitMark } from './types'
 
-const markedText = (markedText: MarkedText, visitMark: VisitMark) => {
-  let postOrder = new MarkedTextPostOrderTraversal(markedText, visitMark)
+//Currently only POST order is implemented
+const markedText = (
+  markedText: MarkedText,
+  visitMark: VisitMark,
+  order: String
+) => {
+  let traverseOrder
+  if (order === 'POST') {
+    traverseOrder = new MarkedTextPostOrderTraversal(markedText, visitMark)
+  } else {
+    throw Object.assign(
+      new Error(
+        `${order} is not a valid traverse order, please use 'PRE' or 'POST'. Provide no argument here for default options.`
+      )
+    )
+  }
 
-  return postOrder.traverse()
+  return traverseOrder.traverse()
 }
-
-// const visitMark = (mark: Mark | null, children: Array<String>): String => {
-//   if (mark === null) return ''
-//   let builder = ''
-//   builder += buildMarkStart(mark)
-//   children.forEach((child) => {
-//     builder += child
-//   })
-//   builder += buildMarkEnd(mark)
-//   return builder
-// }
-
-// const buildMarkStart = (mark: Mark): String => `<${mark.name}>`
-
-// const buildMarkEnd = (mark: Mark): String => `</${mark.name}>`
 
 class MarkedTextPostOrderTraversal {
   markedText: MarkedText
@@ -82,7 +81,11 @@ class MarkedTextPostOrderTraversal {
     if (markNode.isRoot()) {
       return output
     } else {
-      let transformedMark = this.visitor(markNode.getMark(), output)
+      let transformedMark = this.visitor(
+        markNode.getMark(),
+        output,
+        markNode.getIndex()
+      )
 
       if (transformedMark != null) {
         return [transformedMark]

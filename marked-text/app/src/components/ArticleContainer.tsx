@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, createElement } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
 import { Mark, MarkedText } from '../brightspot-marked-text/types'
 import { markedText } from '../brightspot-marked-text/marked-text'
@@ -30,11 +30,9 @@ const ArticleContainer = () => {
         body: res.data.Article.body,
       }
     }
-    if (res.errors) {
-      for (let error of res.errors) {
-        errors.push(error.message)
-      }
-    }
+    if (res.errors)
+      res.errors.forEach((error: any) => errors.push(error.message))
+
     setArticle({
       articleData,
       errors: errors,
@@ -73,24 +71,27 @@ const ArticleContainer = () => {
 
   const componentHandler = (
     mark: Mark | null,
-    children: Array<String | React.ReactElement>
+    children: Array<String | React.ReactElement>,
+    index: number
   ) => {
     if (mark === null) return ''
-    const articleData = article
-    debugger
-    const { name, start, end, __typename } = mark
-    return <TagComponent typeName={__typename} tag={name} children={children} />
+    const { name, __typename } = mark
+    return (
+      <TagComponent
+        key={index}
+        typeName={__typename}
+        tag={name}
+        children={children}
+      />
+    )
   }
 
-  if (article?.articleData)
-    markedText(article?.articleData?.body, componentHandler)
   return (
     <div>
       <h1>{article?.articleData?.headline}</h1>
       <h2>{article?.articleData?.subheadline}</h2>
-      {/* hey api, here is api, here is the marked text, return it */}
       {article?.articleData &&
-        markedText(article?.articleData?.body, componentHandler).map(
+        markedText(article?.articleData?.body, componentHandler, 'POST').map(
           (Component: React.ReactElement, index: number) => {
             return Component
           }
