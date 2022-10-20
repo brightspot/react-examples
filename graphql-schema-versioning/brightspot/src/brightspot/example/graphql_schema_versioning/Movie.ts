@@ -15,4 +15,10 @@ export default class Movie extends JavaClass(
 
   @JavaField(String)
   description?: string
+
+  @JavaField(Long)
+  releaseYear?: number
+
+  @JavaField(String)
+  director?: string
 }
