@@ -45,27 +45,23 @@ From the `graphql-schema-versioning/app` directory run the following command:
 yarn codegen
 ```
 
-The `codegen.yml` file will take the query included in `/components/MoviesQuery.graphql` as well as the schema from `http://localhost/graphql/delivery/movies` and will create a `generated.ts` file.
+The `codegen.yml` file will take the query included in `/components/MoviesQuery.graphql` as well as the schema from `http://localhost/graphql/delivery/movies` and will create a `generated.ts` file. This file will contain types and hooks based on the query.
 
-This file will contain types and hooks based on the query.
+The script will also generate a timestamp file located `/schemas/timeStamp.mjs`.
 
 ## Step 3 Update the Schema
 
-Run the front-end application to confirm that the published **Movie** content renders. Then add the following changes to the **Movie** Content Type and View Model located at `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/`:
+Run the front-end application to confirm that the published **Movie** content renders.
 
-`Movie.ts`:
-
-```js
-  @JavaField(Long)
-  releaseYear?: number
-
-  @JavaField(String)
-  director?: string;
-```
-
-`MovieViewModel.ts`:
+Then add the following changes to the **Movie** View Model located at `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts` **_replacing_** `getDescription()` with `getPlot()` :
 
 ```js
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getPlot(): string {
+    return this.model.description
+  }
+
   @JavaMethodParameters()
   @JavaMethodReturn(Number)
   getReleaseYear(): number {
@@ -107,22 +103,24 @@ From the `graphql-schema-versioning/app` directory run the following command:
 yarn schemas
 ```
 
-This will run the `downloadSchemas.mjs` to save the two most recent schemas to `graphql-schema-versioning/app/schemas`.
+This will run the `downloadSchemas.mjs` to save the two schemas to `graphql-schema-versioning/app/schemas`, `codegenSchema.graphql` which will be based on the timestamp when `yarn codegen` was executed and `newSchema.graphql` which will be the newest schema on the server.
 
-Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Run the following with **<file1>** being the old schema and **<file2>** being the new schema:
+Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Run the following with `codegenSchema.graphql`being the old schema and `newSchema.graphql` being the new schema:
 
 ```sh
-npx graphql-inspector diff ./schemas/<file1> ./schemas/<file2>
+npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
 ```
 
-The graphql-inspector will run and display the number of changes that were made. If there are no breaking changes, it will return a 'success' message. If there are breaking changes, it will return an ERROR message mand serve as a warning that the front-end will need to be updated.
+The graphql-inspector will run and display the number of changes that were made. If there are no breaking changes, it will return a 'success' message. If there are breaking changes, it will return an ERROR message mand serve as a warning that the front-end will need to be updated to address these changes or the schema needs to be updated to restore and deprecate the field.
 
 ```sh
-Detected the following changes (2) between schemas:
+Detected the following changes (4) between schemas:
 
+✖  Field description was removed from object type Movie
 ✔  Field director was added to object type Movie
+✔  Field plot was added to object type Movie
 ✔  Field releaseYear was added to object type Movie
-success No breaking changes detected
+error Detected 1 breaking change
 ```
 
 ## Step 6 Update The App
@@ -140,7 +138,7 @@ query Movies {
   Movies {
     movies {
       title
-      description
+      plot
       releaseYear
       director
     }
@@ -167,7 +165,7 @@ const MovieContainer = () => {
           <MovieComponent
             key={index}
             title={movie?.title}
-            description={movie?.description}
+            plot={movie?.plot}
             releaseYear={movie?.releaseYear}
             director={movie?.director}
           />
@@ -184,15 +182,10 @@ Movie:
 ```js
 import { Movie } from '../generated'
 
-const MovieComponent = ({
-  title,
-  description,
-  releaseYear,
-  director,
-}: Movie) => (
+const MovieComponent = ({ title, plot, releaseYear, director }: Movie) => (
   <div className="movie-card">
     <h1>{title}</h1>
-    <h2>{description}</h2>
+    <h2>{plot}</h2>
     <img
       className="movie-image"
       src="https://img.freepik.com/premium-vector/movie-camera-vector-icon-isolated-object-white-background_661273-89.jpg"
@@ -218,20 +211,19 @@ Go back to your **Movie** content and update the fields published in Brightspot 
 
 ## Try it yourself
 
-Make a breaking change to the `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/Movie.ts` file and remove one of the fields and in the view model `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts`, then upload into Brightspot.
+Make a breaking change, remove one of the fields and in the view model `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts`, then upload into Brightspot.
 
 ```
 yarn schemas
 ```
 
-Confirm the files have saved to `graphql-schema-versioning/app/schemas`.
-Run the following with **file1** being the old schema and **file2** being the new schema:
+Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Run the following with `codegenSchema.graphql`being the old schema and `newSchema.graphql` being the new schema:
 
 ```sh
-npx graphql-inspector diff ./schemas/file1 ./schemas/file2
+npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
 ```
 
-The graphql-inspector cli will display the breaking changes.
+The graphql-inspector cli will display the changes.
 
 Run Codegen once more and there will be an error that there is no field for the specified removed field that the query `graphql-schema-versioning/app/src/components/MovieQuery.graphql` is asking for.
 
