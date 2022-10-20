@@ -1,1 +1,1 @@
-## **Schema Files will be downloaded into this directory.**
+## **Schema Files and timeStampe will be downloaded into this directory.**
