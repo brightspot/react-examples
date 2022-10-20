@@ -1,5 +1,6 @@
 import { exec } from 'child_process'
 import axios from 'axios'
+import { timeStamp } from './schemas/timestamp.mjs'
 
 const SCHEMA_URL = 'http://localhost/graphql/management/schema-versions'
 
@@ -8,7 +9,6 @@ const graphqlSchemaQuery = `
       versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
         where: { predicate: "endpoint/getLabel = ?", arguments: "Schema Versioning Movie Endpoint" }
         sorts: { order: descending, options: "timestamp" }
-        limit: 2
       ) {
         items {
           _id
@@ -27,17 +27,24 @@ const graphqlSchemaQuery = `
     }
   `
 
-const downloadSchemas = async (schemaUrls) => {
-  await schemaUrls.forEach((schema) => {
-    exec(
-      `curl ${schema} -o  ./schemas/${schema.match(/movie-endpoint(.*)/g)[0]}`
-    )
+const downloadSchemas = async (schemasToDownload) => {
+  await schemasToDownload.forEach((schema) => {
+    exec(`curl ${schema.schema.publicUrl} > ./schemas/${schema.name}.graphql`)
   })
 }
 
 const parseSchemaURLS = (schemas) => {
-  const schemaUrls = schemas.map((schema) => schema.schema.publicUrl)
-  downloadSchemas(schemaUrls)
+  const schemasCopy = JSON.parse(JSON.stringify(schemas))
+  const codegenSchema = schemasCopy.filter(
+    (schema) => schema.timestamp <= timeStamp
+  )[0]
+  codegenSchema.name = 'codegenSchema'
+
+  const mostRecentSchema = schemas[0]
+  mostRecentSchema.name = 'newSchema'
+
+  const schemasToDownload = [mostRecentSchema, codegenSchema]
+  downloadSchemas(schemasToDownload)
 }
 
 const fetchSchemas = async (url) => {
@@ -46,8 +53,8 @@ const fetchSchemas = async (url) => {
     method: 'post',
     url: SCHEMA_URL,
     headers: {
-      'X-Client-ID': '49b4fa3b444e34498db8d9199d7861f7',
-      'X-Client-Secret': '1b1b957c-04cc-362c-810f-695862b9e96a',
+      'X-Client-ID': '8ead87c8288f3352831f4735453ceaea',
+      'X-Client-Secret': '415bcc65-d87a-3c30-89fa-97d469946171',
     },
     data: {
       query: graphqlSchemaQuery,
