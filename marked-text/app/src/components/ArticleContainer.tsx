@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
-import { Mark, MarkedText } from '../brightspot-marked-text/types'
-import { markedText } from '../brightspot-marked-text/marked-text'
+import { Mark, MarkedText } from '../../brightspot-marked-text/types'
+import { markedText } from '../../brightspot-marked-text/marked-text'
 import TagComponent from './StyledComponents'
 
 interface ArticleData {
