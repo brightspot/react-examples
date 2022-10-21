@@ -1,6 +1,6 @@
 import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
-import JavaField from 'brightspot-types/JavaField'
+
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
@@ -12,13 +12,13 @@ import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLA
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import PersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryProtocol'
+import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
+import WebRequest from 'brightspot-types/com/psddev/dari/web/WebRequest'
 
 import SpqItemViewModel from './SpqItemViewModel'
+import SpqItemsViewModel from './SpqItemsViewModel'
 import SpqProtocol from './SpqProtocol'
-import WebRequest from 'brightspot-types/com/psddev/dari/web/WebRequest'
-import Query from 'brightspot-types/com/psddev/dari/db/Query'
-import ReadOnly from 'brightspot-types/com/psddev/cms/db/ToolUi$ReadOnly'
 
 @DisplayName({ value: 'SPQ Endpoint' })
 export default class SpqEndpoint extends JavaClass(
@@ -40,7 +40,10 @@ export default class SpqEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [SpqItemViewModel.class as Class<SpqItemViewModel>].map(
+    return [
+      SpqItemViewModel.class as Class<SpqItemViewModel>,
+      SpqItemsViewModel.class as Class<SpqItemsViewModel>,
+    ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
@@ -59,14 +62,5 @@ export default class SpqEndpoint extends JavaClass(
 
   getApiAccessOption(): GraphQLApiAccessOption {
     return new GraphQLApiAccessOptionImplicit()
-  }
-
-  @ReadOnly
-  @JavaField(List.Of(SpqProtocol))
-  spqProtocols: List<SpqProtocol>
-  onCreate() {
-    this.spqProtocols = Query.from(
-      SpqProtocol.class
-    ).selectAll() as List<SpqProtocol>
   }
 }

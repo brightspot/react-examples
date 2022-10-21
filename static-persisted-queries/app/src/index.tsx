@@ -23,7 +23,6 @@ const persistedLink = createPersistedQueryLink({
   useGETForHashedQueries: true,
 })
 
-console.log({ version })
 const headersLink = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {

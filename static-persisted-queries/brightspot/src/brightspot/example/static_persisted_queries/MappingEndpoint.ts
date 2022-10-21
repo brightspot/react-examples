@@ -26,6 +26,7 @@ export default class MappingEndpoint extends JavaClass(
       entryPointField1,
     ] as unknown as List<ContentManagementEntryPointField>
   }
+
   getPaths(): JavaSet<string> {
     return ['/graphql/management/mapping'] as unknown as JavaSet<string>
   }

@@ -32,15 +32,13 @@ export default class MappingEndpointClient extends JavaClass(
 
     if (!client.getEndpoints().contains(this)) {
       let endpoints = new ArrayList<ApiEndpoint>(client.getEndpoints())
-      endpoints['add(java.lang.Object)'](original)
+      endpoints.add(original)
 
       client.setEndpoints(endpoints as unknown as JavaSet<ApiEndpoint>)
       client.saveImmediately()
     }
 
-    let key = Query.from(ApiKey.class)
-      ['where(java.lang.String,java.lang.Object[])']('value = ?', clientSecret)
-      .first()
+    let key = Query.from(ApiKey.class).where('value = ?', clientSecret).first()
     if (key == null) {
       key = new ApiKey()
       key.setClient(client)

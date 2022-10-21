@@ -1,5 +1,6 @@
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
+
 import Map from 'brightspot-types/java/util/Map'
 
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'

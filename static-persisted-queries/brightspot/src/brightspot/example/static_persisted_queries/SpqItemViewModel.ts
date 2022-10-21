@@ -6,7 +6,6 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import SpqItem from './SpqItem'
-
 @ViewInterface
 export default class SpqItemViewModel extends JavaClass(
   'brightspot.example.static_persisted_queries.SpqItemViewModel',
