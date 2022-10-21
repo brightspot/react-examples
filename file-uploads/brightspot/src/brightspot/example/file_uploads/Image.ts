@@ -18,8 +18,8 @@ export default class Image extends JavaClass(
 
   beforeSave(): void {
     if (!this.name) {
-      const string = this.file.getSecurePublicUrl()
-      this.name = string.slice(string.lastIndexOf('/')).slice(1)
+      const url = this.file.getSecurePublicUrl()
+      this.name = url.slice(url.lastIndexOf('/')).slice(1)
     }
   }
 }

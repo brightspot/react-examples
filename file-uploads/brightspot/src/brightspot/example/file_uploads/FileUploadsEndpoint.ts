@@ -9,18 +9,23 @@ import JavaClass from 'brightspot-types/JavaClass'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import Image from './Image'
+
 export default class NotesEndpoint extends JavaClass(
   'brightspot.example.file_uploads.FileUploadsEndpoint',
   ContentManagementApiEndpoint,
   Singleton
 ) {
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
-    let entryPointField = new ContentManagementEntryPointField(Image.class as Class<Image>, true)
+    let entryPointField = new ContentManagementEntryPointField(
+      Image.class as Class<Image>,
+      true
+    )
 
     return [
       entryPointField,
     ] as unknown as List<ContentManagementEntryPointField>
   }
+
   getPaths(): JavaSet<string> {
     return ['/graphql/management/file-uploads'] as unknown as JavaSet<string>
   }

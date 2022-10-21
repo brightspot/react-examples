@@ -1,19 +1,23 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  InMemoryCache,
+} from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
 
 const link = createUploadLink({
-  uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
+  uri: process.env.REACT_APP_GRAPHQL_URL,
   headers: {
-    'X-Client-ID': process.env.REACT_APP_CLIENT_ID!,
-    'X-Client-Secret': process.env.REACT_APP_CLIENT_SECRET!,
+    'X-Client-ID': process.env.REACT_APP_CLIENT_ID,
+    'X-Client-Secret': process.env.REACT_APP_CLIENT_SECRET,
   },
-})
+}) as unknown as ApolloLink
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  //@ts-ignore
   link,
 })
 

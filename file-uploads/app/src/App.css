@@ -1,9 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap');
+
+:root {
+  --black: #202124;
+  --text: #4b4545;
+  --red: #ee0120;
+  --border: #f1eced;
+  --blue: #2a5975;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Noto Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -16,8 +24,10 @@ body {
 img {
   max-width: 100%;
 }
+
 h1 {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  color: var(--black);
 }
 
 ul {
@@ -30,7 +40,7 @@ ul {
 }
 
 .error {
-  color: #ee0120;
+  color: var(--red);
   word-wrap: break-word;
 }
 
@@ -55,8 +65,8 @@ ul {
   align-items: center;
   justify-content: center;
   position: relative;
-  border: 1px solid #f1eced;
   border-radius: 4px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .image-gallery li img {
@@ -72,13 +82,12 @@ ul {
   top: 4px;
   right: 4px;
   font-size: 30px;
-  background: #fff;
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
-  padding: 5px;
+  padding: 2px;
   height: 20px;
   width: 20px;
   text-align: center;
-  opacity: 0.5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,7 +95,8 @@ ul {
 
 .delete:hover {
   cursor: pointer;
-  opacity: 0.8;
+  color: var(--blue);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .info {
@@ -94,17 +104,18 @@ ul {
   top: 4px;
   left: 4px;
   color: #000;
-  font-size: 1.3rem;
+  font-size: 1rem;
   width: 20px;
   height: 20px;
+  padding: 2px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.5;
-  padding: 5px;
+  font-weight: 800;
   z-index: 15;
+  border-radius: 50%;
 }
 
 input[type='file'] {
@@ -113,7 +124,8 @@ input[type='file'] {
 
 .info:hover {
   cursor: pointer;
-  opacity: 0.8;
+  color: var(--blue);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .popup {
@@ -124,9 +136,11 @@ input[type='file'] {
   display: block;
   position: absolute;
   top: 23px;
-  left: 22px;
+  left: 10px;
   background-color: #fff;
-  max-width: 800px;
+  max-width: 310px;
+  height: 400px;
+  overflow-y: scroll;
   text-align: left;
   padding: 1rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -134,10 +148,10 @@ input[type='file'] {
 }
 
 pre {
-  white-space: pre-wrap; /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
   word-wrap: break-word;
 }
 
@@ -147,11 +161,11 @@ pre {
   padding: 0.5rem 1rem;
   border-radius: 22px;
   color: #fff;
-  background: #ee0120;
-  border: 2px solid #ee0120;
+  background: var(--red);
+  border: 2px solid var(--red);
 }
 
 .file-upload:hover {
   background-color: #fff;
-  color: #ee0120;
+  color: var(--red);
 }

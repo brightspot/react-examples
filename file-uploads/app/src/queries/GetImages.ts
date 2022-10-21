@@ -5,7 +5,7 @@ const GET_IMAGES = gql`
     brightspot_example_file_uploads_ImageQuery {
       items {
         file {
-          securePublicUrl
+          publicUrl
           contentType
           metadata {
             json
