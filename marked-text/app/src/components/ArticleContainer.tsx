@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
-import { Mark, MarkedText } from '../../brightspot-marked-text/types'
-import { markedText } from '../../brightspot-marked-text/marked-text'
+import { Mark, MarkedText } from '../brightspot-marked-text/types'
+import { markedText } from '../brightspot-marked-text/marked-text'
 import TagComponent from './StyledComponents'
 
 interface ArticleData {
@@ -75,13 +75,14 @@ const ArticleContainer = () => {
     index: number
   ) => {
     if (mark === null) return ''
-    const { name, __typename } = mark
+    const { name, __typename, attributes } = mark
     return (
       <TagComponent
         key={index}
         typeName={__typename}
         tag={name}
         children={children}
+        attributes={attributes}
       />
     )
   }
