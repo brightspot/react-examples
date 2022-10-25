@@ -9,6 +9,9 @@ export interface Mark {
   start: number
   end: number
   descendants: number
+  attributes: {
+    entries: [{ key: string; value: string }]
+  }
 }
 
 export interface VisitMark {

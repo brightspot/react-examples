@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "brightspot-marked-text"]
+  "include": ["src", "src/brightspot-marked-text"]
 }

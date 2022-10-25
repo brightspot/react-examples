@@ -10,3 +10,13 @@ body {
 .App {
   padding: 20px;
 }
+
+.cms-textAlign-left {
+  text-align: left;
+}
+.cms-textAlign-center {
+  text-align: center;
+}
+.cms-textAlign-right {
+  text-align: right;
+}

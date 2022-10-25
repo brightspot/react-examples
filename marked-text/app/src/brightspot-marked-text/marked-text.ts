@@ -7,6 +7,7 @@ const markedText = (
   order: String
 ) => {
   let traverseOrder
+
   if (order === 'POST') {
     traverseOrder = new MarkedTextPostOrderTraversal(markedText, visitMark)
   } else {
@@ -141,6 +142,10 @@ class MarkNode {
 
   getIndex(): number {
     return this.index
+  }
+
+  getAttributes(): {} {
+    return this.mark != null ? this.mark.attributes : {}
   }
 
   getStart(): number {
