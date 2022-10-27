@@ -1,5 +1,8 @@
-import { Article } from '../generated'
-import { GET_HELLO_WITH_PARAMS, POST_ARTICLE } from '../api/api'
+import {
+  Brightspot_Example_Restification_Member,
+  Brightspot_Example_Restification_MemberQueryResult,
+} from '../generated'
+import { GET_MEMBER_WITH_PARAMS, POST_MEMBER } from '../api/api'
 
 let timeoutId: ReturnType<typeof setTimeout>
 const debounce = (fn: Function, ms = 300) => {
@@ -9,47 +12,61 @@ const debounce = (fn: Function, ms = 300) => {
   }
 }
 
-const getArticle = async (input: string | null, setData: Function) => {
+const getMember = async (input: string | null, setData: Function) => {
   if (input) {
-    GET_HELLO_WITH_PARAMS(input)
+    GET_MEMBER_WITH_PARAMS(input)
       .then((res) => handleResponse(res, setData))
       .catch((error: Error) => handleError(error, setData))
   }
 }
 
-const postArticle = async (input: string | null, setData: Function) => {
+const postMember = async (input: string | null, setData: Function) => {
   if (input) {
-    POST_ARTICLE(input)
+    POST_MEMBER(input)
       .then((res) => handleResponse(res, setData))
       .catch((error: Error) => handleError(error, setData))
   }
 }
 
 const handleResponse = (res: any, setData: Function): void => {
-  let article: Article | undefined
+  let member: Brightspot_Example_Restification_Member | undefined
   let errors: string[] = []
+  let members: Brightspot_Example_Restification_MemberQueryResult
 
-  if (res?.data?.Article) {
-    article = {
-      headline: res.data.Article.headline,
-      subheadline: res.data.Article.subheadline,
+  if (res?.data?.ListOfMembers) {
+    members = {
+      items: res.data.ListOfMembers.members,
+    }
+    if (res.errors) {
+      for (let error of res.errors) {
+        errors.push(error.message)
+      }
+    }
+    return setData({ members, errors })
+  }
+
+  if (res?.data?.Member) {
+    member = {
+      displayName: res.data.Member.items[0].displayName,
+      email: res.data.Member.items[0].email,
     }
   }
+
   if (res.errors) {
     for (let error of res.errors) {
       errors.push(error.message)
     }
   }
 
-  article =
-    res?.data?.Article !== null
-      ? article
-      : (article = {
-          headline: 'Article not found',
-          subheadline: 'No article matches the path entered',
+  member =
+    res?.data?.Member?.items.length > 0
+      ? member
+      : (member = {
+          email: 'No member found',
+          displayName: 'There is no member with that display name.',
         })
   setData({
-    article,
+    member,
     errors,
   })
 }
@@ -58,4 +75,4 @@ const handleError = (error: Error, setData: Function): void => {
   setData({ errors: [error.message] })
 }
 
-export { debounce, getArticle, postArticle, handleResponse, handleError }
+export { debounce, getMember, postMember, handleResponse, handleError }

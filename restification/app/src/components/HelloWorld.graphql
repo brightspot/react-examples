@@ -1,6 +1,0 @@
-query HelloWorld($path: String) {
-  Article(model: { path: "/hello-world" }) {
-    headline
-    subheadline
-  }
-}
