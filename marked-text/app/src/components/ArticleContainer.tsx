@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
-import { Mark, MarkedText } from '../brightspot-marked-text/types'
+import { Mark, MarkedText, RichTextMark } from '../brightspot-marked-text/types'
 import { markedText } from '../brightspot-marked-text/marked-text'
-import TagComponent from './StyledComponents'
+import { TagComponent, ExternalContent } from './StyledComponents'
 
 interface ArticleData {
   headline: string
@@ -70,21 +70,43 @@ const ArticleContainer = () => {
   }, [fetchArticleData])
 
   const componentHandler = (
-    mark: Mark | null,
-    children: Array<String | React.ReactElement>,
+    mark: Mark | RichTextMark | null,
+    children: Array<string | React.ReactElement>,
     index: number
   ) => {
     if (mark === null) return ''
-    const { name, __typename, attributes } = mark
-    return (
-      <TagComponent
-        key={index}
-        typeName={__typename}
-        tag={name}
-        children={children}
-        attributes={attributes}
-      />
-    )
+    if (mark.__typename === 'HtmlMark') {
+      const { name, __typename, attributes } = mark as Mark
+      return (
+        <TagComponent
+          key={index}
+          typename={__typename}
+          tag={name}
+          children={children}
+          attributes={attributes}
+        />
+      )
+    } else {
+      const { __typename, richTextElement } = mark as RichTextMark
+
+      let maxWidth
+      let maxHeight
+      richTextElement?.maximumWidth
+        ? (maxWidth = richTextElement.maximumWidth)
+        : (maxWidth = null)
+      richTextElement?.maximumHeight
+        ? (maxHeight = richTextElement.maximumHeight)
+        : (maxHeight = null)
+      return (
+        <ExternalContent
+          key={index}
+          typename={__typename}
+          children={children}
+          richTextElement={richTextElement}
+          size={{ maxWidth, maxHeight }}
+        />
+      )
+    }
   }
 
   return (
