@@ -1,9 +1,9 @@
-import ArticleContainer from './components/Article/ArticleContainer'
+import MembersContainer from './components/Members/MembersContainer'
 import './App.css'
 
 const App = () => (
   <div className="app">
-    <ArticleContainer />
+    <MembersContainer />
   </div>
 )
 

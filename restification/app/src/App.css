@@ -17,19 +17,23 @@ body {
   height: 100vh;
 }
 
-.article-container {
+.members-container {
   display: flex;
   margin: 20px;
 }
 
-.article-container .article {
+.members-container .member {
   flex: 1;
 }
 
-.article-container h1 {
+.members-container .members {
+  flex: 1;
+}
+
+.members-container h1 {
   font-size: 3;
 }
 
-.article-container h2 {
+.members-container h2 {
   font-size: 2rem;
 }

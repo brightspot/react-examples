@@ -1,0 +1,11 @@
+query AllMembers {
+  brightspot_example_restification_MemberQuery {
+    items {
+      displayName
+      firstName
+      lastName
+      email
+      phoneNumber
+    }
+  }
+}

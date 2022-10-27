@@ -1,18 +1,18 @@
-const GET_HELLO = () =>
-  fetch('http://localhost/articles/hello-world').then((res) => res.json())
+const GET_MEMBERS = () =>
+  fetch('http://localhost/members-api/all-members').then((res) => res.json())
 
-const GET_HELLO_WITH_PARAMS = (params: string) =>
-  fetch(`http://localhost/articles/article?path=${params}`).then((res) =>
+const GET_MEMBER_WITH_PARAMS = (params: string) =>
+  fetch(`http://localhost/members-api/member?arguments=${params}`).then((res) =>
     res.json()
   )
 
-const POST_ARTICLE = async (input: string) => {
+const POST_MEMBER = async (input: string) => {
   const formData = new FormData()
-  formData.append('path', input)
-  return fetch('http://localhost/articles/success', {
+  formData.append('arguments', input)
+  return fetch('http://localhost/members-api/member', {
     method: 'POST',
     body: formData,
   }).then((res) => res.json())
 }
 
-export { GET_HELLO, GET_HELLO_WITH_PARAMS, POST_ARTICLE }
+export { GET_MEMBERS, GET_MEMBER_WITH_PARAMS, POST_MEMBER }

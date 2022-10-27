@@ -1,6 +1,10 @@
 overwrite: true
-schema: ${REACT_APP_GRAPHQL_URL}
-documents: './src/components/**/*.graphql'
+schema:
+  - ${GRAPHQL_URL}:
+      headers:
+        X-Client-ID: ${GRAPHQL_CLIENT_ID}
+        X-Client-Secret: ${GRAPHQL_CLIENT_SECRET}
+documents: './queries/*.graphql'
 generates:
   ./src/generated.ts:
     plugins:
