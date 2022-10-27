@@ -20,3 +20,8 @@ body {
 .cms-textAlign-right {
   text-align: right;
 }
+
+.embed-container {
+  display: flex;
+}
+
