@@ -1,8 +1,11 @@
+import * as dotenv from 'dotenv'
 import { exec } from 'child_process'
 import axios from 'axios'
 import { timeStamp } from './schemas/timestamp.mjs'
 
-const SCHEMA_URL = 'http://localhost/graphql/management/schema-versions'
+dotenv.config()
+
+const SCHEMA_URL = process.env.GRAPHQL_SCHEMA_URL
 
 const graphqlSchemaQuery = `
     query Schemas {
@@ -53,8 +56,8 @@ const fetchSchemas = async (url) => {
     method: 'post',
     url: SCHEMA_URL,
     headers: {
-      'X-Client-ID': '8ead87c8288f3352831f4735453ceaea',
-      'X-Client-Secret': '415bcc65-d87a-3c30-89fa-97d469946171',
+      'X-Client-ID': process.env.GRAPHQL_SCHEMA_KEY,
+      'X-Client-Secret': process.env.GRAPHQL_SCHEMA_SECRET,
     },
     data: {
       query: graphqlSchemaQuery,
