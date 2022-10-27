@@ -1,5 +1,5 @@
 {
-  "name": "graphql-versioning",
+  "name": "graphql-schema-versioning",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
