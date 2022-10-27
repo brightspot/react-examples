@@ -1,5 +1,5 @@
-import ArrayList from 'brightspot-types/java/util/ArrayList'
 import JavaClass from 'brightspot-types/JavaClass'
+import ArrayList from 'brightspot-types/java/util/ArrayList'
 import JavaDate from 'brightspot-types/java/util/Date'
 import JavaSet from 'brightspot-types/java/util/Set'
 
