@@ -1,10 +1,10 @@
-import { MarkedText, Mark, VisitMark } from './types'
+import { MarkedText, Mark, RichTextMark, VisitMark } from './types'
 
 //Currently only POST order is implemented
 const markedText = (
   markedText: MarkedText,
   visitMark: VisitMark,
-  order: String
+  order: string
 ) => {
   let traverseOrder
 
@@ -44,7 +44,7 @@ class MarkedTextPostOrderTraversal {
     let index: number = 1
     let marks = this.markedText.marks
 
-    marks.forEach((mark: Mark) => {
+    marks.forEach((mark: Mark | RichTextMark) => {
       markNodes.push(new MarkNode(this.markedText, mark, index))
       index++
     })
@@ -119,14 +119,14 @@ class MarkedTextPostOrderTraversal {
 }
 
 class MarkNode {
-  mark: Mark | null
+  mark: Mark | RichTextMark | null
   index: number
   children: Array<MarkNode>
   markedText: MarkedText
 
   constructor(
     markedText: MarkedText,
-    mark: Mark | null = null,
+    mark: Mark | RichTextMark | null = null,
     index: number,
     children: Array<MarkNode> = []
   ) {
@@ -136,16 +136,12 @@ class MarkNode {
     this.markedText = markedText
   }
 
-  getMark(): Mark | null {
+  getMark(): Mark | RichTextMark | null {
     return this.mark
   }
 
   getIndex(): number {
     return this.index
-  }
-
-  getAttributes(): {} {
-    return this.mark != null ? this.mark.attributes : {}
   }
 
   getStart(): number {

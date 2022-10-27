@@ -1,6 +1,6 @@
 export interface MarkedText {
   text: string
-  marks: Array<Mark>
+  marks: Array<Mark | RichTextMark>
 }
 
 export interface Mark {
@@ -14,6 +14,23 @@ export interface Mark {
   }
 }
 
+export interface RichTextMark {
+  __typename: string
+  start: number
+  end: number
+  descendants: number
+  richTextElement: {
+    __typename: string
+    url: string
+    maximumWidth: number | null
+    maximumHeight: number | null
+  }
+}
+
 export interface VisitMark {
-  (mark: Mark | null, children: Array<String>, index: number): any
+  (
+    mark: Mark | RichTextMark | null,
+    children: Array<string>,
+    index: number
+  ): any
 }
