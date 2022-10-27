@@ -49,7 +49,7 @@ The `codegen.yml` file will take the query included in `/components/MoviesQuery.
 
 The script will also generate a timestamp file located `/schemas/timeStamp.mjs`.
 
-## Step 3 Update the Schema
+## Step 3 Update the Schema / ViewModel
 
 Run the front-end application to confirm that the published **Movie** content renders.
 
@@ -81,7 +81,9 @@ From the `graphql-schema-versioning/brightspot` directory run the following comm
 npx brightspot types upload src
 ```
 
-To check via Brightspot, navigate to the GraphQL Explorer and it will show the new fields added to the schema for **Movie** in the **Schema Versioning Movie Endpoint**.
+In Brightspot, navigate to **Menu** &rarr; **Admin** &rarr; **APIs** and click on **Schema Versioning Movie Endpoint** and then click SAVE to save your endpoint along with updates.
+
+Navigate to the GraphQL Explorer and it will show the new fields added to the schema for **Movie** in the **Schema Versioning Movie Endpoint**.
 
 ## Step 4 Tracking GraphQL Schema Versions via Brightspot
 
@@ -111,7 +113,7 @@ Confirm the files have saved to `graphql-schema-versioning/app/schemas`. Run the
 npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
 ```
 
-The graphql-inspector will run and display the number of changes that were made. If there are no breaking changes, it will return a 'success' message. If there are breaking changes, it will return an ERROR message mand serve as a warning that the front-end will need to be updated to address these changes or the schema needs to be updated to restore and deprecate the field.
+The graphql-inspector will run and display the number of changes that were made. If there are no breaking changes, it will return a 'success' message. If there are breaking changes, it will return an ERROR message and serve as a warning that the front-end will need to be updated to address these changes or the schema needs to be updated to restore and deprecate the field.
 
 ```sh
 Detected the following changes (4) between schemas:
@@ -206,8 +208,6 @@ yarn codegen
 ```
 
 Now the `generated.ts` file should contain the new schema.
-
-Go back to your **Movie** content and update the fields published in Brightspot for them render on the front-end.
 
 ## Try it yourself
 
