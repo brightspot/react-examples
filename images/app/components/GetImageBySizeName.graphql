@@ -1,0 +1,32 @@
+query GetImageBySizeName($name: String) {
+  Images {
+    items {
+      title
+      imageFile {
+        editorSettings {
+          baseUrl
+          sharedSecret
+        }
+        size(name: $name) {
+          height
+          width
+          name
+        }
+        crops {
+          height
+          name
+          width
+          x
+          y
+        }
+        focus {
+          x
+          y
+        }
+        contentType
+        filename
+        publicUrl
+      }
+    }
+  }
+}

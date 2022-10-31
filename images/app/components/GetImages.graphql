@@ -1,0 +1,15 @@
+query GetImages {
+  Images {
+    items {
+      imageFile {
+        filename
+        sizes {
+          name
+          src
+          width
+          height
+        }
+      }
+    }
+  }
+}
