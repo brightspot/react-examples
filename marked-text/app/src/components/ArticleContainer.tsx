@@ -114,7 +114,7 @@ const ArticleContainer = () => {
       <h1>{article?.articleData?.headline}</h1>
       <h2>{article?.articleData?.subheadline}</h2>
       {article?.articleData &&
-        markedText(article?.articleData?.body, componentHandler, 'POST').map(
+        markedText(article?.articleData?.body, componentHandler).map(
           (Component: React.ReactElement, index: number) => {
             return Component
           }

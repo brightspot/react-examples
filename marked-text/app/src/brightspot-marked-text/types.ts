@@ -34,3 +34,7 @@ export interface VisitMark {
     index: number
   ): any
 }
+
+export interface MarkedTextFunction {
+  (markedText: MarkedText, visitMark: VisitMark): any
+}

@@ -1,35 +1,36 @@
-import { MarkedText, Mark, RichTextMark, VisitMark } from './types'
+import {
+  MarkedText,
+  MarkedTextFunction,
+  Mark,
+  RichTextMark,
+  VisitMark,
+} from './types'
 
-//Currently only POST order is implemented
-const markedText = (
-  markedText: MarkedText,
-  visitMark: VisitMark,
-  order: string
-) => {
+const markedText: MarkedTextFunction = (markedText, visitMark) => {
   let traverseOrder
 
-  if (order === 'POST') {
-    traverseOrder = new MarkedTextPostOrderTraversal(markedText, visitMark)
-  } else {
-    throw Object.assign(
-      new Error(
-        `${order} is not a valid traverse order, please use 'PRE' or 'POST'. Provide no argument here for default options.`
-      )
-    )
-  }
+  traverseOrder = new MarkedTextPostOrderTraversal(markedText, visitMark)
 
   return traverseOrder.traverse()
 }
 
+/**
+ * A post-order tree traversal algorithm executed against {@link MarkedText} using a {@link VisitMark}
+ * for callbacks.
+ */
 class MarkedTextPostOrderTraversal {
-  markedText: MarkedText
-  visitor: VisitMark
+  /**
+   * Creates a new post order traversal algorithm for the given MarkedText and Visitor implementation.
+   *
+   * @param markedText
+   * @param visitor
+   */
+  constructor(public markedText: MarkedText, public visitor: VisitMark) {}
 
-  constructor(markedText: MarkedText, visitor: VisitMark) {
-    this.markedText = markedText
-    this.visitor = visitor
-  }
-
+  /**
+   * Performs a post-order traversal of MarkedText, using a Visitor function to issue callbacks, and returns
+   * a List of transformed root nodes.
+   */
   traverse() {
     return this.traversePostOrder(this.rebuildTree())
   }
@@ -119,22 +120,12 @@ class MarkedTextPostOrderTraversal {
 }
 
 class MarkNode {
-  mark: Mark | RichTextMark | null
-  index: number
-  children: Array<MarkNode>
-  markedText: MarkedText
-
   constructor(
-    markedText: MarkedText,
-    mark: Mark | RichTextMark | null = null,
-    index: number,
-    children: Array<MarkNode> = []
-  ) {
-    this.mark = mark
-    this.index = index
-    this.children = children
-    this.markedText = markedText
-  }
+    public markedText: MarkedText,
+    public mark: Mark | RichTextMark | null = null,
+    public index: number,
+    public children: Array<MarkNode> = []
+  ) {}
 
   getMark(): Mark | RichTextMark | null {
     return this.mark
