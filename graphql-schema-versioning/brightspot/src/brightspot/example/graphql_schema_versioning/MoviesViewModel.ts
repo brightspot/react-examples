@@ -22,6 +22,6 @@ export default class MoviesViewModel extends JavaClass(
     return this.createViews(
       MovieViewModel.class,
       Query.from(Movie.class).selectAll()
-    ) as unknown as List<MovieViewModel>
+    ) as List<MovieViewModel>
   }
 }

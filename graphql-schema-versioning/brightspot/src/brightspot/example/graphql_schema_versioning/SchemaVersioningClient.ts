@@ -34,7 +34,7 @@ export default class SchemaVersioningClient extends JavaClass(
       let endpoints = new ArrayList<ApiEndpoint>(client.getEndpoints())
       endpoints.add(original)
 
-      client.setEndpoints(endpoints as unknown as JavaSet<ApiEndpoint>)
+      client.setEndpoints(endpoints as JavaSet<ApiEndpoint>)
       client.saveImmediately()
     }
 
