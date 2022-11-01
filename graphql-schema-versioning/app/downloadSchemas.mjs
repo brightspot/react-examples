@@ -54,7 +54,7 @@ const fetchSchemas = async (url) => {
   let schemas
   await axios({
     method: 'post',
-    url: SCHEMA_URL,
+    url: url,
     headers: {
       'X-Client-ID': process.env.GRAPHQL_SCHEMA_KEY,
       'X-Client-Secret': process.env.GRAPHQL_SCHEMA_SECRET,
