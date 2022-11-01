@@ -11,7 +11,12 @@ export default {
     this.originalFilename = image.filename
     let originalWidth = image.width
     let originalHeight = image.height
-
+    console.log(
+      ' originalWidth start 😊 😊 😊: ',
+      originalWidth,
+      ' 😊 😊 😊originalHeight start: ',
+      originalHeight
+    )
     // Absolute final size.
     if (image.metadata !== undefined) {
       let exif = image.exif
@@ -84,13 +89,13 @@ export default {
     let crop
     if (crops !== undefined) {
       for (let cropItem of crops) {
-        if (cropItem.name === size.internalName) {
+        if (cropItem.name === size.name) {
           crop = cropItem
           break
         }
       }
     }
-
+    console.log('CROP 😊 😊 😊', crop) //undefined
     if (
       crop !== undefined &&
       crop.width !== undefined &&
@@ -102,7 +107,12 @@ export default {
       focusY = originalHeight * (crop.y + h / 2)
       cropWidth = originalWidth * w
       cropHeight = originalHeight * h
-
+      console.log(
+        'HI!!! cropWidth! 😊 😊 😊',
+        cropWidth,
+        'cropHeight! 😊 😊 😊',
+        cropHeight
+      )
       // Auto width or height.
       if (this.resizeWidth <= 0.0) {
         if (this.resizeHeight <= 0.0) {
@@ -124,23 +134,43 @@ export default {
     } else {
       // Use the focus, the implicit focus, or default to center.
       let focus = image.focus
+      console.log(
+        'FOCUS 😊 😊 😊',
+        focus,
+        'originalWidth  😊 😊 😊: ',
+        originalWidth,
+        'originalHeight!! 😊 😊 😊',
+        originalHeight
+      ) //this is right!
       focusX =
         originalWidth *
         (focus !== undefined && focus.x.length > 0 ? focus.x : 0.5)
       focusY =
         originalHeight *
         (focus !== undefined && focus.y.length > 0 ? focus.y : 0.5)
-
+      console.log('focusX 😊😊😊', focusX, 'focusY 😊😊😊', focusY)
       // Auto width or height.
+      console.log('resizeWidth  😊 😊 😊', this.resizeWidth) //338
       if (this.resizeWidth <= 0.0) {
         if (this.resizeHeight <= 0.0) {
           this.resizeWidth = originalWidth
           this.resizeHeight = originalHeight
+          console.log(
+            'resizeWidth is <=0.0 😊 😊 😊',
+            originalWidth,
+            originalHeight
+          )
         } else {
           this.resizeWidth =
             (this.resizeHeight / originalHeight) * originalWidth
+          console.log('resizeWidth in else block 😊 😊 😊', this.resizeWidth)
         }
       } else if (this.resizeHeight <= 0.0) {
+        console.log(
+          'resizeHeight is <=0.0 😊 😊 😊',
+          originalWidth,
+          originalHeight
+        )
         this.resizeHeight = (this.resizeWidth / originalWidth) * originalHeight
       }
 
@@ -150,11 +180,13 @@ export default {
       )
       cropWidth = this.resizeWidth * s
       cropHeight = this.resizeHeight * s
+      console.log('😊 😊 😊 cropWidth HEY', cropWidth, cropHeight)
+      console.log('😊 😊 😊 S HEY', s) //1
     }
 
     // Make sure that the crop is within the original bounds.
     let cropLeft = focusX - cropWidth / 2.0
-
+    console.log('😊 😊 😊 cropLeft', cropLeft) //0
     if (cropLeft < 0.0) {
       cropLeft = 0.0
     } else if (cropLeft + cropWidth > originalWidth) {
@@ -162,6 +194,7 @@ export default {
     }
 
     let cropTop = focusY - cropHeight / 2.0
+    console.log('😊 😊 😊 cropTop!', cropTop) //0
 
     if (cropTop < 0.0) {
       cropTop = 0.0
@@ -356,7 +389,7 @@ export default {
 
   toSrcset: function () {
     let resizeWidth = this.resizeWidth
-    let resizeHeight = this.esizeHeight
+    let resizeHeight = this.resizeHeight //this had a typo
 
     if (resizeWidth !== undefined || resizeHeight !== undefined) {
       return null

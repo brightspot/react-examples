@@ -1,0 +1,17 @@
+query GetImageUrlBySizeName($name: String) {
+  Images {
+    items {
+      title
+      imageFile {
+        size(name: $name) {
+          height
+          width
+          name
+          src
+        }
+        contentType
+        filename
+      }
+    }
+  }
+}

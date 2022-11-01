@@ -1,19 +1,18 @@
 import Head from 'next/head'
 import styles from '../../styles/Home.module.css'
 import ClientOnly from '../../components/ClientOnly'
-import ImagesComponent from '../../components/ImagesComponent'
+import ImageComponent from '../../components/ImageComponent'
 
 export default function ClientSide() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>CSR images</title>
+        <title>CSR image</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className={styles.main}>
         <ClientOnly>
-          <ImagesComponent />
+          <ImageComponent />
         </ClientOnly>
       </main>
     </div>

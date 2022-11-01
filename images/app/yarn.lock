@@ -10,7 +10,7 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@apollo/client@^3.6.9":
+"@apollo/client@3.6.9":
   version "3.6.9"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.6.9.tgz#ad0ee2e3a3c92dbed4acd6917b6158a492739d94"
   integrity sha512-Y1yu8qa2YeaCUBVuw08x8NHenFi0sw2I3KCu7Kw9mDSu86HmmtHJkCAifKVrN2iPgDTW/BbP3EpSV8/EQCcxZA==
@@ -527,7 +527,7 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@graphql-codegen/cli@^2.8.1":
+"@graphql-codegen/cli@2.8.1":
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-2.8.1.tgz#8e8f70417f3a0e87f266953c41c6424c6e76b473"
   integrity sha512-o+Za1483WhnbMA5G4JJq72EeqXROsdEiDTfUTxtX1iPPebv+VMekTFfHnBCUXpes0XTeZViXTd16AX6cmtUF4Q==
@@ -574,7 +574,7 @@
     "@graphql-tools/utils" "^8.8.0"
     tslib "~2.4.0"
 
-"@graphql-codegen/fragment-matcher@^3.3.0":
+"@graphql-codegen/fragment-matcher@3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/fragment-matcher/-/fragment-matcher-3.3.0.tgz#4856d6005b15d4f6ff6ad916656850f6ee9cfdd4"
   integrity sha512-xrs4kjbhO34sjeHq7eEoDpFMgdvSXpWFn2JMr+ihTbgckekYTjfzQ0bRWCu7eeCTSxyh6XSlKoQZIwYikbxbXA==
@@ -582,7 +582,7 @@
     "@graphql-codegen/plugin-helpers" "^2.5.0"
     tslib "~2.4.0"
 
-"@graphql-codegen/introspection@^2.2.0":
+"@graphql-codegen/introspection@2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-2.2.0.tgz#52fb1b54476f9e272be3dba736abafcf1bcb083a"
   integrity sha512-duIRd/o3SHEEwnxc+lx6v5y/DZEeesxCOusY+u8Bjh8ZBssh3wXcWsGSGhH1amfNMRTby+xsz7HiLW6Q4x7Qwg==
@@ -612,7 +612,7 @@
     "@graphql-tools/utils" "^8.8.0"
     tslib "~2.4.0"
 
-"@graphql-codegen/typescript-operations@^2.5.1":
+"@graphql-codegen/typescript-operations@2.5.1":
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-2.5.1.tgz#99a6f3b3086214086582d2731058ec74090da308"
   integrity sha512-lGv+sPDXGcp/vDdIh7SoQjz8BRCZhLats4Hbqnf6gB7UtIasMvGuFDQyrKb3XAkQQYWqx/xtmEo0rBN8syV+Wg==
@@ -623,7 +623,7 @@
     auto-bind "~4.0.0"
     tslib "~2.4.0"
 
-"@graphql-codegen/typescript-react-apollo@^3.3.1":
+"@graphql-codegen/typescript-react-apollo@3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-3.3.1.tgz#fb92c1ffd4ca14c2d72fd4eb625b4a612c3a3116"
   integrity sha512-YZaQyhPfD3yDKdUU9IBzALLxLeUC9GkTxxkR6OmaGv3acthMLgyt+TwcYAbIrb+wIjB2INk8waP1V4vklHZ2qA==
@@ -634,7 +634,7 @@
     change-case-all "1.0.14"
     tslib "~2.4.0"
 
-"@graphql-codegen/typescript@^2.7.1":
+"@graphql-codegen/typescript@2.7.1", "@graphql-codegen/typescript@^2.7.1":
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-2.7.1.tgz#e237dd8829842282245b79ce7ea024aaa3c39afb"
   integrity sha512-qF4SBMgBnLcegba2s9+zC3NwgRhU0Kv+eS8kl9G5ldEHx9Bpu2tft+lk6fjqqhExDzJT+MEOU3Ecog3BzL2R1g==
@@ -1425,7 +1425,7 @@ bl@^4.1.0:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
-blueimp-md5@^2.19.0:
+blueimp-md5@2.19.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/blueimp-md5/-/blueimp-md5-2.19.0.tgz#b53feea5498dcb53dc6ec4b823adb84b729c4af0"
   integrity sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==
@@ -2410,7 +2410,7 @@ get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
     has "^1.0.3"
     has-symbols "^1.0.3"
 
-get-port@^6.1.2:
+get-port@6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/get-port/-/get-port-6.1.2.tgz#c1228abb67ba0e17fb346da33b15187833b9c08a"
   integrity sha512-BrGGraKm2uPqurfGVj/z97/zv8dPleC6x9JBNRTrDNtCkkRF4rPwrQXFgL7+I+q8QSdU4ntLQX2D7KIxSy8nGw==
@@ -2523,7 +2523,7 @@ graphql-ws@^5.4.1:
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.9.1.tgz#9c0fa48ceb695d61d574ed3ab21b426729e87f2d"
   integrity sha512-mL/SWGBwIT9Meq0NlfS55yXXTOeWPMbK7bZBEZhFu46bcGk1coTx2Sdtzxdk+9yHWngD+Fk1PZDWaAutQa9tpw==
 
-graphql@^16.5.0:
+graphql@16.5.0:
   version "16.5.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.5.0.tgz#41b5c1182eaac7f3d47164fb247f61e4dfb69c85"
   integrity sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==

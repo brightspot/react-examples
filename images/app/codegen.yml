@@ -1,8 +1,9 @@
 overwrite: true
 schema:
-  - ${GRAPHQL_URL}:
+  - 'http://localhost/graphql/delivery/images':
+      # - ${GRAPHQL_URL}:
       headers:
-documents: 'components/**/*.graphql'
+documents: 'queries/**/*.graphql'
 generates:
   generated/fragmentTypes.json:
     plugins:
@@ -14,6 +15,6 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-react-apollo'
-  generated/graphql.schema.json:
-    plugins:
-      - 'introspection'
+  # generated/graphql.schema.json:
+  #   plugins:
+  #     - 'introspection'

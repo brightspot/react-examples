@@ -26,6 +26,13 @@ query GetImageBySizeName($name: String) {
         contentType
         filename
         publicUrl
+        width
+        height
+        sizes {
+          name
+          width
+          height
+        }
       }
     }
   }

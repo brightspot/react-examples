@@ -152,6 +152,8 @@ export type GetImageBySizeNameQuery = {
         contentType?: string | null
         filename?: string | null
         publicUrl?: string | null
+        width?: number | null
+        height?: number | null
         editorSettings?: {
           __typename?: 'ImageEditorSettings'
           baseUrl?: string | null
@@ -175,6 +177,39 @@ export type GetImageBySizeNameQuery = {
           __typename?: 'ImageFocus'
           x?: number | null
           y?: number | null
+        } | null
+        sizes: Array<{
+          __typename?: 'ImageSize'
+          name?: string | null
+          width?: number | null
+          height?: number | null
+        }>
+      } | null
+    } | null> | null
+  } | null
+}
+
+export type GetImageUrlBySizeNameQueryVariables = Exact<{
+  name?: InputMaybe<Scalars['String']>
+}>
+
+export type GetImageUrlBySizeNameQuery = {
+  __typename?: 'Query'
+  Images?: {
+    __typename?: 'Images'
+    items?: Array<{
+      __typename?: 'Image'
+      title?: string | null
+      imageFile?: {
+        __typename?: 'ImageAttributes'
+        contentType?: string | null
+        filename?: string | null
+        size?: {
+          __typename?: 'ImageSize'
+          height?: number | null
+          width?: number | null
+          name?: string | null
+          src?: string | null
         } | null
       } | null
     } | null> | null
@@ -233,6 +268,13 @@ export const GetImageBySizeNameDocument = gql`
           contentType
           filename
           publicUrl
+          width
+          height
+          sizes {
+            name
+            width
+            height
+          }
         }
       }
     }
@@ -288,6 +330,76 @@ export type GetImageBySizeNameLazyQueryHookResult = ReturnType<
 export type GetImageBySizeNameQueryResult = Apollo.QueryResult<
   GetImageBySizeNameQuery,
   GetImageBySizeNameQueryVariables
+>
+export const GetImageUrlBySizeNameDocument = gql`
+  query GetImageUrlBySizeName($name: String) {
+    Images {
+      items {
+        title
+        imageFile {
+          size(name: $name) {
+            height
+            width
+            name
+            src
+          }
+          contentType
+          filename
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useGetImageUrlBySizeNameQuery__
+ *
+ * To run a query within a React component, call `useGetImageUrlBySizeNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetImageUrlBySizeNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetImageUrlBySizeNameQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetImageUrlBySizeNameQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetImageUrlBySizeNameQuery,
+    GetImageUrlBySizeNameQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    GetImageUrlBySizeNameQuery,
+    GetImageUrlBySizeNameQueryVariables
+  >(GetImageUrlBySizeNameDocument, options)
+}
+export function useGetImageUrlBySizeNameLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetImageUrlBySizeNameQuery,
+    GetImageUrlBySizeNameQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    GetImageUrlBySizeNameQuery,
+    GetImageUrlBySizeNameQueryVariables
+  >(GetImageUrlBySizeNameDocument, options)
+}
+export type GetImageUrlBySizeNameQueryHookResult = ReturnType<
+  typeof useGetImageUrlBySizeNameQuery
+>
+export type GetImageUrlBySizeNameLazyQueryHookResult = ReturnType<
+  typeof useGetImageUrlBySizeNameLazyQuery
+>
+export type GetImageUrlBySizeNameQueryResult = Apollo.QueryResult<
+  GetImageUrlBySizeNameQuery,
+  GetImageUrlBySizeNameQueryVariables
 >
 export const GetImagesDocument = gql`
   query GetImages {

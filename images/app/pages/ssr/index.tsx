@@ -1,20 +1,16 @@
 import Head from 'next/head'
 import styles from '../../styles/Home.module.css'
-import ClientOnly from '../../components/ClientOnly'
-import ImagesComponent from '../../components/ImagesComponent'
 
-export default function ClientSide() {
+export default function ServerSide() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>CSR images</title>
+        <title>SSR images</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <ClientOnly>
-          <ImagesComponent />
-        </ClientOnly>
+        <h1>All Server Side Rendered Images</h1>
       </main>
     </div>
   )
