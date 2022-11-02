@@ -1,13 +1,14 @@
-query GetImageBySizeName($name: String) {
-  Images {
+query GetImagesDetailed {
+  Images(limit: 1) {
     items {
       title
+      imageId
       imageFile {
         editorSettings {
           baseUrl
           sharedSecret
         }
-        size(name: $name) {
+        size {
           height
           width
           name

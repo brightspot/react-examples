@@ -24,6 +24,7 @@ export type Scalars = {
 export type Image = {
   __typename?: 'Image'
   imageFile?: Maybe<ImageAttributes>
+  imageId?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
 }
 
@@ -129,24 +130,77 @@ export type Images = {
 
 export type Query = {
   __typename?: 'Query'
+  Image?: Maybe<Image>
   Images?: Maybe<Images>
 }
 
+export type QueryImageArgs = {
+  id?: InputMaybe<Scalars['ID']>
+}
+
 export type QueryImagesArgs = {
+  limit?: InputMaybe<Scalars['Int']>
   page?: InputMaybe<Scalars['Int']>
 }
 
-export type GetImageBySizeNameQueryVariables = Exact<{
+export type GetImageUrlBySizeNameQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>
   name?: InputMaybe<Scalars['String']>
 }>
 
-export type GetImageBySizeNameQuery = {
+export type GetImageUrlBySizeNameQuery = {
+  __typename?: 'Query'
+  Image?: {
+    __typename?: 'Image'
+    title?: string | null
+    imageFile?: {
+      __typename?: 'ImageAttributes'
+      size?: {
+        __typename?: 'ImageSize'
+        src?: string | null
+        height?: number | null
+        width?: number | null
+        name?: string | null
+      } | null
+    } | null
+  } | null
+}
+
+export type GetImagesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetImagesQuery = {
+  __typename?: 'Query'
+  Images?: {
+    __typename?: 'Images'
+    items?: Array<{
+      __typename?: 'Image'
+      imageId?: string | null
+      title?: string | null
+      imageFile?: {
+        __typename?: 'ImageAttributes'
+        filename?: string | null
+        sizes: Array<{
+          __typename?: 'ImageSize'
+          name?: string | null
+          src?: string | null
+          width?: number | null
+          height?: number | null
+        }>
+      } | null
+    } | null> | null
+  } | null
+}
+
+export type GetImagesDetailedQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetImagesDetailedQuery = {
   __typename?: 'Query'
   Images?: {
     __typename?: 'Images'
     items?: Array<{
       __typename?: 'Image'
       title?: string | null
+      imageId?: string | null
       imageFile?: {
         __typename?: 'ImageAttributes'
         contentType?: string | null
@@ -189,164 +243,18 @@ export type GetImageBySizeNameQuery = {
   } | null
 }
 
-export type GetImageUrlBySizeNameQueryVariables = Exact<{
-  name?: InputMaybe<Scalars['String']>
-}>
-
-export type GetImageUrlBySizeNameQuery = {
-  __typename?: 'Query'
-  Images?: {
-    __typename?: 'Images'
-    items?: Array<{
-      __typename?: 'Image'
-      title?: string | null
-      imageFile?: {
-        __typename?: 'ImageAttributes'
-        contentType?: string | null
-        filename?: string | null
-        size?: {
-          __typename?: 'ImageSize'
-          height?: number | null
-          width?: number | null
-          name?: string | null
-          src?: string | null
-        } | null
-      } | null
-    } | null> | null
-  } | null
-}
-
-export type GetImagesQueryVariables = Exact<{ [key: string]: never }>
-
-export type GetImagesQuery = {
-  __typename?: 'Query'
-  Images?: {
-    __typename?: 'Images'
-    items?: Array<{
-      __typename?: 'Image'
-      imageFile?: {
-        __typename?: 'ImageAttributes'
-        filename?: string | null
-        sizes: Array<{
-          __typename?: 'ImageSize'
-          name?: string | null
-          src?: string | null
-          width?: number | null
-          height?: number | null
-        }>
-      } | null
-    } | null> | null
-  } | null
-}
-
-export const GetImageBySizeNameDocument = gql`
-  query GetImageBySizeName($name: String) {
-    Images {
-      items {
-        title
-        imageFile {
-          editorSettings {
-            baseUrl
-            sharedSecret
-          }
-          size(name: $name) {
-            height
-            width
-            name
-          }
-          crops {
-            height
-            name
-            width
-            x
-            y
-          }
-          focus {
-            x
-            y
-          }
-          contentType
-          filename
-          publicUrl
-          width
-          height
-          sizes {
-            name
-            width
-            height
-          }
-        }
-      }
-    }
-  }
-`
-
-/**
- * __useGetImageBySizeNameQuery__
- *
- * To run a query within a React component, call `useGetImageBySizeNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetImageBySizeNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetImageBySizeNameQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useGetImageBySizeNameQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetImageBySizeNameQuery,
-    GetImageBySizeNameQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<
-    GetImageBySizeNameQuery,
-    GetImageBySizeNameQueryVariables
-  >(GetImageBySizeNameDocument, options)
-}
-export function useGetImageBySizeNameLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetImageBySizeNameQuery,
-    GetImageBySizeNameQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<
-    GetImageBySizeNameQuery,
-    GetImageBySizeNameQueryVariables
-  >(GetImageBySizeNameDocument, options)
-}
-export type GetImageBySizeNameQueryHookResult = ReturnType<
-  typeof useGetImageBySizeNameQuery
->
-export type GetImageBySizeNameLazyQueryHookResult = ReturnType<
-  typeof useGetImageBySizeNameLazyQuery
->
-export type GetImageBySizeNameQueryResult = Apollo.QueryResult<
-  GetImageBySizeNameQuery,
-  GetImageBySizeNameQueryVariables
->
 export const GetImageUrlBySizeNameDocument = gql`
-  query GetImageUrlBySizeName($name: String) {
-    Images {
-      items {
-        title
-        imageFile {
-          size(name: $name) {
-            height
-            width
-            name
-            src
-          }
-          contentType
-          filename
+  query GetImageUrlBySizeName($id: ID, $name: String) {
+    Image(id: $id) {
+      imageFile {
+        size(name: $name) {
+          src
+          height
+          width
+          name
         }
       }
+      title
     }
   }
 `
@@ -363,6 +271,7 @@ export const GetImageUrlBySizeNameDocument = gql`
  * @example
  * const { data, loading, error } = useGetImageUrlBySizeNameQuery({
  *   variables: {
+ *      id: // value for 'id'
  *      name: // value for 'name'
  *   },
  * });
@@ -403,7 +312,7 @@ export type GetImageUrlBySizeNameQueryResult = Apollo.QueryResult<
 >
 export const GetImagesDocument = gql`
   query GetImages {
-    Images {
+    Images(limit: 1) {
       items {
         imageFile {
           filename
@@ -414,6 +323,8 @@ export const GetImagesDocument = gql`
             height
           }
         }
+        imageId
+        title
       }
     }
   }
@@ -462,4 +373,96 @@ export type GetImagesLazyQueryHookResult = ReturnType<
 export type GetImagesQueryResult = Apollo.QueryResult<
   GetImagesQuery,
   GetImagesQueryVariables
+>
+export const GetImagesDetailedDocument = gql`
+  query GetImagesDetailed {
+    Images(limit: 1) {
+      items {
+        title
+        imageId
+        imageFile {
+          editorSettings {
+            baseUrl
+            sharedSecret
+          }
+          size {
+            height
+            width
+            name
+          }
+          crops {
+            height
+            name
+            width
+            x
+            y
+          }
+          focus {
+            x
+            y
+          }
+          contentType
+          filename
+          publicUrl
+          width
+          height
+          sizes {
+            name
+            width
+            height
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useGetImagesDetailedQuery__
+ *
+ * To run a query within a React component, call `useGetImagesDetailedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetImagesDetailedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetImagesDetailedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetImagesDetailedQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetImagesDetailedQuery,
+    GetImagesDetailedQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    GetImagesDetailedQuery,
+    GetImagesDetailedQueryVariables
+  >(GetImagesDetailedDocument, options)
+}
+export function useGetImagesDetailedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetImagesDetailedQuery,
+    GetImagesDetailedQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    GetImagesDetailedQuery,
+    GetImagesDetailedQueryVariables
+  >(GetImagesDetailedDocument, options)
+}
+export type GetImagesDetailedQueryHookResult = ReturnType<
+  typeof useGetImagesDetailedQuery
+>
+export type GetImagesDetailedLazyQueryHookResult = ReturnType<
+  typeof useGetImagesDetailedLazyQuery
+>
+export type GetImagesDetailedQueryResult = Apollo.QueryResult<
+  GetImagesDetailedQuery,
+  GetImagesDetailedQueryVariables
 >

@@ -9,14 +9,20 @@ const ImagesComponent = () => {
   if (error) return <div>{error.message}</div>
   const images = data?.Images?.items
   const firstImage = images && images?.length > 0 ? images[0] : null
-
+  console.log({ firstImage })
   return (
     <div>
+      <Link href={'/'}> Return to Home Page</Link>
       <h1>Client Side Rendered Images</h1>
       {firstImage?.imageFile?.sizes?.map((item: any, i: number) => {
-        console.log('width: ', item.width, 'height: ', item.height)
         return (
-          <Link href={`/csr/${item?.name}`} key={i}>
+          <Link
+            href={{
+              pathname: `/csr/${item?.name}`,
+              query: { id: firstImage.imageId },
+            }}
+            key={i}
+          >
             <Image
               src={`http:${item?.src}`}
               alt={item?.name}

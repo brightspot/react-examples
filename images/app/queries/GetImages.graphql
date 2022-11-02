@@ -1,5 +1,5 @@
 query GetImages {
-  Images {
+  Images(limit: 1) {
     items {
       imageFile {
         filename
@@ -10,6 +10,8 @@ query GetImages {
           height
         }
       }
+      imageId
+      title
     }
   }
 }
