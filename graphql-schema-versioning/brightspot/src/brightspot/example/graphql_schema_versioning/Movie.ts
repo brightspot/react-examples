@@ -9,7 +9,6 @@ export default class Movie extends JavaClass(
   'brightspot.example.graphql_schema_versioning.Movie',
   Content
 ) {
-  @Required
   @JavaField(String)
   title: string
 
