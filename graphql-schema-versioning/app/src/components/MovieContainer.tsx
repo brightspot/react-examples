@@ -11,11 +11,7 @@ const MovieContainer = () => {
     <div className="movies-container">
       {data?.Movies?.movies &&
         data.Movies.movies.map((movie, index) => (
-          <MovieComponent
-            key={index}
-            title={movie?.title}
-            description={movie?.description}
-          />
+          <MovieComponent key={index} movie={movie} />
         ))}
     </div>
   )
