@@ -9,8 +9,8 @@ const MovieContainer = () => {
 
   return (
     <div className="movies-container">
-      {data?.Movies?.movies &&
-        data.Movies.movies.map((movie, index) => (
+      {data?.AllMovies?.movies &&
+        data.AllMovies.movies.map((movie, index) => (
           <MovieComponent key={index} movie={movie} />
         ))}
     </div>

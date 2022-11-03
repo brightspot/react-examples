@@ -1,5 +1,5 @@
 query Movies {
-  Movies {
+  AllMovies {
     movies {
       title
       description

@@ -9,7 +9,7 @@ import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import MoviesViewModel from './MoviesViewModel'
+import AllMoviesViewModel from './AllMoviesViewModel'
 
 export default class SchemaVersioningMovieEndpoint extends JavaClass(
   'brightspot.example.graphql_schema_versioning.SchemaVersioningMovieEndpoint',
@@ -21,7 +21,7 @@ export default class SchemaVersioningMovieEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [MoviesViewModel.class].map(
+    return [AllMoviesViewModel.class].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
