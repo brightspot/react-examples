@@ -131,7 +131,7 @@ Navigate back to the front-end `graphql-schema-versioning/app`. The types and sc
 
 The file does not have the field **director** or **releaseYear** in it's type or Movie query
 
-The query needs to be updated `graphql-schema-versioning/app/src/components/MoviesQuery.graphql`, to retrieve those new fields to display in the front-end. The application will still run again because there are no breaking changes. `graphql-schema-versioning/app/src/components/Movie.tsx` and `graphql-schema-versioning/app/src/components/MovieContainer.tsx` need to be updated to display the new fields.
+The query needs to be updated `graphql-schema-versioning/app/src/components/MoviesQuery.graphql`, to retrieve those new fields to display in the front-end. The application will still run again because there are no breaking changes. `graphql-schema-versioning/app/src/components/Movie.tsx` needs to be updated to display the new fields.
 
 MoviesQuery:
 
@@ -148,53 +148,26 @@ query Movies {
 }
 ```
 
-MovieContainer:
-
-```js
-import { useMoviesQuery } from '../generated'
-import MovieComponent from './Movie'
-
-const MovieContainer = () => {
-  const { loading, error, data } = useMoviesQuery()
-
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>{error.message}</div>
-
-  return (
-    <div className="movies-container">
-      {data?.Movies?.movies &&
-        data.Movies.movies.map((movie, index) => (
-          <MovieComponent
-            key={index}
-            title={movie?.title}
-            plot={movie?.plot}
-            releaseYear={movie?.releaseYear}
-            director={movie?.director}
-          />
-        ))}
-    </div>
-  )
-}
-
-export default MovieContainer
-```
-
 Movie:
 
 ```js
 import { Movie } from '../generated'
 
-const MovieComponent = ({ title, plot, releaseYear, director }: Movie) => (
+interface MovieProp {
+  movie: Movie | null;
+}
+
+const MovieComponent = ({ movie }: MovieProp) => (
   <div className="movie-card">
-    <h1>{title}</h1>
-    <h2>{plot}</h2>
+    <h1>{movie?.title}</h1>
+    <h2>{movie?.description}</h2>
     <img
       className="movie-image"
       src="https://img.freepik.com/premium-vector/movie-camera-vector-icon-isolated-object-white-background_661273-89.jpg"
       alt="movie"
     />
-    <h3>{releaseYear}</h3>
-    <h3>{director}</h3>
+    <h3>{movie?.releaseYear}</h3>
+    <h3>{movie?.director}</h3>
   </div>
 )
 
@@ -227,7 +200,7 @@ The graphql-inspector cli will display the changes.
 
 Run Codegen once more and there will be an error that there is no field for the specified removed field that the query `graphql-schema-versioning/app/src/components/MovieQuery.graphql` is asking for.
 
-This is bad practice, when new GraphQL fields are added, it's expected to leave the old ones behind, deprecate them and simply change the data requested. There should only be additions to new fields and then updating the query for the new field, check with graphql-inspector and if all is well, run Codegen and then update the application.
+This is bad practice, when new GraphQL fields are added, it's expected to leave the old ones behind. The fields should be deprecated and the front end can simply change the data requested. There should only be additions to new fields and then updating the query for the new field. Check with graphql-inspector and if all is well, run Codegen and then update the application.
 
 GraphQL unlike REST APIs gives us the ability to easily track new fields added or removed to the schema.
 
