@@ -1,10 +1,4 @@
-import {
-  MarkedText,
-  MarkedTextFunction,
-  Mark,
-  RichTextMark,
-  VisitMark,
-} from './types'
+import { RteMarkedText, MarkedTextFunction, RteMark, VisitMark } from './types'
 
 const markedText: MarkedTextFunction = (markedText, visitMark) => {
   let traverseOrder
@@ -15,20 +9,20 @@ const markedText: MarkedTextFunction = (markedText, visitMark) => {
 }
 
 /**
- * A post-order tree traversal algorithm executed against {@link MarkedText} using a {@link VisitMark}
+ * A post-order tree traversal algorithm executed against {@link RteMarkedText} using a {@link VisitMark}
  * for callbacks.
  */
 class MarkedTextPostOrderTraversal {
   /**
-   * Creates a new post order traversal algorithm for the given MarkedText and Visitor implementation.
+   * Creates a new post order traversal algorithm for the given RteMarkedText and Visitor implementation.
    *
    * @param markedText
    * @param visitor
    */
-  constructor(public markedText: MarkedText, public visitor: VisitMark) {}
+  constructor(public markedText: RteMarkedText, public visitor: VisitMark) {}
 
   /**
-   * Performs a post-order traversal of MarkedText, using a Visitor function to issue callbacks, and returns
+   * Performs a post-order traversal of RteMarkedText, using a Visitor function to issue callbacks, and returns
    * a List of transformed root nodes.
    */
   traverse() {
@@ -38,14 +32,14 @@ class MarkedTextPostOrderTraversal {
   rebuildTree = (): MarkNode => {
     let root: MarkNode = new MarkNode(this.markedText, null, 0)
 
-    let markNodes: Array<MarkNode> = []
+    let markNodes: MarkNode[] = []
 
     markNodes.push(root)
 
     let index: number = 1
     let marks = this.markedText.marks
 
-    marks.forEach((mark: Mark | RichTextMark) => {
+    marks.forEach((mark: RteMark) => {
       markNodes.push(new MarkNode(this.markedText, mark, index))
       index++
     })
@@ -97,11 +91,8 @@ class MarkedTextPostOrderTraversal {
     }
   }
 
-  findChildren = (
-    markNode: MarkNode,
-    markNodes: Array<MarkNode>
-  ): Array<MarkNode> => {
-    let children: Array<MarkNode> = []
+  findChildren = (markNode: MarkNode, markNodes: MarkNode[]): MarkNode[] => {
+    let children: MarkNode[] = []
 
     let markIndex = markNode.getIndex()
     let markDescendants = markNode.getDescendants()
@@ -121,13 +112,13 @@ class MarkedTextPostOrderTraversal {
 
 class MarkNode {
   constructor(
-    public markedText: MarkedText,
-    public mark: Mark | RichTextMark | null = null,
+    public markedText: RteMarkedText,
+    public mark: RteMark | null = null,
     public index: number,
-    public children: Array<MarkNode> = []
+    public children: MarkNode[] = []
   ) {}
 
-  getMark(): Mark | RichTextMark | null {
+  getMark(): RteMark | null {
     return this.mark
   }
 
@@ -149,7 +140,7 @@ class MarkNode {
       : this.markedText.marks.length
   }
 
-  getChildren(): Array<MarkNode> {
+  getChildren(): MarkNode[] {
     return this.children
   }
 

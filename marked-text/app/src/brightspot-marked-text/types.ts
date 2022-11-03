@@ -1,40 +1,29 @@
-export interface MarkedText {
+export interface RteMarkedText {
   text: string
-  marks: Array<Mark | RichTextMark>
+  marks: RteMark[]
 }
 
-export interface Mark {
+export interface RteMark {
+  start: number
+  end: number
+  descendants: number
+  data: RteHtmlElement
+}
+
+export interface RteHtmlElement {
   __typename: string
   name: string
-  start: number
-  end: number
-  descendants: number
-  attributes: {
-    entries: [{ key: string; value: string }]
-  }
+  attributes: Attributes[]
 }
 
-export interface RichTextMark {
-  __typename: string
-  start: number
-  end: number
-  descendants: number
-  richTextElement: {
-    __typename: string
-    url: string
-    maximumWidth: number | null
-    maximumHeight: number | null
-  }
+interface Attributes {
+  name: string
+  value: string
 }
-
 export interface VisitMark {
-  (
-    mark: Mark | RichTextMark | null,
-    children: Array<string>,
-    index: number
-  ): any
+  (mark: RteMark | null, children: string[], index: number): any
 }
 
 export interface MarkedTextFunction {
-  (markedText: MarkedText, visitMark: VisitMark): any
+  (markedText: RteMarkedText, visitMark: VisitMark): any
 }
