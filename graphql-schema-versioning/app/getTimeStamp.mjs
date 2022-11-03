@@ -1,8 +1,8 @@
 import fs from 'fs'
 
 function createCodeGenTimeStamp() {
-  let codeGenDate = new Date()
-  const timeStamp = codeGenDate.getTime().toString()
+  let codegenDate = new Date()
+  const timeStamp = codegenDate.getTime().toString()
   fs.writeFileSync(
     './schemas/timeStamp.mjs',
     `
