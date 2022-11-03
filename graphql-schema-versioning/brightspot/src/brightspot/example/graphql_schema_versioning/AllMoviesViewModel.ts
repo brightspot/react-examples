@@ -12,8 +12,8 @@ import MovieEndpoint from './SchemaVersioningMovieEndpoint'
 import MovieViewModel from './MovieViewModel'
 
 @ViewInterface
-export default class MoviesViewModel extends JavaClass(
-  'brightspot.example.graphql_schema_versioning.MoviesViewModel',
+export default class AllMoviesViewModel extends JavaClass(
+  'brightspot.example.graphql_schema_versioning.AllMoviesViewModel',
   ViewModel.Of(MovieEndpoint)
 ) {
   @JavaMethodParameters()
