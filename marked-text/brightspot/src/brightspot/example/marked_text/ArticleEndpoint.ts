@@ -8,10 +8,9 @@ import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
-import RecordableDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/rda/RecordableDeliveryEntryPointField'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import Article from './Article'
+import ArticleViewModel from './ArticleViewModel'
 
 export default class ArticleEndpoint extends JavaClass(
   'brightspot.example.marked_text.ArticleEndpoint',
@@ -23,8 +22,8 @@ export default class ArticleEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [Article.class as Class<Article>].map(
-      (c) => new RecordableDeliveryEntryPointField(c)
+    return [ArticleViewModel.getClass()].map(
+      (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
 

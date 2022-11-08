@@ -1,13 +1,17 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
-import { Mark, MarkedText, RichTextMark } from '../brightspot-marked-text/types'
-import { markedText } from '../brightspot-marked-text/marked-text'
-import { TagComponent, ExternalContent } from './StyledComponents'
+import { RteMark, RteMarkedText } from '../brightspot-marked-text/types'
+import { markedTextTraversal } from '../brightspot-marked-text/marked-text'
+import {
+  TextComponent,
+  RenderedComponent,
+  TypeComponentHandler,
+} from './StyledComponents'
 
 interface ArticleData {
   headline: string
   subheadline: string
-  body: MarkedText
+  body: RteMarkedText
 }
 
 interface ArticleResponse {
@@ -69,56 +73,26 @@ const ArticleContainer = () => {
     fetchArticleData()
   }, [fetchArticleData])
 
-  const componentHandler = (
-    mark: Mark | RichTextMark | null,
-    children: Array<string | React.ReactElement>,
-    index: number
-  ) => {
-    if (mark === null) return ''
-    if (mark.__typename === 'HtmlMark') {
-      const { name, __typename, attributes } = mark as Mark
-      return (
-        <TagComponent
-          key={index}
-          typename={__typename}
-          tag={name}
-          children={children}
-          attributes={attributes}
-        />
-      )
-    } else {
-      const { __typename, richTextElement } = mark as RichTextMark
-
-      let maxWidth
-      let maxHeight
-      richTextElement?.maximumWidth
-        ? (maxWidth = richTextElement.maximumWidth)
-        : (maxWidth = null)
-      richTextElement?.maximumHeight
-        ? (maxHeight = richTextElement.maximumHeight)
-        : (maxHeight = null)
-      return (
-        <ExternalContent
-          key={index}
-          typename={__typename}
-          children={children}
-          richTextElement={richTextElement}
-          size={{ maxWidth, maxHeight }}
-        />
-      )
-    }
+  const textHandler = (text: string) => {
+    return <TextComponent text={text} />
   }
+
+  const componentHandler = (
+    mark: RteMark,
+    children: Array<React.ReactElement>
+  ) => TypeComponentHandler(mark, children)
 
   return (
     <div>
       <h1>{article?.articleData?.headline}</h1>
       <h2>{article?.articleData?.subheadline}</h2>
       {article?.articleData &&
-        markedText(article?.articleData?.body, componentHandler).map(
-          (Component: React.ReactElement, index: number) => {
-            return Component
-          }
-        )}
+        markedTextTraversal(article?.articleData?.body, {
+          visitText: textHandler,
+          visitMark: componentHandler,
+        }).map((Component, index: number) => {
+          return <RenderedComponent key={index} Component={Component} />
+        })}
     </div>
   )
 }

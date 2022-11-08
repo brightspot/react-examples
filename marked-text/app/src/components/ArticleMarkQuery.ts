@@ -1,35 +1,50 @@
 export const ArticleMarkQuery = `
 query ArticleMarkQuery($path: String) {
   Article(model: {path: $path}) {
-    headline
-    subheadline
     body {
       text
       marks {
-        ... on HtmlMark {
-          __typename
-          name
-          start
-          end
-          descendants
-          attributes {
-            entries {
-              key
+        start
+        end
+        descendants
+        data {
+          ... on RteHtmlElement {
+            __typename
+            name
+            attributes {
+              name
               value
             }
           }
-        }
-        ... on RichTextMark {
-          __typename
-          start
-          end
-          descendants
-          richTextElement {
-            ... on ExternalContentRichTextElement {
-              __typename
-              url
-              maximumWidth
-              maximumHeight
+          ... on ExternalContentRichTextElement {
+            __typename
+            type
+            version
+            title
+            authorName
+            authorUrl
+            providerName
+            providerUrl
+            thumbnailUrl
+            thumbnailWidth
+            thumbnailHeight
+            markedHtml {
+              text
+              marks {
+                start
+                end
+                descendants
+                data {
+                  ... on RteHtmlElement {
+                    __typename
+                    name
+                    attributes {
+                      name
+                      value
+                    }
+                  }
+                }
+              }
             }
           }
         }
