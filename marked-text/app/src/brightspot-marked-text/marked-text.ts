@@ -1,87 +1,103 @@
-import { RteMarkedText, MarkedTextFunction, RteMark, VisitMark } from './types'
+import {
+  RteMarkedText,
+  RteMarkedTextVisitor,
+  RteMark,
+  RteMarkedTextTraversal,
+} from './types'
 
-const markedText: MarkedTextFunction = (markedText, visitMark) => {
-  let traverseOrder
-
-  traverseOrder = new MarkedTextPostOrderTraversal(markedText, visitMark)
+/**
+ * Function called to create an array of {@link N} given the MarkedText and visitor implementation {@link RteMarkedTextVisitor}.
+ * @param markedText - Nonnull.
+ * @param visitor Nonnull.
+ * @returns An array of items based on the visitor implementation
+ */
+const markedTextTraversal: RteMarkedTextTraversal = (markedText, visitor) => {
+  const traverseOrder = new MarkedTextPostOrderTraversal(markedText, visitor)
 
   return traverseOrder.traverse()
 }
 
 /**
- * A post-order tree traversal algorithm executed against {@link RteMarkedText} using a {@link VisitMark}
+ * A post-order tree traversal algorithm executed against {@link RteMarkedText} using {@link RteMarkedTextVisitor}
  * for callbacks.
  */
-class MarkedTextPostOrderTraversal {
-  /**
-   * Creates a new post order traversal algorithm for the given RteMarkedText and Visitor implementation.
-   *
-   * @param markedText
-   * @param visitor
-   */
-  constructor(public markedText: RteMarkedText, public visitor: VisitMark) {}
+class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
+  constructor(
+    public markedText: RteMarkedText,
+    public visitor: RteMarkedTextVisitor<M, T, N>
+  ) {}
 
   /**
-   * Performs a post-order traversal of RteMarkedText, using a Visitor function to issue callbacks, and returns
-   * a List of transformed root nodes.
+   * Performs a post-order traversal of RteMarkedText, using a RteMarkedTextVisitor function to issue callbacks, and returns
+   * an array of transformed root nodes.
    */
   traverse() {
     return this.traversePostOrder(this.rebuildTree())
   }
 
   rebuildTree = (): MarkNode => {
-    let root: MarkNode = new MarkNode(this.markedText, null, 0)
+    const { markedText, findChildren } = this
 
-    let markNodes: MarkNode[] = []
+    const root: MarkNode = new MarkNode(markedText, null as any, 0)
+
+    const markNodes: MarkNode[] = []
 
     markNodes.push(root)
 
-    let index: number = 1
-    let marks = this.markedText.marks
+    let index = 1
+    const marks = markedText.marks
 
     marks.forEach((mark: RteMark) => {
-      markNodes.push(new MarkNode(this.markedText, mark, index))
+      markNodes.push(new MarkNode(markedText, mark, index))
       index++
     })
 
     markNodes.forEach((markNode: MarkNode) => {
-      markNode.getChildren().push(...this.findChildren(markNode, markNodes))
+      markNode.getChildren().push(...findChildren(markNode, markNodes))
     })
 
     return root
   }
 
   traversePostOrder = (markNode: MarkNode) => {
+    const { markedText, visitor, traversePostOrder } = this
+
     let currentIndex: number = markNode.getStart()
 
-    let output: any = []
+    const output: N[] = []
 
     markNode.getChildren().forEach((child: MarkNode) => {
-      let childStart: number = child.getStart()
+      const childStart: number = child.getStart()
 
       if (currentIndex < childStart) {
-        output.push(this.markedText.text.substring(currentIndex, childStart))
+        const transformedText: T = visitor.visitText(
+          markedText.text.substring(currentIndex, childStart)
+        )
+
+        if (transformedText != null) {
+          output.push(transformedText)
+        }
       }
-      // This is where the post order is being created.
-      output.push(...this.traversePostOrder(child))
+
+      output.push(...traversePostOrder(child))
 
       currentIndex = child.getEnd()
     })
 
     if (currentIndex < markNode.getEnd()) {
-      output.push(
-        this.markedText.text.substring(currentIndex, markNode.getEnd())
+      const transformedText: T = visitor.visitText(
+        markedText.text.substring(currentIndex, markNode.getEnd())
       )
+
+      if (transformedText != null) {
+        output.push(transformedText)
+      }
     }
 
     if (markNode.isRoot()) {
       return output
     } else {
-      let transformedMark = this.visitor(
-        markNode.getMark(),
-        output,
-        markNode.getIndex()
-      )
+      const transformedMark: M = visitor.visitMark(markNode.getMark(), output)
 
       if (transformedMark != null) {
         return [transformedMark]
@@ -92,15 +108,15 @@ class MarkedTextPostOrderTraversal {
   }
 
   findChildren = (markNode: MarkNode, markNodes: MarkNode[]): MarkNode[] => {
-    let children: MarkNode[] = []
+    const children: MarkNode[] = []
 
-    let markIndex = markNode.getIndex()
+    const markIndex = markNode.getIndex()
     let markDescendants = markNode.getDescendants()
 
     let nextIndex = markIndex + 1
 
     while (markDescendants > 0) {
-      let child: MarkNode = markNodes[nextIndex]
+      const child: MarkNode = markNodes[nextIndex]
       children.push(child)
       markDescendants -= child.getDescendants() + 1
       nextIndex += child.getDescendants() + 1
@@ -113,12 +129,12 @@ class MarkedTextPostOrderTraversal {
 class MarkNode {
   constructor(
     public markedText: RteMarkedText,
-    public mark: RteMark | null = null,
+    public mark: RteMark,
     public index: number,
     public children: MarkNode[] = []
   ) {}
 
-  getMark(): RteMark | null {
+  getMark(): RteMark {
     return this.mark
   }
 
@@ -149,4 +165,4 @@ class MarkNode {
   }
 }
 
-export { markedText }
+export { markedTextTraversal }
