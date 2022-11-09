@@ -35,6 +35,7 @@ class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
     return this.traversePostOrder(this.rebuildTree())
   }
 
+  /** Rebuilds tree for traversal */
   rebuildTree = (): MarkNode => {
     const { markedText, findChildren } = this
 
@@ -107,6 +108,7 @@ class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
     }
   }
 
+  /** Locate descendants/children of {@link MarkNode} */
   findChildren = (markNode: MarkNode, markNodes: MarkNode[]): MarkNode[] => {
     const children: MarkNode[] = []
 
@@ -126,6 +128,7 @@ class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
   }
 }
 
+/** Converted {@link RteMark} */
 class MarkNode {
   constructor(
     public markedText: RteMarkedText,
