@@ -17,7 +17,7 @@ export default class ArticleBodyFieldToolbarObjectTypeProcessor extends JavaClas
     if (typeName === type.getInternalName()) {
       Array.from(type.getFields()).forEach((field) => {
         if (fieldName === field.getInternalName()) {
-          type.as(ToolUi.class).setRichTextToolbarClassName(toolbarName)
+          field.as(ToolUi.class).setRichTextToolbarClassName(toolbarName)
           return
         }
       })

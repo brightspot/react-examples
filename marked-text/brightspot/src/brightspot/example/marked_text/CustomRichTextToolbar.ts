@@ -7,7 +7,6 @@ import RichTextToolbarStyle from 'brightspot-types/com/psddev/cms/rte/RichTextTo
 import RichTextToolbarAction from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarAction'
 import RichTextToolbarSeparator from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarSeparator'
 
-//Waiting on patch to implement custom toolbar.
 export default class CustomRichTextToolbar extends JavaClass(
   'brightspot.example.marked_text.CustomRichTextToolbar',
   null,

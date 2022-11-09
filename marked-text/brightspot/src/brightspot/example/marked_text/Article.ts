@@ -9,7 +9,6 @@ import Site from 'brightspot-types/com/psddev/cms/db/Site'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 
 import CustomRichTextToolbar from './CustomRichTextToolbar'
-import GuideFieldRichTextToolbar from 'brightspot-types/com/psddev/cms/rte/GuideFieldRichTextToolbar'
 
 export default class Article extends JavaClass(
   'brightspot.example.marked_text.Article',
@@ -25,7 +24,7 @@ export default class Article extends JavaClass(
 
   @JavaField(String)
   @RichText({
-    toolbar: GuideFieldRichTextToolbar.class,
+    toolbar: CustomRichTextToolbar.getClass(),
     lines: 5,
   })
   body?: string;
