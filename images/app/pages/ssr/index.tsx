@@ -6,8 +6,8 @@ import { GetImagesDetailedDocument } from '../../generated/graphql'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import ImageUrl from '../../lib/imageUrl'
-
+import CustomUrlImage from '../../lib/imageUrl'
+import {CustomImageInterface, CustomImageSizeInterface} from '../../lib/imageUrl'
 interface Props {
   imageUrlArray: Object[]
   size: {
@@ -19,9 +19,10 @@ interface Props {
 }
 
 const ServerSide = ({ imageUrlArray, errors }: Props) => {
+  console.log({ imageUrlArray })
   if (errors) return <div>Error Occured</div>
 
-  if (imageUrlArray.length === 0) {
+  if (!imageUrlArray || imageUrlArray.length === 0) {
     return (
       <div>
         <div>404</div>
@@ -55,9 +56,9 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
               >
                 <Image
                   src={item.resizedUrl}
-                  alt={item.size.name}
-                  width={item.size.width}
-                  height={item.size.height}
+                  alt={item.size?.name}
+                  width={item.size?.width}
+                  height={item.size?.height}
                 />
               </Link>
             )
@@ -68,71 +69,90 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const imageUrlArray: Object[] = []
-  let size
   try {
     const { data } = await client.query({
       query: GetImagesDetailedDocument,
     })
 
     if (data) {
-      console.log('DATA !!: ', data)
       const firstImage = data.Images.items[0]
-      console.log('FIRST IMAGE !!: ', firstImage)
-
-      const ExampleConfig = {
-        config: {
-          imageURL: {
+      const ExampleConfig:CustomImageInterface = {
+        settings: {
             baseUrl: `http:${firstImage?.imageFile?.editorSettings?.baseUrl}/`,
             sharedSecret: firstImage?.imageFile?.editorSettings?.sharedSecret,
-          },
         },
         image: {
-          publicUrl: firstImage?.imageFile?.publicUrl,
+          originalUrl: firstImage?.imageFile?.publicUrl,
+          publicUrl: firstImage?.imageFile?.publicUrl, 
           contentType: firstImage?.imageFile?.contentType,
           filename: firstImage?.imageFile?.filename,
           width: firstImage?.imageFile?.width,
           height: firstImage?.imageFile?.height,
+          metadata: undefined,
+
           focus: {
             x: firstImage?.imageFile?.focus?.x,
             y: firstImage?.imageFile?.focus?.y,
+
           },
           crops: [
             {
-              name: firstImage?.imageFile?.crops[0]?.name,
-              x: firstImage?.imageFile?.crops[0]?.x,
-              y: firstImage?.imageFile?.crops[0]?.y,
-              width: firstImage?.imageFile?.crops[0]?.width,
-              height: firstImage?.imageFile?.crops[0]?.height,
+              height:  0.18432103915629056,
+              name: "example-small",
+              width: 0.23021697790620688,
+              x: 0.6348151482620175,
+              y: 0.7454132581838897,
             },
+            {
+              height: 0.19189765726077332,
+              name: "thumbnail",
+              width:  0.23868069982832404,
+              x: 0.4262629709426005,
+              y:  0.7771334783651267,
+            },
+            // {
+            //   height: firstImage?.imageFile?.crops[0]?.height,
+            //   name: firstImage?.imageFile?.crops[0]?.name,
+            //   width: firstImage?.imageFile?.crops[0]?.width,
+            //   x: firstImage?.imageFile?.crops[0]?.x,
+            //   y: firstImage?.imageFile?.crops[0]?.y,
+            // },
           ],
+          cmsEdits: {
+            brightness: firstImage?.imageFile?.edits?.brightness, 
+            contrast: firstImage?.imageFile?.edits?.contrast,
+            flipH: firstImage?.imageFile?.edits?.flipH,
+            flipV: firstImage?.imageFile?.edits?.flipV,
+            grayscale: firstImage?.imageFile?.edits?.grayscale,
+            invert: firstImage?.imageFile?.edits?.invert,
+            rotate:  firstImage?.imageFile?.edits?.rotate,
+            sepia: firstImage?.imageFile?.edits?.sepia,
+            sharpen: firstImage?.imageFile?.edits?.sharpen,
+          }
         },
-        size: {
+      }
+
+      const ExampleSize: CustomImageSizeInterface = {
+          name: firstImage?.imageFile?.filename,
           width: firstImage?.imageFile?.size?.width,
           height: firstImage?.imageFile?.size?.height,
-          internalName: firstImage?.imageFile?.fileName,
-        },
-        sizes: firstImage?.imageFile?.sizes,
-        //   sizes: [
-        //   {
-        //       width: 112,
-        //       height: 112,
-        //       internalName: 'thumbnail'
-        //   }
-        // ]
+          // maximumWidth: TODO: confirm if still needed since not in GraphQL Schema,
+          // maximumHeight: TODO: confirm if still needed since not in GraphQL Schema,
+          quality: 90,
+          format: "webp"
       }
-      console.log('SIZES', firstImage?.imageFile?.sizes[0])
-      const Config = ExampleConfig.config
 
-      const Image = ExampleConfig.image
-      const Sizes = ExampleConfig.sizes
-      size = ExampleConfig.size
-
-      Sizes.forEach((size: any) => {
-        const resizedUrl = ImageUrl.generateUrl(Config.imageURL, Image, size)
-        imageUrlArray.push({ resizedUrl, size })
-      })
+      // const ExampleSizes: CustomImageSizeInterface[] = firstImage?.imageFile?.sizes
+     
+      const imageUrl = new CustomUrlImage(ExampleConfig.settings, ExampleConfig.image)
+      const resizedUrl = imageUrl.generateUrl(ExampleSize)
+      imageUrlArray.push({ resizedUrl, ExampleSize })
+      // ExampleSizes.forEach((size: CustomImageSizeInterface, i: number) => {
+      //   const resizedUrl = imageUrl.generateUrl(size)// this is right
+      //   imageUrlArray.push({ resizedUrl, size })
+      // })
     }
 
     return {

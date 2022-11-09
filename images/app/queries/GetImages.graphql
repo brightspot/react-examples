@@ -1,5 +1,5 @@
 query GetImages {
-  Images(limit: 1) {
+  Images {
     items {
       imageFile {
         filename

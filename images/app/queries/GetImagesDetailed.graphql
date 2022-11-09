@@ -1,5 +1,5 @@
 query GetImagesDetailed {
-  Images(limit: 1) {
+  Images {
     items {
       title
       imageId
@@ -12,6 +12,9 @@ query GetImagesDetailed {
           height
           width
           name
+          altFormats {
+            name
+          }
         }
         crops {
           height
@@ -34,7 +37,19 @@ query GetImagesDetailed {
           width
           height
         }
+        edits {
+          brightness
+          contrast
+          flipH
+          flipV
+          grayscale
+          invert
+          rotate
+          sepia
+          sharpen
+        }
       }
     }
   }
 }
+

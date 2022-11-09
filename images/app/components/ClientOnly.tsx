@@ -6,7 +6,7 @@ interface Props {
 
 export default function ClientOnly({ children, ...delegated }: Props) {
   const [hasMounted, setHasMounted] = useState(false)
-  console.log('welcome to the client side, hasmounted: ', hasMounted)
+
   useEffect(() => {
     setHasMounted(true)
   }, [])

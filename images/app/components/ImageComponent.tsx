@@ -30,6 +30,7 @@ const ImageComponent = () => {
         width={data?.Image?.imageFile?.size?.width || 400}
         height={data?.Image?.imageFile?.size?.height || 400}
       />
+
     </div>
   )
 }

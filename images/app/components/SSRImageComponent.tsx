@@ -1,10 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const ImageComponent = () => {
   const router = useRouter()
-  return (
+
+useEffect(() => {
+  if (router.isReady) {
+    console.info('router is ready')
+  }
+}, [router.isReady])
+
+if(!router.isReady) return <div>waiting on the router 😊</div>
+  
+return (
     <div>
       <Link href={'/ssr'}> Return to all SSR Images</Link>
       <h1>Server Side Rendered Image</h1>
@@ -17,6 +27,7 @@ const ImageComponent = () => {
         alt={router.query.name as string}
         width={parseInt(router.query.width as string)}
         height={parseInt(router.query.height as string)}
+       
       />
     </div>
   )

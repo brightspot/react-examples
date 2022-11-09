@@ -6,6 +6,10 @@ query GetImageUrlBySizeName($id: ID, $name: String) {
         height
         width
         name
+        srcSets {
+          size
+          src
+        }
       }
     }
     title

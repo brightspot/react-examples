@@ -9,7 +9,7 @@ const ImagesComponent = () => {
   if (error) return <div>{error.message}</div>
   const images = data?.Images?.items
   const firstImage = images && images?.length > 0 ? images[0] : null
-  console.log({ firstImage })
+
   return (
     <div>
       <Link href={'/'}> Return to Home Page</Link>
