@@ -1,7 +1,10 @@
 import './App.css'
+import SongsContainer from './components/SongsContainer'
 
-function App() {
-  return <div className="App"></div>
-}
+const App = () => (
+  <div className="App">
+    <SongsContainer />
+  </div>
+)
 
 export default App

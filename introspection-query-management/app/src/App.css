@@ -11,3 +11,35 @@ body {
   text-align: center;
   margin-top: 10em;
 }
+
+.songs-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.song-card {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 20rem;
+  border: solid #ee0120;
+  border-radius: 12px;
+}
+
+.song-card > * {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 18rem;
+  gap: 3rem;
+  flex-basis: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.song-card > div {
+  margin: 0 1rem 0 1rem;
+}
