@@ -74,7 +74,7 @@ const ArticleContainer = () => {
   }, [fetchArticleData])
 
   const textHandler = (text: string) => {
-    return <TextComponent text={text} />
+    return <TextComponent key={text} text={text} />
   }
 
   const componentHandler = (
