@@ -18,7 +18,6 @@ query ArticleMarkQuery($path: String) {
           }
           ... on ExternalContentRichTextElement {
             __typename
-            type
             version
             title
             authorName
@@ -46,6 +45,13 @@ query ArticleMarkQuery($path: String) {
                 }
               }
             }
+          }
+          ... on ImageRichTextElement {
+            __typename
+            fileUrl
+            withBorder
+            withBackground
+            stretched
           }
         }
       }
