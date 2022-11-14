@@ -37,7 +37,7 @@ export default class ImageRichTextElementViewModel extends JavaClass(
   @JavaMethodReturn(String)
   getAlt(): string {
     let image = this.model.getImage()
-    let altText = image.getAlt()
+    let altText = image.getAltText()
     return altText ? altText : null
   }
 
