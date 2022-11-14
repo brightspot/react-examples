@@ -152,7 +152,7 @@ export default class ImageRichTextElement extends JavaClass(
         this.withBackground.toString()
       )
     }
-    console.log(`🐶${attributes}🐶`)
+
     return attributes
   }
 

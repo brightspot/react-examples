@@ -1,10 +1,8 @@
-import JavaClass from 'brightspot-types/JavaClass'
-import List from 'brightspot-types/java/util/List'
-import Class from 'brightspot-types/java/lang/Class'
-import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
-import ImageRichTextElement from './ImageRichTextElement'
 import ArrayList from 'brightspot-types/java/util/ArrayList'
+import Class from 'brightspot-types/java/lang/Class'
+import JavaClass from 'brightspot-types/JavaClass'
 import JavaObject from 'brightspot-types/java/lang/Object'
+import List from 'brightspot-types/java/util/List'
 
 import ClassFinder from 'brightspot-types/com/psddev/dari/util/ClassFinder'
 import RichTextToolbar from 'brightspot-types/com/psddev/cms/rte/RichTextToolbar'
@@ -12,6 +10,9 @@ import RichTextToolbarAction from 'brightspot-types/com/psddev/cms/rte/RichTextT
 import RichTextToolbarItem from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarItem'
 import RichTextToolbarSeparator from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarSeparator'
 import RichTextToolbarStyle from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarStyle'
+import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
+
+import ImageRichTextElement from './ImageRichTextElement'
 
 export default class CustomRichTextToolbar extends JavaClass(
   'brightspot.example.marked_text.CustomRichTextToolbar',
@@ -49,19 +50,6 @@ export default class CustomRichTextToolbar extends JavaClass(
 
       RichTextToolbarSeparator.INLINE,
       RichTextToolbarAction.KEYBOARD,
-
-      RichTextToolbarSeparator.BLOCK,
-      RichTextToolbarAction.TRACK_CHANGES,
-      RichTextToolbarAction.TRACK_CHANGES_ACCEPT,
-      RichTextToolbarAction.TRACK_CHANGES_REJECT,
-      RichTextToolbarAction.TRACK_CHANGES_ACCEPT_ALL,
-      RichTextToolbarAction.TRACK_CHANGES_REJECT_ALL,
-      RichTextToolbarAction.TRACK_CHANGES_PREVIEW,
-
-      RichTextToolbarSeparator.BLOCK,
-      RichTextToolbarStyle.COMMENT,
-      RichTextToolbarAction.COMMENT_COLLAPSE,
-      RichTextToolbarAction.COMMENT_REMOVE,
 
       RichTextToolbarSeparator.INLINE,
       RichTextToolbarAction.UNDO,
