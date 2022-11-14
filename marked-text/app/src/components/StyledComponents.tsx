@@ -52,8 +52,7 @@ const TypeComponentHandler = (
     return RteHtmlMarkRenderer(name, children, attributes)
   }
   if (mark?.data?.__typename === 'ExternalContentRichTextElement') {
-    const { markedHtml, type } =
-      mark.data as unknown as ExternalContentRichTextElement
+    const { markedHtml, type } = mark.data as ExternalContentRichTextElement
     if (type === 'video') {
       return RteExternalContentRenderer(markedHtml, type, children)
     } else {
