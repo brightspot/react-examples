@@ -1,15 +1,21 @@
 import JavaClass from 'brightspot-types/JavaClass'
 import List from 'brightspot-types/java/util/List'
+import Class from 'brightspot-types/java/lang/Class'
+import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
+import ImageRichTextElement from './ImageRichTextElement'
+import ArrayList from 'brightspot-types/java/util/ArrayList'
+import JavaObject from 'brightspot-types/java/lang/Object'
 
+import ClassFinder from 'brightspot-types/com/psddev/dari/util/ClassFinder'
 import RichTextToolbar from 'brightspot-types/com/psddev/cms/rte/RichTextToolbar'
-import RichTextToolbarItem from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarItem'
-import RichTextToolbarStyle from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarStyle'
 import RichTextToolbarAction from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarAction'
+import RichTextToolbarItem from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarItem'
 import RichTextToolbarSeparator from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarSeparator'
+import RichTextToolbarStyle from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarStyle'
 
 export default class CustomRichTextToolbar extends JavaClass(
   'brightspot.example.marked_text.CustomRichTextToolbar',
-  null,
+  JavaObject,
   RichTextToolbar
 ) {
   [`getItems()`](): List<RichTextToolbarItem> {
@@ -37,8 +43,6 @@ export default class CustomRichTextToolbar extends JavaClass(
       RichTextToolbarStyle.HTML,
       RichTextToolbarStyle.LINK,
       RichTextToolbarItem.UPLOAD,
-      RichTextToolbarItem.ELEMENTS,
-      RichTextToolbarItem.CUSTOM,
 
       RichTextToolbarSeparator.BLOCK,
       RichTextToolbarAction.TABLE,
@@ -66,6 +70,21 @@ export default class CustomRichTextToolbar extends JavaClass(
       RichTextToolbarAction.MODE,
       RichTextToolbarAction.FIND,
       RichTextToolbarAction.FULLSCREEN,
+      RichTextToolbarItem.CUSTOM,
+      RichTextToolbarItem.ELEMENTS,
+      RichTextToolbarItem.UPLOAD,
     ] as unknown as List<RichTextToolbarItem>
+  }
+
+  [`getElementClasses()`](): List<Class<RichTextElement>> {
+    let list = new ArrayList<Class<RichTextElement>>()
+
+    let imageRichTextElement = ClassFinder.getClass(
+      'brightspot.example.marked_text.ImageRichTextElement'
+    ) as unknown as Class<ImageRichTextElement>
+
+    list.add(imageRichTextElement)
+
+    return list
   }
 }
