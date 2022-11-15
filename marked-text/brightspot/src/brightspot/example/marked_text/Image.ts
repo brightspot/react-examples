@@ -23,10 +23,6 @@ export default class Image extends JavaClass(
   @JavaField(StorageItem)
   file: StorageItem
 
-  @RichText({
-    toolbar: CustomRichTextToolbar.getClass(),
-    lines: 5,
-  })
   @JavaField(String)
   caption: string
 
