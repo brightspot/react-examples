@@ -5,12 +5,12 @@ import JavaObject from 'brightspot-types/java/lang/Object'
 import List from 'brightspot-types/java/util/List'
 
 import ClassFinder from 'brightspot-types/com/psddev/dari/util/ClassFinder'
+import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
 import RichTextToolbar from 'brightspot-types/com/psddev/cms/rte/RichTextToolbar'
 import RichTextToolbarAction from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarAction'
 import RichTextToolbarItem from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarItem'
 import RichTextToolbarSeparator from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarSeparator'
 import RichTextToolbarStyle from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarStyle'
-import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
 
 import ImageRichTextElement from './ImageRichTextElement'
 
@@ -37,13 +37,6 @@ export default class CustomRichTextToolbar extends JavaClass(
       RichTextToolbarSeparator.BLOCK,
       RichTextToolbarStyle.UL,
       RichTextToolbarStyle.OL,
-      RichTextToolbarAction.INDENT,
-      RichTextToolbarAction.OUTDENT,
-
-      RichTextToolbarSeparator.INLINE,
-      RichTextToolbarStyle.HTML,
-      RichTextToolbarStyle.LINK,
-      RichTextToolbarItem.UPLOAD,
 
       RichTextToolbarSeparator.BLOCK,
       RichTextToolbarAction.TABLE,
@@ -51,16 +44,7 @@ export default class CustomRichTextToolbar extends JavaClass(
       RichTextToolbarSeparator.INLINE,
       RichTextToolbarAction.KEYBOARD,
 
-      RichTextToolbarSeparator.INLINE,
-      RichTextToolbarAction.UNDO,
-      RichTextToolbarAction.REDO,
-      RichTextToolbarSeparator.INLINE,
-      RichTextToolbarAction.MODE,
-      RichTextToolbarAction.FIND,
-      RichTextToolbarAction.FULLSCREEN,
-      RichTextToolbarItem.CUSTOM,
       RichTextToolbarItem.ELEMENTS,
-      RichTextToolbarItem.UPLOAD,
     ] as unknown as List<RichTextToolbarItem>
   }
 
