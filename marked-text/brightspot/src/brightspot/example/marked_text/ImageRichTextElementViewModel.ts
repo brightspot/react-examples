@@ -1,14 +1,15 @@
+import CharSequence from 'brightspot-types/java/lang/CharSequence'
+import JavaClass from 'brightspot-types/JavaClass'
+import JavaMap from 'brightspot-types/java/util/Map'
+import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
+import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+
+import ImageSize from 'brightspot-types/com/psddev/cms/image/ImageSize'
 import RteMarkDataView from 'brightspot-types/com/psddev/cms/mark/view/RteMarkDataView'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
-import JavaClass from 'brightspot-types/JavaClass'
-import ImageRichTextElement from './ImageRichTextElement'
 
-import ImageSize from 'brightspot-types/com/psddev/cms/image/ImageSize'
-import JavaMap from 'brightspot-types/java/util/Map'
-import CharSequence from 'brightspot-types/java/lang/CharSequence'
-import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
-import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+import ImageRichTextElement from './ImageRichTextElement'
 
 @ViewInterface
 export default class ImageRichTextElementViewModel extends JavaClass(

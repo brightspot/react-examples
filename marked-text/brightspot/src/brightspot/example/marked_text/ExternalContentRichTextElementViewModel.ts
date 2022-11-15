@@ -1,20 +1,18 @@
 import JavaClass from 'brightspot-types/JavaClass'
+import JavaInteger from 'brightspot-types/java/lang/Integer'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
-
-import JavaInteger from 'brightspot-types/java/lang/Integer'
 import JavaString from 'brightspot-types/java/lang/String'
 
-import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
-import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
-import RteMarkedTextViewModel from 'brightspot-types/com/psddev/cms/mark/view/RteMarkedTextViewModel'
 import ExternalContentCache from 'brightspot-types/com/psddev/cms/rte/ExternalContentCache'
 import ExternalContentRichTextElement from 'brightspot-types/com/psddev/cms/rte/ExternalContentRichTextElement'
-import RteMarkedText from 'brightspot-types/com/psddev/cms/mark/RteMarkedText'
-import RteMarkDataView from 'brightspot-types/com/psddev/cms/mark/view/RteMarkDataView'
-import ObjectUtils from 'brightspot-types/com/psddev/dari/util/ObjectUtils'
 import MarkedText from 'brightspot-types/com/psddev/dari/mark/MarkedText'
-import Integer from 'brightspot-types/java/lang/Integer'
+import ObjectUtils from 'brightspot-types/com/psddev/dari/util/ObjectUtils'
+import RteMarkDataView from 'brightspot-types/com/psddev/cms/mark/view/RteMarkDataView'
+import RteMarkedText from 'brightspot-types/com/psddev/cms/mark/RteMarkedText'
+import RteMarkedTextViewModel from 'brightspot-types/com/psddev/cms/mark/view/RteMarkedTextViewModel'
+import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
+import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 @ViewInterface
 export default class ExternalContentRichTextElementViewModel extends JavaClass(
@@ -66,7 +64,7 @@ export default class ExternalContentRichTextElementViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaInteger)
-  getCacheAge(): Integer {
+  getCacheAge(): JavaInteger {
     return this.getInteger('cache_age')
   }
 
@@ -78,13 +76,13 @@ export default class ExternalContentRichTextElementViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaInteger)
-  getThumbnailWidth(): Integer {
+  getThumbnailWidth(): JavaInteger {
     return this.getInteger('thumbnail_width')
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaInteger)
-  getThumbnailHeight(): Integer {
+  getThumbnailHeight(): JavaInteger {
     return this.getInteger('thumbnail_height')
   }
 
@@ -117,13 +115,13 @@ export default class ExternalContentRichTextElementViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaInteger)
-  getWidth(): Integer {
+  getWidth(): JavaInteger {
     return this.getInteger('width')
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaInteger)
-  getHeight(): Integer {
+  getHeight(): JavaInteger {
     return this.getInteger('height')
   }
 
@@ -135,13 +133,13 @@ export default class ExternalContentRichTextElementViewModel extends JavaClass(
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaInteger)
-  getMaximumWidth(): Integer {
+  getMaximumWidth(): JavaInteger {
     return this.model.getMaximumWidth()
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaInteger)
-  getMaximumHeight(): Integer {
+  getMaximumHeight(): JavaInteger {
     return this.model.getMaximumHeight()
   }
 
@@ -156,7 +154,7 @@ export default class ExternalContentRichTextElementViewModel extends JavaClass(
     ) as unknown as string
   }
 
-  getInteger(key: string): Integer {
+  getInteger(key: string): JavaInteger {
     return ObjectUtils.to(
       JavaInteger.class,
       ExternalContentCache.get(
@@ -164,6 +162,6 @@ export default class ExternalContentRichTextElementViewModel extends JavaClass(
         this.model.getMaximumWidth(),
         this.model.getMaximumHeight()
       ).get(key)
-    ) as unknown as Integer
+    ) as unknown as JavaInteger
   }
 }

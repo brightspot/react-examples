@@ -1,13 +1,13 @@
-import Content from 'brightspot-types/com/psddev/cms/db/Content'
-import Hidden from 'brightspot-types/com/psddev/cms/db/ToolUi$Hidden'
-import RichText from 'brightspot-types/com/psddev/cms/db/ToolUi$RichText'
-import DynamicPlaceholderMethod from 'brightspot-types/com/psddev/cms/ui/form/DynamicPlaceholderMethod'
-import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
-import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
-import PreviewField from 'brightspot-types/com/psddev/dari/db/Recordable$PreviewField'
-import StorageItem from 'brightspot-types/com/psddev/dari/util/StorageItem'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
+
+import Content from 'brightspot-types/com/psddev/cms/db/Content'
+import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
+import Hidden from 'brightspot-types/com/psddev/cms/db/ToolUi$Hidden'
+import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
+import PreviewField from 'brightspot-types/com/psddev/dari/db/Recordable$PreviewField'
+import RichText from 'brightspot-types/com/psddev/cms/db/ToolUi$RichText'
+import StorageItem from 'brightspot-types/com/psddev/dari/util/StorageItem'
 
 import CustomRichTextToolbar from './CustomRichTextToolbar'
 

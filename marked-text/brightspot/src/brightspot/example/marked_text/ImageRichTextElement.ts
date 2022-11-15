@@ -1,19 +1,19 @@
-import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
-import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
-import Map from 'brightspot-types/java/util/Map'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
+import LinkedHashMap from 'brightspot-types/java/util/LinkedHashMap'
+import Map from 'brightspot-types/java/util/Map'
+import UUID from 'brightspot-types/java/util/UUID'
 
 import IconName from 'brightspot-types/com/psddev/cms/db/ToolUi$IconName'
 import Tag from 'brightspot-types/com/psddev/cms/db/RichTextElement$Tag'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
+import ObjectUtils from 'brightspot-types/com/psddev/dari/util/ObjectUtils'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
-import LinkedHashMap from 'brightspot-types/java/util/LinkedHashMap'
+import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
+import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
+import ToolPageContext from 'brightspot-types/com/psddev/cms/tool/ToolPageContext'
 
 import Image from './Image'
-import ToolPageContext from 'brightspot-types/com/psddev/cms/tool/ToolPageContext'
-import ObjectUtils from 'brightspot-types/com/psddev/dari/util/ObjectUtils'
-import UUID from 'brightspot-types/java/util/UUID'
 
 @DisplayName({ value: 'Image' })
 @Tag({ value: ImageRichTextElement.TAG_NAME })
@@ -40,7 +40,7 @@ export default class ImageRichTextElement extends JavaClass(
   @JavaField(String)
   static WITH_BACKGROUND_ATTRIBUTE: string = 'data-background'
 
-  @JavaRequired
+  @Required
   @JavaField(Image)
   image: Image
 

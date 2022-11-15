@@ -2,10 +2,10 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 
-import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
-import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 import RteMarkedText from 'brightspot-types/com/psddev/cms/mark/RteMarkedText'
 import RteMarkedTextViewModel from 'brightspot-types/com/psddev/cms/mark/view/RteMarkedTextViewModel'
+import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
+import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 
