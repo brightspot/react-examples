@@ -73,26 +73,33 @@ const ArticleContainer = () => {
     fetchArticleData()
   }, [fetchArticleData])
 
+  //Called when arriving at the text within a mark
   const textHandler = (text: string) => {
     return <TextComponent key={text} text={text} />
   }
 
+  //Called once all the text within the mark has been checked/handled
   const componentHandler = (
     mark: RteMark,
     children: Array<React.ReactElement>
   ) => TypeComponentHandler(mark, children)
+
+  // Required object passed to markedTextTraversal
+  const visitorHandler = {
+    visitText: textHandler,
+    visitMark: componentHandler,
+  }
 
   return (
     <div>
       <h1>{article?.articleData?.headline}</h1>
       <h2>{article?.articleData?.subheadline}</h2>
       {article?.articleData &&
-        markedTextTraversal(article?.articleData?.body, {
-          visitText: textHandler,
-          visitMark: componentHandler,
-        }).map((Component, index: number) => {
-          return <RenderedComponent key={index} Component={Component} />
-        })}
+        markedTextTraversal(article?.articleData?.body, visitorHandler).map(
+          (Component, index: number) => {
+            return <RenderedComponent key={index} Component={Component} />
+          }
+        )}
     </div>
   )
 }

@@ -70,9 +70,7 @@ const TypeComponentHandler = (
 const ImageRichTextElementComponent = ({
   src,
   alt,
-}: ImageRichTextElementProps) => {
-  return <img src={src} alt={alt} />
-}
+}: ImageRichTextElementProps) => <img src={src} alt={alt} />
 
 const TextComponent = ({ text }: TextComponentProps) => <span>{text}</span>
 
@@ -94,9 +92,7 @@ const TagComponent = ({ tag, children, attributes }: TagElProps) => {
   )
 }
 
-const LineBreakComponent = () => {
-  return <br />
-}
+const LineBreakComponent = () => <br />
 
 const IframeComponent = ({ children, attributes }: IframeProps) => {
   const SRC = attributes.filter((entry) => entry.name === 'src')[0].value
@@ -112,12 +108,8 @@ const IframeComponent = ({ children, attributes }: IframeProps) => {
   )
 }
 
-const ConvertedElement = ({ element }: ConvertedElementProps) => {
-  return <>{element}</>
-}
+const ConvertedElement = ({ element }: ConvertedElementProps) => <>{element}</>
 
-const RenderedComponent = ({ Component }: RenderedComponentProps) => {
-  return Component
-}
+const RenderedComponent = ({ Component }: RenderedComponentProps) => Component
 
 export { TextComponent, RenderedComponent, TypeComponentHandler }
