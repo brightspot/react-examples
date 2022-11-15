@@ -49,17 +49,6 @@ export default class ImageRichTextElementViewModel extends JavaClass(
     let caption = image.getCaption()
     return caption ? caption : null
   }
-  // getCaption(): RteMarkedTextViewModel {
-  //     let image = this.model.getImage()
-  //     return this.createView(
-  //         RteMarkedTextViewModel.class,
-  //         createWithDefau
-  //       )
-  //     return Optional.ofNullable(model.getImage())
-  //         .map(image -> createView(MarkedTextViewModel.class,
-  //             MarkedTextFactory.createWithDefaultPreprocessors(image.getCaption())))
-  //         .orElse(null);
-  // }
 
   @JavaMethodParameters()
   @JavaMethodReturn(CharSequence)
