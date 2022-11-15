@@ -1,6 +1,8 @@
 export const ArticleMarkQuery = `
 query ArticleMarkQuery($path: String) {
   Article(model: {path: $path}) {
+    headline
+    subheadline
     body {
       text
       marks {
@@ -49,11 +51,13 @@ query ArticleMarkQuery($path: String) {
           }
           ... on ImageRichTextElement {
             __typename
+            fileUrl
+            alt
+            caption
+            credit
             withBorder
             withBackground
             stretched
-            fileUrl
-            alt
           }
         }
       }

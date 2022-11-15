@@ -91,9 +91,9 @@ const ArticleContainer = () => {
   }
 
   return (
-    <div>
-      <h1>{article?.articleData?.headline}</h1>
-      <h2>{article?.articleData?.subheadline}</h2>
+    <div className="marked-text-container">
+      <h1 className="headline">{article?.articleData?.headline}</h1>
+      <h2 className="subheadline">{article?.articleData?.subheadline}</h2>
       {article?.articleData &&
         markedTextTraversal(article?.articleData?.body, visitorHandler).map(
           (Component, index: number) => {

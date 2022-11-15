@@ -27,6 +27,8 @@ interface ConvertedElementProps {
 interface ImageRichTextElementProps {
   src: string
   alt: string
+  caption: string
+  credit: string
 }
 
 interface RenderedComponentProps {
@@ -61,8 +63,16 @@ const TypeComponentHandler = (
     }
   }
   if (mark?.data?.__typename === 'ImageRichTextElement') {
-    const { fileUrl, alt } = mark.data as ImageRichTextElement
-    return <ImageRichTextElementComponent key={alt} src={fileUrl} alt={alt} />
+    const { fileUrl, alt, caption, credit } = mark.data as ImageRichTextElement
+    return (
+      <ImageRichTextElementComponent
+        key={alt}
+        src={fileUrl}
+        alt={alt}
+        caption={caption}
+        credit={credit}
+      />
+    )
   }
   return <span>Undefined Custom Rich Text Element</span>
 }
@@ -70,7 +80,15 @@ const TypeComponentHandler = (
 const ImageRichTextElementComponent = ({
   src,
   alt,
-}: ImageRichTextElementProps) => <img src={src} alt={alt} />
+  credit,
+  caption,
+}: ImageRichTextElementProps) => (
+  <div className="image-rte-container">
+    <img src={src} alt={alt} />
+    <p>{caption}</p>
+    <span>{credit}</span>
+  </div>
+)
 
 const TextComponent = ({ text }: TextComponentProps) => <span>{text}</span>
 

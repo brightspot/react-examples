@@ -17,6 +17,8 @@ export interface ExternalContentRichTextElement extends RteMarkData {
 export interface ImageRichTextElement extends RteMarkData {
   fileUrl: string
   alt: string
+  caption: string
+  credit: string
   withBorder: string
   withBackground: string
   stretched: string
