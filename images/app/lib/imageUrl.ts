@@ -1,673 +1,635 @@
-import  md5 from 'blueimp-md5'
+import md5 from 'blueimp-md5'
+import { Settings, CustomImage, CustomImageSize, Crop } from './config'
 
-export interface CustomImageInterface {
-  settings?: {
-  baseUrl?: string | null | undefined,
-  sharedSecret?: string | null | undefined}, 
-  image?:  {
-    originalUrl?: string | null | undefined,
-    publicUrl?: string | null | undefined,
-    contentType?: string | null | undefined,
-    filename?: string | null | undefined,
-    width?: number | null | undefined,
-    height?: number | null | undefined,
-    metadata?: any, // TODO,
-    exif?: any, //TODO
-    focus?: {
-      x?:  number | null | undefined,
-       y?:  number | null | undefined,
-    },
-    crops?: {
-      height?: number | null | undefined,
-      name?: string | null | undefined,
-      width?:  number | null | undefined,
-      x?:  number | null | undefined,
-      y?:  number | null | undefined,
-    }[],
-    cmsEdits?:  {
-    brightness?:  number | null | undefined
-    contrast?:  number | null | undefined
-    flipH?: boolean | null | undefined
-    flipV?: boolean | null | undefined
-    grayscale?: boolean | null | undefined
-    invert?:  boolean | null | undefined
-    rotate?: number | null | undefined
-    sepia?:  boolean | null | undefined
-    sharpen?:  number | null | undefined
-  }
-  }
-}
+export function generateUrl(
+  settings: Settings,
+  image: CustomImage,
+  size: CustomImageSize
+) {
+  let originalWidth = image.width || null
+  let originalHeight = image.height || null
 
-export interface CustomImageSizeInterface {
-    name?: string | null | undefined 
-    width?: number| null | undefined,
-    height?: number| null | undefined,
-    maximumWidth?: number | null | undefined,
-    maximumHeight?: number | null | undefined,
-    quality?: number | null | undefined,
-    format?: string | null | undefined, 
-    descriptors?: any // TODO: find out what this should include
-}
+  // Absolute final size
+  // TODO: get data from metadata in graphQL
+  // if (image.metadata !== undefined) {
+  //   let exif = image.exif
 
-export default class CustomImage implements CustomImageInterface {
-  settings?: {
-    baseUrl?: string | null | undefined,
-  sharedSecret?: string | null | undefined
-} 
-  image?:  {
-    originalUrl?: string | null | undefined,
-    publicUrl?: string | null | undefined,
-    contentType?: string | null | undefined,
-    filename?: string | null | undefined,
-    width?: number | null | undefined,
-    height?: number | null | undefined,
-    metadata?: any, // TODO,
-    exif?: any, //TODO
-    focus?: {
-      x?:  number | null | undefined,
-       y?:  number | null | undefined,
-    },
-    crops?: {
-      height?: number | null | undefined,
-      name?: string | null | undefined,
-      width?:  number | null | undefined,
-      x?:  number | null | undefined,
-      y?:  number | null | undefined,
-    }[],
-    cmsEdits?:  {
-    brightness?:  number | null | undefined
-    contrast?:  number | null | undefined
-    flipH?: boolean | null | undefined
-    flipV?: boolean | null | undefined
-    grayscale?: boolean | null | undefined
-    invert?:  boolean | null | undefined
-    rotate?: number | null | undefined
-    sepia?:  boolean | null | undefined
-    sharpen?:  number | null | undefined
-  }
-  } 
+  //   if (exif.length > 0) { // 'Exif IFD0'
+  //     let orientation = exif.get('Orientation')
 
-  constructor(
-    settings?: {
-    baseUrl?: string | null | undefined,
-    sharedSecret?: string | null | undefined}, 
-    image?:  {
-      originalUrl?: string | null | undefined,
-      publicUrl?: string | null | undefined,
-      contentType?: string | null | undefined,
-      filename?: string | null | undefined,
-      width?: number | null | undefined,
-      height?: number | null | undefined,
-      metadata?: any, // TODO,
-      exif?: any, //TODO
-      focus?: {
-        x?:  number | null | undefined,
-         y?:  number | null | undefined,
-      },
-      crops?: {
-        height?: number | null | undefined,
-        name?: string | null | undefined,
-        width?:  number | null | undefined,
-        x?:  number | null | undefined,
-        y?:  number | null | undefined,
-      }[],
-    cmsEdits?:  {
-      brightness?:  number | null | undefined
-      contrast?:  number | null | undefined
-      flipH?: boolean | null | undefined
-      flipV?: boolean | null | undefined
-      grayscale?: boolean | null | undefined
-      invert?:  boolean | null | undefined
-      rotate?: number | null | undefined
-      sepia?:  boolean | null | undefined
-      sharpen?:  number | null | undefined
-    }
-    }
-  ) {
-    this.settings = settings
-    this.image = image
-  }
-  generateUrl(size: CustomImageSizeInterface) {
-    console.log('1. size: ', size) // good
-    let originalWidth = this.image?.width
-    let originalHeight = this.image?.height
-    console.log('2. originalWidth: ', originalWidth, 'originalHeight: ', originalHeight) // good
-    // Absolute final size.
-    console.log('3. image.metadata: ', this.image?.metadata) // undefined
-    if (this.image?.metadata) {
-      let exif = this.image?.exif
+  //     if (orientation.length > 0) {
+  //       orientation = orientation.toLowerCase()
 
-      if (exif.length > 0) {
-        // 'Exif IFD0'
-        let orientation = exif.get('Orientation')
+  //       if (orientation.startsWith('left side, top') ||
+  //         orientation.startsWith('right side, top') ||
+  //         orientation.startsWith('right side, bottom') ||
+  //         orientation.startsWith('left side, bottom')) {
+  //         let t = originalWidth
+  //         originalWidth = originalHeight
+  //         originalHeight = t
+  //       }
+  //     }
+  //   }
+  // }
 
-        if (orientation.length > 0) {
-          orientation = orientation.toLowerCase()
+  let resizeWidth = size.width || null
+  let resizeHeight = size.height || null
+  let maximumWidth = size.maximumWidth || null
+  let formatMappings = size.formatMappings || []
 
-          if (
-            orientation.startsWith('left side, top') ||
-            orientation.startsWith('right side, top') ||
-            orientation.startsWith('right side, bottom') ||
-            orientation.startsWith('left side, bottom')
-          ) {
-            let t = originalWidth
-            originalWidth = originalHeight
-            originalHeight = t
-          }
-        }
-      }
-    }
-
-    let resizeWidth = size?.width // good
-    let resizeHeight = size?.height //good
-    let maximumWidth = size?.maximumWidth // undefined
-    console.log('4. resizeWidth: ', resizeWidth, 'resizeHeight: ', resizeHeight, 'maximumWidth: ', maximumWidth)
-    if (resizeWidth && resizeWidth > 0.0) {
-      if ((maximumWidth && maximumWidth > 0.0 && maximumWidth < resizeWidth) && resizeHeight) {
-        resizeHeight *= maximumWidth / resizeWidth
-        resizeWidth = maximumWidth
-      }
-    } else if (maximumWidth && originalWidth  && originalHeight&&  maximumWidth > 0.0 && maximumWidth < originalWidth) {
-      resizeHeight = (maximumWidth / originalWidth) * originalHeight
+  if (resizeWidth !== null && resizeWidth > 0.0) {
+    if (
+      maximumWidth !== null &&
+      resizeWidth !== null &&
+      resizeHeight !== null &&
+      maximumWidth !== null &&
+      maximumWidth > 0.0 &&
+      maximumWidth < resizeWidth
+    ) {
+      resizeHeight *= maximumWidth / resizeWidth
       resizeWidth = maximumWidth
     }
+  } else if (
+    maximumWidth !== null &&
+    originalWidth !== null &&
+    originalHeight !== null &&
+    maximumWidth > 0.0 &&
+    maximumWidth < originalWidth
+  ) {
+    resizeHeight = (maximumWidth / originalWidth) * originalHeight
+    resizeWidth = maximumWidth
+  }
 
-    let maximumHeight = size?.maximumHeight
-    console.log('5. maximuHeight: ', maximumHeight) // undefined
-    if (resizeHeight && resizeHeight > 0.0) {
-      if (maximumHeight && resizeHeight && resizeWidth && maximumHeight > 0.0 && maximumHeight < resizeHeight) {
-        resizeWidth *= maximumHeight / resizeHeight
-        resizeHeight = maximumHeight
-      }
-    } else if (maximumHeight && originalHeight && originalWidth && maximumHeight > 0.0 && maximumHeight < originalHeight) {
-      resizeWidth = (maximumHeight / originalHeight) * originalWidth
+  let maximumHeight = size.maximumHeight
+
+  if (
+    resizeHeight !== null &&
+    maximumHeight != null &&
+    maximumHeight !== undefined &&
+    resizeHeight > 0.0
+  ) {
+    if (
+      resizeWidth !== null &&
+      maximumHeight > 0.0 &&
+      maximumHeight < resizeHeight
+    ) {
+      resizeWidth *= maximumHeight / resizeHeight
       resizeHeight = maximumHeight
     }
-
-    let edits = this.image?.cmsEdits
-    let rotate =
-      edits !== undefined && edits.rotate !== undefined ? edits.rotate : 0
-
-    if (rotate && rotate % 180 !== 0) {
-      let t = originalWidth
-      originalWidth = originalHeight
-      originalHeight = t
-    }
-
-    // Try to figure out the crop based on the original dimensions.
-    let focusX: number | null | undefined
-    let focusY: number | null | undefined
-    let cropWidth: number | null | undefined
-    let cropHeight: number | null | undefined
-
-    // Editorial crop?
-    let crops = this.image?.crops
-    console.log('6. crops: ', crops)
-    let crop
-    if (crops) {
-      for (let cropItem of crops) {
-        console.log('7. cropItem: ', cropItem, 'size.name: ', size?.name)
-        if (cropItem.name === size?.name) {
-          console.log('8. cropItem.name === size.name', cropItem.name)
-          crop = cropItem
-          break
-        }
-      }
-    }
-    console.log( '9. crop: ', crop, 'crop.width: ', crop?.width,'crop.height: ',  crop?.height,'originalWidth: ',originalWidth, 'originalHeight: ', originalHeight, 'crop.x', crop?.x, 
-    'crop.y: ', crop?.y, 'crop.width: ', crop?.width, 'crop.height: ', crop?.height)
-    if (
-      (crop !== undefined &&  crop !== undefined) && (originalWidth !== undefined && originalWidth !== null) && 
-      (crop?.width !== undefined && crop?.width !== null) &&
-      (crop?.height !== undefined && crop?.height !== null) &&
-      (originalWidth !== undefined && originalWidth !== null) && (originalHeight !== undefined && originalHeight !== null)
-      && (crop?.x !== undefined && crop?.x !==  null) && (crop?.y !== undefined && crop?.y !== null)
-    ) {
-      console.log('you are past the check')
-      let w = crop.width
-      let h = crop.height
-      focusX = originalWidth * (crop.x + (w / 2))
-      focusY = originalHeight * (crop.y + (h / 2))
-      cropWidth = originalWidth * w
-      cropHeight = originalHeight * h
-
-      console.log('10. w: ', w, 'h: ', h, 'focusX: ', focusX, 'focusY: ', focusY, 'cropWidth: ', cropWidth, 'cropHeight: ', cropHeight, 'resizeWidth: ', resizeWidth, 'resizeHeight: ', resizeHeight)
-      // Auto width or height.
-      if (resizeWidth && resizeWidth <= 0.0) {
-        if (resizeHeight && resizeHeight <= 0.0) {
-          resizeWidth = cropWidth
-          resizeHeight = cropHeight
-        } else if (resizeHeight !== undefined && resizeHeight !== null) {
-          resizeWidth = resizeHeight / cropHeight * cropWidth
-        }
-      } else if ((resizeHeight !== undefined && resizeHeight !== null)  && (resizeWidth !== undefined && resizeWidth !== null) &&  resizeHeight <= 0.0) {
-        resizeHeight = resizeWidth / cropWidth * cropHeight
-      } else if((resizeWidth !== undefined && resizeWidth !== null) && (resizeHeight !== undefined && resizeHeight !== null)){
-        // Crop width and height could be slightly wrong at this point.
-        let s = Math.sqrt(
-          cropWidth * cropHeight / resizeWidth / resizeHeight
-        )
-        cropWidth = resizeWidth * s
-        cropHeight = resizeHeight * s
-        console.log('11. s: ', s, 'cropWidth: ', cropWidth, 'cropHeight: ', cropHeight)
-      }
-    } else if((originalWidth !== undefined  && originalWidth !== null) 
-    && (originalHeight !== undefined  && originalHeight!== null)
-    && (this.image?.focus?.x !== undefined && this.image?.focus?.x !== null) 
-    && (this.image?.focus?.y !== undefined && this.image.focus.y !== null)){
-      // Use the focus, the implicit focus, or default to center.
-      let focus = this.image.focus
-      let x = this.image.focus.x
-      let y = this.image.focus.y
-
-      focusX =
-        originalWidth *
-        (x > 0 ? x : 0.5)
-      focusY =
-        originalHeight *
-        (y > 0 ? y : 0.5)
-
-      // Auto width or height.
-      if ((resizeWidth !== undefined && resizeWidth !== null) && (resizeWidth <= 0.0)) {
-        if ((resizeHeight !== undefined && resizeHeight !== null) && resizeHeight <= 0.0) {
-          resizeWidth = originalWidth
-          resizeHeight = originalHeight
-        } else if (resizeHeight !== undefined && resizeHeight !== null){
-          resizeWidth =
-            resizeHeight / originalHeight * originalWidth
-        }
-      } else if ((resizeHeight !== undefined && resizeHeight !== null) && (resizeWidth !== undefined && resizeWidth !== null) && resizeHeight <= 0.0) {
-        resizeHeight = resizeWidth / originalWidth * originalHeight
-      }
-
-      let s;
-      
-      if((resizeWidth !== undefined && resizeWidth !== null) && (resizeHeight !== undefined && resizeHeight !== null)) {
-        let s = Math.min(
-          originalWidth / resizeWidth,
-          originalHeight / resizeHeight
-        )
-        cropWidth = resizeWidth * s
-        cropHeight = resizeHeight * s
-      }
-
-    }
-
-    // Make sure that the crop is within the original bounds.
-    let cropLeft: number | null | undefined
-    if ((focusX !== undefined && focusX !== null) && (cropWidth !== undefined && cropWidth !== null) && (originalWidth !== undefined && originalWidth !== null)){
-      cropLeft = focusX - cropWidth / 2.0
-      if (cropLeft < 0.0) {
-        cropLeft = 0.0
-      } else if (cropLeft + cropWidth > originalWidth) {
-        cropLeft = originalWidth - cropWidth
-      }
-    }
-    
-    let cropTop: number | null | undefined
-
-    if ((focusY !== undefined && focusY !== null) && (cropHeight !== undefined && cropHeight !== null) && (originalHeight !== undefined && originalHeight !== null)) {
-      cropTop = focusY - (cropHeight / 2.0)
-
-      if (cropTop < 0.0) {
-        cropTop = 0.0
-      } else if (cropTop + cropHeight > originalHeight) {
-        cropTop = originalHeight - cropHeight
-      }
-    }
-  
-    console.log('13. cropHeight: ', cropHeight, 'cropWidth: ', cropWidth, 'image name', size)
-    cropLeft = (cropLeft !== null && cropLeft !== undefined)? Math.round(cropLeft): null
-    cropTop = (cropTop !== null && cropTop !== undefined) ? Math.round(cropTop) : null
-    cropWidth = (cropWidth !== undefined && cropWidth !== null) ? Math.round(cropWidth) : null
-    cropHeight = (cropHeight !== undefined && cropHeight !== null) ? Math.round(cropHeight) : null
-    if (resizeWidth !== undefined && resizeWidth !== null) {
-      resizeWidth = Math.round(resizeWidth)
-    }
- 
-    if (resizeHeight !== undefined && resizeHeight !== null) {
-      resizeHeight = resizeHeight && Math.round(resizeHeight)
-    }
-   
-    let srcsetDescriptors = size?.descriptors
-    console.log('12. cropHeight: ', cropHeight, 'cropWidth: ', cropWidth)
-    let brightness = edits?.brightness || 0.0
-    let contrast  = edits?.contrast || 0.0
-    let flipHorizontal
-    let flipVertical
-   
-    //the following are other edits:
-    let grayscale
-    let sepia
-    let invert
-    let contentType = this.image?.contentType
-    let originalFilename = this.image?.filename
-    let baseUrl = this.settings?.baseUrl
-    let sharedSecret = this.settings?.sharedSecret
-    let originalUrl = this.image?.originalUrl
-    let format = "jpg" // TODO  - make this dynamic
-
-    if (edits) {
-      flipHorizontal = edits.flipH
-      flipVertical = edits.flipV
-      grayscale = edits.grayscale
-      sepia = edits.sepia
-      invert = edits.invert
-    }
-
-    // this.format = size.format
-    // this.formatMappings = size.formatMappings
-
-    //TODO: figure out how this is sent from graphQL
-    // if (size.quality > 0) {
-    //   this.quality = size.quality
-    // }
-
-    return this.toSrc(
-      flipHorizontal, 
-      flipVertical, 
-      rotate, 
-      cropWidth, 
-      cropHeight, 
-      cropLeft, 
-      cropTop, 
-      contentType,  
-      brightness, 
-      contrast, 
-      grayscale, 
-      invert, 
-      sepia, 
-      originalFilename, 
-      baseUrl, 
-      originalUrl, 
-      sharedSecret, 
-      resizeWidth, 
-      resizeHeight)
-  }
-  // added: flipHorizontal, flipVertical, rotate, cropWidth, cropHeight, cropLeft, cropTop, contentType, brightness, contrast, grayscale, invert, sepia, format?, originalFilename, formatMappings. baseUrl, originalUrl, sharedSecret
-  toSrcWidthHeight(
-    flipHorizontal: boolean | null | undefined, 
-    flipVertical: boolean  | null | undefined, 
-    rotate: number | null | undefined, 
-    cropWidth: number | null | undefined, 
-    cropHeight: number | null | undefined, 
-    cropLeft: number | null | undefined, 
-    cropTop: number | null | undefined, 
-    contentType: string | null | undefined, 
-    brightness: number, 
-    contrast: number, 
-    grayscale: boolean | null | undefined, 
-    invert: boolean | null | undefined,
-    sepia: boolean | null | undefined, 
-    originalFilename: string | null | undefined,
-    // formatMappings: any, // TODO: figure out what this is
-    baseUrl: string | null | undefined,
-    originalUrl: string | null | undefined,
-    sharedSecret: string | null | undefined,
-    resizeWidth: number | null | undefined, 
-    resizeHeight: number | null | undefined,
-    format?: string
-    ) {
-    let commands = ''
-
-    commands = commands.concat('strip/true/') // TODO: is this always supposed to be true?
-
-    if (flipHorizontal !== undefined) {
-      commands = commands.concat('flipflop/horizontal/')
-    }
-
-    if (flipVertical !== undefined) {
-      commands = commands.concat('flipflop/vertical/')
-    }
-
-    if (rotate && rotate !== 0) {
-      commands = commands.concat('rotate/')
-      commands = commands.concat(rotate.toString())
-      commands = commands.concat('/')
-    }
-
-    if (cropWidth != null && cropHeight != null) {
-      console.log('HI!! cropWidth: ', cropWidth, 'cropHeight: ', cropHeight, 'cropLeft: ', cropLeft, 'cropTop: ', cropTop)
-      commands = commands.concat('crop/')
-      commands = commands.concat(cropWidth.toString())
-      commands = commands.concat('x')
-      commands = commands.concat(cropHeight.toString())
-      commands = commands.concat('+')
-      commands = commands.concat(cropLeft != null ? cropLeft.toString() : "0")
-      commands = commands.concat('+')
-      commands = commands.concat(cropTop != null ? cropTop.toString() : "0")
-      commands = commands.concat('/')
-    }
-
-    if (
-      'image/svg+xml' !== contentType &&
-      (resizeWidth != null || resizeHeight != null)
-    ) {
-      commands = commands.concat('resize/')
-
-      if (resizeWidth != null) {
-        commands = commands.concat(resizeWidth.toString())
-        commands = commands.concat('x')
-
-        if (resizeHeight != null) {
-          commands = commands.concat(resizeHeight.toString())
-          commands = commands.concat('!')
-        } else {
-          commands = commands.concat('^')
-        }
-      } else if (resizeHeight) {
-        commands = commands.concat('x')
-        commands = commands.concat(resizeHeight.toString())
-        commands = commands.concat('^')
-      }
-
-      commands = commands.concat('/')
-    }
-
-    // let brightness = this.brightness !== undefined ? this.brightness : 0.0
-    // let contrast = this.contrast !== undefined ? this.contrast : 0.0
-
-    if (brightness !== 0.0 || contrast !== 0.0) {
-      commands = commands.concat('brightness/')
-      commands = commands.concat(((brightness * 100) / 1.5).toString())
-      commands = commands.concat('x')
-      commands = commands.concat((contrast * 100).toString())
-      commands = commands.concat('/')
-    }
-
-    if (grayscale) {
-      commands = commands.concat('grayscale/true/')
-    } 
-    if (invert) {
-      commands = commands.concat('invert/true/')
-    }
-    if (sepia) {
-      commands = commands.concat('sepia/0.8/')
-    }
-
-    // let format = this.format
-
-    if (format !== undefined) {
-      // let originalFilename = this?.image?.originalFilename
-
-      if (originalFilename) {
-        let extension = originalFilename.split('.').pop()
-        // TODO: figure this out
-        // if (extension !== undefined) {
-        //   let formatMappings = formatMappings // TODO: figure this out
-
-        //   if (formatMappings !== undefined) {
-        //     format = formatMappings.extension
-        //   }
-        // }
-      }
-    }
-
-    if (format !== undefined) {
-      commands = commands.concat('format/')
-      commands = commands.concat(this.encodeUri(format))
-      commands = commands.concat('/')
-    }
-
-    // let quality = this.quality
-    let quality = 90 // TODO: find out where quality comes from
-    if (quality > 0) {
-      commands = commands.concat('quality/')
-      commands = commands.concat(quality.toString())
-      commands = commands.concat('/')
-    }
-
-    let url = ''
-
-    if (baseUrl) {
-      // let baseUrl = this.settings.baseUrl
-      if (!baseUrl.endsWith('/')) {
-        baseUrl.concat('/')
-      }
-      url = url.concat(baseUrl)
-    }
-
-    let expire = 2147483647
-    // let originalUrl = this?.settings?.originalUrl
-
-    if (originalUrl && originalUrl.startsWith('/')) {
-      originalUrl = originalUrl.concat('http://localhost')
-    }
-
-    // Workaround for mod_dims encoding bug.
-    originalUrl = originalUrl && decodeURI(originalUrl)
-
-    if (sharedSecret) {
-      let signature = expire + sharedSecret + commands + originalUrl
-
-      url = url.concat(md5(signature, null, false).substring(0, 7))
-      url = url.concat('/')
-      url = url.concat(expire.toString())
-      url = url.concat('/')
-    }
-
-    url = url.concat(commands)
-    url = url.concat('?url=')
-    if (originalUrl) {
-      url = url.concat(encodeURIComponent(originalUrl))
-    }
-    return url
-  }
-
-  encodeUri(input: any) {
-    return encodeURI(input).replace('+', '%20')
-  }
-
-  toSrc(
-    flipHorizontal: boolean | null | undefined, 
-    flipVertical: boolean | null | undefined, 
-    rotate: number | null | undefined, 
-    cropWidth: number | null | undefined, 
-    cropHeight: number | null | undefined, 
-    cropLeft: number | null | undefined, 
-    cropTop: number | null | undefined, 
-    contentType: string | null | undefined, 
-    brightness: number, 
-    contrast: number, 
-    grayscale: boolean | null | undefined, 
-    invert: boolean | null | undefined,
-    sepia: boolean | null | undefined, 
-    originalFilename: string | null | undefined,
-    // formatMappings: any, // TODO: figure out what this is
-    baseUrl: string | null | undefined,
-    originalUrl: string | null | undefined,
-    sharedSecret: string | null | undefined,
-    resizeWidth: number | null | undefined, 
-    resizeHeight: number | null | undefined,
-    format?: string | null | undefined
+  } else if (
+    originalHeight !== null &&
+    originalWidth !== null &&
+    maximumHeight !== null &&
+    maximumHeight !== undefined &&
+    maximumHeight > 0.0 &&
+    maximumHeight < originalHeight
   ) {
-    return this.toSrcWidthHeight(flipHorizontal, flipVertical, rotate, cropWidth, cropHeight, cropLeft, cropTop, contentType,  brightness, contrast, grayscale, invert, sepia, originalFilename, baseUrl, originalUrl, sharedSecret, resizeWidth, resizeHeight)
+    resizeWidth = (maximumHeight / originalHeight) * originalWidth
+    resizeHeight = maximumHeight
   }
 
-  // toSrcset() {
-  //   let resizeWidth = this.resizeWidth
-  //   let resizeHeight = this.resizeHeight //this had a typo
+  let edits = image.cmsEdits
 
-  //   if (resizeWidth !== undefined || resizeHeight !== undefined) {
-  //     return null
-  //   }
+  let rotate = edits?.rotate || 0
 
-  //   let srcsetDescriptors = this.srcsetDescriptors
+  if (rotate % 180 !== 0) {
+    let t = originalWidth
+    originalWidth = originalHeight
+    originalHeight = t
+  }
 
-  //   if (srcsetDescriptors !== undefined) {
-  //     return null
-  //   }
+  // Try to figure out the crop based on the original dimensions.
+  let focusX: number | null = null
+  let focusY: number | null = null
+  let cropWidth: number | null = null
+  let cropHeight: number | null = null
 
-  //   let srcset = []
+  // Editorial crop?
+  let crops = image.crops || []
+  let crop: Crop | null = null
+  if (crops.length > 0) {
+    for (let cropItem of crops) {
+      if (cropItem.name === size?.name) {
+        crop = cropItem
+        break
+      }
+    }
+  }
 
-  //   for (let descriptor in srcsetDescriptors) {
-  //     if (descriptor !== undefined) {
-  //       continue
-  //     }
+  if (
+    crop !== null &&
+    originalWidth !== null &&
+    crop?.width !== undefined &&
+    crop?.width !== null &&
+    crop?.height !== undefined &&
+    crop?.height !== null &&
+    originalWidth !== null &&
+    originalHeight !== null &&
+    crop?.x !== undefined &&
+    crop?.x !== null &&
+    crop?.y !== undefined &&
+    crop?.y !== null
+  ) {
+    let w = crop.width
+    let h = crop.height
 
-  //     let typeIndex = descriptor.length - 1
+    focusX = originalWidth * (crop.x + w / 2)
+    focusY = originalHeight * (crop.y + h / 2)
 
-  //     if (typeIndex <= 0) {
-  //       continue
-  //     }
+    cropWidth = originalWidth * w
+    cropHeight = originalHeight * h
+    // Auto width or height.
 
-  //     let number = descriptor.substring(0, typeIndex)
-  //     let type = descriptor.substring(typeIndex)
+    if (resizeWidth !== null && resizeWidth <= 0.0) {
+      if (resizeHeight !== null && resizeHeight <= 0.0) {
+        resizeWidth = cropWidth
+        resizeHeight = cropHeight
+      } else if (resizeHeight !== null) {
+        resizeWidth = (resizeHeight / cropHeight) * cropWidth
+      }
+    } else if (
+      resizeWidth !== null &&
+      resizeHeight !== null &&
+      resizeHeight <= 0.0
+    ) {
+      resizeHeight = (resizeWidth / cropWidth) * cropHeight
+    } else if (resizeWidth !== null && resizeHeight !== null) {
+      // Crop width and height could be slightly wrong at this point.
+      let s = Math.sqrt((cropWidth * cropHeight) / resizeWidth / resizeHeight)
 
-  //     if (type.equals('w')) {
-  //       let width = parseInt(number)
+      cropWidth = resizeWidth * s
+      cropHeight = resizeHeight * s
+    }
+  } else if (originalWidth !== null && originalHeight !== null) {
+    // Use the focus, the implicit focus, or default to center.
+    let x = image?.focus?.x
+    let y = image?.focus?.y
+    focusX = originalWidth! * (x !== null && x !== undefined && x > 0 ? x : 0.5)
+    focusY =
+      originalHeight! * (y !== null && y !== undefined && y > 0 ? y : 0.5)
 
-  //       if (width > 0) {
-  //         srcset.push(
-  //           this.toSrcWidthHeight(
-  //             width,
-  //             Math.round((width / resizeWidth) * resizeHeight)
-  //           ) +
-  //             ' ' +
-  //             descriptor
-  //         )
-  //       }
-  //     } else if (type.equals('x')) {
-  //       let density = parseFloat(number)
+    // Auto width or height.
+    if (resizeWidth !== null && resizeWidth <= 0.0) {
+      if (resizeHeight !== null && resizeHeight <= 0.0) {
+        resizeWidth = originalWidth
+        resizeHeight = originalHeight
+      } else if (resizeHeight !== null) {
+        resizeWidth = (resizeHeight / originalHeight!) * originalWidth
+      }
+    } else if (
+      resizeHeight !== null &&
+      resizeWidth !== null &&
+      resizeHeight <= 0.0
+    ) {
+      resizeHeight = (resizeWidth / originalWidth) * originalHeight
+    }
 
-  //       if (density > 0.0) {
-  //         srcset.push(
-  //           this.toSrcWidthHeight(
-  //             Math.round(resizeWidth * density),
-  //             Math.round(resizeHeight * density)
-  //           ) +
-  //             ' ' +
-  //             descriptor
-  //         )
-  //       }
-  //     }
-  //   }
+    if (resizeWidth !== null && resizeHeight !== null) {
+      let s = Math.min(
+        originalWidth / resizeWidth,
+        originalHeight / resizeHeight
+      )
+      cropWidth = resizeWidth * s
+      cropHeight = resizeHeight * s
+    }
+  }
 
-  //   return !srcset.length > 0 ? srcset.join(',') : ''
-  // }
+  // Make sure that the crop is within the original bounds.
+  let cropLeft: number | null = null
+  if (focusX !== null && cropWidth !== null && originalWidth !== null) {
+    cropLeft = focusX - cropWidth / 2.0
+    if (cropLeft < 0.0) {
+      cropLeft = 0.0
+    } else if (cropLeft + cropWidth > originalWidth) {
+      cropLeft = originalWidth - cropWidth
+    }
+  }
 
-  // getImageNameFromStoragePath(image) {
-  //   if (image !== undefined) {
-  //     return null
-  //   }
+  let cropTop: number | null = null
 
-  //   let path = image.path
+  if (
+    focusY !== undefined &&
+    focusY !== null &&
+    cropHeight !== null &&
+    originalHeight !== null
+  ) {
+    cropTop = focusY - cropHeight / 2.0
 
-  //   if (path !== undefined) {
-  //     return null
-  //   }
+    if (cropTop < 0.0) {
+      cropTop = 0.0
+    } else if (cropTop + cropHeight > originalHeight) {
+      cropTop = originalHeight - cropHeight
+    }
+  }
 
-  //   let lastSlashAt = path.lastIndexOf('/')
-  //   return lastSlashAt >= 0 ? path.substring(lastSlashAt + 1) : path
-  // }
+  cropLeft = cropLeft != null ? Math.round(cropLeft) : null
+  cropTop = cropTop !== null ? Math.round(cropTop) : null
+  cropWidth = cropWidth !== null ? Math.round(cropWidth) : null
+  cropHeight = cropHeight !== null ? Math.round(cropHeight) : null
+  if (resizeWidth != null) {
+    resizeWidth = Math.round(resizeWidth)
+  }
 
-  // toHex(str) {
-  //   var hex = ''
-  //   for (var i = 0; i < str.length; i++) {
-  //     hex += '' + str.charCodeAt(i).toString(16)
-  //   }
-  //   return hex
-  // }
+  if (resizeHeight !== null) {
+    resizeHeight = resizeHeight && Math.round(resizeHeight)
+  }
+
+  let srcsetDescriptors = size?.descriptors
+
+  let brightness = edits?.brightness || 0.0
+  let contrast = edits?.contrast || 0.0
+  let flipHorizontal
+  let flipVertical
+
+  //the following are other edits:
+  let grayscale: boolean | null | undefined
+  let sepia: boolean | null | undefined
+  let invert: boolean | null | undefined
+  let contentType = image?.contentType
+  let originalFilename = image?.filename
+  let baseUrl = settings?.baseUrl
+  let sharedSecret = settings?.sharedSecret
+  let originalUrl = image?.originalUrl
+  let format = size?.format
+  let quality = size?.quality || 90
+
+  if (edits) {
+    flipHorizontal = edits.flipH
+    flipVertical = edits.flipV
+    grayscale = edits.grayscale
+    sepia = edits.sepia
+    invert = edits.invert
+  }
+
+  const mainUrl = toSrcWidthHeight(
+    flipHorizontal,
+    flipVertical,
+    rotate,
+    cropWidth,
+    cropHeight,
+    cropLeft,
+    cropTop,
+    contentType,
+    brightness,
+    contrast,
+    grayscale,
+    invert,
+    sepia,
+    originalFilename,
+    formatMappings,
+    baseUrl,
+    originalUrl,
+    sharedSecret,
+    resizeWidth,
+    resizeHeight,
+    quality,
+    format
+  )
+
+  let srcsetUrls: {
+    srcSetUrlsString: string
+    srcsetUrlsHashMap?: Object
+  } | null = null
+
+  if (srcsetDescriptors && srcsetDescriptors?.length > 0) {
+    srcsetUrls = toSrcset(
+      srcsetDescriptors,
+      flipHorizontal,
+      flipVertical,
+      rotate,
+      cropWidth,
+      cropHeight,
+      cropLeft,
+      cropTop,
+      contentType,
+      brightness,
+      contrast,
+      grayscale,
+      invert,
+      sepia,
+      originalFilename,
+      formatMappings,
+      baseUrl,
+      originalUrl,
+      sharedSecret,
+      resizeWidth,
+      resizeHeight,
+      quality,
+      format
+    )
+  }
+
+  return {
+    mainUrl,
+    srcsetUrls,
+  }
 }
 
+function toSrcWidthHeight(
+  flipHorizontal: boolean | null | undefined,
+  flipVertical: boolean | null | undefined,
+  rotate: number | null | undefined,
+  cropWidth: number | null,
+  cropHeight: number | null,
+  cropLeft: number | null | undefined,
+  cropTop: number | null | undefined,
+  contentType: string | null | undefined,
+  brightness: number,
+  contrast: number,
+  grayscale: boolean | null | undefined,
+  invert: boolean | null | undefined,
+  sepia: boolean | null | undefined,
+  originalFilename: string | null | undefined,
+  formatMappings: Object[] | null | undefined,
+  baseUrl: string | null | undefined,
+  originalUrl: string | null | undefined,
+  sharedSecret: string | null | undefined,
+  resizeWidth: number | null,
+  resizeHeight: number | null,
+  quality: number,
+  format?: string | null | undefined
+) {
+  let commands = ''
 
+  commands = commands.concat('strip/true/') // strip is always set to true for this module
+  if (flipHorizontal) {
+    commands = commands.concat('flipflop/horizontal/')
+  }
+
+  if (flipVertical) {
+    commands = commands.concat('flipflop/vertical/')
+  }
+
+  if (rotate && rotate !== 0) {
+    commands = commands.concat('rotate/')
+    commands = commands.concat(rotate.toString())
+    commands = commands.concat('/')
+  }
+
+  if (cropWidth != null && cropHeight != null) {
+    commands = commands.concat('crop/')
+    commands = commands.concat(cropWidth.toString())
+    commands = commands.concat('x')
+    commands = commands.concat(cropHeight.toString())
+    commands = commands.concat('+')
+    commands = commands.concat(cropLeft != null ? cropLeft.toString() : '0')
+    commands = commands.concat('+')
+    commands = commands.concat(cropTop != null ? cropTop.toString() : '0')
+    commands = commands.concat('/')
+  }
+
+  if (
+    'image/svg+xml' !== contentType &&
+    (resizeWidth != null || resizeHeight != null)
+  ) {
+    commands = commands.concat('resize/')
+
+    if (resizeWidth != null) {
+      commands = commands.concat(resizeWidth.toString())
+      commands = commands.concat('x')
+
+      if (resizeHeight != null) {
+        commands = commands.concat(resizeHeight.toString())
+        commands = commands.concat('!')
+      } else {
+        commands = commands.concat('^')
+      }
+    } else if (resizeHeight !== null) {
+      commands = commands.concat('x')
+      commands = commands.concat(resizeHeight.toString())
+      commands = commands.concat('^')
+    }
+
+    commands = commands.concat('/')
+  }
+
+  if (brightness !== 0.0 || contrast !== 0.0) {
+    commands = commands.concat('brightness/')
+    commands = commands.concat(((brightness * 100) / 1.5).toString())
+    commands = commands.concat('x')
+    commands = commands.concat((contrast * 100).toString())
+    commands = commands.concat('/')
+  }
+
+  if (grayscale) {
+    commands = commands.concat('grayscale/true/')
+  }
+  if (invert) {
+    commands = commands.concat('invert/true/')
+  }
+  if (sepia) {
+    commands = commands.concat('sepia/0.8/')
+  }
+
+  // if format is defined then format mappings is not needed
+  // if (format !== undefined && format !== null) {
+  //   if (originalFilename) {
+  //     let extension = originalFilename.split('.').pop()
+  //     if (extension !== undefined && format !== extension) {
+  //       format = extension
+  //     }
+  //   }
+  // } else
+  if (formatMappings && formatMappings.length > 0) {
+    if (originalFilename) {
+      let extension = originalFilename.split('.').pop()
+      formatMappings.forEach((mapping: any) => {
+        for (const key in mapping) {
+          if (key === extension) {
+            format = mapping[key]
+          }
+        }
+      })
+    }
+  }
+
+  if (format !== undefined && format !== null) {
+    commands = commands.concat('format/')
+    commands = commands.concat(encodeUri(format))
+    commands = commands.concat('/')
+  }
+
+  if (quality > 0) {
+    commands = commands.concat('quality/')
+    commands = commands.concat(quality.toString())
+    commands = commands.concat('/')
+  }
+
+  let url = ''
+
+  if (baseUrl) {
+    if (!baseUrl.endsWith('/')) {
+      baseUrl.concat('/')
+    }
+    url = url.concat(baseUrl)
+  }
+
+  let expire = 2147483647
+
+  if (originalUrl && originalUrl.startsWith('/')) {
+    originalUrl = originalUrl.concat('http://localhost')
+  }
+
+  // Workaround for mod_dims encoding bug.
+  originalUrl = originalUrl && decodeURI(originalUrl)
+
+  if (sharedSecret) {
+    let signature = expire + sharedSecret + commands + originalUrl
+
+    url = url.concat(md5(signature, null, false).substring(0, 7))
+    url = url.concat('/')
+    url = url.concat(expire.toString())
+    url = url.concat('/')
+  }
+
+  url = url.concat(commands)
+  url = url.concat('?url=')
+  if (originalUrl) {
+    url = url.concat(encodeURIComponent(originalUrl))
+  }
+  return url
+}
+
+function toSrcset(
+  srcsetDescriptors: any, // TODO: update this type
+  flipHorizontal: boolean | null | undefined,
+  flipVertical: boolean | null | undefined,
+  rotate: number | null | undefined,
+  cropWidth: number | null,
+  cropHeight: number | null,
+  cropLeft: number | null | undefined,
+  cropTop: number | null | undefined,
+  contentType: string | null | undefined,
+  brightness: number,
+  contrast: number,
+  grayscale: boolean | null | undefined,
+  invert: boolean | null | undefined,
+  sepia: boolean | null | undefined,
+  originalFilename: string | null | undefined,
+  formatMappings: Object[] | null | undefined,
+  baseUrl: string | null | undefined,
+  originalUrl: string | null | undefined,
+  sharedSecret: string | null | undefined,
+  resizeWidth: number | null,
+  resizeHeight: number | null,
+  quality: number,
+  format?: string | null | undefined
+) {
+  if (!srcsetDescriptors || srcsetDescriptors.length <= 0) {
+    return null
+  } else {
+    let srcset: string[] = []
+    for (let i = 0; i < srcsetDescriptors.length; i++) {
+      let typeIndex = srcsetDescriptors[i].length - 1
+
+      if (typeIndex <= 0) {
+        continue
+      }
+      let number = srcsetDescriptors[i].substring(0, typeIndex)
+      let type = srcsetDescriptors[i].substring(typeIndex)
+      if (type === 'w') {
+        const width = parseInt(number)
+
+        if (width > 0 && resizeWidth !== null && resizeHeight !== null) {
+          // const aspectRatio = resizeWidth / resizeHeight // so width will be 1, height will be value of aspectRatio
+          const height = Math.round((width / resizeWidth) * resizeHeight)
+
+          srcset.push(
+            toSrcWidthHeight(
+              flipHorizontal,
+              flipVertical,
+              rotate,
+              cropWidth,
+              cropHeight,
+              cropLeft,
+              cropTop,
+              contentType,
+              brightness,
+              contrast,
+              grayscale,
+              invert,
+              sepia,
+              originalFilename,
+              formatMappings,
+              baseUrl,
+              originalUrl,
+              sharedSecret,
+              width,
+              height,
+              quality,
+              format
+            ) +
+              ' ' +
+              srcsetDescriptors[i]
+          )
+        }
+      } else if (type === 'x') {
+        let density = parseFloat(number)
+
+        if (density > 0.0 && resizeWidth !== null && resizeHeight !== null) {
+          const width = Math.round(resizeWidth * density)
+          const height = Math.round(resizeHeight * density)
+
+          srcset.push(
+            toSrcWidthHeight(
+              flipHorizontal,
+              flipVertical,
+              rotate,
+              cropWidth,
+              cropHeight,
+              cropLeft,
+              cropTop,
+              contentType,
+              brightness,
+              contrast,
+              grayscale,
+              invert,
+              sepia,
+              originalFilename,
+              formatMappings,
+              baseUrl,
+              originalUrl,
+              sharedSecret,
+              width,
+              height,
+              quality,
+              format
+            ) +
+              ' ' +
+              srcsetDescriptors[i]
+          )
+        }
+      }
+    }
+
+    const srcsetHashMap: any = {}
+    if (srcset.length > 0) {
+      srcset.map((item: any) => {
+        const tempArray = item.split(' ')
+        srcsetHashMap[tempArray[1]] = tempArray[0]
+      })
+    }
+
+    if (srcset.length > 0) {
+      return {
+        srcSetUrlsString: srcset.join(','),
+        srcSetUrlsHashMap: srcsetHashMap,
+      }
+    } else {
+      return null
+    }
+  }
+}
+
+// // TODO: is this needed?
+// function toHex(str: string) {
+//   let hex = ''
+//   for (let i = 0; i < str.length; i++) {
+//     hex += '' + str.charCodeAt(i).toString(16)
+//   }
+//   return hex
+// }
+
+function encodeUri(input: string) {
+  return encodeURI(input).replace('+', '%20')
+}

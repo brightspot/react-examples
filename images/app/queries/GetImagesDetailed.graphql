@@ -36,6 +36,9 @@ query GetImagesDetailed {
           name
           width
           height
+          srcSets {
+            size
+          }
         }
         edits {
           brightness
@@ -52,4 +55,3 @@ query GetImagesDetailed {
     }
   }
 }
-

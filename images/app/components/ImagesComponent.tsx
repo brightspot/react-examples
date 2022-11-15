@@ -1,6 +1,7 @@
 import { useGetImagesQuery } from '../generated/graphql'
 import Image from 'next/image'
 import Link from 'next/link'
+import styles from '../styles/Home.module.css'
 
 const ImagesComponent = () => {
   const { data, loading, error } = useGetImagesQuery()
@@ -12,24 +13,27 @@ const ImagesComponent = () => {
 
   return (
     <div>
-      <Link href={'/'}> Return to Home Page</Link>
+      <Link href={'/'} className={styles.link}>
+        {' '}
+        Return to Home Page
+      </Link>
       <h1>Client Side Rendered Images</h1>
       {firstImage?.imageFile?.sizes?.map((item: any, i: number) => {
         return (
-          <Link
-            href={{
-              pathname: `/csr/${item?.name}`,
-              query: { id: firstImage.imageId },
-            }}
-            key={i}
-          >
-            <Image
-              src={`http:${item?.src}`}
-              alt={item?.name}
-              width={item?.width}
-              height={item?.height}
-            />
-          </Link>
+          item.name !== 'example-large' && (
+            <>
+              <h2>{item.name}</h2>
+              <div className={styles.pictureContainer}>
+                <Image
+                  src={`http:${item?.src}`}
+                  alt={item?.name}
+                  width={item?.width}
+                  height={item?.height}
+                  loading="eager"
+                />
+              </div>
+            </>
+          )
         )
       })}
     </div>
