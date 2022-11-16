@@ -10,6 +10,7 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import ImageRichTextElement from './ImageRichTextElement'
+import Optional from 'brightspot-types/java/util/Optional'
 
 @ViewInterface
 export default class ImageRichTextElementViewModel extends JavaClass(
@@ -20,58 +21,52 @@ export default class ImageRichTextElementViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getFileUrl(): string {
-    let image = this.model.getImage()
-    let file = image.getFile()
-    let publicUrl = file.getPublicUrl()
-    return publicUrl ? publicUrl : null
+    return Optional.ofNullable(this.model.image.file.getPublicUrl()).orElse(
+      null
+    )
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(JavaMap)
   getImage(): JavaMap {
-    let image = this.model.getImage()
-    let imageSize = ImageSize.getAttributes(image.getFile())
-    return imageSize ? imageSize : null
+    return Optional.ofNullable(
+      ImageSize.getAttributes(this.model.image.file)
+    ).orElse(null)
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getAlt(): string {
-    let image = this.model.getImage()
-    let altText = image.getAltText()
-    return altText ? altText : null
+    return Optional.ofNullable(this.model.image.altText).orElse(null)
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getCaption(): string {
-    let image = this.model.getImage()
-    let caption = image.getCaption()
-    return caption ? caption : null
+    return Optional.ofNullable(this.model.image.caption).orElse(null)
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(CharSequence)
   getCredit(): CharSequence {
-    let image = this.model.getImage()
-    return image.getCredit() ? image.getCredit() : null
+    return Optional.ofNullable(this.model.image.credit).orElse(null)
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(Boolean)
   getWithBorder(): boolean {
-    return this.model.isWithBorder()
+    return this.model.withBorder
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(Boolean)
   getStretched(): boolean {
-    return this.model.isStretched()
+    return this.model.stretched
   }
 
   @JavaMethodParameters()
   @JavaMethodReturn(Boolean)
   getWithBackground(): boolean {
-    return this.model.isWithBackground()
+    return this.model.withBackground
   }
 }

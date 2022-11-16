@@ -51,39 +51,8 @@ export default class ImageRichTextElement extends JavaClass(
   stretched: boolean
 
   @JavaField(Boolean)
-  withBackground: boolean
+  withBackground: boolean;
 
-  getImage(): Image {
-    return this.image
-  }
-
-  setImage(image: Image): void {
-    this.image = image
-  }
-
-  isWithBorder(): boolean {
-    return this.withBorder
-  }
-
-  setWithBorder(withBorder: boolean): void {
-    this.withBorder = withBorder
-  }
-
-  isStretched(): boolean {
-    return this.stretched
-  }
-
-  setStretched(stretched: boolean): void {
-    this.stretched = stretched
-  }
-
-  isWithBackground(): boolean {
-    return this.withBackground
-  }
-
-  setWithBackground(withBackground: boolean): void {
-    this.withBackground = withBackground
-  }
   [`fromAttributes(java.util.Map)`](attributes: Map<string, string>): void {
     if (attributes !== null) {
       let imageAttr = attributes.get(ImageRichTextElement.IMAGE_ATTRIBUTE)
@@ -156,21 +125,17 @@ export default class ImageRichTextElement extends JavaClass(
     return attributes
   }
 
-  fromBody(body: string): void {
-    // do nothing
-  }
-
   toBody(): string {
-    let image = this.getImage()
+    let image = this.image
     if (image !== null) {
-      return image.getLabel()
+      return image.title
     } else {
       return 'Image'
     }
   }
 
   writePreviewHtml(page: ToolPageContext): void {
-    let image = this.getImage()
+    let image = this.image
 
     if (image != null) {
       let imageUrl: string = page.getPreviewThumbnailUrl(image)
