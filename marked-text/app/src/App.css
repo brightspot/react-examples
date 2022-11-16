@@ -52,11 +52,12 @@ body {
   display: flex;
 }
 
-.image-rte-container p{
+.image-rte-container .caption {
+  display: block;
   margin: 0px 20px;
 }
 
-.image-rte-container span {
+.image-rte-container .credit {
   margin: 0px 20px;
   font-size: 0.8rem;
 }

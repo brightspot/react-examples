@@ -83,11 +83,11 @@ const ImageRichTextElementComponent = ({
   credit,
   caption,
 }: ImageRichTextElementProps) => (
-  <div className="image-rte-container">
-    <img src={src} alt={alt} />
-    <p>{caption}</p>
-    <span>{credit}</span>
-  </div>
+  <span className="image-rte-container">
+    <img className="image" src={src} alt={alt} />
+    <span className="caption">{caption}</span>
+    <span className="credit">{credit}</span>
+  </span>
 )
 
 const TextComponent = ({ text }: TextComponentProps) => <span>{text}</span>
