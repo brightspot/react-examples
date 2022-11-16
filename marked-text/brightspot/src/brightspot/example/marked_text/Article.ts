@@ -1,9 +1,9 @@
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
-import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DirectoryItem from 'brightspot-types/com/psddev/cms/db/Directory$Item'
+import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import RichText from 'brightspot-types/com/psddev/cms/db/ToolUi$RichText'
 import Site from 'brightspot-types/com/psddev/cms/db/Site'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
@@ -15,7 +15,7 @@ export default class Article extends JavaClass(
   Content,
   DirectoryItem
 ) {
-  @JavaRequired
+  @Required
   @JavaField(String)
   headline: string
 
