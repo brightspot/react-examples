@@ -10,6 +10,7 @@ import RichText from 'brightspot-types/com/psddev/cms/db/ToolUi$RichText'
 import StorageItem from 'brightspot-types/com/psddev/dari/util/StorageItem'
 
 import CustomRichTextToolbar from './CustomRichTextToolbar'
+import Optional from 'brightspot-types/java/util/Optional'
 
 PreviewField({ value: 'file' })
 DisplayName({ value: 'Image' })
@@ -32,60 +33,9 @@ export default class Image extends JavaClass(
   @JavaField(String)
   altText: string
 
-  @Hidden
-  @Indexed
-  getTitle(): string {
-    if (this.title == null) {
-      return this.getTitlePlaceHolder()
-    }
-    return this.title
-  }
-
-  setTitle(title: string): void {
-    this.title = title
-  }
-
-  getFile(): StorageItem {
-    return this.file
-  }
-
-  setFile(file: StorageItem): void {
-    this.file = file
-  }
-
-  getCaption(): string {
-    return this.caption
-  }
-
-  setCaption(caption: string): void {
-    this.caption = caption
-  }
-
-  getCredit(): string {
-    return this.credit
-  }
-
-  setCredit(credit: string): void {
-    this.credit = credit
-  }
-
-  getAltText(): string {
-    return this.altText
-  }
-
-  setAltText(altText: string): void {
-    this.altText = altText
-  }
-
-  getLabel(): string {
-    return this.title
-  }
-
   getTitlePlaceHolder(): string {
-    let file = this.getFile()
-    let metaData = file.getMetadata()
-    let originalFileName = metaData.get('originalFilename').toString()
-
-    return originalFileName ? originalFileName : null
+    return Optional.ofNullable(
+      this.file.getMetadata().get('originalFilename').toString()
+    ).orElse(null)
   }
 }
