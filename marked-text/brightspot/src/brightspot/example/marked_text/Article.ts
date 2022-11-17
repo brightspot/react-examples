@@ -25,6 +25,7 @@ export default class Article extends JavaClass(
   @JavaField(String)
   @RichText({
     toolbar: CustomRichTextToolbar.getClass(),
+    inline: false,
     lines: 5,
   })
   body?: string;

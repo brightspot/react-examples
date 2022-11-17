@@ -19,7 +19,7 @@ import IOException from 'brightspot-types/java/io/IOException'
 @DisplayName({ value: 'Image' })
 @Tag({
   value: ImageRichTextElement.TAG_NAME,
-  // block: true,
+  block: true,
   initialBody: 'Image',
   position: -50.0,
   preview: true,
