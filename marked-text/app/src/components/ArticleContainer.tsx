@@ -2,11 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
 import { RteMark, RteMarkedText } from '../brightspot-marked-text/types'
 import { markedTextTraversal } from '../brightspot-marked-text/marked-text'
-import {
-  TextComponent,
-  RenderedComponent,
-  TypeComponentHandler,
-} from './StyledComponents'
+import TypeComponentHandler from './TypeComponentHandler'
+import TextComponent from './TextComponent'
+import ReactComponent from './ReactComponent'
 
 interface ArticleData {
   headline: string
@@ -16,7 +14,7 @@ interface ArticleData {
 
 interface ArticleResponse {
   articleData?: ArticleData
-  errors?: Array<string>
+  errors?: string[]
 }
 
 const ArticleContainer = () => {
@@ -97,7 +95,7 @@ const ArticleContainer = () => {
       {article?.articleData &&
         markedTextTraversal(article?.articleData?.body, visitorHandler).map(
           (Component, index: number) => {
-            return <RenderedComponent key={index} Component={Component} />
+            return <ReactComponent key={index} Component={Component} />
           }
         )}
     </div>
