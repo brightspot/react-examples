@@ -14,9 +14,19 @@ import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import ToolPageContext from 'brightspot-types/com/psddev/cms/tool/ToolPageContext'
 
 import Image from './Image'
+import IOException from 'brightspot-types/java/io/IOException'
 
 @DisplayName({ value: 'Image' })
-@Tag({ value: ImageRichTextElement.TAG_NAME })
+@Tag({
+  value: ImageRichTextElement.TAG_NAME,
+  // block: true,
+  initialBody: 'Image',
+  position: -50.0,
+  preview: true,
+  readOnly: true,
+  root: true,
+  tooltip: 'Add Image',
+})
 @IconName({ value: 'photo' })
 export default class ImageRichTextElement extends JavaClass(
   'brightspot.example.marked_text.ImageRichTextElement',
@@ -135,7 +145,7 @@ export default class ImageRichTextElement extends JavaClass(
   }
 
   writePreviewHtml(page: ToolPageContext): void {
-    let image = this.image
+    let image = this.image.file
 
     if (image != null) {
       let imageUrl: string = page.getPreviewThumbnailUrl(image)
