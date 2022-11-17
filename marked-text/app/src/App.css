@@ -48,8 +48,13 @@ body {
   text-align: right;
 }
 
-.embed-container {
-  display: flex;
+table {
+  border-collapse: collapse;
+}
+
+td {
+  border: 0.5px solid;
+  padding: 10px;
 }
 
 .image-rte-container .caption {
