@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta charSet="UTF-8" />
         <meta name="description" content="Images example with Brightspot" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
       <Component {...pageProps} />
     </ApolloProvider>

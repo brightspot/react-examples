@@ -12,18 +12,18 @@ const Home: NextPage = () => {
           name="description"
           content="Images example powered by Brightspot"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
       <div className={styles.homePagContainer}>
         <h1 className={styles.mainTitle}>Brightspot Images</h1>
         <p>
           <Link className={styles.link} href="/csr">
-            Client Side Rendering
+            Client-side Rendering
           </Link>
         </p>
         <p>
           <Link className={styles.link} href="/ssr">
-            Server Side Rendering
+            Server-side Rendering
           </Link>
         </p>
       </div>

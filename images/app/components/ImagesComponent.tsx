@@ -1,4 +1,5 @@
 import { useGetImagesQuery } from '../generated/graphql'
+import { ImageSizeCSR } from '../lib/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
@@ -18,22 +19,20 @@ const ImagesComponent = () => {
         Return to Home Page
       </Link>
       <h1>Client Side Rendered Images</h1>
-      {firstImage?.imageFile?.sizes?.map((item: any, i: number) => {
+      {firstImage?.imageFile?.sizes?.map((item: ImageSizeCSR, i: number) => {
         return (
-          item.name !== 'example-large' && (
-            <>
-              <h2>{item.name}</h2>
-              <div className={styles.pictureContainer}>
-                <Image
-                  src={`http:${item?.src}`}
-                  alt={item?.name}
-                  width={item?.width}
-                  height={item?.height}
-                  loading="eager"
-                />
-              </div>
-            </>
-          )
+          <div key={i}>
+            <h2>{item.name}</h2>
+            <div className={styles.pictureContainer}>
+              <Image
+                src={`http:${item?.src}`}
+                alt={item?.name || ''}
+                width={item?.width!}
+                height={item?.height!}
+                loading="eager"
+              />
+            </div>
+          </div>
         )
       })}
     </div>

@@ -3,7 +3,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 export const client = new ApolloClient({
   ssrMode: true,
   link: createHttpLink({
-    uri: process.env.GRAPHQL_URL,
+    uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
   }),
   cache: new InMemoryCache(),
 })

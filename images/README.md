@@ -1,31 +1,52 @@
-# Example Application
+# Images
+This example application highlights the features available for displaying images in a front-end application powered by the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api).
 
-This example application shows....
+## What you will learn
+1. How to publish images in Brightspot and create various image sizes by creating a custom ImageSizeProvider
+2. How to use a GraphQL Content Delivery API (CDA) endpoint to query for image data such as crops, focus points, sizes, and urls
+3. How to use the ImageUrl module to generate an image url in a front-end application
 
-## Using JS Classes
+## Running the example application
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `images` directory:
 
-JS Classes make it possible to create and modify Brightspot CMS content with JavaScript (TypeScript).
+To upload JS Classes in Brightspot (http://localhost/cms):
 
-Run the following commands in the `brightspot` directory (if there is already a `brightspot.json` file you can skip the `npx brightspot config server http://localhost/cms` command):
-
-```
+```sh
+cd brightspot
 yarn
-npx brightspot config server http://localhost/cms
-npx brightspot login
 npx brightspot types download
 npx brightspot types upload src
-```
-
-## Running the frontend application
-
-In the `app` directory run the following command:
 
 ```
-yarn && yarn start
+
+To run the front-end:
+
+```sh
+cd app
+yarn
+yarn codegen
+yarn mapping
+yarn start
 ```
 
-The frontend application will open automatically in your browser.
+The front-end application will open automatically in the browser.
+## Using the example application
+Upload an image of your choice in Brightspot. 
 
-## Example Application details
+Once you have published the image, navigate to the front-end application. The front-end application has two pages:  Client-side Rendering and  Server-side Rendering. Click on either of the links on the home page (http://localhost:3000/) to see the image you uploaded in Brightspot. The server-side rendered image shows an image whose url was generated using the ImageUrl module. This url is generated server-side in a Next.js application to ensure the secret environment key for accessing the Apache module [Dynamic Image Manipulation Service](https://github.com/beetlebugorg/mod_dims) (DIMS) is kept hidden. There is a configuration object already created, and that configuration is passed to the ImageUrl module to generate an image url customized for your application. 
 
-Details go here....
+The Client-side Rendering page displays the image you uploaded to Brightspot in the various sizes created in the CustomImageSizeProvider. Refer to the documentation for further information on how to customize an [ImageSizeProvider](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/registering-image-sizes). 
+
+## How everything works
+Brightspot provides ease of content modeling and querying for content data with GraphQL, and a wealth of options for customizing images. Definitely check out the [Image documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/images) to learn more about just how much you can do with images in Brightspot.
+
+An `ImageGraphQLEndpoint` makes it possible to query for Images or a single Image. You can view all of the GraphQL data using the GraphQL Explorer (**Developer** &rarr; **GraphQL Explorer**, then select the **Images GraphQL** endpoint.)
+
+This front-end application uses both a picture HTML tag for the server-side rendered images, and the Next Image tag for the client-side rendered pictures. The native HTML picture tag shows how easy it is to create srcset urls for responsive images, while the Image component from Next.js takes care of responsize images for you. 
+
+## Try it yourself
+The following is a suggestion for learning more about images with Brightspot:
+1. Try customizing images in the CMS (change the filter method, add a crop, etc.) and then check your front-end application. Those changes will appear immediately. 
+
+## Troubleshooting
+Refer to the [Common Issues](/README.md) section in the respository README for assistance.

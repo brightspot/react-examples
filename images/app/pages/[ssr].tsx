@@ -2,25 +2,22 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { client } from '../lib/client'
-import {
-  GetImagesDetailedDocument,
-  ImageSize,
-  ImageSrcSet,
-} from '../generated/graphql'
+import { GetImagesDetailedDocument } from '../generated/graphql'
 import Link from 'next/link'
 
-import { generateUrl } from '../lib/imageUrl'
-import { CustomImageConfiguration, CustomImageSize } from '../lib/config'
+import ImageUrlCreator from '../lib/imageUrlClass'
+import { CustomImageConfiguration } from '../lib/types'
 
 interface Props {
-  imageUrlArray: any
+  imageUrl: string
+  urlSrcSet: string
   errors: any
 }
 
-const ServerSide = ({ imageUrlArray, errors }: Props) => {
+const ServerSide = ({ imageUrl, urlSrcSet, errors }: Props) => {
   if (errors) return <div>Error Occured</div>
 
-  if (!imageUrlArray || imageUrlArray.length === 0) {
+  if (!imageUrl) {
     return (
       <div>
         <div>404</div>
@@ -33,7 +30,7 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
       <Head>
         <title>SSR Images</title>
         <meta name="description" content="SSR Images powered by Brightspot" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
 
       <main className={styles.main}>
@@ -43,70 +40,18 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
             Return to Home Page
           </Link>
           <h1>Server Side Rendered Images</h1>
-          {imageUrlArray?.map((item: any, i: number) => {
-            if (!item.size?.height || !item?.size?.width) {
-              return <div key={i}>No height or width provided for image</div>
-            } else if (item?.size?.height && item?.size?.width) {
-              return (
-                <>
-                  <h2>{item.size.name}</h2>
-                  <div className={styles.pictureContainer}>
-                    <picture>
-                      {item.size.name !== 'example-large' && (
-                        <source
-                          srcSet={
-                            item.resizedUrlsObject.srcsetUrls
-                              .srcSetUrlsString || ''
-                          }
-                          type=""
-                        />
-                      )}
-                      {item.size.name === 'example-large' && (
-                        <>
-                          <source
-                            media="(max-width: 775px)"
-                            srcSet={
-                              item.resizedUrlsObject.srcsetUrls
-                                .srcSetUrlsHashMap['350w'] || ''
-                            }
-                            type=""
-                            width={350}
-                            height={525}
-                          />
-                          <source
-                            media="(max-width: 1000px)"
-                            srcSet={
-                              item.resizedUrlsObject.srcsetUrls
-                                .srcSetUrlsHashMap['750w'] || ''
-                            }
-                            type=""
-                            width={750}
-                            height={1125}
-                          />
-                          <source
-                            media="(min-width: 1000px)"
-                            srcSet={
-                              item.resizedUrlsObject.srcsetUrls
-                                .srcSetUrlsHashMap['1000w'] || ''
-                            }
-                            type=""
-                            width={1000}
-                            height={1500}
-                          />
-                        </>
-                      )}
-
-                      <img
-                        loading="eager"
-                        src={item.resizedUrlsObject.mainUrl}
-                        alt={item?.size?.name || ''}
-                      />
-                    </picture>
-                  </div>
-                </>
-              )
-            }
-          })}
+          <h2>Image using Picture HTML Tag</h2>
+          <div className={styles.pictureContainer}>
+            <picture className={styles.picture}>
+              <source srcSet={urlSrcSet} type="" />
+              <img
+                className={styles.picture}
+                loading="eager"
+                src={imageUrl}
+                alt="example"
+              />
+            </picture>
+          </div>
         </div>
       </main>
     </div>
@@ -118,7 +63,8 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const imageUrlArray: any = []
+  let imageUrl: string | null | undefined
+  let urlSrcSet: string | null | undefined
   try {
     const { data } = await client.query({
       query: GetImagesDetailedDocument,
@@ -126,10 +72,21 @@ export const getStaticProps: GetStaticProps = async () => {
 
     if (data) {
       const firstImage = data.Images.items[0]
+
+      const ExampleSize = {
+        name: 'example-large',
+        width: 1000,
+        height: 1500,
+        quality: 90,
+        format: 'webp',
+        descriptors: ['350w', '550w', '750w', '1000w'],
+        formatMappings: [],
+      }
+
       const ExampleConfig: CustomImageConfiguration = {
         settings: {
-          baseUrl: `http:${firstImage?.imageFile?.editorSettings?.baseUrl}/`,
-          sharedSecret: firstImage?.imageFile?.editorSettings?.sharedSecret,
+          baseUrl: `http:${process.env.BASE_URL}/`,
+          sharedSecret: process.env.SECRET!,
         },
         image: {
           originalUrl: firstImage?.imageFile?.publicUrl,
@@ -138,41 +95,20 @@ export const getStaticProps: GetStaticProps = async () => {
           filename: firstImage?.imageFile?.filename,
           width: firstImage?.imageFile?.width,
           height: firstImage?.imageFile?.height,
-          // exif: undefined,
+          exif: null,
 
           focus: {
-            x: firstImage?.imageFile?.focus?.x,
-            y: firstImage?.imageFile?.focus?.y,
+            x: 0.13877872379128706,
+            y: 0.9388419016719237,
           },
           crops: [
-            // {
-            //   name: "example-small",
-            //   x: 0.3943428866834526,
-            //   y: 0.20939311444998746,
-            //   width: 0.2335226771343185,
-            //   height:0.15568178475621236
-            // },
-            // {
-            //   name: "portrait",
-            //   x: 0.33544695175797834,
-            //   y:0.6759263117359046,
-            //   width: 0.2836468695225539,
-            //   height:0.2102359720244745
-            // },
-            // {
-            //   height: 0.19189765726077332,
-            //   name: "thumbnail",
-            //   width:  0.23868069982832404,
-            //   x: 0.4262629709426005,
-            //   y:  0.7771334783651267,
-            // },
-            // {
-            //   height: firstImage?.imageFile?.crops[0]?.height,
-            //   name: firstImage?.imageFile?.crops[0]?.name,
-            //   width: firstImage?.imageFile?.crops[0]?.width,
-            //   x: firstImage?.imageFile?.crops[0]?.x,
-            //   y: firstImage?.imageFile?.crops[0]?.y,
-            // },
+            {
+              name: 'example-large',
+              x: 0.002383708953857422,
+              y: 6.328991481235626e-4,
+              width: 0.7322958792958941,
+              height: 0.40705596265338717,
+            },
           ],
           cmsEdits: {
             brightness: firstImage?.imageFile?.edits?.brightness,
@@ -186,38 +122,21 @@ export const getStaticProps: GetStaticProps = async () => {
             sharpen: firstImage?.imageFile?.edits?.sharpen,
           },
         },
+        size: ExampleSize,
       }
 
-      const ExampleSizes: CustomImageSize[] = []
-      firstImage.imageFile.sizes.forEach((size: ImageSize) => {
-        const srcSets = size.srcSets.map((srcSet: ImageSrcSet) => {
-          return srcSet.size
-        })
-
-        const sizeObj: CustomImageSize = {
-          name: size?.name,
-          width: size?.width,
-          height: size?.height,
-          quality: 90,
-          format: 'webp',
-          descriptors: srcSets || [],
-          formatMappings: [],
-        }
-        ExampleSizes.push(sizeObj)
-      })
-
-      ExampleSizes.forEach((size: CustomImageSize, i: number) => {
-        const resizedUrlsObject: any = generateUrl(
-          ExampleConfig.settings,
-          ExampleConfig.image,
-          size
-        )
-        imageUrlArray.push({ resizedUrlsObject, size })
-      })
+      const imageUrlCreator = new ImageUrlCreator(
+        ExampleConfig.settings,
+        ExampleConfig.image,
+        ExampleSize
+      )
+      imageUrl = imageUrlCreator.generateUrl()
+      urlSrcSet = imageUrlCreator.toSrcset()?.srcsetUrlsString
     }
     return {
       props: {
-        imageUrlArray,
+        imageUrl,
+        urlSrcSet,
       },
     }
   } catch (errors: any) {

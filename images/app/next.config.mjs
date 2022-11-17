@@ -6,10 +6,6 @@ const nextConfig = {
     defaultLocale: 'en',
   },
   swcMinify: true,
-  env: {
-    GRAPHQL_URL: 'http://localhost/graphql/delivery/images',
-  },
-
   images: {
     remotePatterns: [
       {
