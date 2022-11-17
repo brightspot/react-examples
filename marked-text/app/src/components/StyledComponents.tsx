@@ -1,6 +1,10 @@
 import React from 'react'
 import { markedTextTraversal } from '../brightspot-marked-text/marked-text'
-import { RteHtmlElement, RteMark } from '../brightspot-marked-text/types'
+import {
+  RteHtmlElement,
+  RteMark,
+  RteMarkedText,
+} from '../brightspot-marked-text/types'
 import {
   ExternalContentRichTextElement,
   ImageRichTextElement,
@@ -19,19 +23,21 @@ const TypeComponentHandler = (
   children: Array<React.ReactElement>
 ) => {
   if (mark?.data.__typename === 'RteHtmlElement') {
-    const { name, attributes } = mark.data as RteHtmlElement
+    const markData = mark.data as RteHtmlElement
+    const { name } = markData
     return (
-      <TagComponent
+      <HtmlComponent
         key={`${name}-${children.length}`}
-        tag={name}
+        markData={markData}
         children={children}
-        attributes={attributes}
       />
     )
   }
   if (mark?.data?.__typename === 'ExternalContentRichTextElement') {
     const { markedHtml, type, title } =
       mark.data as ExternalContentRichTextElement
+
+    const markedText = markedHtml as RteMarkedText
     const textHandler = (text: string) => {
       return <TextComponent key={text} text={text} />
     }
@@ -44,7 +50,7 @@ const TypeComponentHandler = (
       visitMark: componentHandler,
     }
     if (type === 'video') {
-      const markedWithinMark = markedTextTraversal(markedHtml, visitorHandler)
+      const markedWithinMark = markedTextTraversal(markedText, visitorHandler)
       return (
         <RenderedComponent
           key={`${type}-${title}`}
@@ -53,7 +59,7 @@ const TypeComponentHandler = (
       )
     }
     if (type === 'rich') {
-      const markedWithinMark = markedTextTraversal(markedHtml, visitorHandler)
+      const markedWithinMark = markedTextTraversal(markedText, visitorHandler)
       return (
         <RenderedComponent
           key={`${type}-${title}`}
@@ -63,7 +69,7 @@ const TypeComponentHandler = (
     }
     if (type === 'photo' || type === 'link') {
       visitorHandler.visitMark = PhotoLinkComponent
-      const markedWithinMark = markedTextTraversal(markedHtml, visitorHandler)
+      const markedWithinMark = markedTextTraversal(markedText, visitorHandler)
       return (
         <RenderedComponent
           key={`${type}-${title}`}
@@ -73,41 +79,21 @@ const TypeComponentHandler = (
     }
   }
   if (mark?.data?.__typename === 'ImageRichTextElement') {
-    const { fileUrl, alt, caption, credit } = mark.data as ImageRichTextElement
-    return (
-      <ImageRichTextElementComponent
-        key={alt}
-        src={fileUrl}
-        alt={alt}
-        caption={caption}
-        credit={credit}
-      />
-    )
+    const markData = mark.data as ImageRichTextElement
+    return <ImageRichTextElementComponent markData={markData} />
   }
   return <span>Undefined Custom Rich Text Element</span>
 }
 
-const ImageRichTextElementComponent = ({
-  src,
-  alt,
-  credit,
-  caption,
-}: ImageRichTextElementProps) => (
-  <span className="image-rte-container">
-    <img className="image" src={src} alt={alt} />
-    <span className="caption">{caption}</span>
-    <span className="credit">{credit}</span>
-  </span>
-)
-
 const TextComponent = ({ text }: TextComponentProps) => <span>{text}</span>
 
-const TagComponent = ({ tag, children, attributes }: TagElProps) => {
-  if (tag === 'script') return <span></span>
-  if (tag === 'br') return <LineBreakComponent />
-  if (tag === 'iframe')
+const HtmlComponent = ({ markData, children }: TagElProps) => {
+  const { name, attributes } = markData
+  if (name === 'script') return <span></span>
+  if (name === 'br') return <LineBreakComponent />
+  if (name === 'iframe')
     return <IframeComponent children={children} attributes={attributes} />
-  const Tag = `${tag}` as React.ElementType
+  const Tag = `${name}` as React.ElementType
   return (
     <Tag
       className={attributes.map((entry) =>
@@ -136,6 +122,29 @@ const IframeComponent = ({ children, attributes }: IframeProps) => {
         <ConvertedElement key={index} element={child} />
       ))}
     </iframe>
+  )
+}
+
+const ImageRichTextElementComponent = ({
+  markData,
+}: ImageRichTextElementProps) => {
+  const { caption, credit, alt, image } = markData
+  const SRC = image?.entries.filter((entry) => entry.key === 'src')[0].value
+  const WIDTH = image?.entries.filter((entry) => entry.key === 'width')[0].value
+  const HEIGHT = image?.entries.filter((entry) => entry.key === 'height')[0]
+    .value
+  return (
+    <span className="image-rte-container">
+      <img
+        className="image"
+        src={SRC}
+        alt={alt}
+        width={WIDTH}
+        height={HEIGHT}
+      />
+      <span className="caption">{caption}</span>
+      <span className="credit">{credit}</span>
+    </span>
   )
 }
 

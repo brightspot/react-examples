@@ -1,7 +1,9 @@
+import { RteHtmlElement } from '../brightspot-marked-text/types'
+import { ImageRichTextElement } from './CustomRichTextTypes'
+
 export interface TagElProps {
-  tag: string
-  children: Array<string | React.ReactElement | JSX.Element>
-  attributes: { name: string; value: string }[]
+  markData: RteHtmlElement
+  children: Array<React.ReactElement>
 }
 
 export interface TextComponentProps {
@@ -18,10 +20,7 @@ export interface ConvertedElementProps {
 }
 
 export interface ImageRichTextElementProps {
-  src: string
-  alt: string
-  caption: string
-  credit: string
+  markData: ImageRichTextElement
 }
 
 export interface RenderedComponentProps {

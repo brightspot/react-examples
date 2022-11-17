@@ -27,6 +27,7 @@ query ArticleMarkQuery($path: String) {
             authorUrl
             providerName
             providerUrl
+            originalUrl
             thumbnailUrl
             thumbnailWidth
             thumbnailHeight
@@ -53,6 +54,12 @@ query ArticleMarkQuery($path: String) {
             __typename
             fileUrl
             alt
+            image {
+              entries {
+                key
+                value
+              }
+            }
             caption
             credit
             withBorder
