@@ -6,8 +6,8 @@ export interface CustomImageSize {
   maximumHeight?: number | null | undefined
   quality?: number | null | undefined
   format?: string | null | undefined
-  descriptors: string[] | null | undefined
-  formatMappings: { [key: string]: string }[] | null
+  descriptors?: string[] | null | undefined
+  formatMappings?: { [key: string]: string }[] | null
 }
 
 export interface CustomImageConfiguration {

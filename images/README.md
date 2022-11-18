@@ -42,11 +42,11 @@ Brightspot provides ease of content modeling and querying for content data with 
 
 An `ImageGraphQLEndpoint` makes it possible to query for Images or a single Image. You can view all of the GraphQL data using the GraphQL Explorer (**Developer** &rarr; **GraphQL Explorer**, then select the **Images GraphQL** endpoint.)
 
-This front-end application uses both a picture HTML tag for the server-side rendered images, and the Next Image tag for the client-side rendered pictures. The native HTML picture tag shows how easy it is to create srcset urls for responsive images, while the Image component from Next.js takes care of responsize images for you. 
+This front-end application a Next Image component for rendering images, which uses a picture HTML tag. 
 
 ## Try it yourself
 The following is a suggestion for learning more about images with Brightspot:
-1. Try customizing images in the CMS (change the filter method, add a crop, etc.) and then check your front-end application. Those changes will appear immediately. 
+1. Try customizing images in the CMS (change the filter method, add a crop, etc.) and then check your front-end application. Those changes will appear immediately. (TODO: this will be functional after fixes are made in Brightspot).
 
 ## Troubleshooting
 Refer to the [Common Issues](/README.md) section in the respository README for assistance.

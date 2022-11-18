@@ -1,5 +1,4 @@
-import { useGetImagesQuery } from '../generated/graphql'
-import { ImageSizeCSR } from '../lib/types'
+import { ImageSize, useGetImagesQuery } from '../generated/graphql'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
@@ -13,28 +12,32 @@ const ImagesComponent = () => {
   const firstImage = images && images?.length > 0 ? images[0] : null
 
   return (
-    <div>
+    <div className={styles.imagesComponentContainer}>
       <Link href={'/'} className={styles.link}>
         {' '}
         Return to Home Page
       </Link>
       <h1>Client Side Rendered Images</h1>
-      {firstImage?.imageFile?.sizes?.map((item: ImageSizeCSR, i: number) => {
-        return (
-          <div key={i}>
-            <h2>{item.name}</h2>
-            <div className={styles.pictureContainer}>
+      {firstImage?.imageFile?.sizes?.map(
+        (item: Partial<ImageSize>, i: number) => {
+          const breakpointArray = item?.src?.split('resize/')
+          const widthHeight = breakpointArray?.[1].split('x')
+          const width = parseInt(widthHeight?.[0] || '0')
+          const height = parseInt(widthHeight?.[1]?.split('/')?.[0] || '0')
+          return (
+            <div className={styles.pictureContainer} key={i}>
               <Image
-                src={`http:${item?.src}`}
-                alt={item?.name || ''}
-                width={item?.width!}
-                height={item?.height!}
-                loading="eager"
+                className={styles.csrImage}
+                src={`http:${item.src}`}
+                alt={item.name || ''}
+                priority
+                height={height}
+                width={width}
               />
             </div>
-          </div>
-        )
-      })}
+          )
+        }
+      )}
     </div>
   )
 }

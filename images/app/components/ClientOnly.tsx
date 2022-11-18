@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import styles from '../styles/Home.module.css'
 interface Props {
   children: any
 }
@@ -15,5 +15,9 @@ export default function ClientOnly({ children, ...delegated }: Props) {
     return null
   }
 
-  return <div {...delegated}>{children}</div>
+  return (
+    <div className={styles.main} {...delegated}>
+      {children}
+    </div>
+  )
 }

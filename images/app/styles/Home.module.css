@@ -4,7 +4,6 @@
 }
 
 .main {
-  min-height: 100vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -21,15 +20,8 @@
   text-align: center;
 }
 
-.pictureContainer {
-  padding: 0;
-  width: 100%;
-  max-width: 700px;
-}
-
-.picture {
-  width: 100%;
-  height: 100%;
+.imagesComponentContainer {
+  height: inherit;
 }
 
 .link {

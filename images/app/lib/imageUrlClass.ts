@@ -415,7 +415,6 @@ class ImageUrlCreator implements CustomImageConfiguration {
 
         if (extension !== undefined) {
           let formatMappings = this.formatMappings
-          //TODO: CHECK THIS IS RIGHT - I changed things
           if (formatMappings !== undefined && formatMappings !== null) {
             formatMappings.forEach((mapping: { [key: string]: string }) => {
               for (const key in mapping) {
@@ -527,7 +526,6 @@ class ImageUrlCreator implements CustomImageConfiguration {
             resizeHeight !== null &&
             resizeHeight !== undefined
           ) {
-            // const aspectRatio = resizeWidth / resizeHeight // so width will be 1, height will be value of aspectRatio
             const height = Math.round((width / resizeWidth) * resizeHeight)
 
             srcset.push(
