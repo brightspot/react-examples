@@ -19,6 +19,7 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
+  Long: any
 }
 
 export type Image = {
@@ -128,6 +129,12 @@ export type Images = {
   nextPage?: Maybe<Scalars['Int']>
 }
 
+export type PreviewInput = {
+  /** A number value representing the milliseconds since the standard base time known as "the epoch", namely January 1, 1970, 00:00:00 GMT */
+  date?: InputMaybe<Scalars['Long']>
+  id: Scalars['ID']
+}
+
 export type Query = {
   __typename?: 'Query'
   Image?: Maybe<Image>
@@ -136,6 +143,7 @@ export type Query = {
 
 export type QueryImageArgs = {
   model?: InputMaybe<ImageModelInput>
+  preview?: InputMaybe<PreviewInput>
 }
 
 export type QueryImagesArgs = {

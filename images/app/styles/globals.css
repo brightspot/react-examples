@@ -1,3 +1,9 @@
+:root {
+  --gap: 10px;
+  --width: 200px;
+  --height: var(--width);
+}
+
 html,
 body {
   padding: 0;

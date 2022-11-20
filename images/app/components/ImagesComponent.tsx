@@ -3,13 +3,27 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
+interface CSRImage {
+  __typename?: 'Image' | undefined
+  imageId?: string | null | undefined
+  title?: string | null | undefined
+  imageFile?:
+    | {
+        __typename?: 'ImageAttributes' | undefined
+        filename?: string | null | undefined
+        sizes: Partial<ImageSize>[]
+      }
+    | null
+    | undefined
+}
+
 const ImagesComponent = () => {
   const { data, loading, error } = useGetImagesQuery()
 
   if (loading) return <div>Loading</div>
   if (error) return <div>{error.message}</div>
   const images = data?.Images?.items
-  const firstImage = images && images?.length > 0 ? images[0] : null
+  if (!images) return <div>No Images</div>
 
   return (
     <div className={styles.imagesComponentContainer}>
@@ -18,26 +32,29 @@ const ImagesComponent = () => {
         Return to Home Page
       </Link>
       <h1>Client Side Rendered Images</h1>
-      {firstImage?.imageFile?.sizes?.map(
-        (item: Partial<ImageSize>, i: number) => {
-          const breakpointArray = item?.src?.split('resize/')
-          const widthHeight = breakpointArray?.[1].split('x')
-          const width = parseInt(widthHeight?.[0] || '0')
-          const height = parseInt(widthHeight?.[1]?.split('/')?.[0] || '0')
-          return (
-            <div className={styles.pictureContainer} key={i}>
-              <Image
-                className={styles.csrImage}
-                src={`http:${item.src}`}
-                alt={item.name || ''}
-                priority
-                height={height}
-                width={width}
-              />
-            </div>
+      <div className={styles.imagesContainer}>
+        {images?.map((image: CSRImage | null) =>
+          image?.imageFile?.sizes?.map(
+            (item: Partial<ImageSize>, k: number) => {
+              return (
+                <div
+                  className={styles.csrImageContainer}
+                  key={k}
+                  data-size={item.name}
+                >
+                  <Image
+                    className={styles.image}
+                    src={`http:${item.src}`}
+                    alt={item.name || ''}
+                    fill
+                    priority
+                  />
+                </div>
+              )
+            }
           )
-        }
-      )}
+        )}
+      </div>
     </div>
   )
 }

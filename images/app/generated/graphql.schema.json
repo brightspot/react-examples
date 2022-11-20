@@ -914,6 +914,55 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "Long",
+        "description": "A 64-bit signed integer",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PreviewInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "date",
+            "description": "A number value representing the milliseconds since the standard base time known as \"the epoch\", namely January 1, 1970, 00:00:00 GMT",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Long",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "Query",
         "description": null,
@@ -928,6 +977,18 @@
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ImageModelInput",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "preview",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PreviewInput",
                   "ofType": null
                 },
                 "defaultValue": null,

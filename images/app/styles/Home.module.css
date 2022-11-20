@@ -24,6 +24,62 @@
   height: inherit;
 }
 
+.imagesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90vw;
+}
+
+.csrImageContainer {
+  position: relative;
+  display: block;
+  min-height: 300px;
+  min-width: 300px;
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: 0.4rem;
+}
+
+.csrImageContainer[data-size='3-2-large'] {
+  width: 1060px;
+  height: auto;
+  min-height: 200px;
+  min-width: 300px;
+  aspect-ratio: 3/2;
+}
+
+.csrImageContainer[data-size='1-1-large'] {
+  width: 1080px;
+  height: auto;
+  min-height: 300px;
+  min-width: 300px;
+  aspect-ratio: 1/1;
+}
+
+.csrImageContainer[data-size='16-9'] {
+  width: 1900px;
+  height: auto;
+  min-height: 169px;
+  min-width: 300px;
+  aspect-ratio: 16/9;
+}
+
+.csrImageContainer[data-size='9-16'] {
+  height: auto;
+  width: 1060px;
+  min-width: 169px;
+  min-height: 300px;
+  aspect-ratio: 9/16;
+}
+
+.image {
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+}
+
 .link {
   color: #2a5975;
 }
