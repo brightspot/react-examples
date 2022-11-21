@@ -53,7 +53,11 @@ Navigate to `brightspot/src/examples/marked-text`. This directory contains the J
 
 - `ArticleContainer` This component makes a call to the endpoint to return the article with the headline **Marked Text**, if the headline is different, change the path variable here. This is also where the `visitorHandler` object is created with two call back functions. This along with the body of the Article are required to pass to the `markedTextTraversal` function from the library to traverse the marks and text.
 - `ArticleMarkQuery` This is where the query is made for the article to return the headline, subheadline and body that contains the text and marks (MarkedText).
-- `StyledComponents` This file contains a helper component `TypeComponentHandler` that handles what kind of RichTextElement/RteMark it receives to direct it to the correct component. This is how the callback function for `visitMark` knows what to return. It also contains `TextComponent` to just return the text upon calling the `visitText` function during traversal.
+- `TypeComponentHandler` This file contains a helper component `TypeComponentHandler` that handles what kind of RichTextElement/RteMark it receives to direct it to the correct handler/component. This is how the callback function for `visitMark` knows what to return.
+- `TextComponent` returns the text within `span` tags upon calling the `visitText` function during traversal.
+- `HtmlRichTextComponents` This file contains all components needed for `RteHtmlElement` marks.
+- `ExternContentRichTextComponent` Component used for `ExternalContentRichTextElement` marks.
+- `ImageRichTextComponent` Component used for `ImageRichTextElement` marks.
 
 #### Points to note in JS Classes files:
 
@@ -81,7 +85,7 @@ Navigate to `brightspot/src/examples/marked-text`. This directory contains the J
 
 ## Try it yourself
 
-Feel free to use any of the following in this example: bold, italics, underline, superscript, subscript, strikethrough and bullet points. This example's GraphQL schema is including two custom elements also, ExternalContentRichTextElement which works by pasting external links with embeds such as YouTube videos and ImageRichTextElement, allowing you to create an Image content type and using the image button in the toolbar to add the image to the RTE to later retrieve on the front-end.
+Feel free to use any of the following in this example: bold, italics, underline, superscript, subscript, strikethrough and bullet points. This example's GraphQL schema is including two custom elements also, ExternalContentRichTextElement which works by pasting external links with embeds such as YouTube videos, Flikr images and ImageRichTextElement, allowing you to create an Image content type and using the image button in the toolbar to add the image to the RTE to later retrieve on the front-end.
 
 ## Troubleshooting
 
