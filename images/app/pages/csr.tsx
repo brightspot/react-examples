@@ -7,16 +7,13 @@ export default function ClientSide() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>CSR images</title>
+        <title>CSR Images</title>
         <meta name="description" content="CSR Images powered by Brightspot" />
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
-
-      <main className={styles.main}>
-        <ClientOnly>
-          <ImagesComponent />
-        </ClientOnly>
-      </main>
+      <ClientOnly>
+        <ImagesComponent />
+      </ClientOnly>
     </div>
   )
 }

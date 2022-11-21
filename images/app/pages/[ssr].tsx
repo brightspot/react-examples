@@ -35,13 +35,24 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
         <meta name="description" content="SSR Images powered by Brightspot" />
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
-
-      <main className={styles.main}>
-        <Link className={styles.link} href={'/'}>
-          {' '}
-          Return to Home Page
-        </Link>
-        <h1>Server Side Rendered Images</h1>
+      <Link className={styles.link} href={'/'}>
+        {' '}
+        Return to Home Page
+      </Link>
+      <h1>Server Side Images</h1>
+      {!imageUrlArray ? (
+        <h2 className={styles.noImage}>
+          Add an{' '}
+          <a
+            target="_blank"
+            href="http://localhost/cms/"
+            className={styles.noImageLink}
+            rel="noreferrer"
+          >
+            image 😉
+          </a>{' '}
+        </h2>
+      ) : (
         <div className={styles.imagesContainer}>
           {imageUrlArray.map(
             (
@@ -90,13 +101,15 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
                     src={url.imageUrl || ''}
                     alt={url.imageName}
                     className={styles.image}
+                    height={1000}
+                    width={1000}
                   />
                 </picture>
               )
             }
           )}
         </div>
-      </main>
+      )}
     </div>
   )
 }

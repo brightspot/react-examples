@@ -3,11 +3,14 @@ query GetImages {
     items {
       imageFile {
         filename
-        sizes {
+        sizes(names: "1-1-large") {
           name
           src
           width
           height
+          srcSets {
+            src
+          }
         }
       }
       imageId

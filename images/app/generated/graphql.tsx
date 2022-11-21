@@ -169,6 +169,7 @@ export type GetImagesQuery = {
           src?: string | null
           width?: number | null
           height?: number | null
+          srcSets: Array<{ __typename?: 'ImageSrcSet'; src?: string | null }>
         }>
       } | null
     } | null> | null
@@ -250,11 +251,14 @@ export const GetImagesDocument = gql`
       items {
         imageFile {
           filename
-          sizes {
+          sizes(names: "1-1-large") {
             name
             src
             width
             height
+            srcSets {
+              src
+            }
           }
         }
         imageId

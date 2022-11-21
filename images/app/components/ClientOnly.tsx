@@ -15,9 +15,5 @@ export default function ClientOnly({ children, ...delegated }: Props) {
     return null
   }
 
-  return (
-    <div className={styles.main} {...delegated}>
-      {children}
-    </div>
-  )
+  return <div {...delegated}>{children}</div>
 }

@@ -23,39 +23,80 @@ const ImagesComponent = () => {
   if (loading) return <div>Loading</div>
   if (error) return <div>{error.message}</div>
   const images = data?.Images?.items
-  if (!images) return <div>No Images</div>
 
   return (
-    <div className={styles.imagesComponentContainer}>
+    <>
       <Link href={'/'} className={styles.link}>
         {' '}
         Return to Home Page
       </Link>
-      <h1>Client Side Rendered Images</h1>
-      <div className={styles.imagesContainer}>
-        {images?.map((image: CSRImage | null) =>
-          image?.imageFile?.sizes?.map(
-            (item: Partial<ImageSize>, k: number) => {
-              return (
-                <div
-                  className={styles.csrImageContainer}
-                  key={k}
-                  data-size={item.name}
-                >
-                  <Image
-                    className={styles.image}
-                    src={`http:${item.src}`}
-                    alt={item.name || ''}
-                    fill
-                    priority
-                  />
-                </div>
-              )
-            }
-          )
-        )}
-      </div>
-    </div>
+      <h1>Client Side Images</h1>
+      {!images ? (
+        <h2 className={styles.noImage}>
+          Add an{' '}
+          <a
+            target="_blank"
+            href="http://localhost/cms/"
+            className={styles.noImageLink}
+            rel="noreferrer"
+          >
+            image 😉
+          </a>{' '}
+        </h2>
+      ) : (
+        <div className={styles.imagesContainer}>
+          {images?.map((image: CSRImage | null) =>
+            image?.imageFile?.sizes?.map(
+              (item: Partial<ImageSize>, k: number) => {
+                return (
+                  <picture key={k}>
+                    <source
+                      srcSet={item?.srcSets?.[1]?.src || ''}
+                      media="(max-width: 360px)"
+                    />
+                    <source
+                      srcSet={item?.srcSets?.[2]?.src || ''}
+                      media="(max-width: 460px)"
+                    />
+                    <source
+                      srcSet={item?.srcSets?.[3]?.src || ''}
+                      media="(max-width: 560px)"
+                    />
+                    <source
+                      srcSet={item?.srcSets?.[4]?.src || ''}
+                      media="(max-width: 660px)"
+                    />
+                    <source
+                      srcSet={item?.srcSets?.[5]?.src || ''}
+                      media="(max-width: 760px)"
+                    />
+                    <source
+                      srcSet={item?.srcSets?.[6]?.src || ''}
+                      media="(max-width: 860px)"
+                    />
+                    <source
+                      srcSet={item?.srcSets?.[7]?.src || ''}
+                      media="(max-width: 960px)"
+                    />
+                    <source
+                      srcSet={item?.srcSets?.[9]?.src || ''}
+                      media="(min-width: 970px)"
+                    />
+                    <img
+                      src={item?.src || ''}
+                      alt={item?.name || ''}
+                      className={styles.image}
+                      height={1000}
+                      width={1000}
+                    />
+                  </picture>
+                )
+              }
+            )
+          )}
+        </div>
+      )}
+    </>
   )
 }
 
