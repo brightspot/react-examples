@@ -7,7 +7,7 @@ import {
   LineBreakComponent,
   LinkTagComponent,
 } from './HtmlRichTextComponents'
-import { ImageRichTextElementComponent } from './ImageRichTextElementComponent'
+import { ImageRichTextComponent } from './ImageRichTextComponent'
 
 let keyCount = 0
 
@@ -75,7 +75,7 @@ const externalContentHandler = (mark: RteMark) => {
 const imageRichTextHandler = (mark: RteMark) => {
   keyCount++
   return (
-    <ImageRichTextElementComponent
+    <ImageRichTextComponent
       key={`${mark.data.__typename}-${keyCount}`}
       markData={mark.data}
     />
