@@ -15,7 +15,7 @@ import RichTextToolbarStyle from 'brightspot-types/com/psddev/cms/rte/RichTextTo
 import ImageRichTextElement from './ImageRichTextElement'
 
 export default class CustomRichTextToolbar extends JavaClass(
-  'brightspot.example.marked_text.CustomRichTextToolbar',
+  'brightspot.example.marked_text_advanced.CustomRichTextToolbar',
   JavaObject,
   RichTextToolbar
 ) {

@@ -12,7 +12,7 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import ArticleViewModel from './ArticleViewModel'
 
 export default class ArticleEndpoint extends JavaClass(
-  'brightspot.example.marked_text.ArticleEndpoint',
+  'brightspot.example.marked_text_advanced.ArticleEndpoint',
   ContentDeliveryApiEndpoint,
   Singleton
 ) {

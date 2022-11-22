@@ -16,7 +16,7 @@ import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 @ViewInterface
 export default class ExternalContentRichTextElementViewModel extends JavaClass(
-  'brightspot.example.marked_text.ExternalContentRichTextElementViewModel',
+  'brightspot.example.marked_text_advanced.ExternalContentRichTextElementViewModel',
   ViewModel.Of(ExternalContentRichTextElement),
   RteMarkDataView
 ) {

@@ -14,7 +14,6 @@ import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import ToolPageContext from 'brightspot-types/com/psddev/cms/tool/ToolPageContext'
 
 import Image from './Image'
-import IOException from 'brightspot-types/java/io/IOException'
 
 @DisplayName({ value: 'Image' })
 @Tag({
@@ -29,7 +28,7 @@ import IOException from 'brightspot-types/java/io/IOException'
 })
 @IconName({ value: 'photo' })
 export default class ImageRichTextElement extends JavaClass(
-  'brightspot.example.marked_text.ImageRichTextElement',
+  'brightspot.example.marked_text_advanced.ImageRichTextElement',
   RichTextElement
 ) {
   @JavaField(String)

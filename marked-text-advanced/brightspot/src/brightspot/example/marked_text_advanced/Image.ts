@@ -15,7 +15,7 @@ import Optional from 'brightspot-types/java/util/Optional'
 PreviewField({ value: 'file' })
 DisplayName({ value: 'Image' })
 export default class Image extends JavaClass(
-  'brightspot.example.marked_text.Image',
+  'brightspot.example.marked_text_advanced.Image',
   Content
 ) {
   @JavaField(String)

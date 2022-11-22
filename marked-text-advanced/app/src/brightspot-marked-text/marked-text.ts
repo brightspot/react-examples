@@ -23,8 +23,8 @@ const markedTextTraversal: RteMarkedTextTraversal = (markedText, visitor) => {
  */
 class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
   constructor(
-    public markedText: RteMarkedText,
-    public visitor: RteMarkedTextVisitor<M, T, N>
+    private markedText: RteMarkedText,
+    private visitor: RteMarkedTextVisitor<M, T, N>
   ) {}
 
   /**
@@ -131,10 +131,10 @@ class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
 /** Converted {@link RteMark} */
 class MarkNode {
   constructor(
-    public markedText: RteMarkedText,
-    public mark: RteMark,
-    public index: number,
-    public children: MarkNode[] = []
+    private markedText: RteMarkedText,
+    private mark: RteMark,
+    private index: number,
+    private children: MarkNode[] = []
   ) {}
 
   getMark(): RteMark {

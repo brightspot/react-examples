@@ -12,7 +12,7 @@ This example highlights how to use JS Classes and the Brightspot GraphQL API to 
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `marked-text` directory:
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `marked-text-advanced` directory:
 
 To upload JS Classes in Brightspot (http://localhost/cms):
 
@@ -42,21 +42,21 @@ _You may change the headline to that of your choosing but be sure to change the 
 
 This example allows users to upload images and then place them in your RTE. Publish an Image content type, return to the Article and then click on the image icon located on the toolbar (the icon placed last on the toolbar).
 
-`marked-text/app/brightspot-marked-text` contains the library code. The library `marked-text.ts` uses the `markedTextTraversal` function with two arguments, the body of `MarkedText` containing the text and marks, and a Visitor object with two callback functions provided from the app. The library is using a [post order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal).
+`marked-text-advanced/app/brightspot-marked-text` contains the library code. The library `marked-text.ts` uses the `markedTextTraversal` function with two arguments, the body of `MarkedText` containing the text and marks, and a Visitor object with two callback functions provided from the app. The library is using a [post order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal).
 
 ## How everything works
 
 JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript (TypeScript). One powerful feature Brightspot provides is ease of content modeling and querying for content data with GraphQL.
-Navigate to `brightspot/src/examples/marked-text`. This directory contains the JS Classes files that are uploaded to Brightspot.
+Navigate to `brightspot/src/examples/marked-text-advanced`. This directory contains the JS Classes files that are uploaded to Brightspot.
 
-`marked-text/app/src/components/`
+`marked-text-advanced/app/src/components/`
 
 - `ArticleContainer` This component makes a call to the endpoint to return the article with the headline **Marked Text**, if the headline is different, change the path variable here. This is also where the `visitorHandler` object is created with two call back functions. This along with the body of the Article are required to pass to the `markedTextTraversal` function from the library to traverse the marks and text.
 - `ArticleMarkQuery` This is where the query is made for the article to return the headline, subheadline and body that contains the text and marks (MarkedText).
 - `TypeComponentHandler` This file contains a helper component `TypeComponentHandler` that handles what kind of RichTextElement/RteMark it receives to direct it to the correct handler/component. This is how the callback function for `visitMark` knows what to return.
 - `TextComponent` returns the text within `span` tags upon calling the `visitText` function during traversal.
 - `HtmlRichTextComponents` This file contains all components needed for `RteHtmlElement` marks.
-- `ExternContentRichTextComponent` Component used for `ExternalContentRichTextElement` marks.
+- `ExternalContentRichTextComponent` Component used for `ExternalContentRichTextElement` marks.
 - `ImageRichTextComponent` Component used for `ImageRichTextElement` marks.
 
 #### Points to note in JS Classes files:

@@ -14,7 +14,7 @@ import Optional from 'brightspot-types/java/util/Optional'
 
 @ViewInterface
 export default class ImageRichTextElementViewModel extends JavaClass(
-  'brightspot.example.marked_text.ImageRichTextElementViewModel',
+  'brightspot.example.marked_text_advanced.ImageRichTextElementViewModel',
   ViewModel.Of(ImageRichTextElement),
   RteMarkDataView
 ) {

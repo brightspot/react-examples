@@ -11,7 +11,7 @@ import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 import CustomRichTextToolbar from './CustomRichTextToolbar'
 
 export default class Article extends JavaClass(
-  'brightspot.example.marked_text.Article',
+  'brightspot.example.marked_text_advanced.Article',
   Content,
   DirectoryItem
 ) {

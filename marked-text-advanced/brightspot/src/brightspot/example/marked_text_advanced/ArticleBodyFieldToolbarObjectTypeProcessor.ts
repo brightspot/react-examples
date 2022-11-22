@@ -12,7 +12,8 @@ export default class ArticleBodyFieldToolbarObjectTypeProcessor extends JavaClas
   [`process(com.psddev.dari.db.ObjectType)`](type: ObjectType): void {
     const typeName = 'brightspot.example.marked_text.Article'
     const fieldName = 'body'
-    const toolbarName = 'brightspot.example.marked_text.CustomRichTextToolbar'
+    const toolbarName =
+      'brightspot.example.marked_text_advanced.CustomRichTextToolbar'
 
     if (typeName === type.getInternalName()) {
       Array.from(type.getFields()).forEach((field) => {

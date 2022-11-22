@@ -11,7 +11,7 @@ import Article from './Article'
 
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
-  'brightspot.example.marked_text.ArticleViewModel',
+  'brightspot.example.marked_text_advanced.ArticleViewModel',
   ViewModel.Of(Article)
 ) {
   @JavaMethodParameters()
