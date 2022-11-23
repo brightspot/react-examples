@@ -44,6 +44,7 @@ export default class CustomRichTextToolbar extends JavaClass(
       RichTextToolbarSeparator.INLINE,
       RichTextToolbarAction.KEYBOARD,
 
+      RichTextToolbarSeparator.INLINE,
       RichTextToolbarItem.ELEMENTS,
     ] as unknown as List<RichTextToolbarItem>
   }
@@ -52,7 +53,7 @@ export default class CustomRichTextToolbar extends JavaClass(
     let list = new ArrayList<Class<RichTextElement>>()
 
     let imageRichTextElement = ClassFinder.getClass(
-      'brightspot.example.marked_text.ImageRichTextElement'
+      'brightspot.example.marked_text_advanced.ImageRichTextElement'
     ) as unknown as Class<ImageRichTextElement>
 
     list.add(imageRichTextElement)

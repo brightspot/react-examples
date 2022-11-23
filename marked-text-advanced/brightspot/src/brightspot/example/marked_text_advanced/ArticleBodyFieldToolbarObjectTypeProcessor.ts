@@ -5,20 +5,19 @@ import GlobalObjectTypeProcessor from 'brightspot-types/com/psddev/dari/db/Globa
 import ObjectType from 'brightspot-types/com/psddev/dari/db/ObjectType'
 
 export default class ArticleBodyFieldToolbarObjectTypeProcessor extends JavaClass(
-  'brightspot.example.marked_text.ArticleBodyFieldToolbarObjectTypeProcessor',
+  'brightspot.example.marked_text_advanced.ArticleBodyFieldToolbarObjectTypeProcessor',
   null,
   GlobalObjectTypeProcessor
 ) {
   [`process(com.psddev.dari.db.ObjectType)`](type: ObjectType): void {
-    const typeName = 'brightspot.example.marked_text.Article'
+    const typeName = 'brightspot.example.marked_text_advanced.Article'
     const fieldName = 'body'
-    const toolbarName =
-      'brightspot.example.marked_text_advanced.CustomRichTextToolbar'
+    const tb = 'brightspot.example.marked_text_advanced.CustomRichTextToolbar'
 
     if (typeName === type.getInternalName()) {
       Array.from(type.getFields()).forEach((field) => {
         if (fieldName === field.getInternalName()) {
-          field.as(ToolUi.class).setRichTextToolbarClassName(toolbarName)
+          field.as(ToolUi.class).setRichTextToolbarClassName(tb)
           return
         }
       })
