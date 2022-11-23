@@ -3,13 +3,9 @@ import JavaField from 'brightspot-types/JavaField'
 
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
-import Hidden from 'brightspot-types/com/psddev/cms/db/ToolUi$Hidden'
-import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import PreviewField from 'brightspot-types/com/psddev/dari/db/Recordable$PreviewField'
-import RichText from 'brightspot-types/com/psddev/cms/db/ToolUi$RichText'
 import StorageItem from 'brightspot-types/com/psddev/dari/util/StorageItem'
 
-import CustomRichTextToolbar from './CustomRichTextToolbar'
 import Optional from 'brightspot-types/java/util/Optional'
 
 PreviewField({ value: 'file' })
