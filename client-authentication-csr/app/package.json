@@ -1,0 +1,31 @@
+{
+  "name": "client-authentication-csr",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node openBrowser.js && next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "npx prettier --write ."
+  },
+  "dependencies": {
+    "@apollo/client": "3.6.9",
+    "get-port": "6.1.2",
+    "graphql": "16.5.0",
+    "next": "12.2.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.0.3",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.19.0",
+    "eslint-config-next": "12.2.2",
+    "eslint-config-prettier": "8.5.0",
+    "prettier": "2.7.1",
+    "typescript": "4.7.4"
+  }
+}
