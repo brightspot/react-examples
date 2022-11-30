@@ -1,6 +1,6 @@
-import { RteMarkData } from '../brightspot-marked-text/types'
+import { MarkData } from '../brightspot-marked-text/types'
 
-interface ImageRichTextElement extends RteMarkData {
+interface ImageRichTextElement extends MarkData {
   fileUrl?: string
   alt?: string
   image?: Entries

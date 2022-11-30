@@ -1,14 +1,10 @@
-import { markedTextTraversal } from '../brightspot-marked-text/marked-text'
-import {
-  RteMark,
-  RteMarkData,
-  RteMarkedText,
-} from '../brightspot-marked-text/types'
+import { markedTextTraversal } from '../brightspot-marked-text/index'
+import { Mark, MarkData, MarkedText } from '../brightspot-marked-text/types'
 import ReactComponent from './ReactComponent'
 import TextComponent from './TextComponent'
 import TypeComponentHandler from './TypeComponentHandler'
 
-interface ExternalContentRichTextElement extends RteMarkData {
+interface ExternalContentRichTextElement extends MarkData {
   type?: string
   version?: string
   title?: string
@@ -20,18 +16,18 @@ interface ExternalContentRichTextElement extends RteMarkData {
   thumbnailUrl?: string
   thumbnailWidth?: number
   thumbnailHeight?: number
-  markedHtml?: RteMarkedText
+  markedHtml?: MarkedText
 }
 
-const ExternalContentRichTextComponent = ({ mark }: { mark: RteMark }) => {
+const ExternalContentRichTextComponent = ({ mark }: { mark: Mark }) => {
   const { markedHtml, type, title } =
     mark.data as ExternalContentRichTextElement
 
-  const markedText = markedHtml as RteMarkedText
+  const markedText = markedHtml as MarkedText
 
   let visitorHandler = {
     visitText: (text: string) => <TextComponent key={text} text={text} />,
-    visitMark: (mark: RteMark, children: Array<React.ReactElement>): any =>
+    visitMark: (mark: Mark, children: Array<React.ReactElement>): any =>
       TypeComponentHandler(mark, children),
   }
   const markedWithinMark = markedTextTraversal(markedText, visitorHandler)
