@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ArticleMarkQuery } from './ArticleMarkQuery'
-import { RteMark, RteMarkedText } from '../brightspot-marked-text/types'
-import { markedTextTraversal } from '../brightspot-marked-text/marked-text'
+import { Mark, MarkedText } from '../brightspot-marked-text/types'
+import { markedTextTraversal } from '../brightspot-marked-text/index'
 import TypeComponentHandler from './TypeComponentHandler'
 import TextComponent from './TextComponent'
 import ReactComponent from './ReactComponent'
@@ -9,7 +9,7 @@ import ReactComponent from './ReactComponent'
 interface ArticleData {
   headline: string
   subheadline: string
-  body: RteMarkedText
+  body: MarkedText
 }
 
 interface ArticleResponse {
@@ -77,10 +77,8 @@ const ArticleContainer = () => {
   }
 
   //Called once all the text within the mark has been checked/handled
-  const componentHandler = (
-    mark: RteMark,
-    children: Array<React.ReactElement>
-  ) => TypeComponentHandler(mark, children)
+  const componentHandler = (mark: Mark, children: Array<React.ReactElement>) =>
+    TypeComponentHandler(mark, children)
 
   // Required object passed to markedTextTraversal
   const visitorHandler = {
