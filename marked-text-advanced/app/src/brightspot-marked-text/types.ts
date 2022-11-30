@@ -1,13 +1,13 @@
 /** MarkedText created from a rich text field. */
-export interface RteMarkedText {
+export type MarkedText = {
   text: string
-  marks: RteMark[]
+  marks: Mark[]
 }
 
 /**
  * A single Mark created from an element within a rich text field.
  */
-export interface RteMark {
+export type Mark = {
   /** The start index of the mark. */
   start: number
   /** The end index of the mark. */
@@ -17,29 +17,24 @@ export interface RteMark {
   /**
    * The metadata associated with the mark.
    */
-  data: RteMarkData
+  data: MarkData
 }
 
-export interface RteMarkData {
+export type MarkData = {
   __typename: string
 }
 
-/** An HTML element. */
-export interface RteHtmlElement extends RteMarkData {
-  /** The element name. */
-  name: string
-  /** The element's attributes. */
-  attributes: Attribute[]
-}
-
-/** An HTML attribute. */
-interface Attribute {
-  name: string
-  value: string
-}
-
-/** Object containing two visitor callback functions, {@link visitText} which will accept a string and {@link visitMark} which takes in two arguments, {@link RteMark} and it's children in an array */
-export interface RteMarkedTextVisitor<M extends N, T extends N, N> {
+/**
+ * Visitor callback object for a post order {@link https://en.wikipedia.org/wiki/Tree_traversal#Post-order,_LRN"} tree
+ * traversal of MarkedText.
+ *
+ * Object will contain two visitor callback functions, {@link visitText} which will be passed a string and {@link visitMark} which will be passed {@link Mark} and it's {@link children} in an array
+ *
+ * @param M The type that a Mark is transformed into.
+ * @param T The type that text is transformed into.
+ * @param N The common super type for transformed Marks and text
+ */
+export type MarkedTextVisitor<M extends N, T extends N, N> = {
   /**
    * Called when text is reached. Text will always be a leaf node of the tree. Implementations can transform the text
    * into an object of type {@link T} and return it. If the {@link text} has a parent Mark, the transformed text will
@@ -62,20 +57,19 @@ export interface RteMarkedTextVisitor<M extends N, T extends N, N> {
    * @param children Nonnull.
    * @return The transformed Mark.
    */
-  visitMark(mark: RteMark, children: N[]): M
+  visitMark(mark: Mark, children: N[]): M
 }
 
-/**
- * Function called to create an array of {@link N} given the MarkedText and visitor implementation {@link RteMarkedTextVisitor}.
- * @param markedText - Nonnull.
- * @param visitor Nonnull.
- * @returns An array of items based on the visitor implementation
- */
-export interface RteMarkedTextTraversal {
-  <M extends N, T extends N, N>(
-    /** MarkedText created from a rich text field. */
-    markedText: RteMarkedText,
-    /** Object containing two visitor callback functions, {@link visitText} which will accept a string and {@link visitMark} which takes in two arguments, {@link RteMark} and it's children in an array */
-    visitor: RteMarkedTextVisitor<M, T, N>
-  ): N[]
+/** An HTML element. */
+export interface HtmlElement extends MarkData {
+  /** The element name. */
+  name: string
+  /** The element's attributes. */
+  attributes: Attribute[]
+}
+
+/** An HTML attribute. */
+type Attribute = {
+  name: string
+  value: string
 }
