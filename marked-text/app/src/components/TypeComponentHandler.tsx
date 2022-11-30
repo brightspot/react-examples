@@ -1,4 +1,4 @@
-import { RteHtmlElement, RteMark } from '../brightspot-marked-text/types'
+import { HtmlElement, Mark } from '../brightspot-marked-text/types'
 import {
   HtmlRichTextComponent,
   IframeComponent,
@@ -10,7 +10,7 @@ import {
 let keyCount = 0
 
 const TypeComponentHandler = (
-  mark: RteMark,
+  mark: Mark,
   children: Array<React.ReactElement>
 ) => {
   if (mark?.data.__typename === 'RteHtmlElement') {
@@ -18,12 +18,9 @@ const TypeComponentHandler = (
   } else return <span>Undefined RichText Element</span>
 }
 
-const RichTextHandler = (
-  mark: RteMark,
-  children: Array<React.ReactElement>
-) => {
+const RichTextHandler = (mark: Mark, children: Array<React.ReactElement>) => {
   keyCount++
-  const markData = mark.data as RteHtmlElement
+  const markData = mark.data as HtmlElement
   const { name, attributes } = markData
 
   if (name === 'script') return <span></span> // do nothing with script tags

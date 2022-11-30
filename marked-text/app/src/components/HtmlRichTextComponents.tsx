@@ -1,4 +1,4 @@
-import { RteHtmlElement } from '../brightspot-marked-text/types'
+import { HtmlElement } from '../brightspot-marked-text/types'
 
 const ConvertedElement = ({ element }: { element: React.ReactElement }) => (
   <>{element}</>
@@ -18,7 +18,7 @@ const HtmlRichTextComponent = ({
   markData,
   children,
 }: {
-  markData: RteHtmlElement
+  markData: HtmlElement
   children: React.ReactElement[]
 }) => {
   const { name, attributes } = markData
@@ -56,7 +56,7 @@ const IframeComponent = ({
   )
 }
 
-const ImgComponent = ({ markData }: { markData: RteHtmlElement }) => {
+const ImgComponent = ({ markData }: { markData: HtmlElement }) => {
   const { name, attributes } = markData
   return (
     <img
