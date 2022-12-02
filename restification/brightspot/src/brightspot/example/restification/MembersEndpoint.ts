@@ -19,7 +19,7 @@ export default class MembersEndpoint extends JavaClass(
 ) {
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
     let entryPointField1 = new ContentManagementEntryPointField(
-      Member.class as Class<Member>,
+      Member.getClass(),
       true
     )
     return [
