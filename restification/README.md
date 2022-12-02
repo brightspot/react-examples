@@ -4,7 +4,7 @@ This example will demonstrate how to set up GraphQL Queries into individual REST
 
 ## What you will learn
 
-1. How to use Brightspot to create REST Mapping API Endpoints
+1. How to use Brightspot to create REST Mapping API Endpoints along with a potential use case
 2. How to still use the GraphQL schema for type generation at build time and runtime without exposing the endpoint to the public
 
 ## Running the example application
@@ -109,18 +109,18 @@ At the bottom of the explorer, pull up the 'QUERY VARIABLES' section and put in 
 
 ```json
 {
-  "path": "/memberDisplayName"
+  "arguments": "<Member Display Name Here>"
 }
 ```
 
 Test the query to confirm the results are as expected.
 
-Create the REST Mapping for the query. The form will be auto completed.
+Create the REST Mapping for the query. The form will be auto completed but under 'REST Mapping Method(s)', be sure to select/check 'POST' so that it displays both: GET, POST.
 
 Test the GET endpoint quickly by going into the browser and visiting:
 'http://localhost/Members/all-members'
 also the GET,POST request as it can be a GET request with params being the display name:
-http://localhost/members-api/member?arguments=<display name here>
+http://localhost/members-api/member?arguments={Member Display Name Here}
 
 ## Step 4 Run the React App
 
