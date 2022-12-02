@@ -90,10 +90,10 @@ Hit save, notice the 'Paths' section at the bottom will have generated:'/members
 
 Repeat the process for another query, this time, select the `where` dropdown. This will display two new fields, `arguments` and `predicate`. Click the `$` symbol next to arguments, which will change the query to take in a variable. Next to `predicate` enter the following in the text box 'displayName = ?'. This query will take the `arguments` and look for a display name that matches. This will be a GET that will take parameters and a POST request.
 
-Change the query name to `MemberQuery`. The query should look like this:
+Change the query name to `Member`. The query should look like this:
 
 ```graphql
-query MemberQuery($arguments: [String]) {
+query Member($arguments: [String]) {
   Member: brightspot_example_restification_MemberQuery(
     where: { predicate: "displayName = ?", arguments: $arguments }
   ) {
