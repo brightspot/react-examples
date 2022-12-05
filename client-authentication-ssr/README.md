@@ -1,6 +1,6 @@
 # Client Authentication - SSR
 
-This example demonstrates how to use JS Classes to use and secure an API Key connected to a Brightspot GraphQL Endpoint with a Server Side Rendering approach.
+This example demonstrates how to use JS Classes to securely use an API Key connected to a Brightspot GraphQL Endpoint with a Server Side Rendering approach.
 
 ## What you will learn
 
@@ -41,7 +41,7 @@ First, `ClientAuthSsrEndpoint` uses the `getApiAccessOption` method to return a 
 
 Next, `ClientAuthEndpointClient` uses the `afterSave` method to programmatically create an API key (clientSecret) and apply it to the `ClientAuthSsrEndpoint`.
 
-> **_Note_** This example generates an API key based off of the name of the API Endpoint to make the example easier to run. The resulting key will always be the same unless the name of the API Endpoint file is changed. In a production environment, use more unique seed when generating the key.
+> **_Note_** This example generates an API key based off of the name of the API Endpoint to make the example easier to run. The resulting key will always be the same unless the name of the API Endpoint file is changed. In a production environment, use more unique characters when generating the key.
 
 Finally, the front-end Next.js app uses the `getServerSideProps` function to run the API call to the Brightspot GraphQL Endpoint on the server side. The API key is stored as an environment variable in the `.env` file and does not have `NEXT_PUBLIC` prepended, meaning it is not visible to the web browser.
 
@@ -53,16 +53,16 @@ Finally, the front-end Next.js app uses the `getServerSideProps` function to run
 
 #### Points to note in the Next.js application:
 
-- `getServerSideProps`: The Next.js app uses this function to run the API call server side to that the API key is hidden from the web browser.
+- `getServerSideProps`: The Next.js app uses this function to run the API call server side so that the API key is hidden from the web browser.
 
 ## Try it yourself
 
 The following is a suggestion for learning more about client authentication with JS Classes and Brightspot:
 
-1. Try adding a new API key to the Client Auth Csr Endpoint Client.
+1. Try adding a new API key to the Client Auth Ssr Endpoint Client.
 2. Try changing the Next.js environment variables to use the new API key.
 
-> **_Note_** If you make any changes to the JS classes be sure to save the changes in Brightspot at **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Client Auth Csr Endpoint** &rarr; **Save**
+> **_Note_** If you make any changes to the JS classes be sure to save the changes in Brightspot at **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Client Auth Ssr Endpoint** &rarr; **Save**
 
 ## Troubleshooting
 
