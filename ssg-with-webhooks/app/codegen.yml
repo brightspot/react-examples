@@ -1,0 +1,19 @@
+overwrite: true
+schema:
+  - ${GRAPHQL_URL}:
+      headers:
+documents: 'components/**/*.graphql'
+generates:
+  generated/fragmentTypes.json:
+    plugins:
+      - fragment-matcher
+    config:
+      apolloClientVersion: 3
+  generated/graphql.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+  generated/graphql.schema.json:
+    plugins:
+      - 'introspection'
