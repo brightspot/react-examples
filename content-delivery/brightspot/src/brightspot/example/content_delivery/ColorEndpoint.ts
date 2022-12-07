@@ -3,12 +3,13 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
+import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
+
 import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
-import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ColorViewModel from './ColorViewModel'
 
@@ -22,7 +23,7 @@ export default class ColorEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [ColorViewModel.class as Class<ColorViewModel>].map(
+    return [ColorViewModel.getClass()].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
