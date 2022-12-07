@@ -4,12 +4,12 @@ import { Mark, MarkedText } from './types'
 export default class MarkNode {
   constructor(
     private markedText: MarkedText,
-    private mark: Mark,
+    private mark: Mark | null,
     private index: number,
     private children: MarkNode[] = []
   ) {}
 
-  getMark(): Mark {
+  getMark(): Mark | null {
     return this.mark
   }
 
@@ -18,17 +18,15 @@ export default class MarkNode {
   }
 
   getStart(): number {
-    return this.mark != null ? this.mark.start : 0
+    return this.mark?.start ?? 0
   }
 
   getEnd(): number {
-    return this.mark != null ? this.mark.end : this.markedText.text.length
+    return this.mark?.end ?? this.markedText.text.length
   }
 
   getDescendantsCount(): number {
-    return this.mark != null
-      ? this.mark.descendants
-      : this.markedText.marks.length
+    return this.mark?.descendants ?? this.markedText.marks.length
   }
 
   getChildren(): MarkNode[] {
