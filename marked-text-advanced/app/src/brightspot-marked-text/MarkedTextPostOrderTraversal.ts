@@ -22,7 +22,7 @@ export default class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
   rebuildTree(): MarkNode {
     const { markedText } = this
 
-    const root: MarkNode = new MarkNode(markedText, null as any, 0)
+    const root: MarkNode = new MarkNode(markedText, null, 0)
 
     const markNodes: MarkNode[] = []
 
@@ -56,7 +56,7 @@ export default class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
           markedText.text.substring(currentIndex, childStart)
         )
 
-        if (transformedText != null) {
+        if (transformedText) {
           output.push(transformedText)
         }
       }
@@ -71,7 +71,7 @@ export default class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
         markedText.text.substring(currentIndex, markNode.getEnd())
       )
 
-      if (transformedText != null) {
+      if (transformedText) {
         output.push(transformedText)
       }
     }
@@ -81,7 +81,7 @@ export default class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
     } else {
       const transformedMark: M = visitor.visitMark(markNode.getMark(), output)
 
-      if (transformedMark != null) {
+      if (transformedMark) {
         return [transformedMark]
       } else {
         return []

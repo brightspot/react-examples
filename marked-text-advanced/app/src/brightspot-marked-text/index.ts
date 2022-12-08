@@ -11,5 +11,7 @@ export function markedTextTraversal<M extends T, T extends N, N>(
   text: MarkedText,
   visitor: MarkedTextVisitor<M, T, N>
 ): N[] {
-  return new MarkedTextPostOrderTraversal(text, visitor).traverse()
+  return text === null || undefined
+    ? []
+    : new MarkedTextPostOrderTraversal(text as MarkedText, visitor).traverse()
 }
