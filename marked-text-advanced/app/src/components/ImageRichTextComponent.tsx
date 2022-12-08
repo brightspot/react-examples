@@ -1,52 +1,25 @@
-import { MarkData } from '../brightspot-marked-text/types'
+import React from 'react'
+import { ImageRichTextElement } from '../types'
+import { imgEntriesHandler } from '../utils'
 
-interface ImageRichTextElement extends MarkData {
-  fileUrl?: string
-  alt?: string
-  image?: Entries
-  caption?: string
-  credit?: string
-  withBorder?: string
-  withBackground?: string
-  stretched?: string
-}
-
-interface Entries {
-  entries: Entry[]
-}
-
-interface Entry {
-  key: string
-  value: string
-}
-
-const getAttrValue = (
-  attribute: string,
-  attributes: { key: string; value: string }[] | undefined
-) => {
-  if (attributes === undefined) return undefined
-  const attr = attributes.filter((entry) => entry.key === attribute)
-
-  return attr.length > 0 ? attr[0].value : undefined
-}
-
-export const ImageRichTextComponent = ({
+const ImageRichTextComponent = ({
   markData,
 }: {
   markData: ImageRichTextElement
 }) => {
-  const { caption, credit, alt, image } = markData
+  const { caption, credit, alt } = markData
+
+  let key = 0
+
+  const attrs = imgEntriesHandler(markData?.image?.entries, alt)
+
   return (
     <span className="image-rte-container">
-      <img
-        className="image"
-        src={getAttrValue('src', image?.entries)}
-        alt={alt}
-        width={getAttrValue('width', image?.entries)}
-        height={getAttrValue('height', image?.entries)}
-      />
+      {React.createElement('img', { ...attrs, key: `k-${key++}` })}
       <span className="caption">{caption}</span>
       <span className="credit">{credit}</span>
     </span>
   )
 }
+
+export default ImageRichTextComponent
