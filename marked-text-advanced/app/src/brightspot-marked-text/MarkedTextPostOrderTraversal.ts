@@ -79,7 +79,10 @@ export default class MarkedTextPostOrderTraversal<M extends N, T extends N, N> {
     if (markNode.isRoot()) {
       return output
     } else {
-      const transformedMark: M = visitor.visitMark(markNode.getMark(), output)
+      const transformedMark: M = visitor.visitMark(
+        markNode.getMark() as Mark,
+        output
+      )
 
       if (transformedMark) {
         return [transformedMark]
