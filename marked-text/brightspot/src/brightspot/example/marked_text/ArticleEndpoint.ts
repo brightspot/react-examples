@@ -4,13 +4,13 @@ import List from 'brightspot-types/java/util/List'
 
 import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
+import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ArticleViewModel from './ArticleViewModel'
-import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 
 @DisplayName({ value: 'Marked Text: Articles' })
 export default class ArticleEndpoint extends JavaClass(
@@ -19,7 +19,9 @@ export default class ArticleEndpoint extends JavaClass(
   Singleton
 ) {
   getPaths(): JavaSet<string> {
-    return ['/graphql/delivery/articles'] as unknown as JavaSet<string>
+    return [
+      '/graphql/delivery/marked-text-intro/articles',
+    ] as unknown as JavaSet<string>
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
