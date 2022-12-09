@@ -1,7 +1,10 @@
 import React, { Fragment, ReactNode } from 'react'
-import { markedTextTraversal } from '../brightspot-marked-text'
-import { HtmlElement, MarkedText } from '../brightspot-marked-text/types'
-import { ImageRichTextElement, ExternalContentRichTextElement } from '../types'
+import { markedTextTraversal } from '@brightspot/marked-text'
+import { HtmlElement, MarkedText } from '@brightspot/marked-text'
+import {
+  ImageRichTextElement,
+  ExternalContentRichTextElement,
+} from '../../types'
 import ExternalContentRichTextComponent from './ExternalContentRichTextComponent'
 import HtmlRichTextComponent from './HtmlRichTextComponents'
 import ImageRichTextComponent from './ImageRichTextComponent'

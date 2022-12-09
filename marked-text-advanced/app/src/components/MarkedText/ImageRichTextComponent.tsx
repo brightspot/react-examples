@@ -1,6 +1,6 @@
 import React from 'react'
-import { ImageRichTextElement } from '../types'
-import { imgEntriesHandler } from '../utils'
+import { ImageRichTextElement } from '../../types'
+import { imgEntriesHandler } from '../../utils'
 
 const ImageRichTextComponent = ({
   markData,

@@ -1,4 +1,4 @@
-import { ExternalContentRichTextElement } from '../types'
+import { ExternalContentRichTextElement } from '../../types'
 import MarkedTextComponent from './MarkedTextComponent'
 
 const ExternalContentRichTextComponent = ({

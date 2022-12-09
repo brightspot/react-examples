@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { HtmlElement } from '../brightspot-marked-text/types'
-import { attrHandler } from '../utils'
+import { HtmlElement } from '@brightspot/marked-text'
+import { attrHandler } from '../../utils'
 
 const HtmlRichTextComponent = ({
   element,
