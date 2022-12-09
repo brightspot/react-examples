@@ -9,7 +9,11 @@ import ExternalContentRichTextComponent from './ExternalContentRichTextComponent
 import HtmlRichTextComponent from './HtmlRichTextComponents'
 import ImageRichTextComponent from './ImageRichTextComponent'
 
-const MarkedTextComponent = ({ markedText }: { markedText: MarkedText }) => {
+const MarkedTextComponent = ({
+  markedText,
+}: {
+  markedText: MarkedText | undefined
+}) => {
   let key = 0
 
   return (

@@ -17,9 +17,7 @@ const Article = () => {
   return (
     <div className="marked-text-container Article">
       <h1 className="headline">{article?.articleData?.headline}</h1>
-      {article?.articleData && (
-        <MarkedTextComponent markedText={article.articleData.body} />
-      )}
+      <MarkedTextComponent markedText={article?.articleData?.body} />
     </div>
   )
 }
