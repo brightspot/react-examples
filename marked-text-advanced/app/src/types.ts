@@ -1,4 +1,4 @@
-import { MarkData, MarkedText } from './brightspot-marked-text/types'
+import { MarkData, MarkedText } from '@brightspot/marked-text'
 
 export interface ImageRichTextElement extends MarkData {
   fileUrl?: string

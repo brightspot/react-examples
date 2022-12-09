@@ -1,4 +1,4 @@
-import { HtmlElement } from './brightspot-marked-text/types'
+import { HtmlElement } from '@brightspot/marked-text'
 
 const imgEntriesHandler = (
   entries: { key: string; value: string }[],
