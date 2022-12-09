@@ -7,7 +7,7 @@ import {
 import React from 'react'
 interface ArticleData {
   headline: string
-  body: MarkedText
+  body: MarkedText | undefined
 }
 interface ArticleResponse {
   articleData?: ArticleData
@@ -104,23 +104,22 @@ const Article = () => {
   return (
     <div className="marked-text-container Article">
       <h1 className="headline">{article?.articleData?.headline}</h1>
-      {article?.articleData &&
-        markedTextTraversal(article.articleData.body, {
-          visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
-          visitMark: (mark, children: ReactNode[]) => {
-            const element = mark.data as HtmlElement
-            const attrs = element.attributes.reduce((a, b) => {
-              const n: string = attrSwitch(b.name)
-              return { ...a, [n]: b.value }
-            }, {})
+      {markedTextTraversal(article?.articleData?.body, {
+        visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
+        visitMark: (mark, children: ReactNode[]) => {
+          const element = mark.data as HtmlElement
+          const attrs = element.attributes.reduce((a, b) => {
+            const n: string = attrSwitch(b.name)
+            return { ...a, [n]: b.value }
+          }, {})
 
-            return React.createElement(
-              element.name,
-              { ...attrs, key: `k-${key++}` },
-              children
-            )
-          },
-        })}
+          return React.createElement(
+            element.name,
+            { ...attrs, key: `k-${key++}` },
+            children
+          )
+        },
+      })}
     </div>
   )
 }
