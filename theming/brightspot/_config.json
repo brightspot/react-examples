@@ -1,0 +1,163 @@
+{
+  "styles": {
+    "/cat": {
+      "fields": {
+        "bulletStyle": {
+          "type": "text",
+          "displayName": "List Bullet Style",
+          "cms.ui.note": "Set the bullet style for the for list options.",
+          "cms.ui.dropDown": true,
+          "cms.ui.placeholder": "Cat",
+          "values": [
+            {
+              "label": "Cat",
+              "value": "bullet-cat"
+            },
+            {
+              "label": "Circle",
+              "value": "bullet-circle"
+            },
+            {
+              "label": "Star",
+              "value": "bullet-star"
+            },
+            {
+              "label": "Arrow",
+              "value": "bullet-arrow"
+            }
+          ]
+        }
+      }
+    },
+    "/dog": {
+      "fields": {
+        "bulletStyle": {
+          "type": "text",
+          "displayName": "List Bullet Style",
+          "cms.ui.note": "Set the bullet style for the for list options.",
+          "cms.ui.dropDown": true,
+          "cms.ui.placeholder": "Dog",
+          "cms.ui.tab": " Bullets",
+          "values": [
+            {
+              "label": "Dog",
+              "value": "bullet-dog"
+            },
+            {
+              "label": "Circle",
+              "value": "bullet-circle"
+            },
+            {
+              "label": "Star",
+              "value": "bullet-star"
+            },
+            {
+              "label": "Arrow",
+              "value": "bullet-arrow"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "themeFields": {
+    "primaryColor": {
+      "displayName": "Primary Color",
+      "type": "color"
+    },
+    "secondaryColor": {
+      "displayName": "Secondary Color",
+      "type": "color"
+    },
+    "primaryTextColor": {
+      "displayName": "Primary Text Color",
+      "type": "color",
+      "cms.ui.note": "Headlines, Body Text"
+    },
+    "secondaryTextColor": {
+      "displayName": "Secondary Text Color",
+      "type": "color",
+      "cms.ui.note": "Description Text"
+    },
+    "bodyFont": {
+      "displayName": "Body",
+      "type": "text",
+      "values": [
+        {
+          "label": "Montserrat",
+          "value": "Montserrat"
+        },
+        {
+          "label": "Merriweather",
+          "value": "Merriweather"
+        },
+        {
+          "label": "Raleway",
+          "value": "Raleway"
+        }
+      ],
+      "cms.ui.dropDown": true,
+      "cms.ui.placeholder": "Raleway"
+    },
+    "NavBarAlignment": {
+      "displayName": "Select Nav Bar text alignment",
+      "type": "text",
+      "cms.ui.note": "select how text will appear in navbar.",
+      "values":  [
+        {
+          "label": "left",
+          "value": "left"
+        },
+        {
+          "label": "right",
+          "value": "right"
+        },
+        {
+          "label": "center",
+          "value": "center"
+        }
+      ]
+    },
+    "buttonStyle": {
+      "displayName": "Button Style",
+      "cms.ui.note": "Override the Button Style.",
+      "type": "text",
+      "cms.ui.dropDown": true,
+      "values": [
+        {
+          "label": "Button Primary",
+          "value": "button-primary"
+        },
+        {
+          "label": "Button Primary Outline",
+          "value": "button-outline"
+        }
+      ]
+    },
+    "staticNavbar": {
+      "displayName": "Enable Static Navbar",
+      "type": "boolean",
+      "cms.ui.note": "when checked the navbar will remain at the top of the page"
+    }
+  },
+  "colorPalette": {
+    "colorOne": {
+      "displayName": "Color 1",
+      "type": "color"
+    },
+    "colorTwo": {
+      "displayName": "Color 2",
+      "type": "color"
+    },
+    "colorThree": {
+      "displayName": "Color 3",
+      "type": "color"
+    },
+    "colorFour": {
+      "displayName": "Color 4",
+      "type": "color"
+    }
+  },
+  "name": "theming example configuration",
+  "version": "1.0.0"
+}
