@@ -21,12 +21,6 @@ export default class ArticleViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getSubheadline(): string {
-    return this.model.subheadline
-  }
-
-  @JavaMethodParameters()
   @JavaMethodReturn(RteMarkedTextViewModel)
   getBody(): RteMarkedTextViewModel {
     return this.createView(
