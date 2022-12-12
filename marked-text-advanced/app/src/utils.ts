@@ -1,5 +1,22 @@
 import { HtmlElement } from '@brightspot/marked-text'
 
+const voidElements = [
+  'area',
+  'base',
+  'br',
+  'col',
+  'embed',
+  'hr',
+  'img',
+  'input',
+  'keygen',
+  'link',
+  'meta',
+  'source',
+  'track',
+  'wbr',
+]
+
 const imgEntriesHandler = (
   entries: { key: string; value: string }[],
   alt: string | undefined
@@ -51,4 +68,4 @@ interface styleProperties {
   [k: string]: string
 }
 
-export { attrHandler, imgEntriesHandler }
+export { attrHandler, imgEntriesHandler, voidElements }
