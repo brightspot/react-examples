@@ -1,4 +1,4 @@
-import { FaDog, FaCat } from 'react-icons/fa'
+import { FaDog, FaCat, FaArrowCircleUp } from 'react-icons/fa'
 import { AnimalData } from '../App'
 
 interface Props {
@@ -13,8 +13,13 @@ const Section = ({ data }: Props) => {
 
         <h2>{`About ${data?.name}`}</h2>
       </div>
-      <a href="#intro">Back to top</a>
-      <p>{data?.description}</p>
+      <span>
+        <FaArrowCircleUp className="iconSpan" />
+        <a href="#intro">Back to top</a>
+      </span>
+      <div className="animalDescription">
+        <p>{data?.description}</p>
+      </div>
     </section>
   )
 }

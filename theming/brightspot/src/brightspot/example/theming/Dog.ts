@@ -1,13 +1,14 @@
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
 
+import Integer from 'brightspot-types/java/lang/Integer'
+
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
-import Integer from 'brightspot-types/java/lang/Integer'
+import StorageItem from 'brightspot-types/com/psddev/dari/util/StorageItem'
 import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
-
 
 @DisplayName({ value: 'Dog' })
 export default class Dog extends JavaClass(
@@ -23,16 +24,12 @@ export default class Dog extends JavaClass(
   @Indexed({ unique: true })
   userName?: string
 
-
   @JavaField(String)
   color?: string
 
   @JavaField(String)
   @Values({
-    value: [
-      'female',
-      'male'
-    ]
+    value: ['female', 'male'],
   })
   gender?: string
 
@@ -40,8 +37,12 @@ export default class Dog extends JavaClass(
   breed?: string
 
   @JavaField(Integer)
-  age?: number;
+  age?: number
 
   @JavaField(String)
   description?: string
+
+  // TODO: this field can be used once the @ImageAttributes annotation is available for JS Classes
+  @JavaField(StorageItem)
+  image?: StorageItem
 }

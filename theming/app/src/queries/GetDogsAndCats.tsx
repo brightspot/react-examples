@@ -39,7 +39,6 @@ const GET_DOGS_AND_CATS = gql`
         secondaryColor
         secondaryTextColor
         buttonStyle
-        staticNavbar
       }
     }
   }

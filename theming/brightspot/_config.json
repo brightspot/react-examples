@@ -1,4 +1,13 @@
 {
+  "imageSizes": {
+    "petHeadshot (70px x 70px)": {
+      "width": "70px",
+      "height": "70px",
+      "alternateFormats": [
+        "webp"
+      ]
+    }
+  },
   "styles": {
     "/cat": {
       "fields": {
@@ -63,21 +72,26 @@
   "themeFields": {
     "primaryColor": {
       "displayName": "Primary Color",
-      "type": "color"
+      "type": "color",
+      "cms.ui.placeholder": "#ff0083"
     },
     "secondaryColor": {
       "displayName": "Secondary Color",
-      "type": "color"
+      "type": "color",
+      "cms.ui.placeholder": "#ff4da8"
+
     },
     "primaryTextColor": {
       "displayName": "Primary Text Color",
       "type": "color",
-      "cms.ui.note": "Headlines, Body Text"
+      "cms.ui.note": "Headlines, Body Text",
+      "cms.ui.placeholder": "#000"
     },
     "secondaryTextColor": {
       "displayName": "Secondary Text Color",
       "type": "color",
-      "cms.ui.note": "Description Text"
+      "cms.ui.note": "Description Text",
+      "cms.ui.placeholder": "#ffffff"
     },
     "bodyFont": {
       "displayName": "Body",
@@ -133,11 +147,6 @@
           "value": "button-outline"
         }
       ]
-    },
-    "staticNavbar": {
-      "displayName": "Enable Static Navbar",
-      "type": "boolean",
-      "cms.ui.note": "when checked the navbar will remain at the top of the page"
     }
   },
   "colorPalette": {

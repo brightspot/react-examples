@@ -1,10 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;800&family=Montserrat:wght@400;800&family=Raleway:wght@400;800&display=swap');
-
 :root {
   --accents-1: #fafafa;
-  --accents-2: #eaeaea;
-  --linkColor: #0070f3;
-  --red: #ee0120;
 }
 
 html {
@@ -19,28 +14,32 @@ body {
   line-height: 1.5;
 }
 
-.App {
-  text-align: center;
-}
-
 h1 {
   color: var(--primaryTextColor);
   margin: 0;
   font-weight: 800;
-  font-size: 6rem;
+  font-size: clamp(4rem, 10vw, 6rem);
 }
 
 h2 {
-  font-size: 2.3rem;
+  font-size: clamp(1rem, 6vw, 2rem);
 }
 
 h3 {
   margin: 0;
+  font-size: clamp(1.1rem, 5.5vw, 1.8rem);
+}
+
+p,
+a,
+li,
+button {
+  font-size: clamp(1rem, 5vw, 1.5rem);
 }
 
 a {
   text-decoration: none;
-  color: var(--linkColor);
+  color: var(--primaryColor);
 }
 
 a:hover {
@@ -48,18 +47,22 @@ a:hover {
 }
 
 footer {
+  text-align: center;
   height: 2rem;
   width: 100%;
   padding: 1rem 0;
   color: var(--secondaryTextColor);
 }
 
+section {
+  text-align: center;
+}
+
 .brightspot {
-  color: var(--red);
+  font-weight: 500;
 }
 
 .navbar {
-  height: 4rem;
   display: flex;
   align-items: center;
   padding: 1rem;
@@ -88,23 +91,23 @@ footer {
 .icon {
   font-size: 2rem;
 }
+
 .iconSpan {
   margin: 0 7px;
   color: var(--secondaryColor);
 }
 
 .title {
-  font-size: 6rem;
   margin-top: 7rem;
-  margin-bottom: 7rem;
+  margin-bottom: 4rem;
 }
 
 .accent {
   color: var(--secondaryColor);
 }
+
 .subtitle {
   color: var(--secondaryTextColor);
-  font-size: 1.5rem;
   font-weight: 400;
 }
 
@@ -116,9 +119,14 @@ footer {
   min-height: 50vh;
   background-color: var(--accents-1);
   padding: 1rem 7%;
+  margin: 3rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.animalDescription {
   max-width: 1200px;
-  margin: 3rem auto;
-  line-height: 2;
 }
 
 .sectionTitle {
@@ -134,15 +142,14 @@ footer {
   border: 1px solid var(--primaryColor);
   border-radius: 50%;
   margin-right: 1rem;
+  box-shadow: var(--primaryColor) 0px 10px 40px -10px;
 }
 
 .cardsContainer {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  padding: 1rem;
   max-width: 1200px;
-  min-width: 300px;
   margin: 0 auto;
 }
 
@@ -165,10 +172,6 @@ ul {
   text-align: left;
 }
 
-li {
-  font-size: 1.2rem;
-}
-
 .liIcon svg {
   padding-right: 17px;
   height: 20px;
@@ -177,7 +180,6 @@ li {
 
 .cardTitle {
   color: var(--secondaryColor);
-  font-size: 2.2rem;
 }
 
 .cardTitleButton {
@@ -189,7 +191,6 @@ li {
 button {
   border-radius: 7px;
   padding: 1rem;
-  font-size: 1.2rem;
   font-weight: 600;
   padding: 0.5rem 3rem;
   margin-top: 1rem;
@@ -199,6 +200,7 @@ button {
   border: solid 2px #000;
 }
 
+button:focus,
 button:hover {
   cursor: pointer;
 }
@@ -217,13 +219,15 @@ button[data-button='button-primary'] {
     linear-gradient(101deg, var(--primaryColor), var(--secondaryColor));
 }
 
+button[data-button='button-primary']:focus,
 button[data-button='button-primary']:hover {
   box-shadow: none;
   color: white;
+  box-shadow: var(--primaryColor) 0px 10px 40px -10px;
 }
 
 button[data-button='button-outline'] {
-  box-shadow: none;
+  box-shadow: var(--primaryColor) 0px 10px 40px -10px;
   color: white;
   border: solid 3px transparent;
   background-image: linear-gradient(
@@ -235,12 +239,8 @@ button[data-button='button-outline'] {
 
 button[data-button='button-outline']:hover {
   border: solid 3px transparent;
-  box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
-  border: solid 3px transparent;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  box-shadow: 2px 1000px 1px #fff inset;
-  color: var(--primaryTextColor);
+  opacity: 0.9;
+  transition: all 0.3s ease 0s, transform 0.5s ease 0s;
 }
 
 @media all and (min-width: 700px) {

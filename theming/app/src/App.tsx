@@ -41,39 +41,47 @@ function App() {
 
   return (
     <div className="App">
-      <section id="intro">
-        <div
-          className="navbar"
-          data-alignment={themeData?.NavBarAlignment}
-          data-static={themeData?.staticNavbar} // UNCOMMENT TO USE
-        >
-          <h3 className="icon">
-            <span className="iconSpan">
-              <MdPets />
-            </span>
-            Pets
-          </h3>
-        </div>
-        <div className="hero">
-          <h1 className="title">
-            Dogs. <br />
-            Cats. <br /> <span className="accent">Fun.</span>
-          </h1>
-          <h2 className="subtitle">
-            Find the perfect companion to make each day a delight!
-          </h2>
-        </div>
-        <div className="cardsContainer">
-          {animalData &&
-            animalData.map((data: AnimalData, i: number) => (
-              <Card key={i} data={data} buttonStyle={themeData?.buttonStyle} />
-            ))}
-        </div>
-      </section>
-      {animalData &&
-        animalData.map((data: AnimalData, i: number) => (
-          <Section key={i} data={data} />
-        ))}
+      <header
+        className="navbar"
+        data-alignment={themeData?.NavBarAlignment}
+        // data-static={themeData?.staticNavbar} // UNCOMMENT TO USE
+      >
+        <h3 className="icon">
+          <span className="iconSpan">
+            <MdPets />
+          </span>
+          Pets
+        </h3>
+      </header>
+      <main>
+        <section id="intro">
+          <div className="hero">
+            <h1 className="title">
+              Dogs.
+              <br />
+              Cats.
+              <br /> <span className="accent">Fun.</span>
+            </h1>
+            <h2 className="subtitle">
+              Find the perfect companion to make each day a delight!
+            </h2>
+          </div>
+          <div className="cardsContainer">
+            {animalData &&
+              animalData.map((data: AnimalData, i: number) => (
+                <Card
+                  key={i}
+                  data={data}
+                  buttonStyle={themeData?.buttonStyle}
+                />
+              ))}
+          </div>
+        </section>
+        {animalData &&
+          animalData.map((data: AnimalData, i: number) => (
+            <Section key={i} data={data} />
+          ))}
+      </main>
       <footer>
         <a
           href="https://www.brightspot.com/"

@@ -7,16 +7,14 @@ import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
+import ContentDeliveryApiThemeable from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiThemeable'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
-
-import ContentDeliveryApiThemeable from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiThemeable'
 
 import CatsViewModel from './CatsViewModel'
 import CatViewModel from './CatViewModel'
 import DogsViewModel from './DogsViewModel'
 import DogViewModel from './DogViewModel'
-
 
 export default class ThemingEndpoint extends JavaClass(
   'brightspot.example.theming.ThemingEndpoint',
@@ -25,9 +23,7 @@ export default class ThemingEndpoint extends JavaClass(
   ContentDeliveryApiThemeable
 ) {
   getPaths(): JavaSet<string> {
-    return [
-      '/graphql/delivery/theming',
-    ] as unknown as JavaSet<string>
+    return ['/graphql/delivery/theming'] as unknown as JavaSet<string>
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
@@ -38,7 +34,7 @@ export default class ThemingEndpoint extends JavaClass(
       DogsViewModel.getClass() as Class<DogsViewModel>,
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)
-      ) as unknown as List<ContentDeliveryEntryPointField>
+    ) as unknown as List<ContentDeliveryEntryPointField>
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
