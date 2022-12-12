@@ -53,6 +53,23 @@ const attrSwitch = (attr: string) => {
   }
 }
 
+const voidElements = [
+  'area',
+  'base',
+  'br',
+  'col',
+  'embed',
+  'hr',
+  'img',
+  'input',
+  'keygen',
+  'link',
+  'meta',
+  'source',
+  'track',
+  'wbr',
+]
+
 const Article = () => {
   const [article, setArticle] = useState<ArticleResponse>()
   const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL ?? ''
@@ -108,8 +125,7 @@ const Article = () => {
         visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
         visitMark: (mark, children: ReactNode[]) => {
           const element = mark.data as HtmlElement
-          if (element.name === 'br') return <br />
-          if (element.name === 'script') return <span></span> // do nothing with script
+          const isVoidElement = voidElements.includes(element.name)
 
           const attrs = element.attributes.reduce((a, b) => {
             const n: string = attrSwitch(b.name)
@@ -119,7 +135,7 @@ const Article = () => {
           return React.createElement(
             element.name,
             { ...attrs, key: `k-${key++}` },
-            children
+            isVoidElement ? null : children
           )
         },
       })}
