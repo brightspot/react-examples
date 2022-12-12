@@ -10,6 +10,7 @@ const HtmlRichTextComponent = ({
   children: ReactNode[]
 }) => {
   if (element.name === 'br') return <br />
+  if (element.name === 'script') return <span></span> // do nothing with script
 
   let key = 0
   let isImage = element.name === 'img'
