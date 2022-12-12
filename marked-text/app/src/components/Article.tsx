@@ -108,6 +108,8 @@ const Article = () => {
         visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
         visitMark: (mark, children: ReactNode[]) => {
           const element = mark.data as HtmlElement
+          if (element.name === 'br') return <br />
+
           const attrs = element.attributes.reduce((a, b) => {
             const n: string = attrSwitch(b.name)
             return { ...a, [n]: b.value }
