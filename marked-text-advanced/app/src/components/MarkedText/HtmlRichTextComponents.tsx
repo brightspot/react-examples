@@ -9,6 +9,8 @@ const HtmlRichTextComponent = ({
   element: HtmlElement
   children: ReactNode[]
 }) => {
+  if (element.name === 'br') return <br />
+
   let key = 0
   let isImage = element.name === 'img'
 
