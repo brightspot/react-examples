@@ -59,8 +59,7 @@ Finally, the front-end Next.js app uses the `getServerSideProps` function to run
 
 The following is a suggestion for learning more about client authentication with JS Classes and Brightspot:
 
-1. Try adding a new API key to the Client Auth Ssr Endpoint Client.
-2. Try changing the Next.js environment variables to use the new API key.
+1. Try adding a new API key to the Client Auth Csr Endpoint Client and update the environment variables to use the new key.
 
 > **_Note_** If you make any changes to the JS classes be sure to save the changes in Brightspot at **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Client Auth Ssr Endpoint** &rarr; **Save**
 
