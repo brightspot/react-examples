@@ -3,9 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { client } from '../../lib/client'
 
 export interface Data {
-    AllFunFacts?: {
-      funFacts?: { text: string }[]
-    }
+  AllFunFacts?: {
+    funFacts?: { text: string }[]
+  }
 }
 
 const GetAllFunFactsQuery = gql`
