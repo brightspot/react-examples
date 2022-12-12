@@ -6,7 +6,7 @@ import {
   ExternalContentRichTextElement,
 } from '../../types'
 import ExternalContentRichTextComponent from './ExternalContentRichTextComponent'
-import HtmlRichTextComponent from './HtmlRichTextComponents'
+import HtmlRichTextComponent from './HtmlRichTextComponent'
 import ImageRichTextComponent from './ImageRichTextComponent'
 
 const MarkedTextComponent = ({
@@ -23,11 +23,10 @@ const MarkedTextComponent = ({
         visitMark: (mark, children: ReactNode[]) => {
           switch (mark.data.__typename) {
             case 'RteHtmlElement':
-              const element = mark.data as HtmlElement
               return (
                 <HtmlRichTextComponent
                   key={key++}
-                  element={element}
+                  element={mark.data as HtmlElement}
                   children={children}
                 />
               )
