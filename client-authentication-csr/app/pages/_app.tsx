@@ -8,6 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <Head>
+        <title>Client Authentication CSR</title>
         <meta charSet="UTF-8" />
         <meta
           name="description"
