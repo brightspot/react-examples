@@ -1,6 +1,6 @@
 # Client Authentication - CSR
 
-This example demonstrates how to use JS Classes to use and secure an API Key connected to a Brightspot GraphQL Endpoint with a Client Side Rendering approach.
+This example demonstrates how to use JS Classes to securely use an API Key connected to a Brightspot GraphQL Endpoint with a Client Side Rendering approach.
 
 ## What you will learn
 
@@ -41,7 +41,7 @@ First, `ClientAuthCsrEndpoint` uses the `getApiAccessOption` function to return 
 
 Next, `ClientAuthEndpointClient` uses the `afterSave` function to programmatically create an API key (clientSecret) and apply it to the `ClientAuthCsrEndpoint`.
 
-> **_Note_** This example generates an API key based off of the name of the API Endpoint to make the example easier to run. The resulting key will always be the same unless the name of the API Endpoint file is changed. In a production environment, use more unique seed when generating the key.
+> **_Note_** This example generates an API key based off of the name of the API Endpoint to make the example easier to run. The resulting key will always be the same unless the name of the API Endpoint file is changed. In a production environment, use more unique characters when generating the key.
 
 Finally, the front-end Next.js app fetches data on the client side but uses [API Routes](https://nextjs.org/docs/api-routes/introduction) to hide the API call to the Brightspot GraphQL Endpoint. The API key is stored as an environment variable in the `.env` file and does not have `NEXT_PUBLIC` preprended, meaning it is not visible to the web browser.
 
@@ -60,8 +60,7 @@ Finally, the front-end Next.js app fetches data on the client side but uses [API
 
 The following is a suggestion for learning more about client authentication with JS Classes and Brightspot:
 
-1. Try adding a new API key to the Client Auth Csr Endpoint Client.
-2. Try changing the Next.js environment variables to use the new API key.
+1. Try adding a new API key to the Client Auth Csr Endpoint Client and update the environment variables to use the new key.
 
 > **_Note_** If you make any changes to the JS classes be sure to save the changes in Brightspot at **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Client Auth Csr Endpoint** &rarr; **Save**
 
