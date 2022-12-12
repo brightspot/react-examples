@@ -109,6 +109,7 @@ const Article = () => {
         visitMark: (mark, children: ReactNode[]) => {
           const element = mark.data as HtmlElement
           if (element.name === 'br') return <br />
+          if (element.name === 'script') return <span></span> // do nothing with script
 
           const attrs = element.attributes.reduce((a, b) => {
             const n: string = attrSwitch(b.name)
