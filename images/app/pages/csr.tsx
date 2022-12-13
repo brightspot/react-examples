@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import ClientOnly from '../components/ClientOnly'
-import ImagesComponent from '../components/ImagesComponent'
+import CSRImagesComponent from '../components/CSRImagesComponent'
 
 export default function ClientSide() {
   return (
@@ -12,7 +12,7 @@ export default function ClientSide() {
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
       <ClientOnly>
-        <ImagesComponent />
+        <CSRImagesComponent />
       </ClientOnly>
     </div>
   )

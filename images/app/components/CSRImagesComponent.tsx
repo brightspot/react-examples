@@ -1,7 +1,7 @@
 import { ImageSize, useGetImagesQuery } from '../generated/graphql'
-import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+import Error from 'next/error'
 
 interface CSRImage {
   __typename?: 'Image' | undefined
@@ -17,11 +17,12 @@ interface CSRImage {
     | undefined
 }
 
-const ImagesComponent = () => {
+const CSRImagesComponent = () => {
   const { data, loading, error } = useGetImagesQuery()
 
   if (loading) return <div>Loading</div>
-  if (error) return <div>{error.message}</div>
+  if (error)
+    return <Error statusCode={400} title={error?.message || 'bad request'} />
   const images = data?.Images?.items
 
   return (
@@ -31,7 +32,7 @@ const ImagesComponent = () => {
         Return to Home Page
       </Link>
       <h1>Client Side Images</h1>
-      {!images ? (
+      {!images || images.length <= 0 ? (
         <h2 className={styles.noImage}>
           Add an{' '}
           <a
@@ -100,4 +101,4 @@ const ImagesComponent = () => {
   )
 }
 
-export default ImagesComponent
+export default CSRImagesComponent

@@ -14,7 +14,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
-      <div className={styles.homePagContainer}>
+      <div className={styles.homePageContainer}>
         <h1 className={styles.mainTitle}>Brightspot Images</h1>
         <p>
           <Link className={styles.link} href="/csr">

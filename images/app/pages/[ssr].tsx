@@ -4,29 +4,23 @@ import styles from '../styles/Home.module.css'
 import { client } from '../lib/client'
 import { GetImagesDetailedDocument } from '../generated/graphql'
 import Link from 'next/link'
+import Picture from '../components/Picture'
 
-import ImageUrlCreator from '../lib/imageUrlClass'
+import ImageUrlCreator from '../lib/ImageUrlCreator'
 import { CustomImage, CustomImageSize, Settings } from '../lib/types'
+import Error from 'next/error'
 
 interface Props {
-  imageUrlArray: {
+  imageUrlArray?: {
     imageUrl: string | undefined
     imageName: string | undefined
     imageUrlSrcSet: { [key: string]: string } | undefined
   }[]
-  errors: any
+  errorMessage?: string
 }
 
-const ServerSide = ({ imageUrlArray, errors }: Props) => {
-  if (errors) return <div>Error Occured</div>
-
-  if (!imageUrlArray || imageUrlArray.length === 0) {
-    return (
-      <div>
-        <div>404</div>
-      </div>
-    )
-  }
+const ServerSide = ({ imageUrlArray, errorMessage }: Props) => {
+  if (errorMessage) return <Error statusCode={500} title={errorMessage} />
 
   return (
     <div className={styles.container}>
@@ -40,7 +34,7 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
         Return to Home Page
       </Link>
       <h1>Server Side Images</h1>
-      {!imageUrlArray ? (
+      {imageUrlArray && imageUrlArray.length <= 0 ? (
         <h2 className={styles.noImage}>
           Add an{' '}
           <a
@@ -54,60 +48,19 @@ const ServerSide = ({ imageUrlArray, errors }: Props) => {
         </h2>
       ) : (
         <div className={styles.imagesContainer}>
-          {imageUrlArray.map(
-            (
-              url: {
-                imageUrl: string | undefined
-                imageName: string | undefined
-                imageUrlSrcSet: { [key: string]: string } | undefined
-              },
-              i: number
-            ) => {
-              return (
-                <picture key={i}>
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['400w']}
-                    media="(max-width: 360px)"
-                  />
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['500w']}
-                    media="(max-width: 460px)"
-                  />
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['600w']}
-                    media="(max-width: 560px)"
-                  />
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['600w']}
-                    media="(max-width: 660px)"
-                  />
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['700w']}
-                    media="(max-width: 760px)"
-                  />
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['800w']}
-                    media="(max-width: 860px)"
-                  />
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['900w']}
-                    media="(max-width: 960px)"
-                  />
-                  <source
-                    srcSet={url.imageUrlSrcSet?.['1000w']}
-                    media="(min-width: 970px)"
-                  />
-                  <img
-                    src={url.imageUrl || ''}
-                    alt={url.imageName}
-                    className={styles.image}
-                    height={1000}
-                    width={1000}
-                  />
-                </picture>
-              )
-            }
-          )}
+          {imageUrlArray &&
+            imageUrlArray.map(
+              (
+                url: {
+                  imageUrl: string | undefined
+                  imageName: string | undefined
+                  imageUrlSrcSet: { [key: string]: string } | undefined
+                },
+                i: number
+              ) => {
+                return <Picture url={url} key={i} />
+              }
+            )}
         </div>
       )}
     </div>
@@ -183,6 +136,8 @@ export const getStaticProps: GetStaticProps = async () => {
         const imageUrlCreator = new ImageUrlCreator(settings, image, size)
         const imageUrl = imageUrlCreator.generateUrl()
         const imageUrlSrcSet = imageUrlCreator.toSrcset()?.srcsetUrlsHashMap
+        const imageUrlSrcSetString =
+          imageUrlCreator.toSrcset()?.srcsetUrlsString
         imageUrlArray.push({
           imageUrl: imageUrl,
           imageName: size?.name || '',
@@ -196,10 +151,14 @@ export const getStaticProps: GetStaticProps = async () => {
         imageUrlArray,
       },
     }
-  } catch (errors: any) {
-    const props = { message: 'an error occurred' }
-    console.log({ errors })
-    return { props }
+  } catch (error: any) {
+    const errorMessage =
+      error?.message || 'an error occurred processing the fetch request'
+    return {
+      props: {
+        errorMessage,
+      },
+    }
   }
 }
 

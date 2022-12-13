@@ -121,7 +121,7 @@ class ImageUrlCreator implements CustomImageConfiguration {
     let cropWidth
     let cropHeight
 
-    // Editorial crop?
+    // Editorial crop
     let crops = this.image.crops
     let crop
     if (crops !== undefined) {
