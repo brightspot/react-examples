@@ -40,27 +40,9 @@ export default class ImageRichTextElement extends JavaClass(
   @JavaField(String)
   static IMAGE_ATTRIBUTE: string = 'data-image'
 
-  @JavaField(String)
-  static WITH_BORDER_ATTRIBUTE: string = 'data-border'
-
-  @JavaField(String)
-  static STRETCHED_ATTRIBUTE: string = 'data-stretched'
-
-  @JavaField(String)
-  static WITH_BACKGROUND_ATTRIBUTE: string = 'data-background'
-
   @Required
   @JavaField(Image)
-  image: Image
-
-  @JavaField(Boolean)
-  withBorder: boolean
-
-  @JavaField(Boolean)
-  stretched: boolean
-
-  @JavaField(Boolean)
-  withBackground: boolean;
+  image: Image;
 
   [`fromAttributes(java.util.Map)`](attributes: Map<string, string>): void {
     if (attributes !== null) {
@@ -77,24 +59,6 @@ export default class ImageRichTextElement extends JavaClass(
       } else {
         this.image = null
       }
-
-      let dataBorder = attributes.get(
-        ImageRichTextElement.WITH_BORDER_ATTRIBUTE
-      )
-
-      this.withBorder = dataBorder ? true : false
-
-      let dataStretched = attributes.get(
-        ImageRichTextElement.STRETCHED_ATTRIBUTE
-      )
-
-      this.stretched = dataStretched ? true : false
-
-      let dataBackground = attributes.get(
-        ImageRichTextElement.WITH_BACKGROUND_ATTRIBUTE
-      )
-
-      this.withBackground = dataBackground ? true : false
     } else {
       this.image = null
     }
@@ -107,27 +71,6 @@ export default class ImageRichTextElement extends JavaClass(
       attributes.put(
         ImageRichTextElement.IMAGE_ATTRIBUTE,
         this.image.getId().toString()
-      )
-    }
-
-    if (this.withBorder) {
-      attributes.put(
-        ImageRichTextElement.WITH_BORDER_ATTRIBUTE,
-        this.withBorder.toString()
-      )
-    }
-
-    if (this.stretched) {
-      attributes.put(
-        ImageRichTextElement.STRETCHED_ATTRIBUTE,
-        this.stretched.toString()
-      )
-    }
-
-    if (this.withBackground) {
-      attributes.put(
-        ImageRichTextElement.WITH_BACKGROUND_ATTRIBUTE,
-        this.withBackground.toString()
       )
     }
 

@@ -51,22 +51,4 @@ export default class ImageRichTextElementViewModel extends JavaClass(
   getCredit(): CharSequence {
     return Optional.ofNullable(this.model.image.credit).orElse(null)
   }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(Boolean)
-  getWithBorder(): boolean {
-    return this.model.withBorder
-  }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(Boolean)
-  getStretched(): boolean {
-    return this.model.stretched
-  }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(Boolean)
-  getWithBackground(): boolean {
-    return this.model.withBackground
-  }
 }

@@ -47,14 +47,7 @@ fragment ExternalContentElement on ExternalContentRichTextElement {
       end
       descendants
       data {
-        ... on RteHtmlElement {
-          __typename
-          name
-          attributes {
-            name
-            value
-          }
-        }
+        ...HtmlElement
       }
     }
   }
@@ -72,8 +65,5 @@ fragment ImageElement on ImageRichTextElement {
   }
   caption
   credit
-  withBorder
-  withBackground
-  stretched
 }
 `
