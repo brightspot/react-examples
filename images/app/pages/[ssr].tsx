@@ -58,7 +58,16 @@ const ServerSide = ({ imageUrlArray, errorMessage }: Props) => {
                 },
                 i: number
               ) => {
-                return <Picture url={url} key={i} />
+                return (
+                  <Picture
+                    imageUrl={url.imageUrl || ''}
+                    imageName={url.imageName || ''}
+                    imageUrlSrcSet={url.imageUrlSrcSet || {}}
+                    key={i}
+                    height={1000}
+                    width={1000}
+                  />
+                )
               }
             )}
         </div>

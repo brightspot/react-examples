@@ -2,6 +2,7 @@ import { ImageSize, useGetImagesQuery } from '../generated/graphql'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import Error from 'next/error'
+import Picture from './Picture'
 
 interface CSRImage {
   __typename?: 'Image' | undefined
@@ -49,48 +50,21 @@ const CSRImagesComponent = () => {
           {images?.map((image: CSRImage | null) =>
             image?.imageFile?.sizes?.map(
               (item: Partial<ImageSize>, k: number) => {
+                const imageUrlSrcSet = {
+                  '400w': item?.srcSets?.[1]?.src || '',
+                  '500w': item?.srcSets?.[2]?.src || '',
+                  '600w': item?.srcSets?.[3]?.src || '',
+                  '700w': item?.srcSets?.[4]?.src || '',
+                  '800w': item?.srcSets?.[5]?.src || '',
+                  '900w': item?.srcSets?.[6]?.src || '',
+                  '1000w': item?.srcSets?.[7]?.src || ''
+                }
                 return (
-                  <picture key={k}>
-                    <source
-                      srcSet={item?.srcSets?.[1]?.src || ''}
-                      media="(max-width: 360px)"
-                    />
-                    <source
-                      srcSet={item?.srcSets?.[2]?.src || ''}
-                      media="(max-width: 460px)"
-                    />
-                    <source
-                      srcSet={item?.srcSets?.[3]?.src || ''}
-                      media="(max-width: 560px)"
-                    />
-                    <source
-                      srcSet={item?.srcSets?.[4]?.src || ''}
-                      media="(max-width: 660px)"
-                    />
-                    <source
-                      srcSet={item?.srcSets?.[5]?.src || ''}
-                      media="(max-width: 760px)"
-                    />
-                    <source
-                      srcSet={item?.srcSets?.[6]?.src || ''}
-                      media="(max-width: 860px)"
-                    />
-                    <source
-                      srcSet={item?.srcSets?.[7]?.src || ''}
-                      media="(max-width: 960px)"
-                    />
-                    <source
-                      srcSet={item?.srcSets?.[9]?.src || ''}
-                      media="(min-width: 970px)"
-                    />
-                    <img
-                      src={item?.src || ''}
-                      alt={item?.name || ''}
-                      className={styles.image}
-                      height={1000}
-                      width={1000}
-                    />
-                  </picture>
+                  <Picture imageUrl={item?.src || ''} imageName={item?.name || ''} 
+                  imageUrlSrcSet={imageUrlSrcSet} key={k}
+                  height={1000}
+                  width={1000}
+                  />
                 )
               }
             )
