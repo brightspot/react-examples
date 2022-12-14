@@ -50,20 +50,25 @@ const CSRImagesComponent = () => {
           {images?.map((image: CSRImage | null) =>
             image?.imageFile?.sizes?.map(
               (item: Partial<ImageSize>, k: number) => {
-                const imageUrlSrcSet = {
-                  '400w': item?.srcSets?.[1]?.src || '',
-                  '500w': item?.srcSets?.[2]?.src || '',
-                  '600w': item?.srcSets?.[3]?.src || '',
-                  '700w': item?.srcSets?.[4]?.src || '',
-                  '800w': item?.srcSets?.[5]?.src || '',
-                  '900w': item?.srcSets?.[6]?.src || '',
-                  '1000w': item?.srcSets?.[7]?.src || ''
+                let imageUrlSrcSet: any = []
+                let counter = 0
+                if (item?.width && item?.width > 200) {
+                  for (let i: number = item.width - 200; i > 0; i -= 100) {
+                    imageUrlSrcSet.push({
+                      width: item.width - i,
+                      srcSet: item?.srcSets?.[counter]?.src || '',
+                    })
+                    counter++
+                  }
                 }
                 return (
-                  <Picture imageUrl={item?.src || ''} imageName={item?.name || ''} 
-                  imageUrlSrcSet={imageUrlSrcSet} key={k}
-                  height={1000}
-                  width={1000}
+                  <Picture
+                    imageUrl={item?.src || ''}
+                    imageName={item?.name || ''}
+                    imageUrlSrcSet={imageUrlSrcSet}
+                    key={k}
+                    height={item?.height || 100}
+                    width={item?.width || 100}
                   />
                 )
               }

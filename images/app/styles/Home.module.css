@@ -19,11 +19,6 @@
   max-width: 90vw;
 }
 
-.imageDefault {
-  height: 1000px;
-  width: 1000px;
-}
-
 .csrImageContainer {
   position: relative;
   display: block;

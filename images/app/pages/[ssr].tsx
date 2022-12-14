@@ -5,7 +5,6 @@ import { client } from '../lib/client'
 import { GetImagesDetailedDocument } from '../generated/graphql'
 import Link from 'next/link'
 import Picture from '../components/Picture'
-
 import ImageUrlCreator from '../lib/ImageUrlCreator'
 import { CustomImage, CustomImageSize, Settings } from '../lib/types'
 import Error from 'next/error'
@@ -58,11 +57,18 @@ const ServerSide = ({ imageUrlArray, errorMessage }: Props) => {
                 },
                 i: number
               ) => {
+                const srcSetArray = []
+                for (const key in url.imageUrlSrcSet) {
+                  srcSetArray.push({
+                    width: parseInt(key.slice(0, -1)),
+                    srcSet: url.imageUrlSrcSet[key],
+                  })
+                }
                 return (
                   <Picture
                     imageUrl={url.imageUrl || ''}
                     imageName={url.imageName || ''}
-                    imageUrlSrcSet={url.imageUrlSrcSet || {}}
+                    imageUrlSrcSet={srcSetArray}
                     key={i}
                     height={1000}
                     width={1000}
@@ -145,8 +151,6 @@ export const getStaticProps: GetStaticProps = async () => {
         const imageUrlCreator = new ImageUrlCreator(settings, image, size)
         const imageUrl = imageUrlCreator.generateUrl()
         const imageUrlSrcSet = imageUrlCreator.toSrcset()?.srcsetUrlsHashMap
-        const imageUrlSrcSetString =
-          imageUrlCreator.toSrcset()?.srcsetUrlsString
         imageUrlArray.push({
           imageUrl: imageUrl,
           imageName: size?.name || '',

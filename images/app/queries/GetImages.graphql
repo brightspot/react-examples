@@ -3,7 +3,7 @@ query GetImages {
     items {
       imageFile {
         filename
-        sizes(names: "1-1-large") {
+        sizes {
           name
           src
           width
