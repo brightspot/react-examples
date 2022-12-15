@@ -2,7 +2,6 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Error from 'next/error'
 import Picture from '../components/Picture'
-import Header from '../components/Header'
 import { ImageSize, useGetImagesQuery } from '../generated/graphql'
 
 interface CSRImage {
@@ -30,10 +29,7 @@ export default function ClientSide() {
     <div className={styles.container}>
       <Head>
         <title>CSR Images</title>
-        <meta name="description" content="CSR Images powered by Brightspot" />
-        <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
-      <Header />
       {!images || images.length <= 0 ? (
         <div className={styles.homePageContainer}>
           <h1 className={styles.topText}>🤔</h1>
@@ -46,18 +42,20 @@ export default function ClientSide() {
           {images?.map((image: CSRImage | null) =>
             image?.imageFile?.sizes?.map(
               (item: Partial<ImageSize>, k: number) => {
-                console.log('ITEM: ', item)
                 let imageUrlSrcSet: any = []
                 let counter = 0
                 if (item?.width && item?.width > 200) {
                   for (let i: number = item.width - 200; i > 0; i -= 100) {
-                    // let char
-                    // if (!!item?.srcSets?.[counter]?.size?.length && item.srcSets[counter].size.length > 0)
-                    // if(item?.srcSets?.[counter]?.size !== null &&  item?.srcSets?.[counter]?.size !== undefined && item.srcSets[counter].size.charAt(item.srcSets[counter].size.length -1))
-                    imageUrlSrcSet.push({
-                      width: item.width - i,
-                      srcSet: item?.srcSets?.[counter]?.src || '',
-                    })
+                    if (
+                      item?.srcSets?.[counter]?.size?.length &&
+                      item?.srcSets?.[counter]?.size?.charAt(
+                        item?.srcSets?.[counter]?.size?.length! - 1
+                      ) === 'w'
+                    )
+                      imageUrlSrcSet.push({
+                        width: item.width - i,
+                        srcSet: item?.srcSets?.[counter]?.src || '',
+                      })
                     counter++
                   }
                 }

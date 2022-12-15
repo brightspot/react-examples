@@ -7,7 +7,6 @@ import Picture from '../components/Picture'
 import ImageUrlCreator from '../lib/ImageUrlCreator'
 import { CustomImage, CustomImageSize, Settings } from '../lib/types'
 import Error from 'next/error'
-import Header from '../components/Header'
 
 interface ImageUrlArray {
   imageUrl: string | undefined
@@ -29,10 +28,7 @@ const ServerSide = ({ imageUrlArray, errorMessage }: Props) => {
     <div className={styles.container}>
       <Head>
         <title>SSR Images</title>
-        <meta name="description" content="SSR Images powered by Brightspot" />
-        <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
-      <Header />
       {imageUrlArray && imageUrlArray.length <= 0 ? (
         <div className={styles.homePageContainer}>
           <h1 className={styles.topText}>🤔</h1>
@@ -136,7 +132,7 @@ export const getStaticProps: GetStaticProps = async () => {
           height: 800,
           quality: 90,
           format: 'webp',
-          descriptors: ['1x', '2x', '300w'],
+          descriptors: ['200w', '300w', '400w', '500w'],
         }
 
         const square: CustomImageSize = {
