@@ -1,20 +1,24 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import { client } from '../lib/client'
+import styles from '../styles/Home.module.css'
 import { GetImagesDetailedDocument } from '../generated/graphql'
-import Link from 'next/link'
 import Picture from '../components/Picture'
 import ImageUrlCreator from '../lib/ImageUrlCreator'
 import { CustomImage, CustomImageSize, Settings } from '../lib/types'
 import Error from 'next/error'
+import Header from '../components/Header'
+
+interface ImageUrlArray {
+  imageUrl: string | undefined
+  imageName: string | undefined
+  imageUrlSrcSet: { [key: string]: string } | undefined
+  height: number
+  width: number
+}
 
 interface Props {
-  imageUrlArray?: {
-    imageUrl: string | undefined
-    imageName: string | undefined
-    imageUrlSrcSet: { [key: string]: string } | undefined
-  }[]
+  imageUrlArray?: ImageUrlArray[]
   errorMessage?: string
 }
 
@@ -28,54 +32,36 @@ const ServerSide = ({ imageUrlArray, errorMessage }: Props) => {
         <meta name="description" content="SSR Images powered by Brightspot" />
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
-      <Link className={styles.link} href={'/'}>
-        {' '}
-        Return to Home Page
-      </Link>
-      <h1>Server Side Images</h1>
+      <Header />
       {imageUrlArray && imageUrlArray.length <= 0 ? (
-        <h2 className={styles.noImage}>
-          Add an{' '}
-          <a
-            target="_blank"
-            href="http://localhost/cms/"
-            className={styles.noImageLink}
-            rel="noreferrer"
-          >
-            image 😉
-          </a>{' '}
-        </h2>
+        <div className={styles.homePageContainer}>
+          <h1 className={styles.topText}>🤔</h1>
+          <div className={styles.bottomTextContainer}>
+            <h2 className={styles.bottomText}>No Images</h2>
+          </div>
+        </div>
       ) : (
         <div className={styles.imagesContainer}>
           {imageUrlArray &&
-            imageUrlArray.map(
-              (
-                url: {
-                  imageUrl: string | undefined
-                  imageName: string | undefined
-                  imageUrlSrcSet: { [key: string]: string } | undefined
-                },
-                i: number
-              ) => {
-                const srcSetArray = []
-                for (const key in url.imageUrlSrcSet) {
-                  srcSetArray.push({
-                    width: parseInt(key.slice(0, -1)),
-                    srcSet: url.imageUrlSrcSet[key],
-                  })
-                }
-                return (
-                  <Picture
-                    imageUrl={url.imageUrl || ''}
-                    imageName={url.imageName || ''}
-                    imageUrlSrcSet={srcSetArray}
-                    key={i}
-                    height={1000}
-                    width={1000}
-                  />
-                )
+            imageUrlArray.map((url: ImageUrlArray, i: number) => {
+              const srcSetArray = []
+              for (const key in url.imageUrlSrcSet) {
+                srcSetArray.push({
+                  width: parseInt(key.slice(0, -1)),
+                  srcSet: url.imageUrlSrcSet[key],
+                })
               }
-            )}
+              return (
+                <Picture
+                  imageUrl={url.imageUrl || ''}
+                  imageName={url.imageName || ''}
+                  imageUrlSrcSet={srcSetArray}
+                  key={i}
+                  height={url.height}
+                  width={url.width}
+                />
+              )
+            })}
         </div>
       )}
     </div>
@@ -88,9 +74,11 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps = async () => {
   let imageUrlArray: {
-    imageUrl: string | undefined
-    imageName: string | undefined
+    imageUrl: string
+    imageName: string
     imageUrlSrcSet: { [key: string]: string } | undefined
+    height: number
+    width: number
   }[] = []
   try {
     const { data } = await client.query({
@@ -130,31 +118,46 @@ export const getStaticProps: GetStaticProps = async () => {
             sharpen: images[i]?.imageFile?.edits?.sharpen,
           },
         }
-        const size: CustomImageSize = {
-          name: 'big-image',
-          width: 1080,
-          height: 1080,
+
+        const rectangle: CustomImageSize = {
+          name: 'rectangle',
+          width: 600,
+          height: 400,
           quality: 90,
           format: 'webp',
-          descriptors: [
-            '200w',
-            '300w',
-            '400w',
-            '500w',
-            '600w',
-            '700w',
-            '800w',
-            '900w',
-            '1000w',
-          ],
+          descriptors: ['200w', '300w', '400w', '500w'],
         }
-        const imageUrlCreator = new ImageUrlCreator(settings, image, size)
-        const imageUrl = imageUrlCreator.generateUrl()
-        const imageUrlSrcSet = imageUrlCreator.toSrcset()?.srcsetUrlsHashMap
-        imageUrlArray.push({
-          imageUrl: imageUrl,
-          imageName: size?.name || '',
-          imageUrlSrcSet: imageUrlSrcSet,
+
+        const tall: CustomImageSize = {
+          name: 'tall',
+          width: 600,
+          height: 800,
+          quality: 90,
+          format: 'webp',
+          descriptors: ['200w', '300w', '400w', '500w'],
+        }
+
+        const square: CustomImageSize = {
+          name: 'square',
+          width: 600,
+          height: 600,
+          quality: 90,
+          format: 'webp',
+          descriptors: ['200w', '300w', '400w', '500w'],
+        }
+        const sizes: CustomImageSize[] = [square, rectangle, tall]
+
+        sizes.forEach((size) => {
+          const imageUrlCreator = new ImageUrlCreator(settings, image, size)
+          const imageUrl = imageUrlCreator.generateUrl()
+          const imageUrlSrcSet = imageUrlCreator.toSrcset()?.srcsetUrlsHashMap
+          imageUrlArray.push({
+            imageUrl: imageUrl,
+            imageName: size?.name || '',
+            imageUrlSrcSet: imageUrlSrcSet,
+            height: size.height || 100,
+            width: size.width || 100,
+          })
         })
       }
     }

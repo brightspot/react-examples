@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import Header from '../components/Header'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -14,18 +15,20 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />
       </Head>
+      <Header />
       <div className={styles.homePageContainer}>
-        <h1 className={styles.mainTitle}>Brightspot Images</h1>
-        <p>
+        <h2 className={styles.topText}>
           <Link className={styles.link} href="/csr">
-            Client-side Rendering
+            Client-side
           </Link>
-        </p>
-        <p>
-          <Link className={styles.link} href="/ssr">
-            Server-side Rendering
-          </Link>
-        </p>
+        </h2>
+        <div className={styles.bottomTextContainer}>
+          <h2 className={styles.bottomText}>
+            <Link className={styles.link} href="/ssr">
+              Server-side
+            </Link>
+          </h2>
+        </div>
       </div>
     </div>
   )
