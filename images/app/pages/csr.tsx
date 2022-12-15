@@ -46,10 +46,14 @@ export default function ClientSide() {
           {images?.map((image: CSRImage | null) =>
             image?.imageFile?.sizes?.map(
               (item: Partial<ImageSize>, k: number) => {
+                console.log('ITEM: ', item)
                 let imageUrlSrcSet: any = []
                 let counter = 0
                 if (item?.width && item?.width > 200) {
                   for (let i: number = item.width - 200; i > 0; i -= 100) {
+                    // let char
+                    // if (!!item?.srcSets?.[counter]?.size?.length && item.srcSets[counter].size.length > 0)
+                    // if(item?.srcSets?.[counter]?.size !== null &&  item?.srcSets?.[counter]?.size !== undefined && item.srcSets[counter].size.charAt(item.srcSets[counter].size.length -1))
                     imageUrlSrcSet.push({
                       width: item.width - i,
                       srcSet: item?.srcSets?.[counter]?.src || '',

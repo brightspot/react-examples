@@ -169,7 +169,11 @@ export type GetImagesQuery = {
           src?: string | null
           width?: number | null
           height?: number | null
-          srcSets: Array<{ __typename?: 'ImageSrcSet'; src?: string | null }>
+          srcSets: Array<{
+            __typename?: 'ImageSrcSet'
+            src?: string | null
+            size?: string | null
+          }>
         }>
       } | null
     } | null> | null
@@ -258,6 +262,7 @@ export const GetImagesDocument = gql`
             height
             srcSets {
               src
+              size
             }
           }
         }

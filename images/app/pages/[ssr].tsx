@@ -46,10 +46,12 @@ const ServerSide = ({ imageUrlArray, errorMessage }: Props) => {
             imageUrlArray.map((url: ImageUrlArray, i: number) => {
               const srcSetArray = []
               for (const key in url.imageUrlSrcSet) {
-                srcSetArray.push({
-                  width: parseInt(key.slice(0, -1)),
-                  srcSet: url.imageUrlSrcSet[key],
-                })
+                if (key.charAt(key.length - 1) === 'w') {
+                  srcSetArray.push({
+                    width: parseInt(key.slice(0, -1)),
+                    srcSet: url.imageUrlSrcSet[key],
+                  })
+                }
               }
               return (
                 <Picture
@@ -134,7 +136,7 @@ export const getStaticProps: GetStaticProps = async () => {
           height: 800,
           quality: 90,
           format: 'webp',
-          descriptors: ['200w', '300w', '400w', '500w'],
+          descriptors: ['1x', '2x', '300w'],
         }
 
         const square: CustomImageSize = {
