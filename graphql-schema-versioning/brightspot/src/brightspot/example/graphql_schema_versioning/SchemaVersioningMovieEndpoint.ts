@@ -2,7 +2,7 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
-import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
+import ContentDeliveryApiEndpointV1 from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpointV1'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
@@ -13,7 +13,7 @@ import AllMoviesViewModel from './AllMoviesViewModel'
 
 export default class SchemaVersioningMovieEndpoint extends JavaClass(
   'brightspot.example.graphql_schema_versioning.SchemaVersioningMovieEndpoint',
-  ContentDeliveryApiEndpoint,
+  ContentDeliveryApiEndpointV1,
   Singleton
 ) {
   [`getPaths()`](): JavaSet<string> {
@@ -21,7 +21,7 @@ export default class SchemaVersioningMovieEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [AllMoviesViewModel.class].map(
+    return [AllMoviesViewModel.getClass()].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }

@@ -20,8 +20,8 @@ export default class AllMoviesViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(MovieViewModel))
   getMovies(): List<MovieViewModel> {
     return this.createViews(
-      MovieViewModel.class,
-      Query.from(Movie.class).selectAll()
+      MovieViewModel.getClass(),
+      Query.from(Movie.getClass()).selectAll()
     ) as List<MovieViewModel>
   }
 }
