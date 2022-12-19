@@ -2,7 +2,7 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
-import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
+import ContentDeliveryApiEndpointV1 from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpointV1'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
@@ -15,7 +15,7 @@ import ArticleViewModel from './ArticleViewModel'
 @DisplayName({ value: 'Marked Text: Articles' })
 export default class ArticleEndpoint extends JavaClass(
   'brightspot.example.marked_text.ArticleEndpoint',
-  ContentDeliveryApiEndpoint,
+  ContentDeliveryApiEndpointV1,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
