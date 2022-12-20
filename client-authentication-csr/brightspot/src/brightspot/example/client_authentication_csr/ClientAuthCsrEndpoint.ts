@@ -2,7 +2,7 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
-import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
+import ContentDeliveryApiEndpointV1 from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpointV1'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionExplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionExplicit'
@@ -13,7 +13,7 @@ import AllFunFactsViewModel from './AllFunFactsViewModel'
 
 export default class ClientAuthCsrEndpoint extends JavaClass(
   'brightspot.example.client_authentication_csr.ClientAuthCsrEndpoint',
-  ContentDeliveryApiEndpoint,
+  ContentDeliveryApiEndpointV1,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
