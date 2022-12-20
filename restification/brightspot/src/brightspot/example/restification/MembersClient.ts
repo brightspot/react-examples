@@ -1,5 +1,5 @@
-import ArrayList from 'brightspot-types/java/util/ArrayList'
 import JavaClass from 'brightspot-types/JavaClass'
+import ArrayList from 'brightspot-types/java/util/ArrayList'
 import JavaDate from 'brightspot-types/java/util/Date'
 import JavaSet from 'brightspot-types/java/util/Set'
 
@@ -35,7 +35,7 @@ export default class MembersClient extends JavaClass(
       let endpoints = new ArrayList<ApiEndpoint>(client.getEndpoints())
       endpoints['add(java.lang.Object)'](original)
 
-      client.setEndpoints(endpoints as unknown as JavaSet<ApiEndpoint>)
+      client.setEndpoints(endpoints as JavaSet<ApiEndpoint>)
       client.saveImmediately()
     }
 

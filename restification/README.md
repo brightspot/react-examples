@@ -129,7 +129,7 @@ Test this in the inluded React App.
 CD to the 'app' directory in the terminal and run:
 
 ```sh
-yarn && yarn codegen && yarn start
+yarn start
 ```
 
 Navigate to `http://localhost:3000/` in the web browser and see the text from the published content.
