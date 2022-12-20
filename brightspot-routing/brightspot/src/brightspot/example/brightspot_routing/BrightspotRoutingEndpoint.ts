@@ -28,10 +28,10 @@ export default class BrightspotRoutingEndpoint extends JavaClass(
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
-      AllArticlesViewModel.class as Class<AllArticlesViewModel>,
-      AllSectionsViewModel.class as Class<AllSectionsViewModel>,
-      ArticleViewModel.class as Class<ArticleViewModel>,
-      SectionViewModel.class as Class<SectionViewModel>,
+      AllArticlesViewModel.getClass(),
+      AllSectionsViewModel.getClass(),
+      ArticleViewModel.getClass(),
+      SectionViewModel.getClass(),
       // TODO: add marker interface
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)

@@ -47,7 +47,7 @@ export default class ArticleViewModel extends JavaClass(
     // TODO: remove null check once createView null object issue is resolved
     if (this.model.section) {
       return this.createView(
-        SectionViewModel.class as Class<SectionViewModel>,
+        SectionViewModel.getClass(),
         this.model.section
       )
     } else return null
@@ -57,7 +57,7 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodReturn(DirectoryDataViewModel)
   getDirectoryData(): DirectoryDataViewModel {
     return this.createView(
-      DirectoryDataViewModel.class as Class<DirectoryDataViewModel>,
+      DirectoryDataViewModel.getClass(),
       this.model.as(DirectoryData.class)
     )
   }

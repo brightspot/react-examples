@@ -35,12 +35,12 @@ export default class SectionViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
-    const articles = Query.from(Article.class)
+    const articles = Query.from(Article.getClass())
       .where('section = ?', this.model)
       .selectAll()
 
     return super.createViews(
-      ArticleViewModel.class as Class<ArticleViewModel>,
+      ArticleViewModel.getClass(),
       articles
     ) as unknown as List<ArticleViewModel>
   }
@@ -49,7 +49,7 @@ export default class SectionViewModel extends JavaClass(
   @JavaMethodReturn(DirectoryDataViewModel)
   getDirectoryData(): DirectoryDataViewModel {
     return this.createView(
-      DirectoryDataViewModel.class as Class<DirectoryDataViewModel>,
+      DirectoryDataViewModel.getClass(),
       this.model.as(DirectoryData.class)
     )
   }

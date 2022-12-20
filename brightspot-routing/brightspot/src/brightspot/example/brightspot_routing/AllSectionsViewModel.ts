@@ -22,8 +22,8 @@ export default class AllSectionsViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(SectionViewModel))
   getSections(): List<SectionViewModel> {
     return this.createViews(
-      SectionViewModel.class as Class<SectionViewModel>,
-      Query.from(Section.class)
+      SectionViewModel.getClass() as Class<SectionViewModel>,
+      Query.from(Section.getClass())
         .where(DirectoryStatic.hasPathPredicate())
         .selectAll()
     ) as List<SectionViewModel>
