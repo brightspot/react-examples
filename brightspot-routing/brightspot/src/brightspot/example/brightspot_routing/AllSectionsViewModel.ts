@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
@@ -22,7 +21,7 @@ export default class AllSectionsViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(SectionViewModel))
   getSections(): List<SectionViewModel> {
     return this.createViews(
-      SectionViewModel.getClass() as Class<SectionViewModel>,
+      SectionViewModel.getClass(),
       Query.from(Section.getClass())
         .where(DirectoryStatic.hasPathPredicate())
         .selectAll()

@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
