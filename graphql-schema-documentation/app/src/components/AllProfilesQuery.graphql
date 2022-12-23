@@ -1,0 +1,11 @@
+query AllProfiles {
+  AllProfiles {
+    ListOfProfiles: profiles {
+      displayName
+      favoriteBook
+      favoriteFood
+      favoriteSong
+      favoriteSport
+    }
+  }
+}
