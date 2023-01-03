@@ -37,12 +37,12 @@
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 1px solid #ee0120;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  border-color: #ee0120;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 25rem;
 }
 
 .card:hover h2,
@@ -62,9 +62,40 @@
   line-height: 1.5;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+.carousel {
+  width: 25rem;
+  text-align: center;
+}
+
+.carousel > a {
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #ee0120;
+  color: white;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;
+  margin: 0.5rem 0.5rem 0 0;
+  position: relative;
+}
+
+.carousel > a:hover {
+  background: #e0e0e0;
+  border: 1px solid #ee0120;
+  color: black;
+}
+
+.carousel > a:focus {
+  background: white;
+  border: 1px solid #ee0120;
+  color: black;
+}
+
+.slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }

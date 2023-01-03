@@ -37,17 +37,26 @@ const Home: NextPage = () => {
   }
   if (data?.AllFunFacts?.funFacts?.length === 0) return <EmptyList />
 
+  const carouselSlides = data?.AllFunFacts?.funFacts?.map((funFact, index) => (
+    <div className={styles.card} id={`slide-${index + 1}`} key={index}>
+      <h2 className={styles.title}>Did You Know...?</h2>
+      <p className={styles.description}>{funFact.text}</p>
+    </div>
+  ))
+
+  const carouselButtons = data?.AllFunFacts?.funFacts?.map((element, index) => (
+    <a href={`#slide-${index + 1}`} key={index + 1}>
+      {index + 1}
+    </a>
+  ))
+
   return (
     <div className={styles.container}>
       <div className={styles.main}>
         <h1 className={styles.title}>Fun Facts</h1>
-        <div className={styles.grid}>
-          {data?.AllFunFacts?.funFacts?.map((funFact, index) => (
-            <div className={styles.card} key={index}>
-              <h2 className={styles.title}>Did You Know...?</h2>
-              <p className={styles.description}>{funFact.text}</p>
-            </div>
-          ))}
+        <div className={styles.carousel}>
+          <div className={styles.slides}>{carouselSlides}</div>
+          {carouselButtons}
         </div>
       </div>
     </div>
