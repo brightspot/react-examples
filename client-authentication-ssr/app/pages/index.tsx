@@ -3,6 +3,8 @@ import type { NextPage, GetServerSideProps } from 'next'
 import { client } from '../lib/client'
 import styles from '../styles/Home.module.css'
 
+import EmptyList from '../components/EmptyList'
+
 const GetAllFunFactsQuery = gql`
   query AllFunFacts {
     AllFunFacts {
@@ -31,31 +33,28 @@ const Home: NextPage<Props> = ({ data, errors }) => {
     )
   }
 
-  if (data?.AllFunFacts?.funFacts?.length === 0) {
-    return (
-      <div className={styles.main}>
-        <h1 className={styles.title}>Nothing Here 🧐</h1>
-        <p className={styles.description}>
-          Publish a &apos;Fun Fact&apos; in{' '}
-          <a href="http://localhost/cms" target="_blank" rel="noreferrer">
-            Brightspot
-          </a>
-        </p>
-      </div>
-    )
-  }
+  if (data?.AllFunFacts?.funFacts?.length === 0) return <EmptyList />
+
+  const carouselSlides = data?.AllFunFacts?.funFacts?.map((funFact, index) => (
+    <div className={styles.card} id={`slide-${index + 1}`} key={index}>
+      <h2 className={styles.title}>Did You Know...?</h2>
+      <p className={styles.description}>{funFact.text}</p>
+    </div>
+  ))
+
+  const carouselButtons = data?.AllFunFacts?.funFacts?.map((element, index) => (
+    <a href={`#slide-${index + 1}`} key={index + 1}>
+      {index + 1}
+    </a>
+  ))
 
   return (
     <div className={styles.container}>
       <div className={styles.main}>
         <h1 className={styles.title}>Fun Facts</h1>
-        <div className={styles.grid}>
-          {data?.AllFunFacts?.funFacts?.map((funFact, index) => (
-            <div className={styles.card} key={index}>
-              <h2 className={styles.title}>Did You Know...?</h2>
-              <p className={styles.description}>{funFact.text}</p>
-            </div>
-          ))}
+        <div className={styles.carousel}>
+          <div className={styles.slides}>{carouselSlides}</div>
+          {carouselButtons}
         </div>
       </div>
     </div>
