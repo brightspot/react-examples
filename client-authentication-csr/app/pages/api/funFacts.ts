@@ -23,9 +23,11 @@ export default async function handler(
   res: NextApiResponse<Data | any>
 ) {
   try {
-    const { data } = await client.query({
+    const { data, errors } = await client.query({
       query: GetAllFunFactsQuery,
     })
+
+    if (errors) throw new Error
 
     res.status(200).json(data)
   } catch (error: any) {
