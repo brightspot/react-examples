@@ -54,6 +54,7 @@ Finally, the front-end Next.js app uses the `getServerSideProps` function to run
 #### Points to note in the Next.js application:
 
 - `getServerSideProps`: The Next.js app uses this function to run the API call server side so that the API key is hidden from the web browser.
+- `defaultOptions`: The Apollo Client is configured to disable caching so that the latest data is fetched on each page refresh. This is used to better demonstrate the server side rendering.
 
 ## Try it yourself
 
