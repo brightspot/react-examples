@@ -34,15 +34,28 @@ The front-end application will open automatically in the browser.
 In Brightspot, first upload a theme. Navigate from the burger menu to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for the New Theme, add a Name and click on the **CHOOSE** button next to the **New Upload** dropdown menu. Search for the zip file 'custom-theme.zip' (it is located in the `brightspot` directory). Select that zip file, then click the **SAVE** button. You should notice that two new tabs have appeared at the top of the Theme section: **COLOR PALETTE** and **USAGES**. If you click on **USAGES** you should see a message that the theme hasn't been used yet. Click on **COLOR PALETTE**. You will see four colors to add to your palette. Add the following colors:
 
 Color 1: #ff0083 (pink)
-Color 2: #ff4da8 (lighter pink)
+Color 2: #ff4da8 (light pink)
 Color 3: #000 (black)
 Color 4: #888888 (steel gray)
 
-Click the **SAVE** button at the bottom of the **COLOR PALETTE** section. Then, click on the **OVERRIDES** section. for the **Preset** dropdown menu, select **Custom**. Several fields will appear. For Primary Color, select Color 1 (turquoise). Select Color 2 (light turquoise) for Secondary Color, Color 3 (black) for Primary Text Color, and Color 4 (steel gray) for Secondary Text Color. Select your preferred font for Body, your preferred Navbar Text Alignment, and finally your preferred Button Style. Finally, click the **SAVE** button at the bottom of the **OVERRIDES** section.
+Click the **SAVE** button at the bottom of the **COLOR PALETTE** section. Then, click on the **OVERRIDES** section. for the **Preset** dropdown menu, select **Custom**. Several fields will appear. For Primary Color, select Color 1 (pink). Select Color 2 (light pink) for Secondary Color, Color 3 (black) for Primary Text Color, and Color 4 (steel gray) for Secondary Text Color. 
+
+> **_Note_** If any of the theme fields have content that is italicized and the text color is gray, those fields have not yet been set! Make sure to click on the field, actually select an option or color, and then click the **OK** button. You will know your value is saved because the text color will be black and not italicized.
+
+Select your preferred font for Body, your preferred Navbar Text Alignment, and finally your preferred Button Style. Finally, click the **SAVE** button at the bottom of the **OVERRIDES** section.
 
 Next, navigate from the burger menu to **Admin** &rarr; **Sites & Settings**, and select the **Global** site. Toggle Allow Global Editing? to be selected, and at the very bottom of the Global page select the Shared Theme and select the theme you created. Finally, click the **SAVE** button at the bottom of the page.
 
 Now, navigate from the burger menu to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select the theme you created for the Theme dropdown menu, then click the **SAVE** button. You are now ready to start creating content. 
+
+You will need to reload the site for the styles changes to apply to content items. To reload the site, add `/?_reload=true`to the end of the Brightspot url. Your url should look similar to the following: 
+
+```
+http://localhost/cms/?_reload=true
+```
+
+After pressing the `Return` or `Enter` key, you will see  "reloading..." text appear in the browser. You also will probably have to hit the refresh button for your browser to reload the site after Brightspot has finished updating. 
+
 
 The front-end application displays both **Cat** and **Dog** content created in Brightspot. Create at least one **Cat** or **Dog** item. When creating your content item, note the **⋯** at the top right of the content item page(to the left of the **URLS** wdiget section). Click the **⋯** and select Styles. Click the **v** to open the Presets section. Select Custom for the Preset, and the bullet style of your choice. Finally, publish your content.
 
@@ -68,7 +81,7 @@ Brightspot is designed to support various themes. In a traditional (non-headless
   - "imageSizes": these fields are used to specify image sizes. You can also create an ImageSizeProvider file that will also provide image size configurations. Refer to the example on Images for more information on customizing images.
 
 2. `ThemingEndpoint.ts`: implementing the `ContentDeliveryApiThemeable` interface enables a theme to be selected and applied to the endpoint. You must also make sure the theme is applied to the site you are using (in this example Global).
-
+s
 #### Points to note in the front-end application:
 The front-end application sets many of the styling values from the Graphql query using CSS variables, but also makes use of data attributes. There are multiple possibilities for applying styling (css in js, etc.). 
 
