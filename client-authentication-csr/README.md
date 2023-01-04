@@ -55,6 +55,7 @@ Finally, the front-end Next.js app fetches data on the client side but uses [API
 
 - `fetch()`: The Next.js app calls the `fetch` function at runtime, rendering all data client side.
 - `pages/api/funFacts.ts`: The `handler` function will run server side when called, hiding the query and API key from the web browser.
+- `defaultOptions`: The Apollo Client is configured to disable caching so that the latest data is fetched on each page refresh. This is used to better demonstrate the client side rendering.
 
 ## Try it yourself
 
