@@ -5,13 +5,13 @@ import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import StorageItem from 'brightspot-types/com/psddev/dari/util/StorageItem'
 import ReadOnly from 'brightspot-types/com/psddev/cms/db/ToolUi$ReadOnly'
+import UUID from 'brightspot-types/java/util/UUID'
 
 export default class Image extends JavaClass(
   'brightspot.example.images.Image',
   Content
 ) {
   @Indexed({ unique: true })
-  @ReadOnly
   @JavaField(String)
   title: string
 
@@ -22,17 +22,10 @@ export default class Image extends JavaClass(
   altText: string
 
   @ReadOnly
-  @JavaField(Number)
-  height: number
+  @JavaField(UUID)
+  id: UUID
 
-  @ReadOnly
-  @JavaField(Number)
-  width: number
-
-  beforeSave() {
-    const metadata = this.file.getMetadata()
-    this.title = (metadata.get('originalFilename') as string) || ''
-    this.height = metadata.get('height') as number
-    this.width = metadata.get('width') as number
+  beforeSave(){
+    this.id = this.getState().getId()
   }
 }

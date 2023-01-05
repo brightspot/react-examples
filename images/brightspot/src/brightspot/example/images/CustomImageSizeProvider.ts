@@ -11,21 +11,7 @@ export default class CustomImageSizeProvider extends JavaClass(
   Object,
   ImageSizeProvider
 ) {
-  //TODO:
-  // private final ImageSizeProvider previousProvider;
-
-  // public SothebysImageSizeProvider(ImageSizeProvider previousProvider) {
-  //     this.previousProvider = previousProvider;
-  // }
-  [`get(java.util.List,java.lang.String)`](
-    contexts: List<string>,
-    field: string
-  ): ImageSize {
-    //TODO:
-    // return previousProvider != null ? previousProvider.get(contexts, field) : null;
-    return null
-  }
-
+ 
   [`getAll()`](): JavaSet<ImageSize> {
     const SEARCH_RESULT_LIST_PROMO_SMALL = ImageSize.builder()
       .displayName('Search Result Promo Small')
@@ -61,5 +47,9 @@ export default class CustomImageSizeProvider extends JavaClass(
     result.add(SEARCH_RESULT_PROMO_PORTRAIT)
     result.add(SEARCH_RESULT_LIST_PROMO_UNCROPPED)
     return result
+  }
+
+  [`get(java.util.List,java.lang.String)`](contexts: List<string>, field: string): ImageSize {
+    return this['get(java.util.List,java.lang.String)'](contexts, field) || null;
   }
 }
