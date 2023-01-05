@@ -22,10 +22,7 @@ export default class ImagesEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [
-      ImageViewModel.getClass(),
-      ImagesViewModel.getClass(),
-    ].map(
+    return [ImageViewModel.getClass(), ImagesViewModel.getClass()].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }

@@ -25,7 +25,7 @@ export default class Image extends JavaClass(
   @JavaField(UUID)
   id: UUID
 
-  beforeSave(){
+  beforeSave() {
     this.id = this.getState().getId()
   }
 }

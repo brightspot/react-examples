@@ -1,4 +1,3 @@
-
 import ImageSizeProvider from 'brightspot-types/com/psddev/cms/image/ImageSizeProvider'
 import List from 'brightspot-types/java/util/List'
 
@@ -17,7 +16,6 @@ import RoutingFilter from 'brightspot-types/com/psddev/dari/util/RoutingFilter'
 import HttpServletRequest from 'brightspot-types/javax/servlet/http/HttpServletRequest'
 import HttpServletResponse from 'brightspot-types/javax/servlet/http/HttpServletResponse'
 import ClassFinder from 'brightspot-types/com/psddev/dari/util/ClassFinder'
-
 
 export default class CustomStaticImageSizeProviderFilter extends JavaClass(
   'brightspot.example.images.CustomStaticImageSizeProviderFilter',
@@ -48,8 +46,10 @@ export default class CustomStaticImageSizeProviderFilter extends JavaClass(
     chain: FilterChain
   ) {
     let providerStack: ThreadLocalStack<ImageSizeProvider> =
-    ImageSizeProvider.getCurrentStack()
-    const CustomImageSizeProvider = ClassFinder.getClass('brightspot.example.images.CustomImageSizeProvider')
+      ImageSizeProvider.getCurrentStack()
+    const CustomImageSizeProvider = ClassFinder.getClass(
+      'brightspot.example.images.CustomImageSizeProvider'
+    )
     providerStack.push(new CustomImageSizeProvider()) // warning can be ignored
     try {
       chain.doFilter(request, response)

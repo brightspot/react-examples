@@ -18,7 +18,7 @@ export default class ImagesViewModel extends JavaClass(
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ImageViewModel))
-  getCats(): List<ImageViewModel> {
+  getImages(): List<ImageViewModel> {
     return this.createViews(
       ImageViewModel.getClass(),
       Query.from(Image.getClass()).selectAll()

@@ -11,7 +11,6 @@ export default class CustomImageSizeProvider extends JavaClass(
   Object,
   ImageSizeProvider
 ) {
- 
   [`getAll()`](): JavaSet<ImageSize> {
     const SEARCH_RESULT_LIST_PROMO_SMALL = ImageSize.builder()
       .displayName('Search Result Promo Small')
@@ -49,7 +48,10 @@ export default class CustomImageSizeProvider extends JavaClass(
     return result
   }
 
-  [`get(java.util.List,java.lang.String)`](contexts: List<string>, field: string): ImageSize {
-    return this['get(java.util.List,java.lang.String)'](contexts, field) || null;
+  [`get(java.util.List,java.lang.String)`](
+    contexts: List<string>,
+    field: string
+  ): ImageSize {
+    return this['get(java.util.List,java.lang.String)'](contexts, field) || null
   }
 }
