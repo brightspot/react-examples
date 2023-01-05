@@ -31,15 +31,15 @@ const GET_DOGS_AND_CATS = gql`
           bulletStyle
         }
       }
-      _theme {
-        NavBarAlignment
-        bodyFont
-        primaryColor
-        primaryTextColor
-        secondaryColor
-        secondaryTextColor
-        buttonStyle
-      }
+    }
+    _Theme {
+      NavBarAlignment
+      bodyFont
+      buttonStyle
+      primaryColor
+      primaryTextColor
+      secondaryColor
+      secondaryTextColor
     }
   }
 `

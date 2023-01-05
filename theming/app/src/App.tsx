@@ -28,7 +28,7 @@ function App() {
     return <div>There was an error fetching the data: {error.message}</div>
 
   const catData = data?.Cats?.cats
-  const themeData = data?.Cats?._theme
+  const themeData = data?._Theme
   const dogData = data?.Dogs.dogs
   const animalData = [...catData, ...dogData]
 
