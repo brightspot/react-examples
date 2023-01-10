@@ -73,9 +73,8 @@ export default class Course extends JavaClass(
     preview: Preview
   ): List<PreviewType> {
     let headlessPreviewUrl =
-      Singleton.getInstance(
-        HeadlessPreviewEndpoint.class as Class<HeadlessPreviewEndpoint>
-      ).previewUrl || 'http://localhost:3000/courses/brightspot-preview'
+      Singleton.getInstance(HeadlessPreviewEndpoint.getClass()).previewUrl ||
+      'http://localhost:3000/courses/brightspot-preview'
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
     contentDeliveryPreviewType.setPreviewUrl(headlessPreviewUrl)
     //TODO: this should be used instead of PageEntryView

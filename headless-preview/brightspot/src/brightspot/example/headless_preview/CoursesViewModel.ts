@@ -22,8 +22,8 @@ export default class CoursesViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(CourseViewModel))
   getCourses(): List<CourseViewModel> {
     return this.createViews(
-      CourseViewModel.class,
-      Query.from(Course.class).selectAll()
+      CourseViewModel.getClass(),
+      Query.from(Course.getClass()).selectAll()
     ) as unknown as List<CourseViewModel>
   }
 }
