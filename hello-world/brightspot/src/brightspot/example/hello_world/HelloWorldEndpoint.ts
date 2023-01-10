@@ -23,7 +23,7 @@ export default class HelloWorldEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [HelloWorldViewModel.class as Class<HelloWorldViewModel>].map(
+    return [HelloWorldViewModel.getClass()].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
