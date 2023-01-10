@@ -4,10 +4,6 @@ query GetImagesDetailed {
       title
       imageId
       imageFile {
-        editorSettings {
-          baseUrl
-          sharedSecret
-        }
         size {
           height
           width

@@ -118,21 +118,21 @@ export const getStaticProps: GetStaticProps = async () => {
         }
 
         const rectangle: CustomImageSize = {
-          name: 'rectangle',
+          name: 'portrait',
           width: 600,
           height: 400,
           quality: 90,
           format: 'webp',
-          descriptors: ['200w', '300w', '400w', '500w'],
+          descriptors: ['200w', '300w', '400w', '500w', '600w'],
         }
 
         const tall: CustomImageSize = {
           name: 'tall',
-          width: 600,
-          height: 800,
+          width: 400,
+          height: 600,
           quality: 90,
           format: 'webp',
-          descriptors: ['200w', '300w', '400w', '500w'],
+          descriptors: ['200w', '300w', '400w'],
         }
 
         const square: CustomImageSize = {
@@ -141,7 +141,7 @@ export const getStaticProps: GetStaticProps = async () => {
           height: 600,
           quality: 90,
           format: 'webp',
-          descriptors: ['200w', '300w', '400w', '500w'],
+          descriptors: ['200w', '300w', '400w', '500w', '600w'],
         }
         const sizes: CustomImageSize[] = [square, rectangle, tall]
 

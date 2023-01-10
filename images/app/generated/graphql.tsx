@@ -24,6 +24,7 @@ export type Scalars = {
 
 export type Image = {
   __typename?: 'Image'
+  _viewTemplate?: Maybe<Scalars['String']>
   imageFile?: Maybe<ImageAttributes>
   imageId?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
@@ -43,11 +44,11 @@ export type ImageAttributes = {
   altFormats: Array<ImageAltFormat>
   contentType?: Maybe<Scalars['String']>
   crops: Array<ImageCrop>
-  editorSettings?: Maybe<ImageEditorSettings>
   edits?: Maybe<ImageEdits>
   filename?: Maybe<Scalars['String']>
   focus?: Maybe<ImageFocus>
   height?: Maybe<Scalars['Int']>
+  orientation: ImageOrientation
   publicUrl?: Maybe<Scalars['String']>
   size?: Maybe<ImageSize>
   sizes: Array<ImageSize>
@@ -77,12 +78,6 @@ export type ImageCrop = {
   y?: Maybe<Scalars['Float']>
 }
 
-export type ImageEditorSettings = {
-  __typename?: 'ImageEditorSettings'
-  baseUrl?: Maybe<Scalars['String']>
-  sharedSecret?: Maybe<Scalars['String']>
-}
-
 export type ImageEdits = {
   __typename?: 'ImageEdits'
   brightness?: Maybe<Scalars['Float']>
@@ -98,12 +93,51 @@ export type ImageEdits = {
 
 export type ImageFocus = {
   __typename?: 'ImageFocus'
+  default?: Maybe<ImageFocusPoint>
+  groups: Array<ImageFocusGroup>
+  /** @deprecated Use 'default -> x' */
   x?: Maybe<Scalars['Float']>
+  /** @deprecated Use 'default -> y' */
   y?: Maybe<Scalars['Float']>
+}
+
+export type ImageFocusGroupsArgs = {
+  names?: InputMaybe<Array<Scalars['String']>>
+}
+
+export type ImageFocusGroup = {
+  __typename?: 'ImageFocusGroup'
+  name: Scalars['String']
+  value: ImageFocusPoint
+}
+
+export type ImageFocusPoint = {
+  __typename?: 'ImageFocusPoint'
+  x: Scalars['Float']
+  y: Scalars['Float']
 }
 
 export type ImageModelInput = {
   id?: InputMaybe<Scalars['ID']>
+}
+
+export enum ImageOrientation {
+  /** Normal */
+  O_1TopLeft = 'O_1_TOP_LEFT',
+  /** Mirror horizontally */
+  O_2TopRight = 'O_2_TOP_RIGHT',
+  /** Rotate 180° */
+  O_3BottomRight = 'O_3_BOTTOM_RIGHT',
+  /** Mirror vertically */
+  O_4BottomLeft = 'O_4_BOTTOM_LEFT',
+  /** Mirror horizontally, rotate 270° clockwise */
+  O_5LeftTop = 'O_5_LEFT_TOP',
+  /** Rotate 90° clockwise */
+  O_6RightTop = 'O_6_RIGHT_TOP',
+  /** Mirror horizontally, rotate 90° clockwise */
+  O_7RightBottom = 'O_7_RIGHT_BOTTOM',
+  /** Rotate 270° clockwise */
+  O_8LeftBottom = 'O_8_LEFT_BOTTOM',
 }
 
 export type ImageSize = {
@@ -197,11 +231,6 @@ export type GetImagesDetailedQuery = {
         publicUrl?: string | null
         width?: number | null
         height?: number | null
-        editorSettings?: {
-          __typename?: 'ImageEditorSettings'
-          baseUrl?: string | null
-          sharedSecret?: string | null
-        } | null
         size?: {
           __typename?: 'ImageSize'
           height?: number | null
@@ -324,10 +353,6 @@ export const GetImagesDetailedDocument = gql`
         title
         imageId
         imageFile {
-          editorSettings {
-            baseUrl
-            sharedSecret
-          }
           size {
             height
             width

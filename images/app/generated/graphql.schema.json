@@ -42,6 +42,18 @@
         "description": null,
         "fields": [
           {
+            "name": "_viewTemplate",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "imageFile",
             "description": "",
             "args": [],
@@ -220,18 +232,6 @@
             "deprecationReason": null
           },
           {
-            "name": "editorSettings",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ImageEditorSettings",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "edits",
             "description": null,
             "args": [],
@@ -275,6 +275,22 @@
               "kind": "SCALAR",
               "name": "Int",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "orientation",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ImageOrientation",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -500,41 +516,6 @@
       },
       {
         "kind": "OBJECT",
-        "name": "ImageEditorSettings",
-        "description": null,
-        "fields": [
-          {
-            "name": "baseUrl",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "sharedSecret",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
         "name": "ImageEdits",
         "description": null,
         "fields": [
@@ -658,6 +639,63 @@
         "description": null,
         "fields": [
           {
+            "name": "default",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ImageFocusPoint",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "groups",
+            "description": null,
+            "args": [
+              {
+                "name": "names",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ImageFocusGroup",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "x",
             "description": null,
             "args": [],
@@ -666,8 +704,8 @@
               "name": "Float",
               "ofType": null
             },
-            "isDeprecated": false,
-            "deprecationReason": null
+            "isDeprecated": true,
+            "deprecationReason": "Use 'default -> x'"
           },
           {
             "name": "y",
@@ -677,6 +715,92 @@
               "kind": "SCALAR",
               "name": "Float",
               "ofType": null
+            },
+            "isDeprecated": true,
+            "deprecationReason": "Use 'default -> y'"
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ImageFocusGroup",
+        "description": null,
+        "fields": [
+          {
+            "name": "name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ImageFocusPoint",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ImageFocusPoint",
+        "description": null,
+        "fields": [
+          {
+            "name": "x",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "y",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -708,6 +832,65 @@
         ],
         "interfaces": null,
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "ImageOrientation",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "O_1_TOP_LEFT",
+            "description": "Normal",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_2_TOP_RIGHT",
+            "description": "Mirror horizontally",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_3_BOTTOM_RIGHT",
+            "description": "Rotate 180°",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_4_BOTTOM_LEFT",
+            "description": "Mirror vertically",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_5_LEFT_TOP",
+            "description": "Mirror horizontally, rotate 270° clockwise",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_6_RIGHT_TOP",
+            "description": "Rotate 90° clockwise",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_7_RIGHT_BOTTOM",
+            "description": "Mirror horizontally, rotate 90° clockwise",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "O_8_LEFT_BOTTOM",
+            "description": "Rotate 270° clockwise",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {

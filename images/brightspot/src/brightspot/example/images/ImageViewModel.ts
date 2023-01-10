@@ -29,7 +29,6 @@ export default class ImageViewModel extends JavaClass(
     const result = ImageSize['getAttributes(com.psddev.dari.util.StorageItem)'](
       this.model.file
     )
-    console.log('result: ', result)
     return result
   }
 
