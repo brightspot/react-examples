@@ -2,17 +2,17 @@
 
 ## What is Rich Text?
 
-Rich Text allows for more exciting text formatting, support bold, italics, underline and more. Brightspot users will be familiar with the WYSIWYG Rich Text Editor(RTE) when creating various content.
+Rich Text allows for more exciting text formatting, support bold, italics, underline and more. Brightspot users will be familiar with the WYSIWYG rich-text-editor (RTE) when creating various content.
 
-## What is Marked Text
+## What is Marked Text?
 
-Marked Text is the API response data object representation from a Rich Text Editor(RTE) field. To take this content into any front end of their choosing, there needs to be a way to grab that content but still have the power to manipulate and customize their content should they see fit.
+Marked Text is the API response data object representation from a rich-text-editor field. To take this content into any front end of your choosing, there needs to be a way to grab that content but still have the power to manipulate and customize the content.
 
 A MarkedText object gives developers the option to retrieve data from an RTE field as a structured object versus a string of HTML. The structure of the MarkedText object allows for infinitely nested tags to be represented cleanly without prior knowledge of the entire state and without needing to parse the plain text elements of the string.
 
-Marked Text gives you the power to use the content published in Brightspot’s RTE but you will not be limited to how it is presented. To do that, the data response from Brightspot’s GraphQL API comes in a manageable JSON structure.
+Marked Text gives you the power to use the content published in Brightspot's RTE, but in a way that doesn't limit how you present it. To do that, the data response from Brightspot’s GraphQL API comes in a manageable JSON structure.
 
-Example if the following was the body of text:
+For example, consider the following body text:
 
 **Marked** _Text_
 
@@ -58,19 +58,19 @@ In MarkedText format:
 
 ## Brightspot MarkedText Library
 
-Now, to not have to write your own traversal algorithm to get going, we have provided one for you and it is used in this example.
+Brightspot provides to you a traversal algorithm, used in the example above, to save you time writing your own.
 
 ## Marked Text Example
 
-This example highlights how to use JS Classes and the Brightspot GraphQL API to create content with a Rich Text Editor (RTE) Field and then retrieve that field to render in a front-end application. This example demonstrates the use of the Brightspot MarkedText library.
+This example highlights how to use JS Classes and the Brightspot GraphQL API to create content with a RTE Field and then retrieve that field to render in a front-end application and the use of the Brightspot MarkedText library.
 
 ## What you will learn
 
-1. How to query for MarkedText via GraphQL
+1. How to query for MarkedText via GraphQL.
 2. How to set content types and GraphQL in Brightspot that can:
-   - Use a Rich Text Editor Field as opposed to strings
+   - Use a RTE field as opposed to strings
    - Use a RteMarkedTextViewModel to return the RichText Field as a MarkedText Object
-3. How to create a front-end application with [React](https://reactjs.org/) that implements Brightspot's MarkedText library
+3. How to create a front-end application with [React](https://reactjs.org/) that implements Brightspot's MarkedText library.
 
 ## Running the example application
 
@@ -86,7 +86,7 @@ npx brightspot types upload src
 
 ```
 
-To run the front-end:
+To run the front end:
 
 ```sh
 cd app
@@ -94,15 +94,13 @@ yarn
 yarn start
 ```
 
-The front-end application will open automatically in the browser.
+The front-end application opens automatically in the browser.
 
 ## Using the example application
 
-Publish an Article with the headline **Marked Text**, the rest is up to you. Once published, the front end will render this article.
+Publish an Article with the headline **Marked Text**. Once published, the front end will render this article.
 
-_You may change the headline to that of your choosing but be sure to change the variable 'path' on line 57 of Article.tsx in the app directory to match_
-
-This example allows users to upload images and then place them in your RTE. Publish an Image content type, return to the Article and then click on the image icon located on the toolbar (the icon placed last on the toolbar).
+> **Note:** You may change the headline to that of your choosing but be sure to change the variable 'path' on line 57 of Article.tsx in the app directory to match.
 
 The library `@brightspot/marked-text` uses the `markedTextTraversal` function with two arguments, the body of `MarkedText` containing the text and marks, and a Visitor object with two callback functions provided from the app. The library is using a [post order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal).
 
@@ -114,12 +112,12 @@ Navigate to `brightspot/src/examples/marked-text`. This directory contains the J
 
 `marked-text/app/src/components/Article.tsx`
 
-- `Article` This component makes a call to the endpoint to return the article with the headline **Marked Text**, if the headline is different, change the path variable here. The return is passing the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` call with two keys pointing to two call back functions, `visitText` and `visitMark`. Within each `visitText` a JSX element is returned with the text inside. Once a mark is reached, a React Element is created using the mark and placing its children within.
+- `Article` This component makes a call to the endpoint to return the article with the headline **Marked Text**, if the headline is different, change the path variable here. The return is passing the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` call with two keys pointing to two callback functions, `visitText` and `visitMark`. Within each `visitText` a JSX element is returned with the text inside. Once a mark is reached, a React Element is created when the traversal reaches `visitMark` within which its children are placed.
 - `ArticleMarkQuery` This is where the query is made for the article to return the headline and body that contains the text and marks (MarkedText).
 
 #### Points to note in JS Classes files:
 
-`Article.ts` has the following code to use a RichTextToolbar rather than one of the standard primitives used in other examples:
+`Article.ts` This file has the following code to use a RTE field rather than one of the standard primitives used in other examples:
 
 ```js
   @RichText({
@@ -128,7 +126,7 @@ Navigate to `brightspot/src/examples/marked-text`. This directory contains the J
   })
 ```
 
-`ArticleViewModel.ts` unlike some other examples is utilizing am imported ViewModel called `RteMarkedTextViewModel` which takes the body to parse into text and marks:
+`ArticleViewModel.ts` This file unlike some other examples, is utilizing an imported view model called `RteMarkedTextViewModel`, which takes the body to parse into text and marks:
 
 ```js
   @JavaMethodParameters()
@@ -143,7 +141,7 @@ Navigate to `brightspot/src/examples/marked-text`. This directory contains the J
 
 ## Try it yourself
 
-Feel free to use any of the following in this example: bold, italics, underline, superscript, subscript, strikethrough, bullet points or even tables to later retrieve on the front-end.
+Feel free to use any of the following in this example: bold, italics, underline, superscript, subscript, strikethrough, bullet points or even tables to later retrieve on the front end.
 
 ## Troubleshooting
 
