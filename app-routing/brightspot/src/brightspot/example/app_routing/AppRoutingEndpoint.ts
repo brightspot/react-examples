@@ -4,7 +4,7 @@ import List from 'brightspot-types/java/util/List'
 
 import ContentDeliveryApiAccessOption from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOption'
 import ContentDeliveryApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiAccessOptionImplicit'
-import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
+import ContentDeliveryApiEndpointV1 from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpointV1'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import JavaClass from 'brightspot-types/JavaClass'
@@ -20,7 +20,7 @@ import TagsViewModel from './TagsViewModel'
 
 export default class AppRoutingEndpoint extends JavaClass(
   'brightspot.example.app_routing.AppRoutingEndpoint',
-  ContentDeliveryApiEndpoint,
+  ContentDeliveryApiEndpointV1,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
@@ -29,12 +29,12 @@ export default class AppRoutingEndpoint extends JavaClass(
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
-      ArticleViewModel.class as Class<ArticleViewModel>,
-      ArticlesViewModel.class as Class<ArticlesViewModel>,
-      SectionViewModel.class as Class<SectionViewModel>,
-      SectionsViewModel.class as Class<SectionsViewModel>,
-      TagViewModel.class as Class<TagViewModel>,
-      TagsViewModel.class as Class<TagsViewModel>,
+      ArticleViewModel.getClass(),
+      ArticlesViewModel.getClass(),
+      SectionViewModel.getClass(),
+      SectionsViewModel.getClass(),
+      TagViewModel.getClass(),
+      TagsViewModel.getClass(),
       PageEntryView.class as Class<PageEntryView>,
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)

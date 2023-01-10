@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import List from 'brightspot-types/java/util/List'
 
 import JavaClass from 'brightspot-types/JavaClass'
@@ -40,11 +39,11 @@ export default class TagViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
-    let articles = Query.from(Article.class)
+    let articles = Query.from(Article.getClass())
       .where('tags matches  ?', this.model)
       .selectAll()
     return this.createViews(
-      ArticleViewModel.class as Class<ArticleViewModel>,
+      ArticleViewModel.getClass(),
       articles
     ) as unknown as List<ArticleViewModel>
   }

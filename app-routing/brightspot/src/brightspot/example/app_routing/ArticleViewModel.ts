@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
@@ -42,10 +41,7 @@ export default class ArticleViewModel extends JavaClass(
   getSection(): SectionViewModel {
     if (this.model.section) {
       // TODO: Remove the  null check for tags once null object issue resolved with createView(s)
-      return this.createView(
-        SectionViewModel.class as Class<SectionViewModel>,
-        this.model.section
-      )
+      return this.createView(SectionViewModel.getClass(), this.model.section)
     } else return null
   }
 
@@ -55,7 +51,7 @@ export default class ArticleViewModel extends JavaClass(
     // TODO: Remove the  null check for tags once null object issue resolved with createView(s)
     if (this.model.tags) {
       return this.createViews(
-        TagViewModel.class as Class<TagViewModel>,
+        TagViewModel.getClass(),
         this.model.tags
       ) as unknown as List<TagViewModel>
     } else return null

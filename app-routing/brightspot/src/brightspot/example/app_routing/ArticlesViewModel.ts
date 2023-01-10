@@ -20,8 +20,8 @@ export default class ArticlesViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(ArticleViewModel))
   getArticles(): List<ArticleViewModel> {
     return this.createViews(
-      ArticleViewModel.class,
-      Query.from(Article.class).selectAll()
+      ArticleViewModel.getClass(),
+      Query.from(Article.getClass()).selectAll()
     ) as unknown as List<ArticleViewModel>
   }
 }

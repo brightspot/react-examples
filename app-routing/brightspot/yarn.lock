@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@brightspot/cli@4.5.7-rc.7":
+"@brightspot/cli@^4.5.7-rc.7":
   version "4.5.7-rc.7"
   resolved "https://registry.yarnpkg.com/@brightspot/cli/-/cli-4.5.7-rc.7.tgz#d098f4bd77ae5879e4059e22865d547a9f4e52b8"
   integrity sha512-WzM9qPdgYx3y8Q0ZTMEEckLohcfItUeWFNDfmrvTypV+dBE5FIibQ6bIepml+KyIo+Wp1TlZb7DK+jP/kcBOOA==
