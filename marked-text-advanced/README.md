@@ -1,6 +1,6 @@
-# MarkedText
+# MarkedText - Advanced
 
-This example highlights how to use JS Classes and the Brightspot GraphQL API to create content with a Rich Text Editor (RTE) field and then retrieve that field to render in a front-end application. This example demonstrates the use of the Brightspot MarkedText library.
+This example highlights how to use JS Classes and the Brightspot GraphQL API to create content with a Rich Text Editor (RTE) field and then retrieve that field to render in a front-end application and demonstrates the use of the Brightspot MarkedText library. The RTE will also be able to handle images and external content.
 
 ## What you will learn
 
