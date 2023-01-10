@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaField from 'brightspot-types/JavaField'
 import JavaSet from 'brightspot-types/java/util/Set'
@@ -6,7 +5,7 @@ import List from 'brightspot-types/java/util/List'
 
 import AutomaticPersistedQueryHashAlgorithm from 'brightspot-types/com/psddev/graphql/pqp/AutomaticPersistedQueryHashAlgorithm'
 import AutomaticPersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/AutomaticPersistedQueryProtocol'
-import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
+import ContentDeliveryApiEndpointV1 from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpointV1'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import CustomGraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/CustomGraphQLCorsConfiguration'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
@@ -22,7 +21,7 @@ import ApqItemViewModel from './ApqItemViewModel'
 @DisplayName({ value: 'APQ Endpoint' })
 export default class ApqEndpoint extends JavaClass(
   'brightspot.example.automatic_persisted_queries.ApqEndpoint',
-  ContentDeliveryApiEndpoint,
+  ContentDeliveryApiEndpointV1,
   Singleton
 ) {
   @JavaField(AutomaticPersistedQueryHashAlgorithm)
@@ -42,7 +41,7 @@ export default class ApqEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [ApqItemViewModel.class as Class<ApqItemViewModel>].map(
+    return [ApqItemViewModel.getClass()].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
