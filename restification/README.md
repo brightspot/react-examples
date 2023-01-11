@@ -1,11 +1,11 @@
 ## GraphQL RESTification
 
-This example will demonstrate how to set up GraphQL Queries into individual REST API Endpoints using the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api).
+This example will demonstrate how to set up GraphQL queries into individual REST API endpoints using [Brightspot's GraphQL APIs](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api).
 
 ## What you will learn
 
-1. How to use Brightspot to create REST Mapping API Endpoints along with a potential use case
-2. How to still use the GraphQL schema for type generation at build time and runtime without exposing the endpoint to the public
+1. How to use Brightspot to create REST Mapping API endpoints including a potential use case.
+2. How to still use the GraphQL schema for type generation at build time and runtime without exposing the endpoint to the public.
 
 ## Running the example application
 
@@ -21,7 +21,7 @@ npx brightspot types upload src
 
 ```
 
-To run the frontend:
+To run the front end:
 
 ```sh
 cd app
@@ -30,11 +30,11 @@ yarn codegen
 yarn start
 ```
 
-The front-end application will open automatically in the browser.
+The front-end application opens automatically in the browser.
 
 ## Step 1: Publish Member Content
 
-In Brightspot, publish at least one **Member** content types.
+In Brightspot, publish at least one **Member** content type.
 
 ## Step 2 Codegen
 
@@ -44,13 +44,21 @@ From the `restification/app` directory run the following command:
 yarn codegen
 ```
 
-The `codegen.yml` file will take the query included in `/queries/AllMembers.graphql` as well as the schema from `http://localhost/graphql/management/members` and will create a `generated.ts` file. This file will contain types and hooks based on the query. The `codegen.yml` file also has access the ID and Secret for authorization.
+The `codegen.yml` file will take the query included in `/queries/AllMembers.graphql` as well as the schema from `http://localhost/graphql/management/members` and creates a `generated.ts` file. This file contains types and hooks based on the query. The `codegen.yml` file also has access to the ID and Secret for authorization.
 
 ## Step 3 Building the Query and Create REST Mapping
 
-To see the API in action, navigate to **Developer** &rarr; **GraphQL Explorer** from the menu, and select **Members API: Restification** from the Select GraphQL Endpoint dropdown. In the explorer panel on the left rail you'll see a GraphQL query field named 'brightspot_example_restification_MemberQuery'. Previously in other examples, this would accept arguments of either `id` or `path` but this first query will be to receive all members but restricting the information provided. This will only display the members' display name.
+To see the API in action:
 
-Check the `items` dropdown and check the `displayName` box. The final query should look like this after changing 'MyQuery' to 'AllMemvers':
+1. Open the navigation menu.
+2. Scroll to **Developer** area and open the dropdown if needed.
+3. Click on **GraphQL Explorer**, and select **Members API: Restification** from the **Select GraphQL Endpoint** dropdown.
+
+In the explorer panel on the left rail you see a GraphQL query field named 'brightspot_example_restification_MemberQuery'.
+
+In previous examples, queries accept arguments of either id or path; however, in this example, the query retrieves all members, restricting the data returned to only members' display name.
+
+Expand the `items` dropdown and click the `displayName` checkbox. The final query should look like this after changing 'MyQuery' to 'AllMembers':
 
 ```graphql
 query AllMembers {
@@ -62,35 +70,54 @@ query AllMembers {
 }
 ```
 
-Test the query by pressing the execute/play button. Note that we have put in an alias of `ListOfMembers` so that when the data returns, the object will have that key rather than `brightspot_example_restification_MemberQuery`
+To test the query, click the Play icon.
 
-In the GraphQL Explorer, with the query set up and working, create the first REST Map. Click on the cog on the top right of the GraphQL Explorer page, there should be three options, 'Persisted Query Extension', 'Schema' and finally, select:
-'Create REST Mapping'.
+> **Note:** Because you enter an alias of `ListOfMembers`, the object has that key rather than `brightspot_example_restification_MemberQuery` when the data is returned.
 
-Once selected, a pop up form will appear. The form has the sections 'REST Endpoint', 'REST Mapping Name', 'REST Mapping Method(s)', 'REST Mapping Path' and 'GraphQL Query'
+In the GraphQL Explorer, create the first REST Map.
 
-The 'REST Endpoint' is new so it will be pre-selected with 'Create New...' Otherwise there would be a selection of Endpoints to choose this new Mapping to belong to.
+Click the Cog icon in the GraphQL Explorer. Three options display:
 
-'REST Mapping Name' Name this 'All Members', leave the 'REST Mapping Method(s)' as a GET request and 'REST Mapping Path' should be auto generated from the name to '/all-members'.
+1. Persisted Query Extension
+2. Schema
+3. Create REST Mapping
 
-Click on the 'CREATE' button. As this is the first Mapping, there will be a new form titled: 'New REST GraphQL Mapping API'.
+Select **Create REST Mapping**.
 
-Under name, put:
-Members API
+Brightspot displays a pop-up form with the following sections:
 
-There are a few things to notice:
+- REST Endpoint,
+- REST Mapping Name
+- REST Mapping Method(s)
+- REST Mapping Path' and 'GraphQL Query
 
-After entering the name, the 'Path Prefix' section will automatically generate '/members-api'
+The **REST Endpoint** will be pre-selected with 'Create New...'
 
-As there is only one GraphQL API Endpoint set up in this example, the 'GraphQL Endpoint' section has a dropdown list and 'GraphQL REST API' is currently selected.
+1. Under **REST Mapping Name**, enter 'All Members'.
+2. Under **REST Mapping Method(s)**, ensure that GET request is selected.
+3. Under **REST Mapping Path**, ensure that the REST mapping path is automatically generated from the name of '/all-members'.
+4. Click **Create**. As this is the first mapping, the GraphQL Explorer creates a new form with the title **New REST GraphQL Mapping API**.
+5. Under **Name**, enter 'Members API'.
+6. Under Access, select 'Anyone.' Otherwise, Access will inherited based on the selected endpoint.
+7. Click **Save**.
 
-Access is set to 'Inherit' which will be based on the Endpoint selected. Change this to 'Anyone'.
+There are a few things to note:
 
-Hit save, notice the 'Paths' section at the bottom will have generated:'/members-api/all-members'.
+- After entering the name, the 'Path Prefix' section will automatically generate '/members-api'
+- As there is only one GraphQL API Endpoint set up in this example, the 'GraphQL Endpoint' section has a dropdown list and 'GraphQL REST API' is currently selected.
+- The **Paths** section at the bottom will have generated: **/members-api/all-members**.
 
-Repeat the process for another query, this time, select the `where` dropdown. This will display two new fields, `arguments` and `predicate`. Click the `$` symbol next to arguments, which will change the query to take in a variable. Next to `predicate` enter the following in the text box 'displayName = ?'. This query will take the `arguments` and look for a display name that matches. This will be a GET that will take parameters and a POST request.
+Repeat the process for another query, this time, select the **where** dropdown. This displays two new fields:
 
-Change the query name to `Member`. The query should look like this:
+- `arguments`
+- `predicate`
+
+1. Click the `$` symbol next to arguments, which will change the query to accept a variable.
+2. Next to `predicate`, enter 'displayName = ?' in the text box.
+
+This query takes the `arguments` and looks for a display name that matches. This will be a GET request that will take parameters and a POST request.
+
+Change the query name to `Member`. Your query looks similar to the following:
 
 ```graphql
 query Member($arguments: [String]) {
@@ -105,7 +132,7 @@ query Member($arguments: [String]) {
 }
 ```
 
-At the bottom of the explorer, pull up the 'QUERY VARIABLES' section and put in the variable, it will look like this:
+At the bottom of the explorer, pull up the 'QUERY VARIABLES' section and put in the variable. Your variable looks similar to the following:
 
 ```json
 {
@@ -115,18 +142,16 @@ At the bottom of the explorer, pull up the 'QUERY VARIABLES' section and put in 
 
 Test the query to confirm the results are as expected.
 
-Create the REST Mapping for the query. The form will be auto completed but under 'REST Mapping Method(s)', be sure to select/check 'POST' so that it displays both: GET, POST.
+Create the REST Mapping for the query. The form will be automatically completed but under 'REST Mapping Method(s)', be sure to check 'POST' so that it displays both GET and POST.
 
-Test the GET endpoint quickly by going into the browser and visiting:
-'http://localhost/Members/all-members'
-also the GET,POST request as it can be a GET request with params being the display name:
-http://localhost/members-api/member?arguments={Member Display Name Here}
+1. Test the GET endpoint by entering '[http://localhost/members-api/all-members](http://localhost/members-api/all-members)' into your browser.
+2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by entering 'http://localhost/members-api/member?arguments={Member Display Name Here}'
 
 ## Step 4 Run the React App
 
-Test this in the inluded React App.
+Test this in the included React App.
 
-CD to the 'app' directory in the terminal and run:
+From the 'app' directory in the terminal, run:
 
 ```sh
 yarn start
