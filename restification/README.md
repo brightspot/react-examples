@@ -167,4 +167,6 @@ Create some REST endpoints that give more information than this example has demo
 
 ## Troubleshooting
 
+Your REST endpoint is displaying 'INVALID CREDENTIALS'. Be sure that your REST Mapping's **Access** is changed to 'Anyone' rather than 'inherit'.
+
 Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
