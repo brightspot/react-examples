@@ -6,8 +6,6 @@ import DirectoryItem from 'brightspot-types/com/psddev/cms/db/Directory$Item'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import Site from 'brightspot-types/com/psddev/cms/db/Site'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
-import UUID from 'brightspot-types/java/util/UUID'
-import ReadOnly from 'brightspot-types/com/psddev/cms/db/ToolUi$ReadOnly'
 
 @DisplayName({ value: 'Memo: CORs Configuration' })
 export default class Memo extends JavaClass(
@@ -19,22 +17,9 @@ export default class Memo extends JavaClass(
   subject: string
 
   @JavaField(String)
-  message: string
-
-  @ReadOnly
-  @JavaField(UUID)
-  id: UUID;
+  message: string;
 
   [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
     return Utils.toNormalized(this.subject)
-  }
-
-  beforeSave() {
-    console.log(`🐱 ${this['getState()']().getId()}`)
-    this.id = this.getState().getId()
-  }
-  afterSave() {
-    console.log(`🐱 ${this['getState()']().getId()}`)
-    this.id = this.getState().getId()
   }
 }
