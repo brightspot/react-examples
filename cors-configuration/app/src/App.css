@@ -8,5 +8,23 @@ body {
 }
 
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  flex-wrap: wrap;
+}
+
+.seperator {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.memo-card {
+  padding: 15px 50px;
+  border: solid 5px #ee0120;
+  border-top: none;
+  border-left: none;
+  border-radius: 11px;
+  margin: 20px;
 }
