@@ -56,9 +56,11 @@ To see the API in action:
 
 In the explorer panel on the left rail you see a GraphQL query field named 'brightspot_example_restification_MemberQuery'.
 
-In previous examples, queries accept arguments of either id or path; however, in this example, the query retrieves all members, restricting the data returned to only members' display name.
+In previous examples, we would create queries that accept arguments of either id or path; however, in this example, the query we are creating will retrieves all members, restricting the data returned to only members' display name.
 
-Expand the `items` dropdown and click the `displayName` checkbox. The final query should look like this after changing 'MyQuery' to 'AllMembers':
+Expand the `items` dropdown and click the `displayName` checkbox. Using [aliases](https://graphql.org/learn/queries/#aliases) we will change the name of the field returned for 'brightspot_example_restification_MemberQuery' to 'ListOfMembers' and 'items' to 'members' for clarity.
+
+The final query appears as the following after changing the default'MyQuery' to 'AllMembers':
 
 ```graphql
 query AllMembers {
@@ -72,17 +74,10 @@ query AllMembers {
 
 To test the query, click the Play icon.
 
-> **Note:** Because you enter an alias of `ListOfMembers`, the object has that key rather than `brightspot_example_restification_MemberQuery` when the data is returned.
+Next, in the GraphQL Explorer, create the first REST Map:
 
-In the GraphQL Explorer, create the first REST Map.
-
-Click the Cog icon in the GraphQL Explorer. Three options display:
-
-1. Persisted Query Extension
-2. Schema
-3. Create REST Mapping
-
-Select **Create REST Mapping**.
+1. Click the Cog icon in the GraphQL Explorer.
+2. Select **Create REST Mapping**.
 
 Brightspot displays a pop-up form with the following sections:
 
@@ -93,38 +88,39 @@ Brightspot displays a pop-up form with the following sections:
 
 The **REST Endpoint** will be pre-selected with 'Create New...'
 
-1. Under **REST Mapping Name**, enter 'All Members'.
+1. Under **REST Mapping Name**, 'AllMembers' will be pre-populated. This is based on the query name.
 2. Under **REST Mapping Method(s)**, ensure that GET request is selected.
 3. Under **REST Mapping Path**, ensure that the REST mapping path is automatically generated from the name of '/all-members'.
 4. Click **Create**. As this is the first mapping, the GraphQL Explorer creates a new form with the title **New REST GraphQL Mapping API**.
 5. Under **Name**, enter 'Members API'.
-6. Under Access, select 'Anyone.' Otherwise, Access will inherited based on the selected endpoint.
+6. Under Access, select 'Anyone.' Otherwise, access will inherit based on the endpoint used to create the REST mapping(s) from. In this case, a content management endpoint is being used, which always needs a client with an id and secret.
 7. Click **Save**.
 
 There are a few things to note:
 
-- After entering the name, the 'Path Prefix' section will automatically generate '/members-api'
-- As there is only one GraphQL API Endpoint set up in this example, the 'GraphQL Endpoint' section has a dropdown list and 'GraphQL REST API' is currently selected.
-- The **Paths** section at the bottom will have generated: **/members-api/all-members**.
+- After entering the name, the **Path Prefix** section automatically generates '/members-api'
+- The **GraphQL Endpoint** section defaults to **GraphQL REST API** if it is the only endpoint. Select **GraphQL REST API** from the dropdown if there are multiple endpoints.
+- The **Paths** section at the bottom generates: **/members-api/all-members**.
 
 Repeat the process for another query, this time, select the **where** dropdown. This displays two new fields:
 
 - `arguments`
 - `predicate`
 
-1. Click the `$` symbol next to arguments, which will change the query to accept a variable.
-2. Next to `predicate`, enter 'displayName = ?' in the text box.
+1. Check the box for **arguments**.
+2. Click the `$` symbol next to arguments, which will change the query to accept a variable.
+3. Next to `predicate`, enter 'displayName = ?' in the text box.
 
 This query takes the `arguments` and looks for a display name that matches. This will be a GET request that will take parameters and a POST request.
 
-Change the query name to `Member`. Your query looks similar to the following:
+Change the query name to `Member` as this will be a query for a display name that matches the variable passed into `arguments`. Expand the `items` dropdown to open up options to then check `displayName` and `email`. Add 'members' as an alias for 'items'. Your query looks similar to the following:
 
 ```graphql
 query Member($arguments: [String]) {
   Member: brightspot_example_restification_MemberQuery(
     where: { predicate: "displayName = ?", arguments: $arguments }
   ) {
-    items {
+    members: items {
       displayName
       email
     }
@@ -159,7 +155,7 @@ yarn start
 
 Navigate to `http://localhost:3000/` in the web browser and see the text from the published content.
 
-Type in the display name created earlier for the GET with params and POST query.
+Type in the display name created earlier for the GET with params and POST request.
 
 ## Try it yourself
 
