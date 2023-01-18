@@ -14,7 +14,7 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import AllMemosViewModel from './AllMemosViewModel'
 import JavaField from 'brightspot-types/JavaField'
 
-@DisplayName({ value: 'CORS Configuration' })
+@DisplayName({ value: 'CORS Configuration Endpoint' })
 export default class CorsConfigurationEndpoint extends JavaClass(
   'brightspot.example.cors_configuration.CorsConfigurationEndpoint',
   ContentDeliveryApiEndpointV1,
