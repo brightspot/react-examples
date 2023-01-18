@@ -138,14 +138,14 @@ At the bottom of the explorer, pull up the 'QUERY VARIABLES' section and put in 
 
 Test the query to confirm the results are as expected.
 
-Create the REST Mapping for the query. The form will be automatically completed but under 'REST Mapping Method(s)', be sure to check 'POST' so that it displays both GET and POST.
+Create the REST Mapping for the query. The form will be automatically completed but under 'REST Mapping Method(s)', be sure to select 'POST' so that it displays both GET and POST.
 
-1. Test the GET endpoint by entering '[http://localhost/members-api/all-members](http://localhost/members-api/all-members)' into your browser.
-2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by entering 'http://localhost/members-api/member?arguments={Member Display Name Here}'
+1. Test the GET endpoint by visiting '[http://localhost/members-api/all-members](http://localhost/members-api/all-members)' into your browser.
+2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments={Member Display Name Here}' in your browser.
 
 ## Step 4 Run the React App
 
-Test this in the included React App.
+Test the endpoint using the included React App.
 
 From the 'app' directory in the terminal, run:
 
@@ -159,10 +159,11 @@ Type in the display name created earlier for the GET with params and POST reques
 
 ## Try it yourself
 
-Create some REST endpoints that give more information than this example has demonstrated or change the endpoint to display something other than display names.
+1. Create some REST endpoints that give more information than this example has demonstrated.
+2. Change the endpoint to display something other than display names.
 
 ## Troubleshooting
 
-Your REST endpoint is displaying 'INVALID CREDENTIALS'. Be sure that your REST Mapping's **Access** is changed to 'Anyone' rather than 'inherit'.
+If your REST endpoint is displaying 'INVALID CREDENTIALS'. Be sure that your REST Mapping's **Access** is changed to 'Anyone' rather than 'inherit'.
 
 Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
