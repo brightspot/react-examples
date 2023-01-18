@@ -85,7 +85,7 @@ npx brightspot types upload src
 
 In Brightspot:
 
-1. From the Navigation menu, scroll down and under **Admin** click on **APIs**.
+1. From the Navigation menu, under **Admin**, select **APIs**.
 2. Click on **Schema Versioning Movie Endpoint**.
 3. Click SAVE to save your endpoint along with updates.
 4. Using the Navigation menu, under **Developer**, click on **GraphQL Explorer**.
@@ -95,14 +95,10 @@ Under the **Movie** schema, there are now new fields for **releaseYear** and **d
 
 ## Step 4 Tracking GraphQL Schema Versions via Brightspot
 
-1. Navigate to the **Menu** &rarr; **Admin** &rarr; **APIs**.
-
+1. From the Navigation menu, under **Admin**, select **APIs**.
 2. On the left rail, click on **Schema Versioning Movie Endpoint**.
-
 3. Click on the ellipsis on the right side of the page and select **ADVANCED** to see a list of Schema Versions in chronological order.
-
 4. Click on the eye icon of version number 1 to see the latest change. When the form pops up, scroll down to **Schema** and click on the **text/plain** link. A new tabs opens showing the schema and types.
-
 5. Return to Brightspot and click on the **COMPARE WITH PREVIOUS** button to see a side-by-side comparison of the schemas.
 
 ## Step 5 Tracking GraphQL Schema Versions via GraphQL Inspector
