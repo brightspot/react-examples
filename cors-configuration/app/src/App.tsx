@@ -18,6 +18,7 @@ const App = () => {
   useEffect(() => {
     const myHeaders = new Headers()
     myHeaders.append('Foo', 'Bar')
+    // Add custom headers here
 
     const graphqlQuery = JSON.stringify({
       query: `query MyQuery {
