@@ -20,14 +20,19 @@ body {
 .members-container {
   display: flex;
   margin: 20px;
+  padding: 2em;
 }
 
 .members-container .member {
   flex: 1;
+  box-shadow: 0.5em 0.5em 0.5em #ee0120;
+  margin: 0 10px;
 }
 
 .members-container .members {
   flex: 1;
+  box-shadow: 0.5em 0.5em 0.5em #ee0120;
+  margin: 0 10px;
 }
 
 .members-container h1 {
@@ -36,4 +41,16 @@ body {
 
 .members-container h2 {
   font-size: 2rem;
+}
+
+@media screen and (max-width: 850px) {
+  .members-container {
+    flex-direction: column;
+  }
+  .members-container .member {
+    margin: 20px 10px;
+  }
+  .members-container .members {
+    margin: 20px 10px;
+  }
 }
