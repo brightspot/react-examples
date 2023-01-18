@@ -85,11 +85,13 @@ npx brightspot types upload src
 
 In Brightspot:
 
-1. Navigate to **Menu** &rarr; **Admin** &rarr; **APIs**.
-2. Click on **Schema Versioning Movie Endpoint**
+1. From the Navigation menu, scroll down and under **Admin** click on **APIs**.
+2. Click on **Schema Versioning Movie Endpoint**.
 3. Click SAVE to save your endpoint along with updates.
+4. Using the Navigation menu, under **Developer**, click on **GraphQL Explorer**.
+5. Using the dropdown list, select **Schema Versioning Movie Endpoint**.
 
-Navigate to the GraphQL Explorer and it will show the new fields added to the schema for **Movie** in the **Schema Versioning Movie Endpoint**.
+Under the **Movie** schema, there are now new fields for **releaseYear** and **director**. **description** is no longer available.
 
 ## Step 4 Tracking GraphQL Schema Versions via Brightspot
 
