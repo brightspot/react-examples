@@ -23,8 +23,8 @@ export default class SpqItemsViewModel extends JavaClass(
   @JavaMethodReturn(List.Of(SpqItemViewModel))
   getSpqItems(): List<SpqItemViewModel> {
     return this.createViews(
-      SpqItemViewModel.class,
-      Query.from(SpqItem.class).selectAll()
+      SpqItemViewModel.getClass(),
+      Query.from(SpqItem.getClass()).selectAll()
     ) as unknown as List<SpqItemViewModel>
   }
 
@@ -32,7 +32,7 @@ export default class SpqItemsViewModel extends JavaClass(
   @JavaMethodReturn(String)
   getWhitelistVersionUsed(): string {
     let version = WebRequest.getCurrent().getHeader('X-App-Version')
-    const whitelist = Query.from(SpqProtocol.class)
+    const whitelist = Query.from(SpqProtocol.getClass())
       .where('version = ?', version)
       .first() as unknown as PersistedQueryProtocol
     if (whitelist) {

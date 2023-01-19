@@ -4,7 +4,7 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
-import ContentDeliveryApiEndpoint from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpoint'
+import ContentDeliveryApiEndpointV1 from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiEndpointV1'
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import CustomGraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/CustomGraphQLCorsConfiguration'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
@@ -23,7 +23,7 @@ import SpqProtocol from './SpqProtocol'
 @DisplayName({ value: 'SPQ Endpoint' })
 export default class SpqEndpoint extends JavaClass(
   'brightspot.example.static_persisted_queries.SpqEndpoint',
-  ContentDeliveryApiEndpoint,
+  ContentDeliveryApiEndpointV1,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
@@ -34,15 +34,15 @@ export default class SpqEndpoint extends JavaClass(
     let version = WebRequest.getCurrent().getHeader('X-App-Version')
     /* NOTE: currently if the Query result is null no whitelist will be applied. In the near future an API key will be added
      for requests. Therefore, all queries not on a whitelist will require an API key */
-    return Query.from(SpqProtocol.class)
+    return Query.from(SpqProtocol.getClass())
       .where('version = ?', version)
       .first() as unknown as PersistedQueryProtocol
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
-      SpqItemViewModel.class as Class<SpqItemViewModel>,
-      SpqItemsViewModel.class as Class<SpqItemsViewModel>,
+      SpqItemViewModel.getClass(),
+      SpqItemsViewModel.getClass(),
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
