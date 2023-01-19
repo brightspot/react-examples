@@ -146,8 +146,6 @@ The following code within the endpoint file updates the endpoint when the CORS c
 
 Reviewing the code above, you can see how to add allowed origins or headers vis JS classes.
 
-<!-- Add info/code about preflight requests -->
-
 ## Preflight Requests
 
 When a request is sent via a browser, there is a check request beforehand made to the server. This is a [preflight request]('https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request'). It sends a request to the server to check if the options included in the request such as headers along with the origin that is making the request, is the type of request the server expects to receive. If the server comes back with the information matching what is in the options of the request and approves of the origin, the original request will be sent.
@@ -162,9 +160,11 @@ Open the developer console and navigate to the network tab. Under name, there wi
 
 ## Access Control Max Age
 
-To avoid having to make preflight requests when making the same requests, there is another CORS configuration option available. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age')
+To avoid having to make preflight requests when making the same requests, Brightspot offers another CORS configuration option available. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age')
 
 <!-- ADD README info on this config option -->
+
+<!-- Add info/code about preflight requests -->
 
 ## Try it yourself
 
