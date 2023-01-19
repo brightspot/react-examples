@@ -1,0 +1,13 @@
+overwrite: true
+schema:
+  - ${NEXT_PUBLIC_GRAPHQL_URL}:
+      headers:
+        X-Client-ID: ${GRAPHQL_CLIENT_ID}
+        X-Client-Secret: ${GRAPHQL_CLIENT_SECRET}
+documents: 'queries/*.graphql'
+generates:
+  generated/graphql.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
