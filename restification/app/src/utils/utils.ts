@@ -1,4 +1,3 @@
-import { Brightspot_Example_Restification_MemberQueryResult } from '../generated'
 import { GET_MEMBER_WITH_PARAMS, POST_MEMBER } from '../api/api'
 
 let timeoutId: ReturnType<typeof setTimeout>
@@ -9,41 +8,28 @@ const debounce = (fn: Function, ms = 300) => {
   }
 }
 
-const getMember = async (input: string | null, setData: Function) => {
+const getMember = async (input: string | null) => {
   if (input) {
-    GET_MEMBER_WITH_PARAMS(input)
-      .then((res) => handleResponse(res, setData))
-      .catch((error: Error) => handleError(error, setData))
+    return GET_MEMBER_WITH_PARAMS(input).then((res) => handleResponse(res))
   }
 }
 
-const postMember = async (input: string | null, setData: Function) => {
+const postMember = async (input: string | null) => {
   if (input) {
-    POST_MEMBER(input)
-      .then((res) => handleResponse(res, setData))
-      .catch((error: Error) => handleError(error, setData))
+    return POST_MEMBER(input).then((res) => handleResponse(res))
   }
 }
 
-const handleResponse = (res: any, setData: Function): void => {
+const handleResponse = async (res: Response) => {
+  const json = await res.json()
   let errors: string[] = []
-  let members: Brightspot_Example_Restification_MemberQueryResult
 
-  if (res?.data?.ListOfMembers) {
-    members = {
-      items: res.data.ListOfMembers.members,
+  if (json.errors) {
+    for (let error of json.errors) {
+      errors.push(error.message)
     }
-    if (res.errors) {
-      for (let error of res.errors) {
-        errors.push(error.message)
-      }
-    }
-    return setData({ members, errors })
   }
+  return { data: json.data, errors }
 }
 
-const handleError = (error: Error, setData: Function): void => {
-  setData({ errors: [error.message] })
-}
-
-export { debounce, getMember, postMember, handleResponse, handleError }
+export { debounce, getMember, postMember, handleResponse }
