@@ -25,14 +25,20 @@ body {
 
 .members-container .member {
   flex: 1;
-  box-shadow: 0.5em 0.5em 0.5em #ee0120;
+  box-shadow: 20px 20px 20px -15px #ee0120;
   margin: 0 10px;
+  border-radius: 8px;
+}
+
+.members-container .member-center {
+  box-shadow: 0px 20px 20px -15px #ee0120;
 }
 
 .members-container .members {
   flex: 1;
-  box-shadow: 0.5em 0.5em 0.5em #ee0120;
+  box-shadow: -20px 20px 20px -15px #ee0120;
   margin: 0 10px;
+  border-radius: 8px;
 }
 
 .members-container h1 {
@@ -49,8 +55,10 @@ body {
   }
   .members-container .member {
     margin: 20px 10px;
+    padding: 20px;
   }
   .members-container .members {
     margin: 20px 10px;
+    padding: 20px;
   }
 }
