@@ -8,8 +8,8 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Profile from './Profile'
-import GraphQLSchemaDocumentationEndpoint from './GraphQLSchemaDocumentationEndpoint'
 import ProfileViewModel from './ProfileViewModel'
+import GraphQLSchemaDocumentationEndpoint from './GraphQLSchemaDocumentationEndpoint'
 
 @ViewInterface
 export default class AllProfilesViewModel extends JavaClass(

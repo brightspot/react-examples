@@ -4,8 +4,8 @@ import { Profile, useAllProfilesQuery } from './generated'
 const App = () => {
   const { loading, error, data } = useAllProfilesQuery()
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>{error.message}</div>
+  if (loading) return <div className="profiles-container">Loading...</div>
+  if (error) return <div className="profiles-container">{error.message}</div>
 
   const profilesArray = data?.AllProfiles?.ListOfProfiles
 
@@ -34,7 +34,7 @@ const App = () => {
 
   return (
     <div className="profiles-container">
-      {arrayOfProfiles.map((profile: Profile) => {
+      {arrayOfProfiles.map((profile: Profile, index) => {
         const {
           displayName,
           favoriteSport,
@@ -43,7 +43,7 @@ const App = () => {
           favoriteSong,
         } = profile
         return (
-          <div className="profile">
+          <div className="profile" key={index}>
             <h1>{displayName}</h1>
             <h2>{favoriteBook}</h2>
             <h2>{favoriteSport}</h2>
