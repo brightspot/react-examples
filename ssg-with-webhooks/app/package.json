@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "webhook": "node createWebhook.mjs",
     "dev": "node openBrowser.js && next dev",
     "build": "next build",
     "start": "next start",
@@ -13,6 +14,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.6.9",
+    "dotenv": "16.0.3",
     "get-port": "6.1.2",
     "graphql": "16.5.0",
     "next": "12.2.2",

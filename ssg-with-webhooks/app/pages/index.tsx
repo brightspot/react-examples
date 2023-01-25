@@ -1,8 +1,38 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
+import { AllSections, GetAllSectionsDocument } from '../generated/graphql'
+import { client } from '../lib/client'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
-  return <div className={styles.container}></div>
+interface Props {
+  AllSections: AllSections
+}
+
+const Home: NextPage<Props> = ({ AllSections }) => {
+  return (
+    <div className={styles.container}>
+      <h1>Home Page</h1>
+      <h2>Sections:</h2>
+      <div>
+        {AllSections.sections?.map((section, index) => (
+          <div key={index}>
+            <a href={`${process.env.NEXT_PUBLIC_HOST}${section?.path}`}>
+              {section?.path}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export default Home
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { data } = await client.query({
+    query: GetAllSectionsDocument,
+  })
+
+  return {
+    props: { AllSections: data.AllSections },
+  }
+}

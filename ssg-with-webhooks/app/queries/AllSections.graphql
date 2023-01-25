@@ -1,0 +1,14 @@
+query GetAllSections {
+  AllSections {
+    sections {
+      path
+      name
+      directoryData {
+        paths {
+          path
+          isRedirect
+        }
+      }
+    }
+  }
+}

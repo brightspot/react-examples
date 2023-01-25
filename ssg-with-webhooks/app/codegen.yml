@@ -1,8 +1,8 @@
 overwrite: true
 schema:
-  - ${GRAPHQL_URL}:
+  - ${NEXT_PUBLIC_GRAPHQL_URL}:
       headers:
-documents: 'components/**/*.graphql'
+documents: 'queries/**/*.graphql'
 generates:
   generated/fragmentTypes.json:
     plugins:
