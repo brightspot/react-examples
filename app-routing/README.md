@@ -13,20 +13,18 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `app-routing` directory:
 
-To upload JS Classes in Brightspot (http://localhost/cms):
+To upload JS Classes in Brightspot (http://localhost/cms) run the following commands:
 
 ```sh
 cd brightspot
 yarn
 npx brightspot types download
 npx brightspot types upload src
-
 ```
 
-To run the front end:
+To run the front end, run the following commands from the `app-routing/app` directory:
 
 ```sh
-cd app
 yarn
 yarn codegen
 yarn start
