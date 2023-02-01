@@ -31,6 +31,6 @@ export default class NotesEndpoint extends JavaClass(
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
     super.updateCorsConfiguration(corsConfiguration)
-    corsConfiguration.addAllowedOrigin('localhost')
+    corsConfiguration.addAllowedOrigin('*')
   }
 }

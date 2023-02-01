@@ -9,7 +9,7 @@ This example highlights how simple it is to use JS Classes and the [Brightspot G
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `file-uploads` directory:
 
-To upload JS Classes in Brightspot (http://localhost/cms):
+To upload JS Classes in Brightspot (http://localhost/cms) run the following commands:
 
 ```sh
 cd brightspot
@@ -18,27 +18,15 @@ npx brightspot types download
 npx brightspot types upload src
 ```
 
-To run the front end:
+To run the front end, run the following commands from the `file-uploads/app` directory:
 
 ```sh
-cd app
 yarn
 yarn start
 ```
 
 The front-end application opens automatically in the browser.
-## Using JS Classes
-JS Classes make it possible to create and modify Brightspot CMS content with JavaScript/TypeScript.
 
-Run the following commands in the `brightspot` directory (if there is already a `brightspot.json` file you can skip the `npx brightspot config server http://localhost/cms` command):
-
-```
-yarn
-npx brightspot config server http://localhost/cms
-npx brightspot login
-npx brightspot types download
-npx brightspot types upload src
-```
 ## Using the example application
 The front-end application displays **Image** items stored in Brightspot. 
 
@@ -55,7 +43,9 @@ Navigate to `brightspot/src/examples/file_uploads`. This directory contains the 
 #### Points to note in JS Classes files:
 - `StorageItem`: enables uploading files to Brightspot. 
 - `@MimeTypes`: this annotation specifies valid MIME types for the target StorageItem field using the [SparseSet](https://artifactory.psdops.com/psddev-releases/com/psddev/dari-util/3.3.607-xe0f27a/dari-util-3.3.607-xe0f27a-javadoc.jar!/com/psddev/dari/util/SparseSet.html) representation.
-- `metadata`: You can view metadata fields two different ways. To view the available metadata fields, you can use the GraphQL Explorer by navigating to **GraphQLExplorer** from the left menu in Brightspot and selecting the **File Uploads Endpoint** to query for Images. Make sure **Query** is selected on the bottom left pane (the default). Here is a sample query to view all metadata keys and values:
+- `metadata`: You can view metadata fields two different ways. 
+  1. To view the available metadata fields, use the GraphQL Explorer. Go to the navigation menu &rarr; **GraphQLExplorer** , then select the **File Uploads Endpoint** to query for Images. 
+  2. Make sure **Query** is selected on the bottom left pane (the default). Below is a sample query to view all metadata keys and values:
 
 ```graphql
 query MyQuery {
@@ -93,7 +83,7 @@ query MyQuery($keys: [String!]) {
 }
 ```
 
-Select the first `keys` field nested under `metadata/entries` on the left panel of the GraphQL Explorer. Click the `$` symbol to use query variables. Add the following arguments in the variables section in the bottom of the middle pane:
+  3. Select the first `keys` field nested under `metadata/entries` on the left panel of the GraphQL Explorer. Click the `$` symbol to use query variables. Add the following arguments in the variables section in the bottom of the middle pane:
 
 ```json
 {
