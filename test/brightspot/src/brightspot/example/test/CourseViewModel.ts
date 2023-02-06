@@ -5,17 +5,29 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Course from './Course'
-import CourseModuleView from './CourseModuleView'
+// import CourseModuleView from './CourseModuleView'
 
 @ViewInterface
 export default class CourseViewModel extends JavaClass(
   'brightspot.example.test.CourseViewModel',
-  ViewModel.Of(Course),
-  CourseModuleView
+  ViewModel.Of(Course)
+  // CourseModuleView
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getTitle(): string {
     return this.model.title
   }
+
+  // @JavaMethodParameters()
+  // @JavaMethodReturn(String)
+  // getTest(): string {
+  //   return "this is a test"
+  // }
+
+  // @JavaMethodParameters()
+  // @JavaMethodReturn(String)
+  // getDescription(): string {
+  //   return this.model.description
+  // }
 }
