@@ -9,10 +9,13 @@ const MovieContainer = () => {
 
   return (
     <div className="movies-container">
-      {data?.AllMovies?.movies &&
+      {data?.AllMovies?.movies && data.AllMovies.movies.length > 0 ? (
         data.AllMovies.movies.map((movie, index) => (
           <MovieComponent key={index} movie={movie} />
-        ))}
+        ))
+      ) : (
+        <h1 className="empty-list">Nothing Here 🧐</h1>
+      )}
     </div>
   )
 }
