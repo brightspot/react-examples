@@ -12,7 +12,9 @@ const BrightspotPreview = () => {
 
   const { data, loading, error } = useQuery(GET_COURSE, {
     variables: {
-      id: previewId,
+      preview: {
+        id: previewId,
+      },
     },
   })
 
@@ -30,7 +32,11 @@ const BrightspotPreview = () => {
   return (
     <>
       {previewId && previewType && (
-        <PreviewBanner previewId={previewId} previewType={previewType} />
+        <PreviewBanner
+          previewId={previewId}
+          previewType={previewType}
+          endpointId={data.HeadlessPreviewEndpoint.id}
+        />
       )}
       <Course course={data.Course} />
     </>

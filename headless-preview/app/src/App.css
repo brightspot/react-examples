@@ -8,6 +8,7 @@
   --secondaryTextColor: #787171;
   --grayscaleTwo: #f1eced;
   --grayscaleOne: #dadce0;
+  --grayscaleThree: rgb(250, 249, 249);
   --clr-white: #fff;
   --transition: all 0.3s linear;
   --spacing: 0.1rem;
@@ -179,7 +180,7 @@ nav {
   z-index: 10;
   text-align: center;
   border-bottom: 1px solid var(--grayscaleOne);
-  background-color: var(--clr-white);
+  background-color: var(--grayscaleThree);
   overflow: auto;
 }
 

@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
@@ -14,6 +13,7 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import CourseViewModel from './CourseViewModel'
 import CoursesViewModel from './CoursesViewModel'
+import HeadlessPreviewEndpointViewModel from './HeadlessPreviewEndpointViewModel'
 
 export default class HeadlessPreviewEndpoint extends JavaClass(
   'brightspot.example.headless_preview.HeadlessPreviewEndpoint',
@@ -29,7 +29,11 @@ export default class HeadlessPreviewEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [CourseViewModel.getClass(), CoursesViewModel.getClass()].map(
+    return [
+      CourseViewModel.getClass(),
+      CoursesViewModel.getClass(),
+      HeadlessPreviewEndpointViewModel.getClass(),
+    ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }

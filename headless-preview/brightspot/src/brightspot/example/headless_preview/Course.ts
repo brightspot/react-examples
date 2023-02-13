@@ -1,4 +1,3 @@
-import Class from 'brightspot-types/java/lang/Class'
 import List from 'brightspot-types/java/util/List'
 
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
@@ -15,7 +14,6 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
 
 import HeadlessPreviewEndpoint from './HeadlessPreviewEndpoint'
-// import CourseViewModel from './CourseViewModel'
 
 export default class Course extends JavaClass(
   'brightspot.example.headless_preview.Course',
@@ -77,8 +75,9 @@ export default class Course extends JavaClass(
       'http://localhost:3000/courses/brightspot-preview'
     let contentDeliveryPreviewType = new ContentDeliveryPreviewType()
     contentDeliveryPreviewType.setPreviewUrl(headlessPreviewUrl)
-    //TODO: this should be used instead of PageEntryView
-    // contentDeliveryPreviewType.setEntryViewClass('brightspot.example.headless_preview.CourseViewModel')
+    contentDeliveryPreviewType.setEntryViewClass(
+      'brightspot-types/com/psddev/cms/view/PreviewEntryView'
+    )
 
     return [contentDeliveryPreviewType] as unknown as List<PreviewType>
   }

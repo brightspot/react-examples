@@ -3,9 +3,10 @@ import useSessionStorage from '../utils/useSessionStorage'
 type Props = {
   previewId: string
   previewType: string
+  endpointId: string
 }
 
-const PreviewBanner = ({ previewId, previewType }: Props) => {
+const PreviewBanner = ({ previewId, previewType, endpointId }: Props) => {
   const deviceWidth = new URLSearchParams(window.location.search)
     .get('deviceWidth')
     ?.valueOf()
@@ -13,6 +14,8 @@ const PreviewBanner = ({ previewId, previewType }: Props) => {
     'show-preview',
     'true'
   )
+
+  const queryString = `query GetCourse {Course(preview: {id: "${previewId}"}) { ageRange description subject title }}`
 
   const handlePreview = () => {
     if (showPreview === 'true') {
@@ -41,7 +44,9 @@ const PreviewBanner = ({ previewId, previewType }: Props) => {
         <span className="preview-width">{`${deviceWidth}`}</span>
         <br />
         <a
-          href={`${process.env.REACT_APP_CMS_HOST_URL}/_debug/query?where=${previewId}`}
+          href={`${
+            process.env.REACT_APP_CMS_HOST_URL
+          }?endpointId=${endpointId}&query=${encodeURIComponent(queryString)}`}
           rel="noreferrer"
           target="_blank"
         >

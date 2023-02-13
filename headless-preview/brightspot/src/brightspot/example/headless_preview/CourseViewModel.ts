@@ -1,7 +1,7 @@
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
-import PageEntryView from 'brightspot-types/com/psddev/cms/view/PageEntryView'
+import PreviewEntryView from 'brightspot-types/com/psddev/cms/view/PreviewEntryView'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
@@ -11,7 +11,7 @@ import Course from './Course'
 export default class CourseViewModel extends JavaClass(
   'brightspot.example.headless_preview.CourseViewModel',
   ViewModel.Of(Course),
-  PageEntryView
+  PreviewEntryView
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
