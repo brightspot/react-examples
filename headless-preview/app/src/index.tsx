@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const previewId = new URLSearchParams(window.location.search).get('previewId')
 
 const previewType = new URLSearchParams(window.location.search).get('typename')
-console.log(window.location)
+
 root.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
