@@ -14,7 +14,9 @@ const MovieContainer = () => {
           <MovieComponent key={index} movie={movie} />
         ))
       ) : (
-        <h1 className="empty-list">Nothing Here 🧐</h1>
+        <h1 className="empty-list">
+          Nothing Here 🧐 Publish Movie content in Brightspot
+        </h1>
       )}
     </div>
   )
