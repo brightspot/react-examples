@@ -23,4 +23,16 @@ export default class MovieViewModel extends JavaClass(
   getDescription(): string {
     return this.model.description
   }
+
+  // @JavaMethodParameters()
+  // @JavaMethodReturn(Number)
+  // getReleaseYear(): number {
+  //   return this.model.releaseYear
+  // }
+
+  // @JavaMethodParameters()
+  // @JavaMethodReturn(String)
+  // getDirector(): string {
+  //   return this.model.director
+  // }
 }
