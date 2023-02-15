@@ -28,7 +28,7 @@ export default class SchemaVersioningMovieEndpoint extends JavaClass(
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
     super.updateCorsConfiguration(corsConfiguration)
-    corsConfiguration.addAllowedOrigin('localhost')
+    corsConfiguration.addAllowedOrigin('*')
   }
 
   getApiAccessOption(): GraphQLApiAccessOption {

@@ -27,6 +27,6 @@ export default class SchemaVersioningEndpoint extends JavaClass(
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
     super.updateCorsConfiguration(corsConfiguration)
-    corsConfiguration.addAllowedOrigin('localhost')
+    corsConfiguration.addAllowedOrigin('*')
   }
 }
