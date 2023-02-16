@@ -11,7 +11,7 @@ const Navbar = () => {
   }
   const { data, error } = useGetAllSectionsQuery()
 
-  const sectionsList = data?.Sections?.sections
+  const sectionsList = data?.AllSections?.sections
 
   if (error) console.log(error.message)
   return (
@@ -36,7 +36,7 @@ const Navbar = () => {
                 className="down-chevron"
                 data-reverse={showLinks || null}
               />
-              <p>Sections</p>
+              <h3>Sections</h3>
             </div>
           </button>
         </div>
@@ -46,7 +46,7 @@ const Navbar = () => {
               <li key={i} data-show={showLinks || null}>
                 <Link
                   onClick={() => setShowLinks(false)}
-                  to={`/${section?.id}`}
+                  to={`sections/${section?.slug}`}
                   className="link-item"
                   data-show={showLinks || null}
                 >

@@ -1,16 +1,14 @@
-query GetSection($slug: String, $id: ID) {
-  Section(model: { slug: $slug, id: $id }) {
+query GetSection($slug: String) {
+  Section(model: { slug: $slug }) {
     name
     slug
     articles {
       headline
       publishDate
       slug
-      id
       section {
         name
         slug
-        id
       }
     }
   }

@@ -8,20 +8,20 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import AppRoutingEndpoint from './AppRoutingEndpoint'
-import Article from './Article'
-import ArticleViewModel from './ArticleViewModel'
+import Section from './Section'
+import SectionViewModel from './SectionViewModel'
 
 @ViewInterface
-export default class ArticlesViewModel extends JavaClass(
-  'brightspot.example.app_routing.ArticlesViewModel',
+export default class ALlSectionsViewModel extends JavaClass(
+  'brightspot.example.app_routing.AllSectionsViewModel',
   ViewModel.Of(AppRoutingEndpoint)
 ) {
   @JavaMethodParameters()
-  @JavaMethodReturn(List.Of(ArticleViewModel))
-  getArticles(): List<ArticleViewModel> {
+  @JavaMethodReturn(List.Of(SectionViewModel))
+  getSections(): List<SectionViewModel> {
     return this.createViews(
-      ArticleViewModel.getClass(),
-      Query.from(Article.getClass()).selectAll()
-    ) as unknown as List<ArticleViewModel>
+      SectionViewModel.getClass(),
+      Query.from(Section.getClass()).selectAll()
+    ) as unknown as List<SectionViewModel>
   }
 }

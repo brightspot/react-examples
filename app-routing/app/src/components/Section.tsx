@@ -6,11 +6,11 @@ import List from './List'
 import NotFound from './NotFound'
 
 const Section = () => {
-  const { content } = useParams()
+  const { section } = useParams()
 
   const { data, error, loading } = useGetSectionQuery({
     variables: {
-      id: content,
+      slug: section,
     },
   })
 

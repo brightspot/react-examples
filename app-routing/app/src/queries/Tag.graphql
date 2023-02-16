@@ -1,14 +1,12 @@
-query GetTag($slug: String, $id: ID) {
-  Tag(model: { slug: $slug, id: $id }) {
+query GetTag($slug: String) {
+  Tag(model: { slug: $slug }) {
     category
     articles {
       headline
-      id
       slug
       section {
         name
         slug
-        id
       }
     }
   }

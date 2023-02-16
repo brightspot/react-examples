@@ -1,16 +1,14 @@
-query GetArticle($slug: String, $id: ID) {
-  Article(model: { slug: $slug, id: $id }) {
+query GetArticle($slug: String) {
+  Article(model: { slug: $slug }) {
     body
     headline
     publishDate
     section {
       slug
-      id
       name
     }
     tags {
       category
-      id
       slug
     }
   }

@@ -4,9 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import App from './App'
 import Article from './components/Article'
-import DynamicContainer from './components/DynamicContainer'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
+import Section from './components/Section'
+import Tag from './components/Tag'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -19,8 +20,9 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="" element={<Home />} />
-          <Route path=":content" element={<DynamicContainer />} />
-          <Route path=":section/:article" element={<Article />} />
+          <Route path="sections/:section" element={<Section />} />
+          <Route path="sections/:section/:article" element={<Article />} />
+          <Route path="tags/:tag" element={<Tag />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

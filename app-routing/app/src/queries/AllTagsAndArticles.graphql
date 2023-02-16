@@ -1,23 +1,20 @@
 query GetAllTagsAndArticles {
-  Tags {
+  AllTags {
     tags {
       category
-      id
       slug
     }
   }
-  Articles {
+  AllArticles {
     articles {
       slug
       headline
-      id
       tags {
         category
       }
       section {
         name
         slug
-        id
       }
     }
   }

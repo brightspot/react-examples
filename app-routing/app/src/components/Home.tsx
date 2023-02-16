@@ -8,7 +8,7 @@ const Home = () => {
   if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
 
-  if (!data?.Articles)
+  if (!data?.AllArticles)
     return (
       <div className="message">
         <h3>No data... 🤔</h3>
@@ -21,16 +21,16 @@ const Home = () => {
         <h1>Welcome to News</h1>
       </div>
       <div className="home-tagsContainer">
-        {data?.Tags?.tags?.map((tag, i) => (
-          <Link className="home-tags" key={i} to={`/${tag?.id}`}>
+        {data?.AllTags?.tags?.map((tag, i) => (
+          <Link className="home-tags" key={i} to={`/tags/${tag?.slug}`}>
             {tag?.category}
           </Link>
         ))}
       </div>
       <div className="container">
-        {data?.Articles?.articles && (
+        {data?.AllArticles?.articles && (
           <>
-            <CardList articles={data?.Articles?.articles} />
+            <CardList articles={data?.AllArticles?.articles} />
           </>
         )}
       </div>

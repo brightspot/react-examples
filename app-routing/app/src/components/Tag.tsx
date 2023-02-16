@@ -6,10 +6,10 @@ import List from './List'
 import NotFound from './NotFound'
 
 const Tag = () => {
-  const { content } = useParams()
+  const { tag } = useParams()
   const { data, error, loading } = useGetTagQuery({
     variables: {
-      id: content,
+      slug: tag,
     },
   })
 

@@ -52,46 +52,15 @@ p,
 span,
 a {
   letter-spacing: var(--spacing);
-  font-size: clamp(var(--min), var(--val), var(--max));
-}
-
-h1 {
-  --min: 2.5rem;
-  --val: 3rem;
-  --max: 4rem;
-}
-
-h2 {
-  --min: 1.9rem;
-  --val: 2.3rem;
-  --max: 3rem;
-}
-
-h3 {
-  --min: 1.7rem;
-  --val: 1.8rem;
-  --max: 1.9rem;
-}
-
-h4 {
-  --min: 1.5rem;
-  --val: 1.6rem;
-  --max: 1.7rem;
 }
 
 p,
 a {
   color: var(--secondaryTextColor);
-  --min: 1rem;
-  --val: 1.3rem;
-  --max: 1.4rem;
 }
 
 span {
   color: var(--secondaryTextColor);
-  --min: 0.8rem;
-  --val: 1rem;
-  --max: 1.2rem;
 }
 
 .message {
@@ -249,7 +218,7 @@ main {
 .home-title {
   color: white;
   background-color: var(--primaryBlue);
-  padding: 7rem 2rem;
+  padding: 2rem;
   text-align: center;
   margin-bottom: 4rem;
 }
@@ -372,7 +341,7 @@ main {
 
 /* Banner */
 .banner-container {
-  padding: 4rem;
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
