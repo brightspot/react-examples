@@ -15,8 +15,8 @@ interface ArticleResponse {
 }
 
 const ArticleMarkQuery = `
-query ArticleMarkQuery($path: String) {
-  Article(model: {path: $path}) {
+query ArticleMarkedTextQuery {
+  Article {
     headline
     body {
       text
@@ -102,9 +102,6 @@ const Article = () => {
       },
       body: JSON.stringify({
         query: ArticleMarkQuery,
-        variables: {
-          path: 'marked-text',
-        },
       }),
     }
     await fetch(GRAPHQL_URL, dataRequestParams)
