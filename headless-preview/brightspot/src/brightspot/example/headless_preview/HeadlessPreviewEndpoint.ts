@@ -1,3 +1,5 @@
+import JavaClass from 'brightspot-types/JavaClass'
+import JavaField from 'brightspot-types/JavaField'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
@@ -6,13 +8,11 @@ import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
-import JavaClass from 'brightspot-types/JavaClass'
-import JavaField from 'brightspot-types/JavaField'
 import Placeholder from 'brightspot-types/com/psddev/cms/ui/form/Placeholder'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import CourseViewModel from './CourseViewModel'
-import CoursesViewModel from './CoursesViewModel'
+import AllCoursesViewModel from './AllCoursesViewModel'
 import HeadlessPreviewEndpointViewModel from './HeadlessPreviewEndpointViewModel'
 
 export default class HeadlessPreviewEndpoint extends JavaClass(
@@ -31,7 +31,7 @@ export default class HeadlessPreviewEndpoint extends JavaClass(
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
       CourseViewModel.getClass(),
-      CoursesViewModel.getClass(),
+      AllCoursesViewModel.getClass(),
       HeadlessPreviewEndpointViewModel.getClass(),
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)

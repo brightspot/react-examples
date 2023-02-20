@@ -20,13 +20,14 @@ const BrightspotPreview = () => {
 
   if (loading) return <div className="loading">Loading...</div>
 
-  if (!data?.Course) {
-    return <NotFound />
-  }
   if (error) {
     return (
       <p className="error">{`There was an error fetching data for the course: ${error.message} `}</p>
     )
+  }
+
+  if (!data?.Course) {
+    return <NotFound />
   }
 
   return (

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
-const GET_ALL_COURSES = gql`
+const GET_COURSES_DETAILED = gql`
   query getAllCoursesDetailed {
-    Courses {
+    AllCourses {
       courses {
         ageRange
         slug
@@ -13,4 +13,4 @@ const GET_ALL_COURSES = gql`
   }
 `
 
-export default GET_ALL_COURSES
+export default GET_COURSES_DETAILED
