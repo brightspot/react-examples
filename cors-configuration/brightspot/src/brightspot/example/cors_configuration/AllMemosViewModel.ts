@@ -7,8 +7,8 @@ import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import Memo from './Memo'
 import CorsConfigurationEndPoint from './CorsConfigurationEndpoint'
+import Memo from './Memo'
 import MemoViewModel from './MemoViewModel'
 
 @ViewInterface

@@ -1,54 +1,55 @@
 import './App.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 
 interface MemoData {
-  AllMemos:
-    | {
-        memos: {
-          message: string
-          subject: string
-        }[]
-      }
-    | undefined
+  AllMemos?: {
+    memos: {
+      message: string
+      subject: string
+    }[]
+  }
 }
 
-const App = () => {
+const CORS_CONFIG_URL = process.env.REACT_APP_CORS_CONFIG_URL ?? ''
+
+const headers = new Headers()
+headers.append('Foo', 'Bar')
+// Add custom headers here
+
+const graphqlQuery = JSON.stringify({
+  query: `query MyQuery {
+    AllMemos {
+      memos {
+        message
+        subject
+      }
+    }
+  }`,
+})
+
+const requestOptions = {
+  method: 'POST',
+  headers: headers,
+  body: graphqlQuery,
+}
+
+const useMemoData = () => {
   const [memoData, setMemoData] = useState<MemoData>()
 
   useEffect(() => {
-    const myHeaders = new Headers()
-    myHeaders.append('Foo', 'Bar')
-    // Add custom headers here
-
-    const graphqlQuery = JSON.stringify({
-      query: `query MyQuery {
-        AllMemos {
-          memos {
-            message
-            subject
-          }
-        }
-      }`,
-    })
-    const requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: graphqlQuery,
-    }
-
-    const dataFetch = async () => {
-      const data = await fetch(
-        'http://localhost/graphql/delivery/cors-configuration',
-        requestOptions
-      )
+    ;(async () => {
+      await fetch(CORS_CONFIG_URL, requestOptions)
         .then((response) => response.json())
         .catch((error) => console.log('error', error))
-
-      setMemoData(data.data)
-    }
-
-    dataFetch()
+        .then((data) => setMemoData(data.data))
+    })()
   }, [])
+
+  return memoData
+}
+
+const App = () => {
+  const memoData = useMemoData()
 
   if (!memoData)
     return (

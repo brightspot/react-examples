@@ -10,16 +10,11 @@ import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
 @DisplayName({ value: 'Memo: CORs Configuration' })
 export default class Memo extends JavaClass(
   'brightspot.example.cors_configuration.Memo',
-  Content,
-  DirectoryItem
+  Content
 ) {
   @JavaField(String)
   subject: string
 
   @JavaField(String)
-  message: string;
-
-  [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
-    return Utils.toNormalized(this.subject)
-  }
+  message: string
 }

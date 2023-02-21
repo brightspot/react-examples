@@ -1,4 +1,5 @@
 import JavaClass from 'brightspot-types/JavaClass'
+import JavaField from 'brightspot-types/JavaField'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
@@ -12,7 +13,6 @@ import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQ
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import AllMemosViewModel from './AllMemosViewModel'
-import JavaField from 'brightspot-types/JavaField'
 
 @DisplayName({ value: 'CORS Configuration Endpoint' })
 export default class CorsConfigurationEndpoint extends JavaClass(
@@ -23,16 +23,6 @@ export default class CorsConfigurationEndpoint extends JavaClass(
   @DisplayName({ value: 'CORS Configuration' })
   @JavaField(CustomGraphQLCorsConfiguration)
   corsConfiguration: CustomGraphQLCorsConfiguration
-
-  getCorsConfiguration(): CustomGraphQLCorsConfiguration {
-    return this.corsConfiguration
-  }
-
-  setCorsConfiguration(
-    corsConfiguration: CustomGraphQLCorsConfiguration
-  ): void {
-    this.corsConfiguration = corsConfiguration
-  }
 
   getPaths(): JavaSet<string> {
     return [
@@ -55,15 +45,20 @@ export default class CorsConfigurationEndpoint extends JavaClass(
       graphQLCorsConfiguration.addAllowedOrigin(origin)
     })
 
-    Array.from(this.corsConfiguration.getAllowedHeaders()).map((origin) => {
-      graphQLCorsConfiguration.addAllowedHeader(origin)
+    Array.from(this.corsConfiguration.getAllowedHeaders()).map((header) => {
+      graphQLCorsConfiguration.addAllowedHeader(header)
     })
+
+    graphQLCorsConfiguration.setMaxAge(this.corsConfiguration.getMaxAge())
 
     // Add allowed origins here:
     // graphQLCorsConfiguration.addAllowedOrigin('localhost')
 
     // Add allowed headers here:
     // graphQLCorsConfiguration.addAllowedHeader('foo')
+
+    // Set max age to thirty seconds here:
+    // graphQLCorsConfiguration.setMaxAge(30)
   }
 
   afterSave() {

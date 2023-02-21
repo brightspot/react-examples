@@ -23,10 +23,4 @@ export default class MemoViewModel extends JavaClass(
   getMessage(): string {
     return this.model.message
   }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getId(): string {
-    return this.model.id.toString()
-  }
 }

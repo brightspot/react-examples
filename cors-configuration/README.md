@@ -1,6 +1,10 @@
 # Cors Configuration
 
-This example will use JS Classes and the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) to generate a GraphQL Content Delivery API endpoint (CDA) to then connect to a front-end application and demonstrate how to easily manage and debug common [CORS]('https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS') issues in an app to streamline development and better secure production applications.
+"Cross-Origin Resource Sharing ([CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources." - MDN Web Docs
+
+CORS adds security against [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf) when configured correctly. The configuration relaxes the [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) to ensure that a trusted domain is whitelisted to grant access to data from an API placed on another domain and/or port. If CORS is not set up as intended, the front-application will run into problems and will be blocked from retrieving or sending any data to the server.
+
+This example uses JS Classes and the [Brightspot GraphQL Content Delivery API (CDA) endpoint](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) to demonstrate how to easily manage and debug common [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues in an app to streamline development and better secure production applications.
 
 ## Running the example application
 
@@ -16,7 +20,7 @@ npx brightspot types upload src
 
 ```
 
-To run the front-end:
+To run the front end, run the following commands from the `cors-configuration/app` directory:
 
 ```
 cd app
@@ -32,37 +36,43 @@ The front-end app on start up displays **Loading...**. Open the developer consol
 
 **Access to fetch at 'http://localhost/graphql/delivery/cors-configuration' from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.**
 
-This is a common error that usually happens when a server and a front-end application are hosted on different domains but the domain the front-end application is hosted on, has not been added to the servers' allowed origins list.
+This is a common error that occurs when a server and a front-end application are hosted on different domains and the front-end application’s domain has not been added to the server’s allowed origins list.
 
-There are two ways two fix this with Brightspot, either the development side or via the local [Brightspot]('http://localhost/cms') instance.
+There are two ways two fix this with Brightspot:
+
+1. Programmatically, editing the JS classes files.
+2. Editorially, via the local [Brightspot]('http://localhost/cms') instance.
 
 ## Via JS Classes
 
 Edit the following file:
 `brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts`
 
-1. Remove the commented out code on line 63.
+1. Uncomment the code on line 65.
 2. Save the file.
-3. Upload files once again: `npx brightspot types upload src` from the brightspot directory.
+3. Upload types again: `npx brightspot types upload src` from the brightspot/src directory.
+4. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
+5. Via the Navigation menu, click under **Admin**, **APIs**.
+6. Click on **CORS Configuration Endpoint** and save.
 
 ## Via Brightspot
 
-1. Open the local [Brightspot]('http://localhost/cms') instance in the browser.
-2. Via the Navigation menu, click under **Admin**, **APIs**.
+1. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
+2. Via the Navigation menu, click under **Admin** &rarr; **APIs**.
 3. Click on **CORS Configuration Endpoint**.
 
-At this stage, there is a form presented to you. Under **Cors Configuration** there is a dropdown with two options:
+At this stage, you see a form. Under **Cors Configuration** there is a dropdown with two options:
 
 1. **Set:**, which is selected by default.
 2. **None**.
 
-You could change this selection to **None** but then you would not be able to fix these issues via Brightspot. This setting is intended when your application and server are hosted on the same domain and so will not run into CORS errors.
+Add 'localhost' to the **Allowed Origins** list. Then click save.
 
-Under **Allowed Origins** lets add 'localhost' to the list. Then save.
+> **Note**: You could change this selection to **None** but then you would not be able to fix these issues via Brightspot. This setting is intended when your application and server are hosted on the same domain and so will not run into CORS errors.
 
 ## Going back to the front end
 
-Start up your front-end again or refresh if it is still running.
+Start up your front-end application or refresh if it is still running.
 
 We now hit a different error in the developer console:
 
@@ -77,94 +87,74 @@ Now the front-end application's request header is being blocked. Follow the step
 Edit the following file:
 `brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts`
 
-1. Remove the commented out code on line 66.
+1. Uncomment the code on line 68.
 2. Save the file.
-3. Upload files once again: `npx brightspot types upload src` from the brightspot directory.
+3. Upload types again: `npx brightspot types upload src` from the brightspot/src directory.
+4. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
+5. Via the Navigation menu, click under **Admin**, **APIs**.
+6. Click on **CORS Configuration Endpoint** and save.
 
-## ## Via Brightspot
+## Via Brightspot
 
-1. Open the local [Brightspot]('http://localhost/cms') instance in the browser.
+1. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
 2. Via the Navigation menu, click under **Admin**, **APIs**.
 3. Click on **CORS Configuration Endpoint**.
-4. Under **Allowed Headers** lets add 'foo' to the list. Then save.
+4. Add 'foo' to the **Allowed Headers** list. Then click save.
 
 ## Going back to the front end
 
-Start up your front-end again or refresh if it is still running. Open up the developer console, you will no longer see any CORS errors.
+Start up your front-end application again or refresh if it is still running. Open up the developer console, you no longer see any CORS errors.
 
 ## How everything works
 
-Navigate to `brightspot/src/examples/cors-configuration`. This directory contains the JS Classes files that are uploaded to Brightspot.
+`brightspot/src/examples/cors-configuration`. This directory contains the JS Classes that are uploaded to Brightspot.
 
-- `CorsConfigurationEndpoint.ts` This file is the endpoint used for this example.
+`CorsConfigurationEndpoint.ts` This file is the endpoint used for this example.
 
-The following code in this file, creates the form displayed when viewing the endpoint under available APIs in Brightspot and allows the user to update the form:
-
-```js
-  @DisplayName({ value: 'CORS Configuration' })
-  @JavaField(CustomGraphQLCorsConfiguration)
-  corsConfiguration: CustomGraphQLCorsConfiguration
-
-  getCorsConfiguration(): CustomGraphQLCorsConfiguration {
-    return this.corsConfiguration
-  }
-
-  setCorsConfiguration(
-    corsConfiguration: CustomGraphQLCorsConfiguration
-  ): void {
-    this.corsConfiguration = corsConfiguration
-  }
-```
-
-The following code within the endpoint file updates the endpoint when the CORS configuration form is saved with the users added allowed origins and/or headers:
-
-```js
-  updateCorsConfiguration(
-    graphQLCorsConfiguration: GraphQLCorsConfiguration
-  ): void {
-    super.updateCorsConfiguration(graphQLCorsConfiguration)
-
-    Array.from(this.corsConfiguration.getAllowedOrigins()).map((origin) => {
-      graphQLCorsConfiguration.addAllowedOrigin(origin)
-    })
-
-    Array.from(this.corsConfiguration.getAllowedHeaders()).map((origin) => {
-      graphQLCorsConfiguration.addAllowedHeader(origin)
-    })
-
-    // Add allowed origins here:
-    // graphQLCorsConfiguration.addAllowedOrigin('localhost')
-
-    // Add allowed headers here:
-    // graphQLCorsConfiguration.addAllowedHeader('foo')
-  }
-
-  afterSave() {
-    this.updateCorsConfiguration(new GraphQLCorsConfiguration())
-  }
-```
-
-Reviewing the code above, you can see how to add allowed origins or headers vis JS classes.
+- The `JavaField` holds expects a class of `CustomGraphQLCorsConfiguration`. For this example a display name of `CORS Configuration` is given for the form that controls the CORS settings.
+- `getCorsConfiguration` gets the current CORS settings to place in the form.
+- `setCorsConfiguration` updates the values in the current form.
+- `updateCorsConfiguration` updates the CORS settings to what has been put in the form. It also can be edited to update the settings programmatically.
+- `afterSave` is called when the form is save. This then calls `updateCorsConfiguration` to update the CORS settings.
 
 ## Preflight Requests
 
-When a request is sent via a browser, there is a check request beforehand made to the server. This is a [preflight request]('https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request'). It sends a request to the server to check if the options included in the request such as headers along with the origin that is making the request, is the type of request the server expects to receive. If the server comes back with the information matching what is in the options of the request and approves of the origin, the original request will be sent.
+When the browser makes a request, it first sends a check request to the server called a [preflight request](‘https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request’).
 
-If the check request fails, that is when you will run into the CORS errors listed above. Either the origin was not on the allowed origins list or headers that are present in the request are not permitted.
+If the preflight request fails, you run into the CORS errors listed above. Either the origin was not on the allowed origins list, or headers that are present in the request are not permitted.
 
 ## Performance
 
 Making two requests everytime a front-end app sends an API call to the server will affect performance.
 
-Open the developer console and navigate to the network tab. Under name, there will be four **cors-configuration** requests. After the first two POST requests made, there are two GET requests made. These are the preflight requests that are sending a request method of 'OPTIONs' with the headers and origin information. The POST requests will not be sent until the server responds approving the request.
+Open the developer console and navigate to the network tab. Under name, there will be four **cors-configuration** requests. After the first two POST requests made, there are two GET requests made. These are the preflight requests that are sending a request method of 'OPTIONS' with the headers and origin information. The POST requests will not be sent until the server responds approving the request.
 
 ## Access Control Max Age
 
-To avoid having to make preflight requests when making the same requests, Brightspot offers another CORS configuration option available. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age')
+To avoid having to make preflight requests when making the same requests, Brightspot offers another CORS configuration option. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age') which can once again be set programmatically or via your Brightspot instance:
 
-<!-- ADD README info on this config option -->
+## Via JS Classes
 
-<!-- Add info/code about preflight requests -->
+Edit the following file:
+`brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts`
+
+1. Uncomment the code on line 71.
+2. Save the file.
+3. Upload types again: `npx brightspot types upload src` from the brightspot/src directory.
+4. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
+5. Via the Navigation menu, click under **Admin**, **APIs**.
+6. Click on **CORS Configuration Endpoint** and save.
+
+## Via Brightspot
+
+1. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
+2. Via the Navigation menu, click under **Admin**, **APIs**.
+3. Click on **CORS Configuration Endpoint**.
+4. Under **Max Age** add '30' to the space available. Then save.
+
+## Going back to the front end
+
+Start up your front-end application again or refresh if it is still running. Open up the developer console and look at the network tab. There will be four requests like the first time around but for the next thirty delta seconds, refresh the page and see that there is no longer a need for the pre-flight requests. After thirty seconds, it will need to make another pre-flight request. This is due to the '30' delta seconds placed in this example.
 
 ## Try it yourself
 
@@ -174,6 +164,8 @@ To avoid having to make preflight requests when making the same requests, Bright
 myHeaders.append('Foo', 'Bar')
 // Add custom headers here
 ```
+
+- Update the code via JS classes to accept a max age of your choice to test pre-flight requests. Bare in mind browsers have different limits to the amount of time that can be entered to cache pre-flight requests.
 
 ## Troubleshooting
 
