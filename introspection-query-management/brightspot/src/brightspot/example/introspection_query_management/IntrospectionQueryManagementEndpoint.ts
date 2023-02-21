@@ -32,8 +32,7 @@ export default class IntrospectionQueryManagementEndpoint extends JavaClass(
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
     super.updateCorsConfiguration(corsConfiguration)
-    corsConfiguration.addAllowedOrigin('localhost')
-    corsConfiguration.addAllowedOrigin('cloud.hasura.io') // for testing externally with hasura.io
+    corsConfiguration.addAllowedOrigin('*')
     corsConfiguration.addAllowedHeader('Introspection-Key')
   }
 
