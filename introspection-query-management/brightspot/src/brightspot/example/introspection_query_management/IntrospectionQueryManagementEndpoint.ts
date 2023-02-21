@@ -1,5 +1,4 @@
 import JavaClass from 'brightspot-types/JavaClass'
-import JavaField from 'brightspot-types/JavaField'
 import JavaSet from 'brightspot-types/java/util/Set'
 import List from 'brightspot-types/java/util/List'
 
@@ -19,13 +18,6 @@ export default class IntrospectionQueryManagementEndpoint extends JavaClass(
   ContentDeliveryApiEndpointV1,
   Singleton
 ) {
-  @JavaField(String)
-  introspectionKey?: string
-
-  afterCreate(): void {
-    this.introspectionKey = 'abcdefghijklmnopqrstuvwxyz'
-  }
-
   getPaths(): JavaSet<string> {
     return [
       '/graphql/delivery/introspection-query-management',
@@ -50,12 +42,10 @@ export default class IntrospectionQueryManagementEndpoint extends JavaClass(
   }
 
   getIntrospectionQueryRule(): IntrospectionQueryRule {
-    const introspectionQueryRule = ClassFinder.getClass(
+    const ExampleIntrospectionQueryRule = ClassFinder.getClass(
       'brightspot.example.introspection_query_management.ExampleIntrospectionQueryRule'
     )
-    let rule = new introspectionQueryRule()
-    rule.introspectionKey = this.introspectionKey
-
-    return rule
+    
+    return new ExampleIntrospectionQueryRule()
   }
 }
