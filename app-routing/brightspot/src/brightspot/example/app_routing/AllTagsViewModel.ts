@@ -1,8 +1,8 @@
-import List from 'brightspot-types/java/util/List'
-
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+import List from 'brightspot-types/java/util/List'
+
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
@@ -22,6 +22,6 @@ export default class AllTagsViewModel extends JavaClass(
     return this.createViews(
       TagViewModel.getClass(),
       Query.from(Tag.getClass()).selectAll()
-    ) as unknown as List<TagViewModel>
+    ) as List<TagViewModel>
   }
 }
