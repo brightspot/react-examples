@@ -13,7 +13,11 @@ const SongsContainer = () => {
         <h1>Nothing Here 🧐</h1>
         <p>
           Publish a 'Song' in{' '}
-          <a href="http://localhost/cms" target="_blank" rel="noreferrer">
+          <a
+            href={`${process.env.REACT_APP_BRIGHTSPOT_HOST}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             Brightspot
           </a>
         </p>
