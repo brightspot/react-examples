@@ -1,5 +1,5 @@
 import './App.css'
-import { useState, useEffect, memo } from 'react'
+import { useState, useEffect } from 'react'
 
 interface MemoData {
   AllMemos?: {
