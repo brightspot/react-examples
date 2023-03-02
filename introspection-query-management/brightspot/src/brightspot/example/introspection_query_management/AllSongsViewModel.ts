@@ -22,6 +22,6 @@ export default class AllSongsViewModel extends JavaClass(
     return this.createViews(
       SongViewModel.getClass(),
       Query.from(Song.getClass()).selectAll()
-    ) as List<SongViewModel>
+    )
   }
 }
