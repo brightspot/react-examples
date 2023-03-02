@@ -6,7 +6,7 @@ GraphQL introspection queries are useful, but enabling the system in production 
 
 Read more about [why you should disable GraphQL introspection in production](https://www.apollographql.com/blog/graphql/security/why-you-should-disable-graphql-introspection-in-production/).
 
-There are many ways to disable GraphQL introspection from public use while still allowing developers and build pipelines to utilize the feature. This example demonstrates how to use JS classes to create an introspection query rule that only allows an introspection query if the request provides a specific `Introspection-Key` header.
+Brightspot makes it possible to create introspection query rules that allow or block introspection queries based upon any custom logic. This example demonstrates how to use JS classes to create an introspection query rule that only allows a query if the request provides a specific `Introspection-Key` header.
 
 ## What you will learn
 
@@ -65,7 +65,7 @@ The end result is a GraphQL API that is open to the public but with introspectio
 #### Points to note in the front end application:
 
 - `codegen.yml`: The headers used in the GraphQL Code Generator can be edited in this file.
-- `queries/AllSongs.graphql`: Only the fields listed in this query will be public to users. All other fields on the `Song` content type are available but hidden.
+- `queries/AllSongs.graphql`: Only the fields listed in this query will be visible in a web browser's development tools. All other fields on the `Song` content type are available but hidden.
 
 ## Try it yourself
 
@@ -73,8 +73,6 @@ The following is a suggestion for learning more about GraphQL introspection with
 
 1. Try changing the introspection query rule to support multiple keys.
 2. Try making the introspection key configurable in Brightspot. Hint: You will need to add a `JavaField` to the endpoint and the introspection query rule.
-
-> **_Note_** If you make any changes to the JS classes, be sure to save the changes in Brightspot at **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Introspection Query Management** &rarr; **Save**
 
 ## Troubleshooting
 
