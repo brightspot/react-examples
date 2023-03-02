@@ -41,15 +41,17 @@ export default class CorsConfigurationEndpoint extends JavaClass(
   ): void {
     super.updateCorsConfiguration(graphQLCorsConfiguration)
 
-    Array.from(this.corsConfiguration.getAllowedOrigins()).map((origin) => {
-      graphQLCorsConfiguration.addAllowedOrigin(origin)
-    })
+    if (this.corsConfiguration) {
+      Array.from(this.corsConfiguration.getAllowedOrigins()).map((origin) => {
+        graphQLCorsConfiguration.addAllowedOrigin(origin)
+      })
 
-    Array.from(this.corsConfiguration.getAllowedHeaders()).map((header) => {
-      graphQLCorsConfiguration.addAllowedHeader(header)
-    })
+      Array.from(this.corsConfiguration.getAllowedHeaders()).map((header) => {
+        graphQLCorsConfiguration.addAllowedHeader(header)
+      })
 
-    graphQLCorsConfiguration.setMaxAge(this.corsConfiguration.getMaxAge())
+      graphQLCorsConfiguration.setMaxAge(this.corsConfiguration.getMaxAge())
+    }
 
     // Add allowed origins here:
     // graphQLCorsConfiguration.addAllowedOrigin('localhost')
