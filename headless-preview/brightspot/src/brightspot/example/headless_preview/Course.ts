@@ -14,6 +14,7 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import Values from 'brightspot-types/com/psddev/dari/db/Recordable$Values'
 
 import HeadlessPreviewEndpoint from './HeadlessPreviewEndpoint'
+
 export default class Course extends JavaClass(
   'brightspot.example.headless_preview.Course',
   Content,

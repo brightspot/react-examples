@@ -1,10 +1,10 @@
 # Headless Preview
 
-Although almost all traditional CMSs provide a preview mode to see how content looks on a web page before publishing, that is not true with headless CMSs. 
+Although almost all traditional Content Management Systems (CMS) provide a preview mode to see how content looks on a web page before publishing, that is not true with headless CMSs. 
 
 This can be a downside to a headless CMS platform, since content creators may find content creation frustrating without the ability to see how content is displayed on a web page as they create or edit.
 
-Brightspot however provides the ability to [preview](https://www.brightspot.com/documentation/brightspot-cms-user-guide/latest/preview) content before publishing with ALL platforms, headless included. With very little additional configuration, headless platform content creators can see their changes on a web page as they create or edit content.
+Brightspot, however, provides the ability to [preview](https://www.brightspot.com/documentation/brightspot-cms-user-guide/latest/preview) content before publishing with ALL platforms, headless included. With little additional configuration, headless platform content creators can see their changes on a web page as they create or edit content.
 
 This example focuses using JS Classes to configure and use the Brightspot preview mode with a headless configuration. 
 ## Running the example application
@@ -29,19 +29,19 @@ yarn start
 The front-end application opens automatically in the browser.
 
 ## Using the example application
-Make sure the front-end application is up and running so you can see how the preview pane in Brightspot updates real time.
+Make sure the front-end application is up and running so you can see how the preview pane in Brightspot updates in real time.
 
-Publish a **Course** content item in Brightspot. Make sure to enter a title and slug; the rest of the fields are optional. The content updates in the preview pane as you edit text.
+Publish a **Course** content item in Brightspot. The content updates in the preview pane as you edit text.
 
 > **_Note_** If you do not see the preview pane, click on the eye icon to the left of the **PUBLISH** button. 
 
 ## How everything works
 With a headless platform, you are not using a templating system Brightspot provides with its traditional architecture. Instead, you provide your front-end application to connect to the Brightspot platform. 
 
-To view changes to content before publishing with a headless platform, provide Brightspot with a URL that will load in an iframe in the preview pane. Brightspot will load the URL while adding additional parameters to the request (`previewId` and `typename`), which are used to fetch preview content with GraphQL. The GraphQL query will return the data that corresponds to edited content. These editing changes are available in real-time. 
+To view changes to content before publishing with a headless platform, you need to provide Brightspot with the URL where the front-end application is running. That URL will load in an iframe in Brightspot's preview pane, and Brightspot will send `previewId` and `typename` to the URL via HTTP parameters on a request. The `previewId` is used as a query argument to fetch preview content with GraphQL. The GraphQL query will return the data that corresponds to edited content. These editing changes are available in real time. 
 
 #### JS Classes Files:
-Navigate to `brightspot/src/examples/headless_preview`. This directory contains the JS Classes files that are uploaded to Brightspot. The following are key points to note:
+Navigate to `brightspot/src/examples/headless_preview`. This directory contains the JS Class files that are uploaded to Brightspot. The following are key points to note:
 
 - `Course.ts`: The class that contains the business logic (fields, etc.)
   - `PreviewTypeSupplier`: Implement this interface to specify a particular PreviewType class. 
@@ -57,7 +57,7 @@ ex:
 import JavaInterface from 'brightspot-types/JavaInterface'
 
 export default abstract class MyCustomView extends JavaInterface(
-  'brightspot.examples.headless_preview.CourseModuleView'
+  'brightspot.examples.headless_preview.MyCustomView'
 ) {}
 
 ```
@@ -77,10 +77,10 @@ export default abstract class MyCustomView extends JavaInterface(
   }
 ```
 
-- `CourseViewModel.ts`: This view model implements `PreviewEntryView` so the preview panel appears when creating **Course** content. If you create a custom marker interfaces and set that interface as an Entry View Class, you can implement that interface instead.
+- `CourseViewModel.ts`: This view model implements `PreviewEntryView` so the preview panel appears when creating **Course** content. If you create a custom marker interface and set that interface as an Entry View Class, you can implement that interface instead.
 
 #### Front End
-Brightspot adds a `previewId` and `typename` value to the preview iframe when viewing in Brightspot. You can access the `previewId` and `typename` when the web page is opened in Brightspot (in the preview pane). In this example, the front-end application checks if a `previewId` and `previewType` (the `typename` value) exists (see `app/src/index.tsx`) by checking the `window.location`. These parameters exist ONLY when viewing in Brightspot. You can access those arguments using `UrlSearchParams`:
+Brightspot adds a `previewId` and `typename` value to the preview iframe when viewing in Brightspot. You can access the `previewId` and `typename` when the web page is opened in Brightspot's preview pane. In this example, the front-end application checks if a `previewId` and `previewType` (the `typename` value) exists (see `app/src/index.tsx`) by checking `window.location`. Those parameters exist ONLY when viewing in Brightspot. You can access those arguments using `UrlSearchParams`:
 
 ```javascript
 const previewId = new URLSearchParams(window.location.search).get('previewId')
@@ -103,4 +103,4 @@ Unselect the `id` argument on the left panel (nested in `preview`). Now, select 
 2. Play around with other preview functionality that Brightspot provides, such as [setting an expiration](https://www.brightspot.com/documentation/brightspot-cms-user-guide/working-with-shared-previews) on a shared preview link. Verify all preview functionality exists for a headless platform. 
 
 ## Troubleshooting
-Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+Having issues running the example application? Refer to the [Common Issues](/README.md) section in the repository README for assistance.

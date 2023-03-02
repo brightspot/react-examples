@@ -11,8 +11,8 @@ import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQ
 import Placeholder from 'brightspot-types/com/psddev/cms/ui/form/Placeholder'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import CourseViewModel from './CourseViewModel'
 import AllCoursesViewModel from './AllCoursesViewModel'
+import CourseViewModel from './CourseViewModel'
 import HeadlessPreviewEndpointViewModel from './HeadlessPreviewEndpointViewModel'
 
 export default class HeadlessPreviewEndpoint extends JavaClass(
