@@ -64,7 +64,7 @@ A new tab opens displaying the schema and its types. You can close this tab.
 
 ## Step 4: Update the Schema / ViewModel
 
-Run the front-end application to confirm that the published **Movie** content renders (If it is already running, refresh the browser).
+Run the front-end application to confirm that the published **Movie** content renders (if it is already running, refresh the browser).
 
 Make the following changes to the **Movie** view model located at `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts` :
 
