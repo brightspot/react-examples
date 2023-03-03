@@ -11,8 +11,11 @@ const Article = () => {
     },
   })
 
-  if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
+
+  if (error)
+    return <div className="message">An error occurred: {error?.message}</div>
+
   if (!data?.Article) return <NotFound />
 
   if (data.Article.section?.slug !== section) {

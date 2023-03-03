@@ -22,6 +22,6 @@ export default class AllSectionsViewModel extends JavaClass(
     return this.createViews(
       SectionViewModel.getClass(),
       Query.from(Section.getClass()).selectAll()
-    ) as List<SectionViewModel>
+    )
   }
 }

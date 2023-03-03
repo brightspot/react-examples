@@ -14,8 +14,11 @@ const Section = () => {
     },
   })
 
-  if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
+
+  if (error)
+    return <div className="message">An error occurred: {error?.message}</div>
+
   if (!data?.Section) return <NotFound />
 
   return (

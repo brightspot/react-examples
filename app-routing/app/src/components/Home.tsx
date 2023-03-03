@@ -5,8 +5,10 @@ import CardList from './CardList'
 const Home = () => {
   const { data, error, loading } = useGetAllTagsAndArticlesQuery()
 
-  if (error) console.log(error.message)
   if (loading) return <div className="loading">loading...</div>
+
+  if (error)
+    return <div className="message">An error occurred: {error?.message}</div>
 
   if (!data?.AllArticles)
     return (

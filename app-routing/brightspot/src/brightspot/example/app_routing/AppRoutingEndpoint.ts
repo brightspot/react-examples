@@ -9,12 +9,12 @@ import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import ArticleViewModel from './ArticleViewModel'
 import AllArticlesViewModel from './AllArticlesViewModel'
-import SectionViewModel from './SectionViewModel'
 import AllSectionsViewModel from './AllSectionsViewModel'
-import TagViewModel from './TagViewModel'
 import AllTagsViewModel from './AllTagsViewModel'
+import ArticleViewModel from './ArticleViewModel'
+import SectionViewModel from './SectionViewModel'
+import TagViewModel from './TagViewModel'
 
 export default class AppRoutingEndpoint extends JavaClass(
   'brightspot.example.app_routing.AppRoutingEndpoint',

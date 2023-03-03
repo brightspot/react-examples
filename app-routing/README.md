@@ -1,6 +1,6 @@
 # App Routing
 
-By default, Brightspot provides `id` arguments when querying for data using [Brightspot’s Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides). Brightspot also provides the `path` argument for content implementing the `DirectoryItem` interface. [`Directory`](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/permalinks#url-paths) and its inner classes provide several APIs to support URL paths.
+By default, Brightspot's [Brightspot’s Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) is set up to accept `id` arguments when querying for data. Brightspot also provides the `path` argument for content implementing the `DirectoryItem` interface. [`Directory`](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/permalinks#url-paths) and its inner classes provide several APIs to support URL paths.
 
 However,  if `id` and `path` do not fit your application needs, Brightspot provides the flexibility to choose custom field arguments. 
 
@@ -50,7 +50,7 @@ Publish the following content in Brightspot:
 2. **Tag**(s)
 3. **Article**(s)
 
-Since **Article**s are linked to tags and sections, you may find it easier to publish **Sections**(s) and **Tag**(s) first, then publish **Article**s.
+Since **Article**s are linked to tags and sections, publish **Sections**(s) and **Tag**(s) first, then publish **Article**s.
 
 Navigate to your front-end application to see your content displayed.
 
@@ -58,9 +58,9 @@ Navigate to your front-end application to see your content displayed.
 The `brightspot/src/examples/app_routing` directory contains the JS Classes files uploaded to Brightspot.
 
 #### Points to note in JS Classes files:
-- `ViewModel.Of(AppRoutingEndpoint)`: Extending a view model of `AppRoutingEndpoint` makes it possible to query for content without a field argument because `AppRoutingEndpoint` implements `Singleton`, ensuring the endpoint is the only one of its kind.
-
 - `@Indexed({ unique: true })`: Using the `Indexed` annotation and setting unique to true makes a field available as a field argument in GraphQL, since the values returned will point to only one instance of content that matches the argument provided. 
+
+- `ViewModel.Of(AppRoutingEndpoint)`: Extending a view model of `AppRoutingEndpoint` makes it possible to query for content without a field argument because `AppRoutingEndpoint` implements `Singleton`, ensuring the endpoint is the only one of its kind.
 
 #### Points to note in the front-end application:
 - Note the following check in `app/arc/components/Article.tsx`. 

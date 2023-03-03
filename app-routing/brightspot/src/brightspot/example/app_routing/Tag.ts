@@ -7,6 +7,7 @@ import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayN
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import UrlsWidget from 'brightspot-types/com/psddev/cms/tool/content/UrlsWidget'
+import StringUtils from 'brightspot-types/com/psddev/dari/util/StringUtils'
 
 @DisplayName({ value: 'App Routing Tag' })
 export default class Tag extends JavaClass(
@@ -26,10 +27,10 @@ export default class Tag extends JavaClass(
   [`shouldDisplayContentEditWidget(java.lang.String)`](
     widgetName: string
   ): boolean {
-    if (widgetName === UrlsWidget.class.getName()) {
-      return false
-    } else {
-      return true
-    }
+    return widgetName !== UrlsWidget.class.getName()
+  }
+
+  beforeSave() {
+    this.slug = StringUtils.toNormalized(this.slug)
   }
 }

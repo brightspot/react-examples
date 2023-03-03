@@ -22,6 +22,6 @@ export default class AllArticlesViewModel extends JavaClass(
     return this.createViews(
       ArticleViewModel.getClass(),
       Query.from(Article.getClass()).selectAll()
-    ) as List<ArticleViewModel>
+    )
   }
 }

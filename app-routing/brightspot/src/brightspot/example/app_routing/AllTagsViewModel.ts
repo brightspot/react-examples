@@ -22,6 +22,6 @@ export default class AllTagsViewModel extends JavaClass(
     return this.createViews(
       TagViewModel.getClass(),
       Query.from(Tag.getClass()).selectAll()
-    ) as List<TagViewModel>
+    )
   }
 }

@@ -40,9 +40,6 @@ export default class SectionViewModel extends JavaClass(
     let articles = Query.from(Article.getClass())
       .where('section = ?', this.model)
       .selectAll()
-    return this.createViews(
-      ArticleViewModel.getClass(),
-      articles
-    ) as List<ArticleViewModel>
+    return this.createViews(ArticleViewModel.getClass(), articles)
   }
 }

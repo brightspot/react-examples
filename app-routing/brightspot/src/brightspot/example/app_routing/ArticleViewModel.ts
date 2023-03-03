@@ -2,7 +2,6 @@ import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import JavaSet from 'brightspot-types/java/util/Set'
-import List from 'brightspot-types/java/util/List'
 
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
@@ -48,10 +47,7 @@ export default class ArticleViewModel extends JavaClass(
   getTags(): JavaSet<TagViewModel> {
     // TODO: Remove the  null check for tags once null object issue resolved with createView(s)
     if (this.model.tags) {
-      return this.createViews(
-        TagViewModel.getClass(),
-        this.model.tags
-      ) as List<TagViewModel>
+      return this.createViews(TagViewModel.getClass(), this.model.tags)
     } else return null
   }
 
