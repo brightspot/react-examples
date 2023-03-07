@@ -1,12 +1,12 @@
 # Headless Preview
 
-Although almost all traditional Content Management Systems (CMS) provide a preview mode to see how content looks on a web page before publishing, that is not true with headless CMSs. 
+Traditional Content Management Systems (CMS) typically provide a preview mode to see how content looks on a web page before publishing, though this is often not the case for headless implementations. 
 
-This can be a downside to a headless CMS platform, since content creators may find content creation frustrating without the ability to see how content is displayed on a web page as they create or edit.
+The inability to preview content before publishing can be frustrating for content creators.
 
 Brightspot, however, provides the ability to [preview](https://www.brightspot.com/documentation/brightspot-cms-user-guide/latest/preview) content before publishing with ALL platforms, headless included. With little additional configuration, headless platform content creators can see their changes on a web page as they create or edit content.
 
-This example focuses using JS Classes to configure and use the Brightspot preview mode with a headless configuration. 
+This example demonstrates how to use JS Classes to configure and use the Brightspot preview mode with a headless configuration. 
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `headless-preview` directory:
 
@@ -96,11 +96,14 @@ const previewType = new URLSearchParams(window.location.search).get('typename')
 ## Try it yourself
 The following are suggestions for diving deeper into Brightspot's preview functionality:
 
-1. Make a change in your **Course** content item in Brightspot, but do not click the **Publish** button. Then, click on the **Debug Tool** link that displays when viewing the web page in Brightspot (at the bottom of the yellow preview banner). This will route you to information on the **Course** query result in Brightspot's GraphiQL Explorer based on the `previewId` provided. Run the query by pressing the Play Button. Notice the query result shows the changes made in Brightspot that have not yet been published. 
+- Compare preview content to published content:
+    1. Make a change in your **Course** content item in Brightspot, but do not click the **Publish** button.  
+    2. Click on the **Debug Tool** link that displays when viewing the web page in Brightspot (at the bottom of the yellow preview banner). This will route you to information on the **Course** query result in Brightspot's GraphiQL Explorer based on the `previewId` provided. 
+    3. Run the query by pressing the Play Button. Notice the query result shows the changes made in Brightspot that have not yet been published. 
+    4. Unselect the `id` argument on the left panel (nested in `preview`). Now, select the `slug` argument nested in `model`. Add the slug value. 
+    5. Run the query, and notice the original published values for the **Content** item are returned.
 
-Unselect the `id` argument on the left panel (nested in `preview`). Now, select the `slug` argument nested in `model`. Add the slug value. Run the query, and notice the original published values for the **Content** item are returned.
-
-2. Play around with other preview functionality that Brightspot provides, such as [setting an expiration](https://www.brightspot.com/documentation/brightspot-cms-user-guide/working-with-shared-previews) on a shared preview link. Verify all preview functionality exists for a headless platform. 
+- Try out other preview functionality that Brightspot provides, such as [setting an expiration](https://www.brightspot.com/documentation/brightspot-cms-user-guide/working-with-shared-previews) on a shared preview link. Verify all preview functionality exists for a headless platform. 
 
 ## Troubleshooting
 Having issues running the example application? Refer to the [Common Issues](/README.md) section in the repository README for assistance.
