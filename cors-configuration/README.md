@@ -4,7 +4,7 @@
 
 CORS adds security against [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf) when configured correctly. The configuration relaxes the [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) to ensure that a trusted domain is whitelisted to grant access to data from an API placed on another domain and/or port.
 
-However, if the CORS configuration is not set up as intended, the front-edn application will run into errors and will be blocked from retrieving or sending data to the server.
+However, if the CORS configuration is not set up as intended, the front-end application will run into errors and will be blocked from retrieving or sending data to the server.
 
 This example uses JS Classes and the [Brightspot GraphQL Content Delivery API (CDA) endpoint](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) to demonstrate how to easily manage and debug common [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues in an app to streamline development and better secure production applications.
 
@@ -69,7 +69,7 @@ At this stage, you see a form. Under **Cors Configuration** there is a dropdown 
 
 Add 'localhost' to the **Allowed Origins** list. Then click save.
 
-> **Note**: You could change this selection to **None** but then you would not be able to fix these issues via Brightspot. This setting is for applications where the front end and server are hosted on the same domain and therefore not run into CORS errors.
+> **Note**: You could change this selection to **None** but then you would not be able to fix these issues via Brightspot. This setting is for applications where the front end and server are hosted on the same domain and therefore will not run into CORS errors.
 
 ## Going back to the front end
 
@@ -157,7 +157,7 @@ Start up your front-end application again or refresh if it is still running. Ope
 
 ## Try it yourself
 
-- Add your own custom headers to the front-end application. Edit the `cors-configuration/app/src/App.tsx` file and under the code below, add your own custom headers. It will trigger a CORS error, fix it either using JS classes or Brightspot:
+- Add your own custom headers to the front-end application. Edit the `cors-configuration/app/src/App.tsx` file and under the code below, add your own custom headers. It will trigger a CORS error; fix it either using JS classes or Brightspot:
 
 ```js
 myHeaders.append('Foo', 'Bar')
