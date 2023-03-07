@@ -23,8 +23,7 @@ npx brightspot types upload src
 
 To run the front end, run the following commands from the `cors-configuration/app` directory:
 
-```
-cd app
+```sh
 yarn
 yarn start
 ```
@@ -51,7 +50,7 @@ Edit the following file:
 
 1. Uncomment the code `graphQLCorsConfiguration.addAllowedOrigin('localhost')`.
 2. Save the file.
-3. Upload types again: `npx brightspot types upload src` from the brightspot/src directory.
+3. Upload types again: `npx brightspot types upload src` from the brightspot directory.
 4. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
 5. Via the Navigation menu, click under **Admin**, **APIs**.
 6. Click on **CORS Configuration Endpoint** and save.
@@ -118,7 +117,7 @@ Start up your front-end application again or refresh if it is still running. Ope
 
 ## Preflight Requests
 
-When the browser makes a request, it first sends a check request to the server called a [preflight request](‘https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request’).
+When the browser makes a request, it first sends a check request to the server called a [preflight request](https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request).
 
 If the preflight request fails, you run into the CORS errors listed above. Either the origin was not on the allowed origins list, or headers that are present in the request are not permitted.
 
@@ -126,11 +125,11 @@ If the preflight request fails, you run into the CORS errors listed above. Eithe
 
 Making two requests everytime a front-end app sends an API call to the server will affect performance.
 
-Open the developer console and navigate to the network tab. Under name, there will be four **cors-configuration** requests. After the first two POST requests made, there are two GET requests made. These are the preflight requests that are sending a request method of 'OPTIONS' with the headers and origin information. The POST requests will not be sent until the server responds approving the request.
+Open the developer console and navigate to the network tab. Under name, there will be two **cors-configuration** requests. After the first POST request is made, there is a preflight request sent with the [OPTIONS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS#preflighted_requests_in_cors) method. The POST requests will not be sent until the server responds approving the request.
 
 ## Access Control Max Age
 
-To avoid having to make preflight requests when making the same requests, Brightspot offers another CORS configuration option. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age') which can once again be set programmatically or via your Brightspot instance:
+To avoid having to make preflight request when making the same request, Brightspot offers another CORS configuration option. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age') which can once again be set programmatically or via your Brightspot instance:
 
 ## Via JS Classes
 
