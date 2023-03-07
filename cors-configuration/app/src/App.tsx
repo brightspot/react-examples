@@ -62,14 +62,18 @@ const App = () => {
     <div className="App">
       <h1>CORS Configuration</h1>
       <div className="seperator"></div>
-      {memoData?.AllMemos?.memos.map((memo, index) => {
-        return (
-          <div className="memo-card" key={index}>
-            <h2>{memo.subject}</h2>
-            <p>{memo.message}</p>
-          </div>
-        )
-      })}
+      {memoData?.AllMemos?.memos && memoData.AllMemos.memos.length > 0 ? (
+        memoData?.AllMemos?.memos.map((memo, index) => {
+          return (
+            <div className="memo-card" key={index}>
+              <h2>{memo.subject}</h2>
+              <p>{memo.message}</p>
+            </div>
+          )
+        })
+      ) : (
+        <h1>No Memos Published in Brightspot</h1>
+      )}
     </div>
   )
 }
