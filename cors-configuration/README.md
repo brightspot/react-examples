@@ -163,7 +163,7 @@ myHeaders.append('Foo', 'Bar')
 // Add custom headers here
 ```
 
-- Update the code via JS classes to accept a max age of your choice to test pre-flight requests. Bare in mind browsers have different limits to the amount of time that can be entered to cache pre-flight requests.
+- Update the code via JS classes to accept a max age of your choice to test pre-flight requests. Bear in mind browsers have different limits to the amount of time that can be entered to cache pre-flight requests.
 
 ## Troubleshooting
 
