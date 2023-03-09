@@ -76,4 +76,4 @@ The following is a suggestion for learning more about GraphQL introspection with
 
 ## Troubleshooting
 
-Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+Refer to the [Common Issues](/README.md) section in the repository README for assistance.
