@@ -17,13 +17,14 @@ const MemberComponent = () => {
       () =>
         getMember(e?.target?.value).then((res) =>
           setData({
-            members: res?.data?.ListOfMembers?.members,
+            members: res?.data.Member.members,
             errors: res?.errors,
           })
         ),
       1000
     )()
   }
+
   return (
     <div className="member member-center">
       <h1>This will make a GET Request with Parameters</h1>

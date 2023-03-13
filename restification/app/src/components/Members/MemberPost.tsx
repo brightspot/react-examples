@@ -17,7 +17,7 @@ const MemberPost = () => {
       () =>
         postMember(e?.target?.value).then((res) =>
           setData({
-            members: res?.data?.ListOfMembers?.members,
+            members: res?.data.Member.members,
             errors: res?.errors,
           })
         ),
