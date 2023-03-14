@@ -6,7 +6,7 @@ GraphQL introspection queries are useful, but enabling the system in production 
 
 Read more about [why you should disable GraphQL introspection in production](https://www.apollographql.com/blog/graphql/security/why-you-should-disable-graphql-introspection-in-production/).
 
-Brightspot makes it possible to create introspection query rules that allow or block introspection queries based upon any custom logic. This example demonstrates how to use JS classes to create an introspection query rule that only allows a query if the request provides a specific `Introspection-Key` header.
+Brightspot makes it possible to create introspection query rules that allow or block introspection queries based upon any custom logic. This example demonstrates how to create an introspection query rule the only allows a query if the request provides a specific `Introspection-Key` header.
 
 ## What you will learn
 
@@ -49,23 +49,87 @@ Start the front end application by running the command `yarn start` in the `intr
 
 ## How everything works
 
-1. The `ExampleIntrospectionQueryRule` implements the `isAllowed()` method which should return `true` in cases where introspection queries are allowed.
+1. The `ExampleIntrospectionQueryRule` class implements the `IntrospectionQueryRule` interface and the `isAllowed()` method which should return `true` in cases where introspection queries are allowed.
 
-2. The `ExampleIntrospectionQueryRule` checks for an `Introspection-Key` header using the `WebRequest.getCurrent().getHeader()` method and compares its value to the preset `correct-value`.
+```ts
+export default class ExampleIntrospectionQueryRule extends JavaClass(
+  'brightspot.example.introspection_query_management.ExampleIntrospectionQueryRule',
+  Object,
+  IntrospectionQueryRule
+) {
+  [`isAllowed()`](): boolean {
+    return false // blocks all introspection queries
+  }
+}
+```
 
-3. The `ExampleIntrospectionQueryRule` is applied to the `IntrospectionQueryMangagementEndpoint` when the endpoint implements the `getIntrospectionQueryRule()` method.
+2. The logic in the `isAllowed()` method compares the value of a header in the introspection query's request to that of the value of the introspection key. The header is named `Introspection-Key` (though any non-reserved header name can be used) and can be accessed through the `WebRequest.getCurrent().getHeader()` method. The introspection key in this example is hard-coded to be `correct-value` for demonstration purposes. Brightspot recommends using a unique, random, and non-guessable value in production environments. The value can also be hidden away using environment variables.
+
+```ts
+  [`isAllowed()`](): boolean {
+    return WebRequest.getCurrent().getHeader('Introspection-Key') === 'correct-value'
+  }
+```
+
+3. The `ExampleIntrospectionQueryRule` is applied to the `IntrospectionQueryManagementEndpoint` when the endpoint implements the `getIntrospectionQueryRule()` method and returns a new `ExampleIntrospectionQueryRule` object.
+
+```ts
+export default class IntrospectionQueryManagementEndpoint extends JavaClass(
+  'brightspot.example.introspection_query_management',
+  ContentDeliveryApiEndpointV1,
+  Singleton
+) {
+  // ...
+
+  getIntrospectionQueryRule(): IntrospectionQueryRule {
+    const ExampleIntrospectionQueryRule = ClassFinder.getClass(
+      'brightspot.example.introspection_query_management.ExampleIntrospectionQueryRule'
+    )
+
+    return new ExampleIntrospectionQueryRule()
+  }
+}
+```
+
+4. The front end application uses GraphQL Code Generator to create types and hooks. It is configured with the `codegen.yml` file in the `introspection-query-management/app` directory. The name of the introspection key header is defined here and its value is derived from an environment variable in the `.env` file within the same directory.
+
+`codegen.yml` :
+
+```yml
+overwrite: true
+schema:
+  - ${REACT_APP_GRAPHQL_URL}:
+      headers:
+        Introspection-Key: ${INTROSPECTION_KEY}
+documents: './src/queries/*.graphql'
+generates:
+  ./src/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+```
+
+`.env` :
+
+```
+REACT_APP_PUBLIC_HOST=http://localhost:3000
+REACT_APP_BRIGHTSPOT_HOST=http://localhost/cms
+REACT_APP_GRAPHQL_URL=http://localhost/graphql/delivery/introspection-query-management
+INTROSPECTION_KEY=correct-value
+```
+
+5. The front end application includes a script in the `package.json` file to run the GraphQL Code Generator with the command `yarn codegen`. This runs the introspection queries using the configuration defined above.
+
+```json
+"scripts": {
+    "codegen": "graphql-codegen --require dotenv/config --config codegen.yml",
+  }
+```
 
 The end result is a GraphQL API that is open to the public but with introspection queries available only to internal developers. This provides a layer of security by obscurity.
-
-#### Points to note in the JS Class files:
-
-- `WebRequest.getCurrent().getHeader('Introspection-Key')`: Any non-reserved header name can be used. `Introspection-Key` is for demonstration purposes.
-- `'correct-value'`: The hard coded introspection key in this example is for demonstration purposes. Brightspot recommends using a unique, random, and non-guessable value in production environments. The value can also be hidden away using environment variables.
-
-#### Points to note in the front end application:
-
-- `codegen.yml`: The headers used in the GraphQL Code Generator can be edited in this file.
-- `queries/AllSongs.graphql`: Only the fields listed in this query will be visible in a web browser's development tools. All other fields on the `Song` content type are available but hidden.
 
 ## Try it yourself
 
