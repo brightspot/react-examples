@@ -278,4 +278,4 @@ Random data (string in this example) that is added to data that is then hashed. 
 
 ## Troubleshooting
 
-Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+Having issues running the example application? Refer to the [Common Issues](/README.md) section in the repository README for assistance.
