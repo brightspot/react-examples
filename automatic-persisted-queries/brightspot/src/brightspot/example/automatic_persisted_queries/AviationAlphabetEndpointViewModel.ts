@@ -4,15 +4,16 @@ import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
+import ViewResponse from 'brightspot-types/com/psddev/cms/view/ViewResponse'
 
 import AviationAlphabetCodesViewModel from './AviationAlphabetCodesViewModel'
 import AviationAlphabetConverterViewModel from './AviationAlphabetConverterViewModel'
-import AviationAlphabetApi from './AviationAlphabetApi'
+import AviationAlphabetEndpoint from './AviationAlphabetEndpoint'
 
 @ViewInterface
-export default class AviationAlphabetApiViewModel extends JavaClass(
-  'brightspot.example.automatic_persisted_queries.AviationAlphabetApiViewModel',
-  ViewModel.Of(AviationAlphabetApi)
+export default class AviationAlphabetEndpointViewModel extends JavaClass(
+  'brightspot.example.automatic_persisted_queries.AviationAlphabetEndpointViewModel',
+  ViewModel.Of(AviationAlphabetEndpoint)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(AviationAlphabetCodesViewModel)
@@ -30,5 +31,14 @@ export default class AviationAlphabetApiViewModel extends JavaClass(
       AviationAlphabetConverterViewModel.getClass(),
       this.model
     )
+  }
+
+  onCreate(response: ViewResponse) {
+    super.onCreate(response)
+    if (this.model.cacheControl) {
+      response.addHeader('Cache-Control', this.model.cacheControl)
+    } else {
+      response.addHeader('Cache-Control', 'max-age=0')
+    }
   }
 }

@@ -5,12 +5,12 @@ import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import AviationAlphabetApi from './AviationAlphabetApi'
+import AviationAlphabetEndpoint from './AviationAlphabetEndpoint'
 
 @ViewInterface
 export default class AviationAlphabetCodesViewModel extends JavaClass(
   'brightspot.example.automatic_persisted_queries.AviationAlphabetCodesViewModel',
-  ViewModel.Of(AviationAlphabetApi)
+  ViewModel.Of(AviationAlphabetEndpoint)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
