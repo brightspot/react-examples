@@ -18,12 +18,12 @@ export default class ClientAuthApiClient extends JavaClass(
   afterSave(): void {
     let original = this.getOriginalObject()
 
-    let displayName = original.getState().getType().getDisplayName()
     let name = original.getClass().getName()
+    let displayName = original.getState().getType().getDisplayName()
     let clientId = UuidUtils.createVersion3Uuid(name)
-    let clientSecret = UuidUtils.createVersion3Uuid(clientId.toString())
+
     let client = Query.findById(ApiClient.class, clientId)
-    if (client == null) {
+    if (client === null) {
       client = new ApiClient()
       client.getState().setId(clientId)
       client.setName(displayName + ' Client')
@@ -37,15 +37,18 @@ export default class ClientAuthApiClient extends JavaClass(
       client.saveImmediately()
     }
 
+    let clientSecret = 'abcdefghijklmnopqrstuvwxyz0123456789'
+
     let key = Query.from(ApiKey.class)
       .where('value = ?', clientSecret)
+      .or('value = ? && cms.content.trashed = ?', clientSecret, true)
       .first()
 
-    if (key == null) {
+    if (key === null) {
       key = new ApiKey()
       key.setClient(client)
       key.setName(displayName + ' Key')
-      key.setValue(clientSecret.toString())
+      key.setValue(clientSecret)
       key.setCreatedOn(new JavaDate())
       key.saveImmediately()
     }
