@@ -54,7 +54,6 @@ export default class AviationAlphabetEndpoint extends JavaClass(
   ContentDeliveryApiEndpointV1,
   Singleton
 ) {
-  @Placeholder({ value: 'max-age=0' })
   @JavaField(String)
   cacheControl?: string;
 
@@ -102,11 +101,5 @@ export default class AviationAlphabetEndpoint extends JavaClass(
 
   getLetterOutputFromText(letter: string): string {
     return AviationAlphabetEndpoint.ALPHABET_MAPPING.get(letter.toUpperCase())
-  }
-
-  beforeSave() {
-    if (!this.cacheControl) {
-      this.cacheControl = 'max-age=0'
-    }
   }
 }

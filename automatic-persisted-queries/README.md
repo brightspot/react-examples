@@ -93,7 +93,7 @@ Ideally, you want to avoid `POST` requests as much as possible, since a `POST` r
 
 #### Caching responses and using a CDN
 
-Up to this point, you may have noticed that all network requests result in a `MISS from localhost`, and the `Cache Control` field displays `max-age=0` (the default cache control value set for the the `AviationAlphabetEndpoint`). To update the cache control, in Brightspot navigate to: **Navigation Menu** &rarr; **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Aviation Alphabet Endpoint**. In the **Cache Control** field, enter `max-age=80000`. In the browser, trigger a network request (check a checkbox or input text based on the input type selected). The Brightspot cache control field shows the `cache-control` value you entered in Brightspot. 
+Up to this point, you may have noticed that all network requests result in a `MISS from localhost`, and the `Cache Control` field is empty. To update the cache control, in Brightspot navigate to: **Navigation Menu** &rarr; **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Aviation Alphabet Endpoint**. In the **Cache Control** field, enter `max-age=80000`. In the browser, trigger a network request (check a checkbox or input text based on the input type selected). The Brightspot cache control field shows the `cache-control` value you entered in Brightspot. 
 
 After updating the cache control, you notice that the new value displays in the UI, and that when the client makes a request for data it has requested previously, a cache HIT is made. This means the CDN used in this example had a copy of the data in it's storage and was able to return the data without the request needing to be made to the origin server. 
 

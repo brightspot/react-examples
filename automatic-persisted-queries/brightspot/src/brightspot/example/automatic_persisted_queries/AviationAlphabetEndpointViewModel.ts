@@ -37,8 +37,6 @@ export default class AviationAlphabetEndpointViewModel extends JavaClass(
     super.onCreate(response)
     if (this.model.cacheControl) {
       response.addHeader('Cache-Control', this.model.cacheControl)
-    } else {
-      response.addHeader('Cache-Control', 'max-age=0')
     }
   }
 }
