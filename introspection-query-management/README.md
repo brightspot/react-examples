@@ -1,36 +1,70 @@
 # Introspection Query Management
 
-GraphQL has an [introspection system](https://graphql.org/learn/introspection) that allows users to ask a schema for information about the queries it supports. This can be a useful tool to aid build pipelines and developers working on a GraphQL API.
+GraphQL has an [introspection system](https://graphql.org/learn/introspection) that allows users to ask a schema for information about the queries it supports. GraphQL introspection queries can be useful for developers using code generation tools or for implementing build pipelines, but enabling them can expose sensitive information, so it is best practice to [disable them in production](https://www.apollographql.com/blog/graphql/security/why-you-should-disable-graphql-introspection-in-production/).
 
-GraphQL introspection queries are useful, but enabling the system in production environments can expose the API to security risks.
-
-Read more about [why you should disable GraphQL introspection in production](https://www.apollographql.com/blog/graphql/security/why-you-should-disable-graphql-introspection-in-production/).
-
-Brightspot makes it possible to create introspection query rules that allow or block introspection queries based upon any custom logic. This example demonstrates how to create an introspection query rule the only allows a query if the request provides a specific `Introspection-Key` header.
+Brightspot makes it possible to create introspection query rules that allow or block introspection queries based on custom logic. This example demonstrates how to create an introspection query rule that only allows access if a specific HTTP header is passed, serving as a way to control who can make introspection queries.
 
 ## What you will learn
 
-1. How to create an introspection query rule.
-2. How to check the headers of an introspection query request so they can be validated.
-3. How to apply an introspection query rule to a Brightspot GraphQL API endpoint.
+1. Create an introspection query rule.
+2. Apply the rule to an endpoint.
+3. Configure the build pipeline to factor in the rule.
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `introspection-query-management` directory:
+> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-To upload JS Classes in Brightspot (http://localhost/cms):
+Run the following commands from the `introspection-query-management/brightspot` directory:
+
+### 1. Install dependencies.
 
 ```sh
-cd brightspot
-yarn
-npx brightspot types download
-npx brightspot types upload src
+$ yarn
 ```
 
-To setup the front end, run the following command from the `introspection-query-management/app` directory:
+```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...
+[4/4] 🔨 Building fresh packages...
+✨ Done in 0.78s.
+```
+
+### 2. Download Brightspot types.
 
 ```sh
-yarn
+$ npx brightspot types download
+```
+
+```
+🚚 Downloading types from http://localhost/cms to brightspot-types...
+```
+
+### 3. Upload local types.
+
+```sh
+$ npx brightspot types upload src
+```
+
+```
+🚀 Uploading 5 introspection-query-management-brightspot types to http://localhost/cms...
+🎉 Successfully uploaded the types!
+```
+
+Run the following command from the `introspection-query-management/app` directory:
+
+### 1. Install dependencies.
+
+```sh
+$ yarn
+```
+
+```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...
+[4/4] 🔨 Building fresh packages...
+✨ Done in 6.03s.
 ```
 
 ## Using the example application
