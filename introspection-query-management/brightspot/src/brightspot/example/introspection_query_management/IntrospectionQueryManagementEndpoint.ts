@@ -9,6 +9,7 @@ import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLA
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import IntrospectionQueryRule from 'brightspot-types/com/psddev/graphql/IntrospectionQueryRule'
+import JavaField from 'brightspot-types/JavaField'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import AllSongsViewModel from './AllSongsViewModel'
@@ -18,6 +19,9 @@ export default class IntrospectionQueryManagementEndpoint extends JavaClass(
   ContentDeliveryApiEndpointV1,
   Singleton
 ) {
+  @JavaField(String)
+  introspectionKey?: string
+
   getPaths(): JavaSet<string> {
     return [
       '/graphql/delivery/introspection-query-management',
@@ -45,6 +49,9 @@ export default class IntrospectionQueryManagementEndpoint extends JavaClass(
       'brightspot.example.introspection_query_management.ExampleIntrospectionQueryRule'
     )
     
-    return new ExampleIntrospectionQueryRule()
+    let rule = new ExampleIntrospectionQueryRule()
+    rule.introspectionKey = this.introspectionKey
+    
+    return rule
   }
 }
