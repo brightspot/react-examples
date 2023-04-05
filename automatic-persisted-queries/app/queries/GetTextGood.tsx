@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client'
 
+// GraphQL variables are recommended
+
 const GetTextGood = gql`
   query GetTextGood($text: String) {
     AviationAlphabetEndpoint {

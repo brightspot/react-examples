@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client'
 
+/*
+The following example demonstrates using directives. Refer to the following
+documentation: https://graphql.org/learn/queries/#directives
+*/
+
 const GetCheckboxesGood = gql`
   query GetCheckboxesGood(
     $a: Boolean = false
