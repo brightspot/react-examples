@@ -48,10 +48,10 @@ export default class IntrospectionQueryManagementEndpoint extends JavaClass(
     const ExampleIntrospectionQueryRule = ClassFinder.getClass(
       'brightspot.example.introspection_query_management.ExampleIntrospectionQueryRule'
     )
-    
+
     let rule = new ExampleIntrospectionQueryRule()
     rule.introspectionKey = this.introspectionKey
-    
+
     return rule
   }
 }

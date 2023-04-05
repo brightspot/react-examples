@@ -14,6 +14,6 @@ export default class ExampleIntrospectionQueryRule extends JavaClass(
   introspectionKey?: string
 
   [`isAllowed()`](): boolean {
-   return WebRequest.getCurrent().getHeader('Introspection-Key') === this.introspectionKey
+    return WebRequest.getCurrent().getHeader('Introspection-Key') === this.introspectionKey
   }
 }
