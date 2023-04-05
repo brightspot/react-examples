@@ -10,7 +10,7 @@ const SongsContainer = () => {
   if (data?.AllSongs?.songs?.length === 0) {
     return (
       <div>
-        <h1>Nothing Here 🧐</h1>
+        <h2>No Content Published 🧐</h2>
         <p>
           Publish a 'Song' in{' '}
           <a
