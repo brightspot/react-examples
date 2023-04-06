@@ -73,7 +73,7 @@ Compiled successfully!
 
 ### 1. Create an introspection query rule
 
-An introspection query rule is a class that implements the `IntrospectionQueryRule` abstract class and provides the body of the `isAllowed()` function. The `isAllowed()` function returns true or false based on whether a particular request should be allowed.
+An introspection query rule is a class that implements the `IntrospectionQueryRule` abstract class and provides the body of the `isAllowed()` method. The `isAllowed()` method returns true or false based on whether a particular request should be allowed.
 
 > **_Note_** By default, GraphQL Introspection is disabled in production mode.
 
@@ -87,7 +87,7 @@ In this example, the [introspection query rule](./brightspot/src/brightspot/exam
 
 ### 2. Apply the rule to an endpoint
 
-For an introspection query rule to take effect, it must be applied to an endpoint by overriding the endpoint's `getIntrospectionQueryRule()` function and returning a new instance of the introspection query rule class.
+For an introspection query rule to take effect, it must be applied to an endpoint by overriding the endpoint's `getIntrospectionQueryRule()` method and returning a new instance of the introspection query rule class.
 
 ```ts
 getIntrospectionQueryRule(): IntrospectionQueryRule {
