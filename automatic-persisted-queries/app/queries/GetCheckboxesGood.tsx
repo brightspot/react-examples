@@ -3,9 +3,7 @@ import { gql } from '@apollo/client'
 /*
 The following example demonstrates using directives. 
 By using directives, the resulting APQ hash does not change and therefore after being sent once to the server
-will always result in one GET request.
-
-Refer to the following documentation to learn about directives: https://graphql.org/learn/queries/#directives
+will always result in one GET request. Refer to the following documentation to learn about directives: https://graphql.org/learn/queries/#directives
 */
 
 const GetCheckboxesGood = gql`

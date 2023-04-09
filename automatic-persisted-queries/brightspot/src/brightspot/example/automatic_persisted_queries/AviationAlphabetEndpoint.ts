@@ -12,7 +12,6 @@ import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLA
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import PersistedQueryProtocol from 'brightspot-types/com/psddev/graphql/pqp/PersistedQueryProtocol'
-import Placeholder from 'brightspot-types/com/psddev/cms/ui/form/Placeholder'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import AviationAlphabetApiViewModel from './AviationAlphabetEndpointViewModel'
