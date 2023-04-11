@@ -10,6 +10,7 @@ import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQ
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import AllFunFactsViewModel from './AllFunFactsViewModel'
+import FunFactViewModel from './FunFactViewModel'
 
 export default class ClientAuthCsrEndpoint extends JavaClass(
   'brightspot.example.client_authentication_csr.ClientAuthCsrEndpoint',
@@ -23,7 +24,10 @@ export default class ClientAuthCsrEndpoint extends JavaClass(
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
-    return [AllFunFactsViewModel.getClass()].map(
+    return [
+      AllFunFactsViewModel.getClass(),
+      FunFactViewModel.getClass()
+    ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
   }
