@@ -1,9 +1,18 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
-import { Data } from './api/funFacts'
 
 import EmptyList from '../components/EmptyList'
+
+interface Data {
+  AllFunFacts?: {
+    funFacts?: {
+      text: string
+      path: string
+    }[]
+  }
+}
 
 const Home: NextPage = () => {
   const [data, setData] = useState<Data | null>(null)
@@ -11,7 +20,7 @@ const Home: NextPage = () => {
   const [error, setError] = useState({ isError: false, message: '' })
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/funFacts`)
+    fetch(`/api/getAllFunFacts?foobar=blah`)
       .then((res) => {
         if (res.status >= 400) {
           setError({
@@ -38,10 +47,13 @@ const Home: NextPage = () => {
   if (data?.AllFunFacts?.funFacts?.length === 0) return <EmptyList />
 
   const carouselSlides = data?.AllFunFacts?.funFacts?.map((funFact, index) => (
-    <div className={styles.card} id={`slide-${index + 1}`} key={index}>
-      <h2 className={styles.title}>Did You Know...?</h2>
-      <p className={styles.description}>{funFact.text}</p>
-    </div>
+    <Link href={`${funFact.path}`} key={index}>
+      <div className={styles.card} id={`slide-${index + 1}`}>
+        <h2 className={styles.title}>Did You Know...?</h2>
+
+        <p className={styles.description}>{funFact.text}</p>
+      </div>
+    </Link>
   ))
 
   const carouselButtons = data?.AllFunFacts?.funFacts?.map((element, index) => (

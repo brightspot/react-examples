@@ -51,6 +51,11 @@
   color: #ee0120;
 }
 
+.card > h2:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .card h2 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
