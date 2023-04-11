@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import QueryHandler from '../../lib/queryHandler'
-import getFunFactByIdQuery from '../../components/queries/getFunFactById'
+import getFunFactByIdQuery from '../../components/queries/getFunFactByIdQuery'
 
 export default async function handler(
   req: NextApiRequest,
