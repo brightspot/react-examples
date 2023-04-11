@@ -17,4 +17,10 @@ export default class FunFactViewModel extends JavaClass(
   getText(): string {
     return this.model.text
   }
+
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getPath(): string {
+    return this.model.getPermalink()
+  }
 }
