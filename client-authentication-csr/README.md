@@ -2,22 +2,19 @@
 
 Previous examples, like [Content Delivery](https://github.com/brightspot/react-examples/tree/main/content-delivery), create a GraphQL endpoint that is open, allowing any user or application to access it. When developing an API, it is important to decide which users or applications are allowed to access an endpoint.
 
-A common way to control access to an API endpoint is through the implementation of API keys. Brightspot makes it possible to create and manage API keys for GraphQL endpoints through its API Client system.
-
-This example demonstrates how to create a GraphQL endpoint that requires an API Key for access. It also shows how to create an API Client, API Key, and how to fetch data from the secured endpoint using [Next.js](https://nextjs.org/) and [client side rendering](https://nextjs.org/docs/basic-features/data-fetching/client-side) without revealing the API key.
+Brightspot supports API keys through its API Client system. This example demonstrates how to create a GraphQL endpoint that requires an API key and shows how to fetch data from it.
 
 ## What you will learn
 
 1. [Restrict access to the endpoint.](#1-restrict-access-to-the-endpoint)
-2. [Create an API Client and assign the endpoint to it.](#2-create-an-api-client-and-assign-the-endpoint-to-it)
-3. [Create an API Key and assign it to the API Client.](#3-create-an-api-key-and-assign-it-to-the-api-client)
-4. [Query the endpoint without revealing the API Key.](#4-query-the-endpoint-without-revealing-the-api-key)
+2. [Create an API Client and API Key.](#2-create-an-api-client-and-api-key)
+3. [Query the endpoint.](#3-query-the-endpoint)
 
 ## Running the example application
 
 > **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-Run the following commands from the `client-authentication-csr/app` directory:
+Run the following commands from the `client-authentication/app` directory:
 
 ### Install dependencies
 
@@ -49,7 +46,7 @@ The front-end application will open automatically in the browser.
 
 The Next.js app makes a request to the GraphQL endpoint. The request includes headers that contain a secret API Key stored as an environment variable. If the value of the API Key in the headers match the value stored in Brightspot then the app will display the data returned.
 
-To show how the application responds to an incorrect API Key, modify the `GRAPHQL_CLIENT_SECRET` value in the `.env` file located at `client-authentication-csr/app` to some new value. Then restart the Next.js app and navigate to it in your web browser.
+To show how the application responds to an incorrect API Key, modify the `NEXT_PUBLIC_GRAPHQL_CLIENT_SECRET` value in the `.env` file located at `client-authentication/app` to some new value. Then restart the Next.js app and navigate to it in your web browser.
 
 ## How everything works
 
@@ -63,129 +60,67 @@ getApiAccessOption(): GraphQLApiAccessOption {
 }
 ```
 
-### 2. Create an API Client and assign the endpoint to it
+### 2. Create an API Client and API Key
 
-An API Client stores a list of API Keys and applies to a list of endpoints. This example creates an API Client using a [Modification](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/modifications) of the endpoint class. The modification allows it to link the creation of the API Client and API Key(s) to the creation of the endpoint itself through the use of the `afterSave()` method.
+An an API Client can be created in Brightspot at **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Clients** &rarr; **New API Client**. The associated endpoints can be added to the `Endpoints` field and API keys can be managed through the `Keys` field.
 
-Within the `afterSave()` method, the code first checks to see if a matching API Client already exists to prevent duplicates from being created. If no matching API Client is found then a new one is created. Then the client is checked to see if the original endpoint has already been added to its list of endpoints. If not, the original endpoint is added using the `setEndpoints()` method.
+TODO: **_Add image here_**
 
-```ts
-afterSave(): void {
-  let original = this.getOriginalObject()
+> **_Note_** This example uses an API Client that is pre-configured to work with the front-end application. It is best practice to create an API Client editorially in production environments.
 
-  let name = original.getClass().getName()
-  let displayName = original.getState().getType().getDisplayName()
-  let clientId = UuidUtils.createVersion3Uuid(name)
+### 3. Query the endpoint
 
-  let client = Query.findById(ApiClient.class, clientId)
-  if (client === null) {
-    client = new ApiClient()
-    client.getState().setId(clientId)
-    client.setName(displayName + ' Client')
-  }
+The GraphQL endpoint checks each HTTP request for `X-Client-Id` and `X-Client-Secret` headers and compares the values to the endpoint's API Client and API keys. If the headers are missing or incorrect it returns a 401 Unauthorized response.
 
-  if (!client.getEndpoints().contains(this)) {
-    let endpoints = new ArrayList<ApiEndpoint>(client.getEndpoints())
-    endpoints.add(original)
+This example uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send requests to the endpoint with the required headers. It is best practice to use a proxy server to make any HTTP requests that include the API key to keep it hidden from the public.
 
-    client.setEndpoints(endpoints)
-    client.saveImmediately()
-  }
+This example shows requests using both [Next.js Client-side rendering](https://nextjs.org/docs/basic-features/data-fetching/client-side) and [Next.js Server-side rendering](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props).
 
-  // create API key here
-}
-```
-
-### 3. Create an API Key and assign it to the API Client.
-
-Within the same `afterSave()` method, an API Key is defined and assigned to the API Client. The code checks to see if a matching API Key already exists to prevent duplicates. If no matching API Key is found then a new one is created. Then the new key's value is set to any string value.
-
-> **_Note_** The value of the API Key used in this example is arbitrary. Brightspot recommends using a unique, random, and non-guessable value in production environments. The value can also be hidden away using environment variables.
-
-```ts
-afterSave(): void {
-  // ...
-
-  let clientSecret = 'abcdefghijklmnopqrstuvwxyz0123456789'
-
-  let key = Query.from(ApiKey.class)
-    .where('value = ?', clientSecret)
-    .or('value = ? && cms.content.trashed = ?', clientSecret, true)
-    .first()
-
-  if (key === null) {
-    key = new ApiKey()
-    key.setClient(client)
-    key.setName(displayName + ' Key')
-    key.setValue(clientSecret)
-    key.setCreatedOn(new JavaDate())
-    key.saveImmediately()
-  }
-}
-```
-
-### 4. Query the endpoint without revealing the API Key
-
-The GraphQL endpoint checks each HTTP request for an `X-Client-Secret` header and compares its value to the API Keys associated with the endpoint. If the header is missing or incorrect it returns a 401 Unauthorized response.
-
-There are many ways to hide API Keys from client side applications. This example uses [Apollo Client](https://www.apollographql.com/docs/react/get-started) and [Next.js API Routes](https://nextjs.org/docs/api-routes/introduction) to fetch data using client side rendering.
-
-The Apollo Client is defined to include headers for the Client ID and Client Secret and is only imported into files within a Next.js server side API Route to keep the key hidden. Then during run time, the `index.tsx` component makes a request to this API Route allowing it to get data without having access to the API key.
-
-[.env](./app/.env)
-
-```
-GRAPHQL_CLIENT_ID=afffc6fd7d8733df862d9299bdac8044
-GRAPHQL_CLIENT_SECRET=abcdefghijklmnopqrstuvwxyz0123456789
-```
-
-[client.ts](./app/lib/client.ts)
-
-```ts
-export const client = new ApolloClient({
-  link: createHttpLink({
-    uri: process.env.GRAPHQL_URL,
-    headers: {
-      'X-Client-ID': process.env.GRAPHQL_CLIENT_ID,
-      'X-Client-Secret': process.env.GRAPHQL_CLIENT_SECRET,
-    },
-  }),
-})
-```
-
-[api/funFacts.ts](./app/pages/api/funFacts.ts)
-
-```ts
-import { client } from '../../lib/client'
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data | any>
-) {
-  const { data, errors } = await client.query({
-    query: GetAllFunFactsQuery,
-  })
-
-  // handle errors...
-
-  res.status(200).json(data)
-}
-```
-
+TODO: **_update link_**
 [index.tsx](./app/pages/index.tsx)
 
 ```ts
+// Client-side Rendering
+
 useEffect(() => {
-  fetch(`${process.env.NEXT_PUBLIC_HOST}/api/funFacts`)
-    .then((res) => res.json())
-    .then((res) => {
-      setData(res)
-      setLoading(false)
-    })
+  fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_URL}`, {
+    method: 'POST',
+    headers: {
+      'X-Client-Id': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_ID ?? '',
+      'X-Client-Secret': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_SECRET ?? '',
+      // WARNING: Secret key is exposed in web browser
+    },
+    body: JSON.stringify({
+      query: getAllFunFactsQuery,
+    }),
+  })
 }, [])
 ```
 
+```ts
+// Server-side Rendering
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch(`${process.env.GRAPHQL_URL}`, {
+    method: 'POST',
+    headers: {
+      'X-Client-Id': process.env.GRAPHQL_CLIENT_ID ?? '',
+      'X-Client-Secret': process.env.GRAPHQL_CLIENT_SECRET ?? '',
+    },
+    body: JSON.stringify({
+      query: getAllFunFactsQuery,
+    }),
+  })
+
+  const data = await res.json()
+
+  return { props: data }
+}
+```
+
 ## Try it yourself
+
+TODO: **_update section_**
 
 The following is a suggestion for learning more about client authentication with JS Classes and Brightspot:
 
