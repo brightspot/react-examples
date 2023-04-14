@@ -69,21 +69,23 @@ Refer to MDN's [cache control documentation](https://developer.mozilla.org/en-US
 
 In the `app/.env` file, set the `LOGGER` environment variable to `true` to turn logging on for query requests and responses.
 
-Example logging:
+> **_Note_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser console network tab.
+
+Example logging for client request and server response when query string not found:
 
 ```sh
 🚀 network call:  1
 HTTP method:  GET # first request is always a GET request
-request url:  http://localhost/graphql/delivery/apq/?operationName=GetTextBad&operationName=GetTextBad&variables=%7B%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%229083c29a3ca5ca35fab711038e77c279570ee9c4a8877570dcc25bec56054eb4%22%7D%7D
-✅ response:  { errors: [ { message: 'PersistedQueryNotFound' } ], data: null } # error returned if Brightspot doesn't recognize the hash.
+request url:  http://localhost/graphql/delivery/apq/?operationName=GetTextBad&operationName=GetTextBad&variables=%7B%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%22f2e8fc8b87ed66199d218bcc021e52eef7035614cd4b408c11ddb8bcb9cbc184%22%7D%7D
+✅ response:  { errors: [ { message: 'PersistedQueryNotFound' } ], data: null } # error returned if the server (Brightspot) dpesn't find the query string
 
 🚀 network call:  2
-HTTP method:  POST  # second query sent as a POST. Brightspot validates the hash, stores the query, processes the request, and returns the result.
+HTTP method:  POST  # followup query sent as a POST. Brightspot validates the hash, stores the query, processes the request, and returns the result.
 request url:  http://localhost/graphql/delivery/apq
-POST Body:  {
+POST Body:  { # the followup request includes both the query string and its hash
   query: 'query GetTextBad {\n' +
     '  AviationAlphabetEndpoint {\n' +
-    '    converter(text: "qhmvbb") {\n' +
+    '    converter(text: "u") {\n' +
     '      output\n' +
     '      text\n' +
     '      __typename\n' +
@@ -95,7 +97,7 @@ POST Body:  {
   extensions: {
     persistedQuery: {
       version: 1,
-      sha256Hash: '9083c29a3ca5ca35fab711038e77c279570ee9c4a8877570dcc25bec56054eb4'
+      sha256Hash: 'f2e8fc8b87ed66199d218bcc021e52eef7035614cd4b408c11ddb8bcb9cbc184'
     }
   }
 }
@@ -106,9 +108,21 @@ POST Body:  {
 }
 ```
 
-> **_Note_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction)), you can see the network requests and responses in the browser console network tab.
+Example logging for client request and server response when query string found: 
 
-Ideally, you want to avoid unneccessary `POST` requests by using query best practices, since a `POST` request using APQ actually decreases network performance (since two queries are sent instead of one).
+```sh
+🚀 network call:  1
+HTTP method:  GET # This time, the server responds with the query result because it successfully located the query string associated with the identifying hash 
+request url:  http://localhost/graphql/delivery/apq/?operationName=GetTextBad&operationName=GetTextBad&variables=%7B%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%22f2e8fc8b87ed66199d218bcc021e52eef7035614cd4b408c11ddb8bcb9cbc184%22%7D%7D
+✅ response:  {
+  data: {
+    AviationAlphabetEndpoint: { converter: [Object], __typename: 'AviationAlphabetEndpoint' }
+  }
+}
+
+```
+
+Ideally, you want to avoid unneccessary `POST` requests by using GraphQL variables (so the query string doesn't change), since a `POST` request using APQ actually decreases network performance (since two queries are sent instead of one).
 
 ## How everything works
 
@@ -116,7 +130,7 @@ Ideally, you want to avoid unneccessary `POST` requests by using query best prac
 
 - [Create a persisted query protocol class](brightspot/src/brightspot/example/automatic_persisted_queries/CustomAPQProtocol.ts): A persisted query protocol implements `AutomaticPersistedQueryProtocol`, which enables generating a persisted query extension (the hashed value of a query), and getting queries by hash. The protocol must provide the following methods:
 
-  - `getSharedSecret`: This method sets a secret (or [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>)) to increase security - only clients that hash queries along with the respective salt are valid. Return an empty string if a salt isn't desired.
+  - `getSharedSecret`: This method sets a salt to increase security - only clients that hash queries along with the respective salt are valid. Return an empty string if a salt isn't desired.
 
     ```typescript
     [`getSharedSecret()`](): string {
