@@ -1,6 +1,6 @@
 # GraphQL Schema Versioning
 
-Following [best practices](https://graphql.org/learn/best-practices/#versioning) makes GraphQL endpoints versionless. GraphQL schemas should evolve without breaking changes, but that does not mean breaking changes won't occur. As a schema evolves, it is best to have a process to detect any potential problems.
+GraphQL schemas should evolve without breaking changes, but that does not mean breaking changes won't occur. As a schema evolves, it is best to have a process to detect any potential problems. Following [best practices](https://graphql.org/learn/best-practices/#versioning), GraphQL endpoints are versionless.
 
 This example demonstrates Brightspot's ability to monitor changes to GraphQL schemas and compare schema versions. The front-end application uses [GraphQL Inspector](https://www.the-guild.dev/graphql/inspector/docs/introduction) to view schema changes before updating to avoid breaking changes and [Codegen](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to generate types based on the most up-to-date schema version.
 
