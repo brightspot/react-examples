@@ -181,7 +181,7 @@ Changing and uploading the view model as shown in above will cause the schema to
 This example creates two endpoints:
 
 1. **Schema Versioning Movie Endpoint** is used in the front-end application with a query to get all movie content data.
-2. **Schema Versioning Endpoint**, which can be seen navigating to **Navigation menu** &rarr; **Admin** &rarr; **APIs**, on the left rail labeled **Schema Versioning Endpoint**. This endpoint requires credentials and is used with a query found in `graphql-schema-versioning/app/downloadSchemas.mjs` to get all schema versions for the **Schema Versioning Movie Endpoint**.
+2. **Schema Versioning Endpoint**, which can be seen navigating to **&#9776;** &rarr; **Admin** &rarr; **APIs**, on the left rail labeled **Schema Versioning Endpoint**. This endpoint requires credentials and is used with a query found in `graphql-schema-versioning/app/downloadSchemas.mjs` to get all schema versions for the **Schema Versioning Movie Endpoint**.
 
 The command `yarn codegen` also runs a script file `getTimeStamp.mjs`, located at `graphql-schema-versioning/app/getTimeStamp.mjs`. This script records the time it runs and writes the timestamp to the `graphql-schema-versioning/app/schemas/timeStamp.mjs` file.
 
