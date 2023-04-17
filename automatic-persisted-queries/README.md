@@ -77,7 +77,7 @@ Example logging for client request and server response when query string not fou
 🚀 network call:  1
 HTTP method:  GET # first request is always a GET request
 request url:  http://localhost/graphql/delivery/apq/?operationName=GetTextBad&operationName=GetTextBad&variables=%7B%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%22f2e8fc8b87ed66199d218bcc021e52eef7035614cd4b408c11ddb8bcb9cbc184%22%7D%7D
-✅ response:  { errors: [ { message: 'PersistedQueryNotFound' } ], data: null } # error returned if the server (Brightspot) dpesn't find the query string
+✅ response:  { errors: [ { message: 'PersistedQueryNotFound' } ], data: null } # error returned if the server (Brightspot) doesn't find the query string
 
 🚀 network call:  2
 HTTP method:  POST  # followup query sent as a POST. Brightspot validates the hash, stores the query, processes the request, and returns the result.
@@ -179,7 +179,7 @@ Ideally, you want to avoid unneccessary `POST` requests by using GraphQL variabl
     generateHash: async (query: DocumentNode) => {
       const secret = process.env.SECRET_KEY! // Must be the same salt defined in the persisted query protocol in Brightspot
       const message = secret.concat(print(query))
-      const result = await sha256(message) //The hashing algorithm used must be the same as that defined in `the Brightspot persisted query protocol
+      const result = await sha256(message) //The hashing algorithm used must be the same as that defined in the Brightspot persisted query protocol
       return result
     },
     useGETForHashedQueries: true,
