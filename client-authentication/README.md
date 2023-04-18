@@ -1,4 +1,4 @@
-# Client Authentication - CSR
+# Client Authentication
 
 Previous examples, like [Content Delivery](https://github.com/brightspot/react-examples/tree/main/content-delivery), create a GraphQL endpoint that is open, allowing any user or application to access it. When developing an API, it is important to decide which users or applications are allowed to access an endpoint.
 
@@ -68,7 +68,9 @@ getApiAccessOption(): GraphQLApiAccessOption {
 
 An an API Client can be created in Brightspot at **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Clients** &rarr; **New API Client**. The associated endpoints can be added to the `Endpoints` field and API keys can be managed through the `Keys` field.
 
-TODO: **_Add image here_**
+| API Client Form |
+| -------------------------------------------------------- |
+| <img width="600" alt="API Client Form" src="https://user-images.githubusercontent.com/6299599/232790408-bfda52c6-34ca-4c82-94cd-1cf14b436ea3.png"> |
 
 > **_Note_** This example uses an API Client that is pre-configured to work with the front-end application. It is best practice to create an API Client editorially in production environments.
 
