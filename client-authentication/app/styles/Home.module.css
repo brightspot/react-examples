@@ -1,15 +1,51 @@
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.split > * {
+  border-left: 0.5px solid black;
+  border-right: 0.5px solid black;
+}
+
 .container {
   padding: 0 2rem;
+  min-height: 100vh;
 }
 
 .main {
-  min-height: 100vh;
+  min-height: 90vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.loadButton {
+  background-color: #ee0120;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.loadButton:hover {
+  background: white;
+  border: 1px solid #ee0120;
+  color: #ee0120;
+}
+
+.loadButton:focus {
+  background: #f0f0f0;
+  border: 1px solid #ee0120;
+  color: #ee0120;
 }
 
 .title {
@@ -51,11 +87,6 @@
   color: #ee0120;
 }
 
-.card > h2:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 .card h2 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
@@ -87,15 +118,15 @@
 }
 
 .carousel > a:hover {
-  background: #e0e0e0;
+  background: white;
   border: 1px solid #ee0120;
-  color: black;
+  color: #ee0120;
 }
 
 .carousel > a:focus {
-  background: white;
+  background: #f0f0f0;
   border: 1px solid #ee0120;
-  color: black;
+  color: #ee0120;
 }
 
 .slides {

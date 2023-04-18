@@ -6,11 +6,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Client Authentication CSR</title>
+        <title>Client Authentication</title>
         <meta charSet="UTF-8" />
         <meta
           name="description"
-          content="CSR Client Authentication example with Brightspot"
+          content="Client Authentication example with Brightspot"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="https://www.brightspot.com/favicon-32x32.png" />

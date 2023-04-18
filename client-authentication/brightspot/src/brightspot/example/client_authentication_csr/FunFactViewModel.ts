@@ -9,18 +9,12 @@ import FunFact from './FunFact'
 
 @ViewInterface
 export default class FunFactViewModel extends JavaClass(
-  'brightspot.example.client_authentication_csr.FunFactViewModel',
+  'brightspot.example.client_authentication.FunFactViewModel',
   ViewModel.Of(FunFact)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)
   getText(): string {
     return this.model.text
-  }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getPath(): string {
-    return this.model.getPermalink()
   }
 }

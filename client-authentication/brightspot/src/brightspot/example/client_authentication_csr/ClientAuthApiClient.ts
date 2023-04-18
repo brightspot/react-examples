@@ -9,11 +9,11 @@ import Modification from 'brightspot-types/com/psddev/dari/db/Modification'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import UuidUtils from 'brightspot-types/com/psddev/dari/util/UuidUtils'
 
-import ClientAuthCsrEndpoint from './ClientAuthCsrEndpoint'
+import ClientAuthEndpoint from './ClientAuthEndpoint'
 
 export default class ClientAuthApiClient extends JavaClass(
-  'brightspot.example.client_authentication_csr.ClientAuthApiClient',
-  Modification.Of(ClientAuthCsrEndpoint)
+  'brightspot.example.client_authentication.ClientAuthApiClient',
+  Modification.Of(ClientAuthEndpoint)
 ) {
   afterSave(): void {
     let original = this.getOriginalObject()
@@ -21,12 +21,13 @@ export default class ClientAuthApiClient extends JavaClass(
     let name = original.getClass().getName()
     let displayName = original.getState().getType().getDisplayName()
     let clientId = UuidUtils.createVersion3Uuid(name)
+    let clientSecret = UuidUtils.createVersion3Uuid(clientId.toString())
 
     let client = Query.findById(ApiClient.class, clientId)
     if (client === null) {
       client = new ApiClient()
       client.getState().setId(clientId)
-      client.setName(displayName + ' Client')
+      client.setName(displayName + ' API Client')
     }
 
     if (!client.getEndpoints().contains(this)) {
@@ -37,8 +38,6 @@ export default class ClientAuthApiClient extends JavaClass(
       client.saveImmediately()
     }
     
-    let clientSecret = 'abcdefghijklmnopqrstuvwxyz0123456789'
-    
     let key = Query.from(ApiKey.class)
       .where('value = ?', clientSecret)
       .or('value = ? && cms.content.trashed = ?', clientSecret, true)
@@ -48,7 +47,7 @@ export default class ClientAuthApiClient extends JavaClass(
       key = new ApiKey()
       key.setClient(client)
       key.setName(displayName + ' Key')
-      key.setValue(clientSecret)
+      key.setValue(clientSecret.toString())
       key.setCreatedOn(new JavaDate())
       key.saveImmediately()
     }

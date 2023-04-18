@@ -44,9 +44,13 @@ The front-end application will open automatically in the browser.
 
 ## Using the example application
 
-The Next.js app makes a request to the GraphQL endpoint. The request includes headers that contain a secret API Key stored as an environment variable. If the value of the API Key in the headers match the value stored in Brightspot then the app will display the data returned.
+The Next.js app makes requests to the GraphQL endpoint. The requests includes HTTP headers that contain a client ID and secret API key. If the value of the client ID and API key in the headers match the values stored in Brightspot then the app will display the data returned.
 
-To show how the application responds to an incorrect API Key, modify the `NEXT_PUBLIC_GRAPHQL_CLIENT_SECRET` value in the `.env` file located at `client-authentication/app` to some new value. Then restart the Next.js app and navigate to it in your web browser.
+The app is split into two sections, one that uses [Client-side rendering](https://nextjs.org/docs/basic-features/data-fetching/overview) to fetch data after the page has loaded and the other uses [Server-side rendering](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props) to fetch data before the page has loaded.
+
+> **_Note_** The client ID and secret API key are public in the client-side rendering part of the app.
+
+To show how the application responds to an incorrect API Key, modify the `NEXT_PUBLIC_GRAPHQL_CLIENT_SECRET` and/or `GRAPHQL_CLIENT_SECRET` values in the `.env` file located at `client-authentication/app` to some new value. Then restart the Next.js app and navigate to it in your web browser.
 
 ## How everything works
 
@@ -70,19 +74,18 @@ TODO: **_Add image here_**
 
 ### 3. Query the endpoint
 
-The GraphQL endpoint checks each HTTP request for `X-Client-Id` and `X-Client-Secret` headers and compares the values to the endpoint's API Client and API keys. If the headers are missing or incorrect it returns a 401 Unauthorized response.
+The GraphQL endpoint checks each incoming HTTP request for `X-Client-Id` and `X-Client-Secret` headers and compares the values to the endpoint's API Client ID and API keys. If the headers are missing or incorrect it returns a 401 Unauthorized response.
 
-This example uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send requests to the endpoint with the required headers. It is best practice to use a proxy server to make any HTTP requests that include the API key to keep it hidden from the public.
+This example uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send requests to the endpoint with the required headers. The `ClientSideRender` component sends the request on an event trigger and the `ServerSideRender` component gets the same data passed in as props from a request made on the Next.js server.
 
-This example shows requests using both [Next.js Client-side rendering](https://nextjs.org/docs/basic-features/data-fetching/client-side) and [Next.js Server-side rendering](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props).
+> **_Note_** It is best practice to use a proxy server (like a Next.js server) to make any HTTP requests that include an API key so that they are hidden from the public.
 
-TODO: **_update link_**
-[index.tsx](./app/pages/index.tsx)
+[ClientSideRender.tsx](./app/components/ClientSideRender.tsx)
 
 ```ts
 // Client-side Rendering
 
-useEffect(() => {
+const handleClick = () => {
   fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_URL}`, {
     method: 'POST',
     headers: {
@@ -94,8 +97,9 @@ useEffect(() => {
       query: getAllFunFactsQuery,
     }),
   })
-}, [])
 ```
+
+[index.tsx](./app/pages/index.tsx)
 
 ```ts
 // Server-side Rendering
@@ -106,6 +110,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     headers: {
       'X-Client-Id': process.env.GRAPHQL_CLIENT_ID ?? '',
       'X-Client-Secret': process.env.GRAPHQL_CLIENT_SECRET ?? '',
+      // Secret key is hidden behind Next.js server
     },
     body: JSON.stringify({
       query: getAllFunFactsQuery,
@@ -117,14 +122,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return { props: data }
 }
 ```
-
-## Try it yourself
-
-TODO: **_update section_**
-
-The following is a suggestion for learning more about client authentication with JS Classes and Brightspot:
-
-- Consider a case where an endpoint is used by more than one front end application. Try adding a second API key to the API Client and update the environment variables to use the new key.
 
 ## Troubleshooting
 

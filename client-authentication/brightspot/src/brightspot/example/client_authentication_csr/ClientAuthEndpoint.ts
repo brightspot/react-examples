@@ -10,23 +10,21 @@ import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQ
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import AllFunFactsViewModel from './AllFunFactsViewModel'
-import FunFactViewModel from './FunFactViewModel'
 
-export default class ClientAuthCsrEndpoint extends JavaClass(
-  'brightspot.example.client_authentication_csr.ClientAuthCsrEndpoint',
+export default class ClientAuthEndpoint extends JavaClass(
+  'brightspot.example.client_authentication.ClientAuthEndpoint',
   ContentDeliveryApiEndpointV1,
   Singleton
 ) {
   getPaths(): JavaSet<string> {
     return [
-      '/graphql/delivery/client-authentication-csr',
+      '/graphql/delivery/client-authentication',
     ] as unknown as JavaSet<string>
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
       AllFunFactsViewModel.getClass(),
-      FunFactViewModel.getClass()
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>
@@ -34,7 +32,7 @@ export default class ClientAuthCsrEndpoint extends JavaClass(
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {
     super.updateCorsConfiguration(corsConfiguration)
-    corsConfiguration.addAllowedOrigin('localhost')
+    corsConfiguration.addAllowedOrigin('*')
   }
 
   getApiAccessOption(): GraphQLApiAccessOption {
