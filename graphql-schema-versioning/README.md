@@ -1,4 +1,4 @@
-# GraphQL Schema Versioning
+# Schema Versioning
 
 GraphQL schemas should evolve without breaking changes, but that does not mean breaking changes won't occur. As a schema evolves, it is best to have a process to detect any potential problems. Following [best practices](https://graphql.org/learn/best-practices/#versioning), GraphQL endpoints are versionless.
 
@@ -6,7 +6,8 @@ This example demonstrates Brightspot's ability to monitor changes to GraphQL sch
 
 ## What you will learn
 
-1. [Compare schema versions using GraphQL Inspector](#1-viewing-and-comparing-graphql-schema-versions-via-graphql-inspector).
+1. [Create an Endpoint that utilizes Brightspot's ability to track changes to the schema](#1-creating-an-endpoint-that-collects-schema-versions).
+2. [Compare schema versions using GraphQL Inspector](#2-comparing-graphql-schema-versions-via-graphql-inspector).
 
 ## Running the example application
 
@@ -35,21 +36,17 @@ $ yarn codegen
 $ yarn start
 ```
 
-## Step 1: Publish movie content
+## Using the example application
+
+### Step 1: Publish movie content
 
 In Brightspot, publish at least one **Movie**.
 
-## Step 2: Load schema versions
-
-Since schema versions are lazily loaded, a call has to be made to the endpoint for the new schema to load. To do this start the front-end application or refresh the front-end application (if it is running).
-
-The schema versions are now loaded.
-
-## Step 3: Update the schema / view model
-
 Run the front-end application to confirm that the published **Movie** content renders (if it is already running, refresh the browser).
 
-Make the following changes to the **Movie** view model located at `graphql-schema-versioning/brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts` :
+### Step 2: Update the schema / view model
+
+Make the following changes to the [Movie view model](brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts):
 
 **_Edit:_** Change the method name `getDescription()` to `getPlot()`:
 
@@ -77,11 +74,11 @@ Uncomment the following methods:
   }
 ```
 
-Upload your Brightspot types once again. Once uploaded, restart the front-end application (or refresh the browser if it is still running) to load the schema versions. The front-end application will break, we will be shown why.
+Upload your Brightspot types once again.
 
-## Step 4: Download schemas
+### Step 3: Download schemas
 
-Run the following:
+Run the following from the [app](app) directory:
 
 ```sh
 $ yarn schemas
@@ -91,11 +88,31 @@ $ yarn schemas
 ✨  Done in 0.24s.
 ```
 
-The `graphql-schema-versioning/app/schemas` directory will now hold two GraphQL files representing the schemas should you want to manually review the schemas.
+The `graphql-schema-versioning/app/schemas` directory now holds two GraphQL files, representing the schemas should you want to manually review the schemas.
 
-## Step 5: Update the front-end application
+### Step 4: Compare schema versions
 
-Based on the changes made, update the query in the front-end application for Codegen to get the correct fields and types.
+Run the following with `codegenSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
+
+```
+npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
+```
+
+```sh
+Detected the following changes (4) between schemas:
+
+✖  Field description was removed from object type Movie
+✔  Field director was added to object type Movie
+✔  Field plot was added to object type Movie
+✔  Field releaseYear was added to object type Movie
+error Detected 1 breaking change
+```
+
+> **_Note_** the following step is only necessary to run the front-end application with no issues based on the latest schema changes.
+
+### Step 5: Update the front-end application
+
+Based on the changes made, update the query in the front-end application to allow Codegen to get the correct fields and types.
 
 Update the `Movie.tsx` component to display the new fields and change 'description' to 'plot':
 
@@ -154,29 +171,11 @@ $ yarn codegen
 ✨  Done in 1.01s.
 ```
 
-The `graphql-schema-versioning/app/src/generated.ts` file will now contain the new schema and field types. As a result, the front-end application can run again with no errors.
-
-## Step 6: Compare schema versions
-
-To view why the front-end application broke, run the following with `codegenSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
-
-```
-npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
-```
-
-```sh
-Detected the following changes (4) between schemas:
-
-✖  Field description was removed from object type Movie
-✔  Field director was added to object type Movie
-✔  Field plot was added to object type Movie
-✔  Field releaseYear was added to object type Movie
-error Detected 1 breaking change
-```
+The `graphql-schema-versioning/app/src/generated.ts` file will now contain the new schema and field types. As a result, the front-end application runs with no errors.
 
 ## How everything works
 
-Changing and uploading the view model as shown in above will cause the schema to change, creating a new version that will be loaded once a call is made to the endpoint.
+Changing and uploading the view model as shown above will cause the schema to change, creating a new schema version.
 
 This example creates two endpoints:
 
@@ -193,7 +192,34 @@ What does the script do?
 2. Sends the schemas to the `parseSchemaURLS` function that uses the earlier created ` graphql-schema-versioning/app/schemas/timeStamp.mjs` file to get the latest schema available when the time stamp was created and the most recent schema available (they can be the same), stores them in an object, and adds a name key and value.
 3. Sends these two schema objects to `downloadSchemas`, which takes the URL in both schemas to open the URL and write files to `graphql-schema-versioning/app/schemas`, `codegenSchema.graphql` and `mostRecentSchema.graphql`.
 
-### 1: Comparing GraphQL schema versions via GraphQL Inspector
+### 1: Creating an endpoint that collects schema versions
+
+Brightspot records a history of all schema changes, this example creates an endpoint that points to the collection of schemas.
+
+The [SchemaVersioningEndpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) implements `ContentManagementApiEndpointV1`. The method `getEntryFields` is used to query GraphQL schema versions for all endpoints in this application:
+
+```js
+  [`getEntryFields()`](): List<ContentManagementEntryPointField> {
+    let schemaClass = new ContentManagementEntryPointField(
+      GraphQLSchemaVersion.class,
+      true
+    )
+```
+
+The [SchemaVersioningClient](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningClient.ts) is set up to access the Schema Versioning Endpoint.
+
+The query in the [downloadSchemas](app/downloadSchemas.mjs) script asks for the endpoint with the label **Schema Versioning Movie Endpoint** and sort them by timestamp in a descending order:
+
+```js
+const graphqlSchemaQuery = `
+    query Schemas {
+      versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
+        where: { predicate: "endpoint/getLabel = ?", arguments: "Schema Versioning Movie Endpoint" }
+        sorts: { order: descending, options: "timestamp" }
+      ) {
+```
+
+### 2: Comparing GraphQL schema versions via GraphQL Inspector
 
 Using GraphQL Inspector's [Schema Validation]('https://the-guild.dev/graphql/inspector/docs/essentials/diff'), compare the two schema versions.
 
