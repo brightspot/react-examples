@@ -165,9 +165,7 @@ error Detected 1 breaking change
 
 As shown, before running the front-end application we know that in its current state, it will not run.
 
-### Step 5: Update the front-end application
-
-> **_Note_** the following step is only necessary to run the front-end application with no issues based on the latest schema changes.
+> **_Note_** the following is only necessary to run the front-end application with no issues based on the latest schema changes.
 
 Based on the changes made, in order for Codegen to run, update the query in the front-end application to return the latest fields and types:
 
