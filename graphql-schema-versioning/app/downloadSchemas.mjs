@@ -25,13 +25,6 @@ const graphqlSchemaQuery = `
       sorts: { order: descending, options: "timestamp" }
     ) {
       items {
-        _id
-        _type
-        endpoint {
-          _id
-        }
-        release
-        schemaHash
         timestamp
         schema {
           publicUrl
