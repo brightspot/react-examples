@@ -1,92 +1,219 @@
 # Brightspot Routing
 
-This example highlights how to use JS Classes, the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api), and Brightspot's URL features to control routing in a front-end application.
+Many front-end applications use URL segments to identify what data they need to fetch. By default, Brightspot content can be uniquely identified by `id`, but `id`s are not suited for use in human-readable URLs.
+
+Brightspot provides the `Directory` class which includes APIs for managing URL paths to content stored in the database. These URL paths uniquely identify content and include context in the form of permalinks, aliases, and redirects. This information can also be made available in the content's view model.
+
+This example demonstrates how to use Brightspot's Directory system to get URL path data and use it to control routing in a front-end application.
 
 ## What you will learn
 
-1. How to auto-generate permalinks based on user input.
-2. How to query for content using `path` as a query variable with Brightspot's GraphQL API.
-3. How to route a [React](https://reactjs.org/) application based on redirects entered into Brightspot.
-
-## Related examples
-
-- [App Routing](https://github.com/brightspot/react-examples)
+1. [Allow URL path as a query argument.](#1-allow-url-path-as-a-query-argument)
+2. [Expose URL path data to an endpoint.](#2-expose-url-path-data-to-an-endpoint)
+3. [Route a React app based on the URL path data](#3-route-a-react-app-based-on-the-url-path-data).
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `brightspot-routing` directory:
+> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-To upload JS Classes in Brightspot (http://localhost/cms):
+Run the following commands from the `brightspot-routing/app` directory:
+
+### Install dependencies
 
 ```sh
-cd brightspot
-yarn
-npx brightspot types download
-npx brightspot types upload src
+$ yarn
+```
 
 ```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...
+[4/4] 🔨 Building fresh packages...
+✨ Done in 6.03s.
+```
+
+### Generate types
+
+```sh
+$ yarn codegen
+```
+
+```
+✔ Parse Configuration
+❯ Generate outputs
+  ❯ Generate ./src/generated.ts
+✔ Parse Configuration
+✔ Generate outputs
+✨ Done in 2.05s.
+```
+
+### Start the react app
 
 To run the front end:
 
 ```sh
-cd app
-yarn
-yarn codegen
-yarn start
+$ yarn start
 ```
 
-The front-end application opens automatically in the browser.
+```
+Compiled successfully!
+```
 
-## Before using the example application: key principles of url routing
-
-1. An item should only have one exact path (example: an Article should not have multiple possible URLs).
-2. A URL should be hackable: you should be able to backtrack to get to different Sections.
-3. A URL should have a consistent hierarchy for displaying content (example: `section/subsection/article`).
+The React app opens automatically in the browser.
 
 ## Using the example application
 
-The front-end application is a simple news website. Content consists of Sections and Articles.
+The React app is a simple news site with content consisting of Sections and Articles. Sections and Articles are set up to automatically generate permalinks in the URLs widget on the content edit page. The auto-generated permalinks are based on the Section's name and the Article's headline.
 
-Publish the following content in Brightspot:
+Publish one or more Sections and/or Articles in Brightspot and then navigate through the React app to find the published content. When viewing a specific Section or Article, note that the React app URL matches the permalink in Brightspot. The React app is using the URL to query for the matching content in Brightspot.
 
-1. **Sections**(s)
-2. **Article**(s)
-
-> **_Note_** Permalinks are automatically generated based off of the `name` (for Sections) and `headline` (for Articles) fields. They can be modified, but they must be unique across all content types.
-
-Navigate to your front-end application to see your content displayed!
+Additional URLs can be added to each instance of content. Try adding different types of URLs (aliases or redirects) but remember that it is best practice to have only a single permalink.
 
 ## How everything works
 
-JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript. One powerful feature Brightspot provides is ease of content modeling and querying for content data with GraphQL.
+### 1. Allow URL path as a query argument
 
-Navigate to `brightspot/src/examples/brightspot_routing`. This directory contains the JS Class files that are uploaded to Brightspot.
+For a content type to utilize Brightspot's Directory system it must implement the `Directory.Item` abstract class and provide the body of the `createPermalink()` method. This exposes `path` as a query argument in the resulting GraphQL schema, allowing the React app to use its URL parameters as query variables to fetch the matching data from Brightspot.
 
-#### Points to note in the JS Class files:
+The `createPermalink()` method automatically generates a permalink URL path for the content following the method implementation. It calculates the permalink as you enter data into the form in real time.
 
-- `ViewModel.Of(BrightspotRoutingEndpoint)`: `AllSectionsViewModel` and `AllArticlesViewModel` specify the `BrightspotRoutingEndpoint`, which makes it possible to query for content without using a query variable.
-- `DirectoryItem`: `Article.ts` and `Section.ts` will generate Java Classes that implement `DirectoryItem`. This enables the use of the `createPermalink()` method to automatically generate permalinks. It exposes the permalink and redirect data entered into the URLs widget on a content type's edit page. It also adds `path` as a query variable.
-- `DirectoryDataViewModel`: This returns a list of a content type's permalink paths and whether each one is a redirect or not. The React app can use this information to handle redirects.
+```ts
+[`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
+  return Utils.toNormalized(this.name)
+}
+```
 
-#### Points to note in the React application:
+### 2. Expose URL path data to an endpoint
 
-- Query for `path`: `Content.tsx` uses [React Router](https://reactrouter.com/en/main) to grab the URL parameter that is used for the `path` query variable, which corresponds to the permalink in Brightspot. The `GetContent` query looks at both Sections and Articles, but because permalink paths are unique, Brightspot will only return a single object.
+Once the React app has queried the endpoint for a specific piece of content, it needs to know what type of URL paths exist on the content in order to take the appropriate action. For example, the React app will behave differently if the `path` is a redirect versus a permalink.
 
-> **_Note_** [Apollo Client](https://www.apollographql.com/docs/react/) and [GraphQl Code Generator](https://www.the-guild.dev/graphql/codegen/docs/getting-started) are used to reduce the amount of code necessary to run the GraphQL queries.
+The directory data can be included in the content's view model so that it is avaiable as a field on the endpoint.
 
-- Handling Redirects - When the Brightspot GraphQL API is queried using a `path` variable that corresponds to a redirect, it still returns the matching content. `Content.tsx` utilizes this with React Router to navigate the application to the primary permalink for the content.
+[ArticleViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/ArticleViewModel.ts)
 
-> **_Note_** This React app is set up for client side rendering and will not send HTTP 3xx status codes for redirects. Try server side rendering to enable 3xx status codes.
+```ts
+@ViewInterface
+export default class ArticleViewModel extends JavaClass(
+  'brightspot.example.brightspot_routing.ArticleViewModel',
+  ViewModel.Of(Article)
+) {
+  // Other fields...
+
+  // Adds a field for Directory Data
+  @JavaMethodParameters()
+  @JavaMethodReturn(DirectoryDataViewModel)
+  getDirectoryData(): DirectoryDataViewModel {
+    return this.createView(
+      DirectoryDataViewModel.getClass(),
+      this.model.as(DirectoryData.class)
+    )
+  }
+}
+```
+
+[DirectoryDataViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/DirectoryDataViewModel.ts)
+
+```ts
+// Defines the fields available under Directory Data
+@ViewInterface
+export default class DirectoryDataViewModel extends JavaClass(
+  'brightspot.example.brightspot_routing.DirectoryDataViewModel',
+  ViewModel.Of(DirectoryData)
+) {
+  // Adds a field for the set URL paths
+  @JavaMethodParameters()
+  @JavaMethodReturn(JavaSet.Of(DirectoryPathViewModel))
+  getPaths(): JavaSet<DirectoryPathViewModel> {
+    return this.createViews(
+      DirectoryPathViewModel.getClass(),
+      this.model.getPaths()
+    )
+  }
+}
+```
+
+[DirectoryPathViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/DirectoryPathViewModel.ts)
+
+```ts
+// Defines the fields available under Directory Paths
+@ViewInterface
+export default class DirectoryPathViewModel extends JavaClass(
+  'brightspot.example.brightspot_routing.DirectoryPathViewModel',
+  ViewModel.Of(DirectoryPath)
+) {
+  // Adds a field for the specific path
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getPath(): string {
+    return this.model.getPath()
+  }
+
+  // Adds a field for the path type
+  @JavaMethodParameters()
+  @JavaMethodReturn(String)
+  getType(): string {
+    return this.model.getType().toString()
+  }
+}
+```
+
+### 3. Route a React app based on the URL path data
+
+This example uses [React Router](https://reactrouter.com/en/main/start/overview) to control the UI and fetch data. The `Content.tsx` component queries the Brightspot endpoint for content using its current URL parameters as the `path` query variable.
+
+[Content.tsx](./app/src/components/Content.tsx)
+
+```ts
+const Content = () => {
+  const parameters = useParams()
+
+  // builds a 'path' string from the URL parameters
+  let currentPath = ''
+  Object.values(parameters).forEach(
+    (parameter) => (currentPath += `/${parameter}`)
+  )
+
+  // Apollo Client queries the endpoint with the 'path' string
+  const { data, error, loading } = useGetContentQuery({
+    variables: {
+      path: currentPath,
+    },
+  })
+
+  // return (...)
+}
+```
+
+Brightspot returns the matching resourse and the React app checks the current URL parameters against the content's directory data. If it finds that the current path refers to a redirect it routes the app accordingly.
+
+[Content.tsx](./app/src/components/Content.tsx)
+
+```ts
+const Content = () => {
+  // fetch data...
+
+  if (data?.Article) {
+    // if the React URL path is a redirect, navigate the app to the permalink path
+    if (currentPathIsRedirect(currentPath, data.Article.directoryData)) {
+      return <Navigate to={data.Article.path || '/'} />
+    }
+    // else render the Article component
+    return <ArticleComponent article={data.Article} />
+  }
+}
+```
+
+This example only checks the directory data for redirects, but could be set up to behave differently for each URL path type.
 
 ## Try it yourself
 
-The following is a suggestion for learning more about routing with JS Classes and Brightspot:
+The following is a suggestion for learning more about routing with Brightspot:
 
-1. Try adding additional permalinks, aliases, or redirects to a Section or Article in Brightspot through the URLs widget on the content edit page. Navigate to these paths by manually entering the URL into a browser.
-2. In Brightspot, navigate to **Navigation Menu &rarr; Admin &rarr; Sites & Settings &rarr; Global &rarr; CMS &rarr; Advanced** and toggle on the **Always Generate Permalinks** field and the **Single Generated Permalink** field. Experiment with how those affect permalink generation.
-
-> **_Note_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to update the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
+1. Configure Brightspot with a Default Site URL to make it easy for editors to navigate to a piece of content. Navigate to **☰** &rarr; **Admin** &rarr; **Sites & Settings** &rarr; **Global** &rarr; **Main** &rarr; and enter `http://localhost:3000` into the **Default Site URL** field. Then open a content edit page and click on a hyperlink in the URLs widget.
+2. Consider a case where the app needs to serve 3xx status codes on redirect. Try implementing an app that handles server side rendering and redirects with status codes (See [Next.js Redirects](https://nextjs.org/docs/api-reference/next.config.js/redirects)).
 
 ## Troubleshooting
 
-Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+If you make any changes to GraphQL queries in the React app, be sure to run `yarn codegen` to update the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
+
+Refer to the [Common Issues](/README.md) section in the repository README for assistance.
