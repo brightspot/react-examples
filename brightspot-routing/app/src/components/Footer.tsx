@@ -2,7 +2,7 @@ const Footer = () => (
   <footer>
     <div className="footer-container">
       <p>
-        Brightspot Routing with{' '}
+        Routing with{' '}
         <a
           href="https://www.brightspot.com/"
           target="_blank"
