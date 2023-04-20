@@ -8,7 +8,7 @@ query GetAllArticles {
       directoryData {
         paths {
           path
-          isRedirect
+          type
         }
       }
       section {

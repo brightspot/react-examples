@@ -6,8 +6,6 @@ import DirectoryPath from 'brightspot-types/com/psddev/cms/db/Directory$Path'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import PathType from 'brightspot-types/com/psddev/cms/db/Directory$PathType'
-
 @ViewInterface
 export default class DirectoryPathViewModel extends JavaClass(
   'brightspot.example.brightspot_routing.DirectoryPathViewModel',
@@ -20,11 +18,8 @@ export default class DirectoryPathViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
-  @JavaMethodReturn(Boolean)
-  getIsRedirect(): boolean {
-    return this.model.getType() === PathType.REDIRECT ||
-      this.model.getType() === PathType.REDIRECT_TEMPORARY
-      ? true
-      : false
+  @JavaMethodReturn(String)
+  getType(): string {
+    return this.model.getType().toString()
   }
 }

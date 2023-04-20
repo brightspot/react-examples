@@ -12,7 +12,9 @@ const currentPathIsRedirect = (
 ): boolean => {
   return (
     directoryData?.paths?.some(
-      (e) => e?.path === currentPath && e.isRedirect
+      (e) =>
+        e?.path === currentPath &&
+        (e.type === 'Redirect (Permanent)' || e.type === 'Redirect (Temporary)')
     ) || false
   )
 }
