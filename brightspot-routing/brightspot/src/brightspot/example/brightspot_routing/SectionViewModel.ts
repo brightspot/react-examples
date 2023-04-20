@@ -38,10 +38,7 @@ export default class SectionViewModel extends JavaClass(
       .where('section = ?', this.model)
       .selectAll()
 
-    return super.createViews(
-      ArticleViewModel.getClass(),
-      articles
-    ) as unknown as List<ArticleViewModel>
+    return super.createViews(ArticleViewModel.getClass(), articles)
   }
 
   @JavaMethodParameters()

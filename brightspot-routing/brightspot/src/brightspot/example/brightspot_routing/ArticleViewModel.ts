@@ -7,8 +7,8 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
-import SectionViewModel from './SectionViewModel'
 import DirectoryDataViewModel from './DirectoryDataViewModel'
+import SectionViewModel from './SectionViewModel'
 
 @ViewInterface
 export default class ArticleViewModel extends JavaClass(
@@ -45,10 +45,7 @@ export default class ArticleViewModel extends JavaClass(
   getSection(): SectionViewModel {
     // TODO: remove null check once createView null object issue is resolved
     if (this.model.section) {
-      return this.createView(
-        SectionViewModel.getClass(),
-        this.model.section
-      )
+      return this.createView(SectionViewModel.getClass(), this.model.section)
     } else return null
   }
 
