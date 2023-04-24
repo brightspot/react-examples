@@ -80,7 +80,7 @@ const schemaLoadAndFetch = async (moviesURL, schemaURL) => {
       query: allMoviesQuery,
     },
     redirect: 'follow',
-  }).then((res) => console.log(res.data.data))
+  })
   fetchSchemas(schemaURL)
 }
 
