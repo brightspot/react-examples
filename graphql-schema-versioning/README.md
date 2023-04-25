@@ -214,8 +214,9 @@ Correct the application.
 
 Based on the changes made, in order for the front-end application to work, you can do one of two things:
 
-1. Update the schema based on what you have learned to restore the field that was removed.
-2. Update the front-end application's [query](app/src/components/MoviesQuery.graphql) to run Codegen and the [Movie Component](app/src/components/Movie.tsx) to display the new fields.
+1. Update the schema to be backwards compatible based on what you have learned.
+
+2. Update the front-end application's to conform to the new changes and display the new fields.
 
 ## Troubleshooting
 
