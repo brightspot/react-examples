@@ -7,7 +7,7 @@ Brightspot stores a record whenever a schema changes and can be viewed in Bright
 ## What you will learn
 
 1. [Create an endpoint that exposes the schema version data](#1-creating-an-endpoint-that-returns-schema-versions).
-2. [Compare schema versions programatically](#2-comparing-graphql-schema-versions-via-graphql-inspector).
+2. [Retrieve the schema data](#retrieving-the-schema-version-data) and [compare schema versions programatically](#2-comparing-graphql-schema-versions-via-graphql-inspector).
 
 ## Running the example application
 
@@ -105,7 +105,7 @@ $ yarn schemas
 
 The [schemas](app/schemas) directory now holds two GraphQL files, representing the schemas should you want to manually review the schemas.
 
-> More information on the [download schemas script](#the-command-yarn-schemas-runs-the-script-file-downloadschemasmjs)
+> More information on the [download schemas script](#the-yarn-schemas-script)
 
 ### Step 3: Comparing the schemas
 
@@ -137,9 +137,9 @@ The second schema will represent the latest changes made to the [Movie view mode
 
 ### 1: Creating an endpoint that returns schema versions
 
-Brightspot stores the history of all schema changes, this example creates an endpoint that points to that data.
+Brightspot stores the history of all schema changes, and this example creates an endpoint that points to that data.
 
-The [SchemaVersioningEndpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) implements `ContentManagementApiEndpointV1`. The method `getEntryFields` is used to query GraphQL schema versions for all endpoints in this application:
+The [SchemaVersioningEndpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) implements a content management api (CMA) endpoint. The method `getEntryFields` is used to query GraphQL schema versions for all endpoints in this application:
 
 ```js
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
@@ -149,32 +149,38 @@ The [SchemaVersioningEndpoint](brightspot/src/brightspot/example/graphql_schema_
     )
 ```
 
-#### The command `yarn schemas` runs the script file [downloadSchemas.mjs](app/downloadSchemas.mjs).
+### Retrieving the schema version data
 
-What does the script do?
+To filter the required schema versions, we queried a specific endpoint using its label, we organized the retrieved versions by timestamp and queried only for the `timestamp` and `schema` fields. Within the `schema` field, we fetched the `publicUrl` field.
 
-1. Calls the [schema versioning endpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) with the query `graphqlSchemaQuery` and uses the credentials stored in the [env](app/.env) file. The query asks for the endpoint with the label **Schema Versioning Movie Endpoint** and sorts them by timestamp in a descending order:
+The Schema Versions query:
 
-```js
-const graphqlSchemaQuery = `
-  query Schemas {
-    versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
-      where: { predicate: "endpoint/getLabel = ?", arguments: "Schema Versioning Movie Endpoint" }
-      sorts: { order: descending, options: "timestamp" }
-    ) {
-      items {
-        timestamp
-        schema {
-          publicUrl
-        }
+```graphql
+query Schemas {
+  versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
+    where: {
+      predicate: "endpoint/getLabel = ?"
+      arguments: "Schema Versioning Movie Endpoint"
+    }
+    sorts: { order: descending, options: "timestamp" }
+  ) {
+    items {
+      timestamp
+      schema {
+        publicUrl
       }
     }
   }
-`
+}
 ```
 
-2. Sends the schemas to the `parseSchemaURLS` function that uses the [timeStamp](app/schemas/timeStamp.mjs) file to get the latest schema available when the time stamp was created and the most recent schema available (they can be the same), stores them in their own object, and adds a name key and value.
-3. Sends the two schema objects to `downloadSchemas`, which takes the URL in both schemas to open the URL and write GraphQL files to the [schemas](app/schemas) directory, `codegenSchema.graphql` and `newSchema.graphql`.
+### The yarn schemas script
+
+> _**Note**_ the utility script provided is used for example purposes only.
+
+The command `yarn schemas` runs the script file [downloadSchemas.mjs](app/downloadSchemas.mjs).
+
+The file calls the [schema versioning endpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) with the query shown above. It uses the [timeStamp](app/schemas/timeStamp.mjs) file to get the latest schema available when the time stamp was created and the most recent schema available (they can be the same). Lastly, it writes GraphQL files to the [schemas](app/schemas) directory using the URLs from both schemas.
 
 ### 2: Comparing GraphQL schema versions via GraphQL Inspector
 
@@ -185,7 +191,9 @@ Example:
 Run the following from the [app](app) directory with `codegenSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
 
 ```
+
 npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
+
 ```
 
 Output:
