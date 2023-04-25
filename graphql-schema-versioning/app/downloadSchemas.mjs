@@ -18,6 +18,10 @@ const allMoviesQuery = `
   }
 `
 
+/**
+ * Query used to retrieve schema versions for 'Schema Versioning Movie Endpoint'
+ * in descending order with the latest schema first.
+ **/
 const graphqlSchemaQuery = `
   query Schemas {
     versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
@@ -34,12 +38,17 @@ const graphqlSchemaQuery = `
   }
 `
 
+// Receives schema objects array to open each url and save the file
 const downloadSchemas = async (schemasToDownload) => {
   await schemasToDownload.forEach((schema) => {
     exec(`curl ${schema.schema.publicUrl} > ./schemas/${schema.name}.graphql`)
   })
 }
 
+/**
+ * Receives all schemas and finds the two required.
+ * The latest schema and the latest available when codegen was executed (these can be the same)
+ **/
 const parseSchemaURLS = (schemas) => {
   const schemasCopy = JSON.parse(JSON.stringify(schemas))
   const codegenSchema = schemasCopy.filter(
@@ -55,7 +64,6 @@ const parseSchemaURLS = (schemas) => {
 }
 
 const fetchSchemas = async (url) => {
-  let schemas
   await axios({
     method: 'post',
     url: url,
@@ -67,9 +75,7 @@ const fetchSchemas = async (url) => {
       query: graphqlSchemaQuery,
     },
     redirect: 'follow',
-  }).then((res) => (schemas = res.data.data.versions.items))
-
-  parseSchemaURLS(schemas)
+  }).then((res) => parseSchemaURLS(res.data.data.versions.items))
 }
 
 const schemaLoadAndFetch = async (moviesURL, schemaURL) => {
