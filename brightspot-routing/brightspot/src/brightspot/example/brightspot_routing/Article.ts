@@ -5,7 +5,6 @@ import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DirectoryItem from 'brightspot-types/com/psddev/cms/db/Directory$Item'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
-import Optional from 'brightspot-types/java/util/Optional'
 import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import Site from 'brightspot-types/com/psddev/cms/db/Site'
 import Utils from 'brightspot-types/com/psddev/dari/util/Utils'
@@ -30,12 +29,14 @@ export default class Article extends JavaClass(
   section?: Section
 
   [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
-    const sectionSlug = Utils.toNormalized(
-      Optional.ofNullable(this.section?.name).orElse('')
-    )
-    const headlineSlug =
-      '/' + Utils.toNormalized(Optional.ofNullable(this.headline).orElse(''))
+    if (!this.headline) {
+      return null
+    }
 
-    return sectionSlug + headlineSlug
+    return (
+      Utils.toNormalized(this.section?.name ?? '') +
+      '/' +
+      Utils.toNormalized(this.headline)
+    )
   }
 }
