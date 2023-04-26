@@ -1,6 +1,6 @@
 # Brightspot Routing
 
-Many front-end applications use URL segments to identify what data they need to fetch. By default, Brightspot content can be uniquely identified by `id`, but `id`s are not suited for use in human-readable URLs.
+Many front-end applications use URL segments to identify what data they need to fetch. By default, Brightspot content can be uniquely identified by `id`, but `id`'s are not suited for use in human-readable URLs.
 
 Brightspot provides the `Directory` class which includes APIs for managing URL paths to content stored in the database. These URL paths uniquely identify content and include context in the form of permalinks, aliases, and redirects. This information can also be made available in the content's view model.
 
@@ -47,9 +47,7 @@ $ yarn codegen
 ✨ Done in 2.05s.
 ```
 
-### Start the react app
-
-To run the front end:
+### Start the React app
 
 ```sh
 $ yarn start
@@ -63,9 +61,9 @@ The React app opens automatically in the browser.
 
 ## Using the example application
 
-The React app is a simple news site with content consisting of Sections and Articles. Sections and Articles are set up to automatically generate permalinks in the URLs widget on the content edit page. The auto-generated permalinks are based on the Section's name and the Article's headline.
+The React app is a simple news site with content consisting of **Sections** and **Articles**. **Sections** and **Articles** are set up to automatically generate permalinks in the URLs widget on the content edit page. The auto-generated permalinks are based on the section's name and the article's headline.
 
-Publish one or more Sections and/or Articles in Brightspot and then navigate through the React app to find the published content. When viewing a specific Section or Article, note that the React app URL matches the permalink in Brightspot. The React app is using the URL to query for the matching content in Brightspot.
+Publish one or more **Sections** and/or **Articles** in Brightspot and then navigate through the React app to find the published content. When viewing a specific Section or Article, note that the React app URL matches the permalink in Brightspot. The React app is using the URL to query for the matching content in Brightspot.
 
 Additional URLs can be added to each instance of content. Try adding different types of URLs (aliases or redirects) but remember that it is best practice to have only a single permalink.
 
@@ -73,7 +71,7 @@ Additional URLs can be added to each instance of content. Try adding different t
 
 ### 1. Allow URL path as a query argument
 
-For a content type to utilize Brightspot's Directory system it must implement the `Directory.Item` abstract class and provide the body of the `createPermalink()` method. This exposes `path` as a query argument in the resulting GraphQL schema, allowing the React app to use its URL parameters as query variables to fetch the matching data from Brightspot.
+For a content type to utilize Brightspot's Directory system it must implement the `Directory.Item` abstract class and provide the body of the `createPermalink()` method. This exposes `path` as a query argument in the resulting GraphQL schema, allowing the React app to use its URL segments as query variables to fetch the matching data from Brightspot.
 
 The `createPermalink()` method automatically generates a permalink URL path for the content following the method implementation. It calculates the permalink as you enter data into the form in real time.
 
@@ -210,7 +208,8 @@ This example only checks the directory data for redirects, but could be set up t
 The following is a suggestion for learning more about routing with Brightspot:
 
 1. Configure Brightspot with a Default Site URL to make it easy for editors to navigate to a piece of content. Navigate to **☰** &rarr; **Admin** &rarr; **Sites & Settings** &rarr; **Global** &rarr; **Main** &rarr; and enter `http://localhost:3000` into the **Default Site URL** field. Then open a content edit page and click on a hyperlink in the URLs widget.
-2. Consider a case where the app needs to serve 3xx status codes on redirect. Try implementing an app that handles server side rendering and redirects with status codes (See [Next.js Redirects](https://nextjs.org/docs/api-reference/next.config.js/redirects)).
+2. By default, permalinks are only automatically generated once for each piece of content and any further changes require manual input. Consider a case where the front-end app is not yet live and the URL structures are still in flux. Brightspot can be configured to always generate permalinks and replace any existing permalink. Navigate to **☰** &rarr; **Admin** &rarr; **Sites & Settings** &rarr; **Global** &rarr; **CMS** &rarr; **Advanced** and toggle on the **Always Generate Permalinks** and **Single Generated Permalink** fields. Then edit an existing **Article** and update the headline to force a new permalink to be generated.
+3. Consider a case where the app needs to serve 3xx status codes on redirect. Try implementing an app that handles server side rendering and redirects with status codes (See [Next.js Redirects](https://nextjs.org/docs/api-reference/next.config.js/redirects)).
 
 ## Troubleshooting
 
