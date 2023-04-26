@@ -51,15 +51,15 @@ const downloadSchemas = async (schemasToDownload) => {
  **/
 const parseSchemaURLS = (schemas) => {
   const schemasCopy = JSON.parse(JSON.stringify(schemas))
-  const codegenSchema = schemasCopy.filter(
+  const oldSchema = schemasCopy.filter(
     (schema) => schema.timestamp <= timeStamp
   )[0]
-  codegenSchema.name = 'codegenSchema'
+  oldSchema.name = 'oldSchema'
 
-  const mostRecentSchema = schemas[0]
-  mostRecentSchema.name = 'newSchema'
+  const newSchema = schemas[0]
+  newSchema.name = 'newSchema'
 
-  const schemasToDownload = [mostRecentSchema, codegenSchema]
+  const schemasToDownload = [newSchema, oldSchema]
   downloadSchemas(schemasToDownload)
 }
 
