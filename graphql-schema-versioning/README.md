@@ -1,13 +1,14 @@
 # Schema Versioning
 
-GraphQL endpoints are versionless, following [best practices](https://graphql.org/learn/best-practices/#versioning) schemas should evolve without breaking changes, but that does not mean breaking changes won't occur. As a schema evolves, it is best to have a process to detect changes and any potential problems.
+GraphQL endpoints are versionless, following [best practices](https://graphql.org/learn/best-practices/#versioning) schemas should evolve without breaking changes. However, breaking changes can still occur. As a schema evolves, it is best to have a process to detect changes and any potential problems.
 
-Brightspot stores a record whenever a schema changes and can be viewed in Brightspot. This example demonstrates how to track changes to schemas and compare schema versions programatically. The front-end application uses [GraphQL Inspector](https://www.the-guild.dev/graphql/inspector/docs/introduction) to view schema changes before updating any code (helping you catch any breaking changes), and also [Codegen](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to generate types based on the most up-to-date schema version.
+Brightspot stores a record whenever a schema changes that can be viewed in Brightspot. This example demonstrates how to track changes to schemas and compare schema versions programmatically. The front-end application uses [GraphQL Inspector](https://www.the-guild.dev/graphql/inspector/docs/introduction) to view schema changes before updating any code (helping you catch any breaking changes), and also [Codegen](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to generate types based on the most up-to-date schema version.
 
 ## What you will learn
 
-1. [Create an endpoint that exposes the schema version data](#1-creating-an-endpoint-that-returns-schema-versions).
-2. [Retrieve the schema data](#retrieving-the-schema-version-data) and [compare schema versions programatically](#2-comparing-graphql-schema-versions-via-graphql-inspector).
+1. [Create an endpoint that exposes the schema version data](#1-create-an-endpoint-that-exposes-the-schema-version-data)
+2. [Retrieve the schema data](#retrieving-the-schema-version-data)
+3. [Compare schema versions programatically](#2-comparing-graphql-schema-versions-via-graphql-inspector)
 
 ## Running the example application
 
@@ -49,21 +50,19 @@ $ yarn start
 
 ```
 Compiled successfully!
+```
 
 You can now view graphql-schema-versioning in the browser.
-```
 
 ## Using the example application
 
-In the beginning there is only one schema. GraphQL Inspector requires two schemas to run a comparison and detect changes.
+At startup, there is only one schema. GraphQL Inspector requires two schemas in order to run a comparison and detect changes.
 
-### Step 1: Creating the second schema
+### Step 1: Create the second schema
 
-Creating a second updated schema requires changes to the [Movie view model](brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts)
+To change the schema and create a new schema version, make the following arbitrary changes to the [Movie view model](brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts):
 
-Make the following changes:
-
-**_Edit:_** Change the method name `getDescription()` to `getPlot()`:
+**Edit:** Change the method name `getDescription()` to `getPlot()`:
 
 ```js
   @JavaMethodParameters()
@@ -103,18 +102,16 @@ $ yarn schemas
 ✨  Done in 0.24s.
 ```
 
-The [schemas](app/schemas) directory now holds two GraphQL files, representing the schemas should you want to manually review the schemas.
+This downloads two GraphQL files to [schemas](app/schemas) representing the two latest schemas stored in Brightspot.
 
-> More information on the [download schemas script](#the-yarn-schemas-script)
+### Step 3: Compare the schemas
 
-### Step 3: Comparing the schemas
+With the two schemas downloaded, the GraphQL Inspector's [Schema Validation]('https://the-guild.dev/graphql/inspector/docs/essentials/diff') tool can be used to compare the two schema versions.
 
-With two schemas to compare, we can leverage GraphQL Inspector's [Schema Validation]('https://the-guild.dev/graphql/inspector/docs/essentials/diff') and compare the two schema versions.
-
-Run the following from the [app](app) directory with `codegenSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
+Run the following from the [app](app) directory with `oldSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
 
 ```
-npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
+npx graphql-inspector diff ./schemas/oldSchema.graphql ./schemas/newSchema.graphql
 ```
 
 ```sh
@@ -129,17 +126,17 @@ error Detected 1 breaking change
 
 ## How everything works
 
-The command `yarn codegen` has been modified in this example to additionally run the script file [getTimeStamp.mjs](app/getTimeStamp.mjs). This script records the time it runs and writes the timestamp to the included [timeStamp](app/schemas/timeStamp.mjs) file.
-
-The first schema to compare against will be the latest schema that was available when the command `yarn codegen` was executed successfully.
+The first schema to compare against will be the latest schema that was available when the command `yarn codegen` was executed successfully. This command has been modified in this example to additionally run the script file [getTimeStamp.mjs](app/getTimeStamp.mjs). The script records the time it runs and writes the timestamp to the included [timeStamp](app/schemas/timeStamp.mjs) file.
 
 The second schema will represent the latest changes made to the [Movie view model](brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts) that have been uploaded.
 
-### 1: Creating an endpoint that returns schema versions
-
-Brightspot stores the history of all schema changes, and this example creates an endpoint that points to that data.
+### 1: Create an endpoint that exposes the schema version data
 
 The [SchemaVersioningEndpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) implements a content management api (CMA) endpoint. The method `getEntryFields` is used to query GraphQL schema versions for all endpoints in this application:
+
+To expose the schema history to an endpoint, `GraphQLSchemaVersion` must be added as an entry field.
+
+This example uses a Content Management API Endpoint (CMA) since the schema data is intended for use by internal developers.
 
 ```js
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
@@ -149,9 +146,13 @@ The [SchemaVersioningEndpoint](brightspot/src/brightspot/example/graphql_schema_
     )
 ```
 
-### Retrieving the schema version data
+### 2: Retrieve the schema version data
 
-To filter the required schema versions, we queried a specific endpoint using its label, we organized the retrieved versions by timestamp and queried only for the `timestamp` and `schema` fields. Within the `schema` field, we fetched the `publicUrl` field.
+Firstly, you need to write a query that returns the schema versions you want to compare.
+
+To filter the required schema versions, the example queries a specific endpoint using its label, organized the retrieved versions by timestamp and queries only for the `timestamp` and `schema` fields. Within the `schema` field, we fetched the `publicUrl` field.
+
+The `publicUrl` field is integral as this is where the schema itself is stored.
 
 The Schema Versions query:
 
@@ -176,23 +177,23 @@ query Schemas {
 
 ### The yarn schemas script
 
-> _**Note**_ the utility script provided is used for example purposes only.
+Once you have the schema version data required, you need to be able to filter the two schemas you want to compare.
 
-The command `yarn schemas` runs the script file [downloadSchemas.mjs](app/downloadSchemas.mjs).
+This example uses the command `yarn schemas` to run the script [downloadSchemas.mjs](app/downloadSchemas.mjs).
 
 The file calls the [schema versioning endpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) with the query shown above. It uses the [timeStamp](app/schemas/timeStamp.mjs) file to get the latest schema available when the time stamp was created and the most recent schema available (they can be the same). Lastly, it writes GraphQL files to the [schemas](app/schemas) directory using the URLs from both schemas.
 
-### 2: Comparing GraphQL schema versions via GraphQL Inspector
+### 3: Compare GraphQL schema versions via GraphQL Inspector
 
-The GraphQL Inspector runs and displays the number of changes. If there are no breaking changes, it returns a 'success' message. If there are breaking changes, it returns an ERROR message that serves as a warning that the front end needs to be updated to address these changes or the schema needs to be updated to restore and deprecate the field.
+This example uses GraphQL Inspector [schema validation](https://the-guild.dev/graphql/inspector/docs/essentials/diff) to run and display the number of changes and serves to notify whether the front end needs to be updated to address these changes or the schema needs to be updated to restore and deprecate fields that are being used.
 
 Example:
 
-Run the following from the [app](app) directory with `codegenSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
+Run the following from the [app](app) directory with `oldSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
 
 ```
 
-npx graphql-inspector diff ./schemas/codegenSchema.graphql ./schemas/newSchema.graphql
+npx graphql-inspector diff ./schemas/oldSchema.graphql ./schemas/newSchema.graphql
 
 ```
 
