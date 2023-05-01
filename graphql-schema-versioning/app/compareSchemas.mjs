@@ -1,7 +1,9 @@
 import * as dotenv from 'dotenv'
-import { exec } from 'child_process'
 import axios from 'axios'
-import { timeStamp } from './schemas/timestamp.mjs'
+import { diff } from '@graphql-inspector/core'
+import { loadSchema } from '@graphql-tools/load'
+import { UrlLoader } from '@graphql-tools/url-loader'
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 
 dotenv.config()
 
@@ -29,7 +31,6 @@ const graphqlSchemaQuery = `
       sorts: { order: descending, options: "timestamp" }
     ) {
       items {
-        timestamp
         schema {
           publicUrl
         }
@@ -38,29 +39,18 @@ const graphqlSchemaQuery = `
   }
 `
 
-// Receives schema objects array to open each url and save the file
-const downloadSchemas = async (schemasToDownload) => {
-  await schemasToDownload.forEach((schema) => {
-    exec(`curl ${schema.schema.publicUrl} > ./schemas/${schema.name}.graphql`)
+// Receives latest schema to compare against schema saved in ./schemas/originalSchema.graphql
+const compareSchemas = async (latestSchema) => {
+  const newSchema = await loadSchema(latestSchema.schema.publicUrl, {
+    loaders: [new UrlLoader()],
   })
-}
+  const originalSchema = await loadSchema('./schemas/originalSchema.graphql', {
+    loaders: [new GraphQLFileLoader()],
+  })
 
-/**
- * Receives all schemas and finds the two required.
- * The latest schema and the latest available when codegen was executed (these can be the same)
- **/
-const parseSchemaURLS = (schemas) => {
-  const schemasCopy = JSON.parse(JSON.stringify(schemas))
-  const oldSchema = schemasCopy.filter(
-    (schema) => schema.timestamp <= timeStamp
-  )[0]
-  oldSchema.name = 'oldSchema'
+  const changes = diff(originalSchema, newSchema)
 
-  const newSchema = schemas[0]
-  newSchema.name = 'newSchema'
-
-  const schemasToDownload = [newSchema, oldSchema]
-  downloadSchemas(schemasToDownload)
+  changes.then((change) => console.log(change))
 }
 
 const fetchSchemas = async (url) => {
@@ -75,7 +65,7 @@ const fetchSchemas = async (url) => {
       query: graphqlSchemaQuery,
     },
     redirect: 'follow',
-  }).then((res) => parseSchemaURLS(res.data.data.versions.items))
+  }).then((res) => compareSchemas(res.data.data.versions.items[0]))
 }
 
 const schemaLoadAndFetch = async (moviesURL, schemaURL) => {
