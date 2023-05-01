@@ -6,9 +6,9 @@ This example demonstrates how to use the routing APIs to fetch content by URL pa
 
 ## What you will learn
 
-1. [Expose URL path as a query argument.](#1-expose-url-path-as-a-query-argument)
-2. [Expose URL path metadata as query fields.](#2-expose-url-path-metadata-as-query-fields)
-3. [Route a React app based on the URL path metadata](#3-route-a-react-app-based-on-the-url-path-metadata).
+1. [Expose content URL path as a GraphQL query argument.](#1-expose-content-url-path-as-a-graphql-query-argument)
+2. [**(Optional)** Expose URL path metadata as GraphQL query fields.](#2-optional-expose-url-path-metadata-as-graphql-query-fields)
+3. [**(Optional)** Route a React app based on the URL path metadata](#3-optional-route-a-react-app-based-on-the-url-path-metadata).
 
 ## Running the example application
 
@@ -67,25 +67,63 @@ Additional URLs can be added to each instance of content. Try adding different t
 
 ## How everything works
 
-### 1. Expose URL path as a query argument
+### 1. Expose content URL path as a GraphQL query argument
 
-Brightspot's routing APIs are powered by the [Directory](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/permalinks) class.
+For a content type to leverage the routing APIs, it must implement the `Directory.Item` abstract class and the `createPermalink()` abstract method.
 
-For a content type to use the `Directory` class it must implement the `Directory.Item` abstract class and provide the body of the `createPermalink()` method. This exposes `path` as a query argument in the resulting GraphQL schema, allowing the React app to use its URL path as a query variable to fetch the matching content from Brightspot.
-
-The `createPermalink()` method automatically generates a permalink URL path for the content following the method implementation. It calculates the permalink as you enter data into the content edit form in real time.
+The `createPermalink()` method automatically generates a permalink URL path for the content following the method implementation. The implementation should be based on a field from the content type (like `headline` in an **Article** type) and should include some form of string normalization (like replace spaces with hyphens).
 
 ```ts
 [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
-  return Utils.toNormalized(this.name)
+  return this.headline?.toLowerCase()
+      .replace(/ /g, '-')
 }
 ```
 
-### 2. Expose URL path metadata as query fields
+Implementing the abstract class and method above exposes the URL path as a query argument in the resulting GraphQL schema, allowing front-end applications to use their URL path to fetch the matching content from Brightspot.
 
-Once the React app has queried the endpoint for a specific piece of content, it needs to know what type of URL paths exist on the content in order to take the appropriate action. For example, the React app will behave differently if the `path` is a redirect versus a permalink.
+A GraphQL query could look similar to the **Article** query below.
 
-The URL path metadata can be included in the content's [View Model](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/view-models) so that it appears as a field on the resulting GraphQL schema.
+```
+query ExampleQuery($path: String) {
+  Article(model: { path: $path }) {
+    headline
+    body
+  }
+}
+```
+
+### 2. **(Optional)** Expose URL path metadata as GraphQL query fields
+
+Brightspot stores additional metadata about each URL path including information about its type (permalink, alias, or redirect). A front-end application can use this metadata to make decisions about how to route the application. For example, if an app queried for a piece of content using a URL path that turned out to be a redirect, it would know to reroute the user.
+
+This metadata can be included in the content's [View Model](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/view-models) so that it appears as a field on the resulting GraphQL schema.
+
+This example breaks down the metadata into a list of `path` and `type` pairs as shown in the example response below.
+
+```json
+{
+  "data": {
+    "Article": {
+      "headline": "Example Article",
+      "directoryData": {
+        "paths": [
+          {
+            "path": "/example-article",
+            "type": "Permalink"
+          },
+          {
+            "path": "/example-redirect",
+            "type": "Redirect (Permanent)"
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+The `directoryData` field is added to the `ArticleViewModel` by the `getDirectoryData()` method.
 
 [ArticleViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/ArticleViewModel.ts)
 
@@ -101,13 +139,12 @@ export default class ArticleViewModel extends JavaClass(
   @JavaMethodParameters()
   @JavaMethodReturn(DirectoryDataViewModel)
   getDirectoryData(): DirectoryDataViewModel {
-    return this.createView(
-      DirectoryDataViewModel.getClass(),
-      this.model.as(DirectoryData.class)
-    )
+    return this.createView(DirectoryDataViewModel.getClass(), this.model)
   }
 }
 ```
+
+The URL path metadata can be accessed by using the `as` API (i.e. `this.model.as(DirectoryData.class)`). This example uses the `getPaths()` method to get the list of URL paths.
 
 [DirectoryDataViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/DirectoryDataViewModel.ts)
 
@@ -116,7 +153,7 @@ export default class ArticleViewModel extends JavaClass(
 @ViewInterface
 export default class DirectoryDataViewModel extends JavaClass(
   'brightspot.example.brightspot_routing.DirectoryDataViewModel',
-  ViewModel.Of(DirectoryData)
+  ViewModel.Of(JavaRecord)
 ) {
   // Adds a field for the set of URL paths
   @JavaMethodParameters()
@@ -124,7 +161,7 @@ export default class DirectoryDataViewModel extends JavaClass(
   getPaths(): JavaSet<DirectoryPathViewModel> {
     return this.createViews(
       DirectoryPathViewModel.getClass(),
-      this.model.getPaths()
+      this.model.as(DirectoryData.class).getPaths()
     )
   }
 }
@@ -155,7 +192,7 @@ export default class DirectoryPathViewModel extends JavaClass(
 }
 ```
 
-### 3. Route a React app based on the URL path metadata
+### 3. **(Optional)** Route a React app based on the URL path metadata
 
 This example uses [React Router](https://reactrouter.com/en/main/start/overview) to control the UI and fetch data. The `Content.tsx` component queries the Brightspot endpoint for content using its current URL path as a query variable.
 
