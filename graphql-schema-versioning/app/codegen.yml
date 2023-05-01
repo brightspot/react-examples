@@ -1,5 +1,5 @@
 overwrite: true
-schema: ${REACT_APP_GRAPHQL_URL}
+schema: ${GRAPHQL_SDL_ENDPOINT}
 documents: './src/components/**/*.graphql'
 generates:
   ./src/generated.ts:
@@ -9,3 +9,8 @@ generates:
       - typescript-react-apollo
     config:
       withHooks: true
+      handleAsSDL: true
+  ./schemas/originalSchema.graphql:
+    schema: './schemas/originalSchema.graphql'
+    plugins:
+      - schema-ast
