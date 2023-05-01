@@ -7,8 +7,8 @@ Brightspot stores a record whenever a schema changes that can be viewed in Brigh
 ## What you will learn
 
 1. [Create an endpoint that exposes the schema version data](#1-create-an-endpoint-that-exposes-the-schema-version-data)
-2. [Retrieve the schema data](#retrieving-the-schema-version-data)
-3. [Compare schema versions programatically](#2-comparing-graphql-schema-versions-via-graphql-inspector)
+2. [Retrieve the schema data](#2-retrieve-the-schema-version-data)
+3. [Compare schema versions programatically](#3-compare-graphql-schema-versions-via-graphql-inspector)
 
 ## Running the example application
 
@@ -56,7 +56,7 @@ You can now view graphql-schema-versioning in the browser.
 
 ## Using the example application
 
-At startup, there is only one schema. GraphQL Inspector requires two schemas in order to run a comparison and detect changes.
+At startup, there is one schema. You can view this schema [here](app/schemas/originalSchema.graphql). GraphQL Inspector requires two schemas in order to run a comparison and detect changes.
 
 ### Step 1: Create the second schema
 
@@ -90,45 +90,77 @@ Uncomment the following methods:
 
 Upload your Brightspot types once again. This will create another schema and will be the most up-to-date version.
 
-### Step 2: Download the schema files to compare
+### Step 2: Compare the schemas
 
 Run the following from the [app](app) directory:
 
 ```sh
-$ yarn schemas
+$ yarn compare-schemas
 ```
 
 ```
 ✨  Done in 0.24s.
 ```
 
-This downloads two GraphQL files to [schemas](app/schemas) representing the two latest schemas stored in Brightspot.
+This gets the latest schema and compares it against the [original](app/schemas/originalSchema.graphql).
 
-### Step 3: Compare the schemas
+Example Output:
 
-With the two schemas downloaded, the GraphQL Inspector's [Schema Validation]('https://the-guild.dev/graphql/inspector/docs/essentials/diff') tool can be used to compare the two schema versions.
-
-Run the following from the [app](app) directory with `oldSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
-
-```
-npx graphql-inspector diff ./schemas/oldSchema.graphql ./schemas/newSchema.graphql
-```
-
-```sh
-Detected the following changes (4) between schemas:
-
-✖  Field description was removed from object type Movie
-✔  Field director was added to object type Movie
-✔  Field plot was added to object type Movie
-✔  Field releaseYear was added to object type Movie
-error Detected 1 breaking change
+```gql
+[
+  {
+    type: 'FIELD_ADDED',
+    criticality: { level: 'NON_BREAKING' },
+    message: "Field 'director' was added to object type 'Movie'",
+    meta: {
+      typeName: 'Movie',
+      addedFieldName: 'director',
+      typeType: 'object type'
+    },
+    path: 'Movie.director'
+  },
+  {
+    type: 'FIELD_ADDED',
+    criticality: { level: 'NON_BREAKING' },
+    message: "Field 'plot' was added to object type 'Movie'",
+    meta: {
+      typeName: 'Movie',
+      addedFieldName: 'plot',
+      typeType: 'object type'
+    },
+    path: 'Movie.plot'
+  },
+  {
+    type: 'FIELD_ADDED',
+    criticality: { level: 'NON_BREAKING' },
+    message: "Field 'releaseYear' was added to object type 'Movie'",
+    meta: {
+      typeName: 'Movie',
+      addedFieldName: 'releaseYear',
+      typeType: 'object type'
+    },
+    path: 'Movie.releaseYear'
+  },
+  {
+    type: 'FIELD_REMOVED',
+    criticality: {
+      level: 'BREAKING',
+      reason: 'Removing a field is a breaking change. It is preferable to deprecate the field before removing it.'
+    },
+    message: "Field 'description' was removed from object type 'Movie'",
+    meta: {
+      typeName: 'Movie',
+      removedFieldName: 'description',
+      isRemovedFieldDeprecated: false,
+      typeType: 'object type'
+    },
+    path: 'Movie.description'
+  }
+]
+✨  Done in 1.00s.
 ```
 
 ## How everything works
-
-The first schema to compare against will be the latest schema that was available when the command `yarn codegen` was executed successfully. This command has been modified in this example to additionally run the script file [getTimeStamp.mjs](app/getTimeStamp.mjs). The script records the time it runs and writes the timestamp to the included [timeStamp](app/schemas/timeStamp.mjs) file.
-
-The second schema will represent the latest changes made to the [Movie view model](brightspot/src/brightspot/example/graphql_schema_versioning/MovieViewModel.ts) that have been uploaded.
 
 ### 1: Create an endpoint that exposes the schema version data
 
@@ -150,7 +182,7 @@ This example uses a Content Management API Endpoint (CMA) since the schema data 
 
 Firstly, you need to write a query that returns the schema versions you want to compare.
 
-To filter the required schema versions, the example queries a specific endpoint using its label, organized the retrieved versions by timestamp and queries only for the `timestamp` and `schema` fields. Within the `schema` field, we fetched the `publicUrl` field.
+To filter the required schema versions, the example queries a specific endpoint using its label, organized the retrieved versions by timestamp and queries only for the `schema` field, within the `schema` field, the `publicUrl` field.
 
 The `publicUrl` field is integral as this is where the schema itself is stored.
 
@@ -166,7 +198,6 @@ query Schemas {
     sorts: { order: descending, options: "timestamp" }
   ) {
     items {
-      timestamp
       schema {
         publicUrl
       }
@@ -175,39 +206,13 @@ query Schemas {
 }
 ```
 
-### The yarn schemas script
-
-Once you have the schema version data required, you need to be able to filter the two schemas you want to compare.
-
-This example uses the command `yarn schemas` to run the script [downloadSchemas.mjs](app/downloadSchemas.mjs).
-
-The file calls the [schema versioning endpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) with the query shown above. It uses the [timeStamp](app/schemas/timeStamp.mjs) file to get the latest schema available when the time stamp was created and the most recent schema available (they can be the same). Lastly, it writes GraphQL files to the [schemas](app/schemas) directory using the URLs from both schemas.
-
 ### 3: Compare GraphQL schema versions via GraphQL Inspector
 
-This example uses GraphQL Inspector [schema validation](https://the-guild.dev/graphql/inspector/docs/essentials/diff) to run and display the number of changes and serves to notify whether the front end needs to be updated to address these changes or the schema needs to be updated to restore and deprecate fields that are being used.
+Once you have the schema version data required, you need to be able to filter the schema you want to compare against the [original](app/schemas/originalSchema.graphql), available once codegen was executed successfully.
 
-Example:
+This example uses the command `yarn compare-schemas` to run the script [comepareSchemas.mjs](app/comepareSchemas.mjs).
 
-Run the following from the [app](app) directory with `oldSchema.graphql` as the old schema, and `newSchema.graphql` as the new schema:
-
-```
-
-npx graphql-inspector diff ./schemas/oldSchema.graphql ./schemas/newSchema.graphql
-
-```
-
-Output:
-
-```sh
-Detected the following changes (4) between schemas:
-
-✖  Field description was removed from object type Movie
-✔  Field director was added to object type Movie
-✔  Field plot was added to object type Movie
-✔  Field releaseYear was added to object type Movie
-error Detected 1 breaking change
-```
+The file calls the [schema versioning endpoint](brightspot/src/brightspot/example/graphql_schema_versioning/SchemaVersioningEndpoint.ts) with the query shown above. It grabs the first schema in the collection as this is the latest and compares it against the [original](app/schemas/originalSchema.graphql) using [GraphQL-Inspectors programmatic API](https://the-guild.dev/graphql/inspector/docs/api/schema#programmatic-api).
 
 ## Try it yourself
 
@@ -217,7 +222,7 @@ Based on the changes made, in order for the front-end application to work, you c
 
 1. Update the schema to be backwards compatible based on what you have learned.
 
-2. Update the front-end application's to conform to the new changes and display the new fields.
+2. Update the front-end application to conform to the new changes and display the new fields.
 
 ## Troubleshooting
 
