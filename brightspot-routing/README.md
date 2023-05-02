@@ -7,8 +7,8 @@ This example demonstrates how to use the routing APIs to fetch content by URL pa
 ## What you will learn
 
 1. [Expose content URL path as a GraphQL query argument.](#1-expose-content-url-path-as-a-graphql-query-argument)
-2. [**(Optional)** Expose URL path metadata as GraphQL query fields.](#2-optional-expose-url-path-metadata-as-graphql-query-fields)
-3. [**(Optional)** Route a React app based on the URL path metadata](#3-optional-route-a-react-app-based-on-the-url-path-metadata).
+2. [Route a React app based on the URL path](#2-route-a-react-app-based-on-the-url-path)
+3. [Handle redirects based on URL path metadata](#3-handle-redirects-based-on-url-path-metadata)
 
 ## Running the example application
 
@@ -93,13 +93,47 @@ query ExampleQuery($path: String) {
 }
 ```
 
-### 2. **(Optional)** Expose URL path metadata as GraphQL query fields
+### 2. Route a React app based on the URL path
 
-Brightspot stores additional metadata about each URL path including information about its type (permalink, alias, or redirect). A front-end application can use this metadata to make decisions about how to route the application. For example, if an app queried for a piece of content using a URL path that turned out to be a redirect, it would know to reroute the user.
+This example uses [React Router](https://reactrouter.com/en/main/start/overview) to control the UI and [Apollo Client](https://www.apollographql.com/docs/react/get-started) to fetch data. The `Content.tsx` component queries the Brightspot endpoint for content using its current URL path as a query variable.
 
-This metadata can be included in the content's [View Model](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/view-models) so that it appears as a field on the resulting GraphQL schema.
+Brightspot returns the matching resource and the React app determines which component to render.
 
-This example breaks down the metadata into a list of `path` and `type` pairs as shown in the example response below.
+[Content.tsx](./app/src/components/Content.tsx)
+
+```tsx
+const Content = () => {
+  const parameters = useParams() // https://reactrouter.com/en/main/hooks/use-params
+
+  // builds a 'path' string from the URL paramaters
+  // e.g. 'http://localhost:3000/example-section/example-article' => '/example-section/example-article'
+  let urlPath = '/' + Object.values(parameters)
+
+  // Apollo Client queries the endpoint with the 'path' string as a variable
+  const { data, error, loading } = useGetContentQuery({
+    variables: {
+      path: urlPath,
+    },
+  })
+
+  // Checks the response data to determine which component to render
+  if (data?.Section) {
+    return <SectionComponent section={data.Section} />
+  }
+
+  if (data?.Article) {
+    return <ArticleComponent article={data.Article} />
+  }
+
+  return <NotFound />
+}
+```
+
+### 3. Handle redirects based on URL path metadata
+
+Brightspot stores additional metadata about each URL path including information about its type (permalink, alias, or redirect). A front-end application can use this metadata to make decisions about how to route the application. For example, if an app gets data for a piece of content using a URL path that has the redirect type, it would know to redirect the web browser.
+
+This metadata can be included in the content's [View Model](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/view-models) so that it appears as a field on the resulting GraphQL schema. This example names it `directoryData` and breaks it down into a list of `path` and `type` pairs as shown in the example response below.
 
 ```json
 {
@@ -123,7 +157,7 @@ This example breaks down the metadata into a list of `path` and `type` pairs as 
 }
 ```
 
-The `directoryData` field is added to the `ArticleViewModel` by the `getDirectoryData()` method.
+The `directoryData` GraphQL schema field is added to the `ArticleViewModel` with the `getDirectoryData()` method. It returns a view model that represents the URL path metadata.
 
 [ArticleViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/ArticleViewModel.ts)
 
@@ -144,7 +178,7 @@ export default class ArticleViewModel extends JavaClass(
 }
 ```
 
-The URL path metadata can be accessed by using the `as` API (i.e. `this.model.as(DirectoryData.class)`). This example uses the `getPaths()` method to get the list of URL paths.
+The URL path metadata can be accessed by using the `as(DirectoryData.class)` API (e.g. `this.model.as(DirectoryData.class)`). This example uses the `getPaths()` method available on the `DirectoryData` class to get the list of URL paths.
 
 [DirectoryDataViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/DirectoryDataViewModel.ts)
 
@@ -167,10 +201,12 @@ export default class DirectoryDataViewModel extends JavaClass(
 }
 ```
 
+The `path` and `type` pairs are added to the `DirectoryPathViewModel` representing each individual URL path.
+
 [DirectoryPathViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/DirectoryPathViewModel.ts)
 
 ```ts
-// Defines the fields available under Directory Paths
+// Defines the fields available under Directory Path
 @ViewInterface
 export default class DirectoryPathViewModel extends JavaClass(
   'brightspot.example.brightspot_routing.DirectoryPathViewModel',
@@ -192,45 +228,20 @@ export default class DirectoryPathViewModel extends JavaClass(
 }
 ```
 
-### 3. **(Optional)** Route a React app based on the URL path metadata
+With the view models updated, the React app can fetch the URL path metadata alongside the normal content fields. The app checks the React URL path against the returned content's directory data. If it finds that the React URL path refers to a redirect, it routes the app to the content's permalink path.
 
-This example uses [React Router](https://reactrouter.com/en/main/start/overview) to control the UI and fetch data. The `Content.tsx` component queries the Brightspot endpoint for content using its current URL path as a query variable.
-
-[Content.tsx](./app/src/components/Content.tsx)
-
-```ts
-const Content = () => {
-  const parameters = useParams() // https://reactrouter.com/en/main/hooks/use-params
-
-  // builds a 'path' string from the URL parameters
-  let currentPath = ''
-  Object.values(parameters).forEach(
-    (parameter) => (currentPath += `/${parameter}`)
-  )
-
-  // Apollo Client queries the endpoint with the 'path' string
-  const { data, error, loading } = useGetContentQuery({
-    variables: {
-      path: currentPath,
-    },
-  })
-
-  // return (...)
-}
-```
-
-Brightspot returns the matching resourse and the React app checks the current URL path against the content's directory data. If it finds that the current path refers to a redirect it routes the app accordingly.
+This example only checks the directory data for redirects, but could be set to behave differently for each URL path type.
 
 [Content.tsx](./app/src/components/Content.tsx)
 
-```ts
+```tsx
 const Content = () => {
   // fetch data...
 
   if (data?.Article) {
     // if the React URL path is a redirect, navigate the app to the permalink path
-    if (isRedirect(currentPath, data.Article.directoryData)) {
-      return <Navigate to={data.Article.path || '/'} />
+    if (isRedirect(urlPath, data.Article.directoryData)) {
+      return <Navigate to={findPermalink(data.Article.directoryData)} />
     }
     // else render the Article component
     return <ArticleComponent article={data.Article} />
@@ -238,7 +249,7 @@ const Content = () => {
 }
 ```
 
-This example only checks the directory data for redirects, but could be set to behave differently for each URL path type.
+> **_Note_** The `isRedirect()` and `findPermalink()` methods are specific to this React app.
 
 ## Try it yourself
 
