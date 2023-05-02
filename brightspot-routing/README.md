@@ -71,7 +71,7 @@ Additional URLs can be added to each instance of content. Try adding different t
 
 For a content type to leverage the routing APIs, it must implement the `Directory.Item` abstract class and the `createPermalink()` abstract method.
 
-The `createPermalink()` method automatically generates a permalink URL path for the content following the method implementation. The implementation should be based on a field from the content type (like `headline` in an **Article** type) and should include some form of string normalization (like replace spaces with hyphens).
+The `createPermalink()` method automatically generates a permalink URL path for the content following the method implementation. The implementation should be based on a field from the content type (e.g. `headline` in an **Article** type) and should include some form of string normalization (e.g. replace spaces with hyphens).
 
 ```ts
 [`createPermalink(com.psddev.cms.db.Site)`](site: Site): string {
