@@ -2,14 +2,14 @@
 
 By default, you can query for content using [Brightspot's GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) using the `id` [GraphQL query argument](#graphql-query-arguments). You can also use the `path` query argument (which are permalinks in Brightspot) if content implements `Directory.Item`. Refer to [Brightspot Routing](https://github.com/brightspot/react-examples) for an example using Brightspot's Permalink system.
 
-However, with Brightspot, you can also customize the GraphQL query arguments to be any unique content identifier.
+Brightspot also gives you the ability to customize GraphQL query arguments to be any unique content identifier.
 
-This example uses [dynamic segments](#dynamic-segmentss) for [client-side routing](https://reactrouter.com/en/main/start/overview#client-side-routing) in a front-end [React](https://react.dev/) application. [URL slugs](#url-slug) are the GraphQL query arguments used as unique URL paths to request content data.
+This example uses [dynamic segments](#dynamic-segments) for [client-side routing](https://reactrouter.com/en/main/start/overview#client-side-routing) in a front-end [React](https://react.dev/) application. This examples uses [URL slugs](#url-slug) as GraphQL query arguments that are unique URL paths for requesting content data.
 
 ## What you will learn
 
-1. How to create content with customized GraphQL query arguments in Brightspot.
-2. How to create a client-side routing structure with [React Router](https://reactrouter.com/en/main) that takes advantage of GraphQL query arguments and GraphQL [query variables](#graphql-query-variables) to fetch data in a front-end application.
+1. [Create content with customized GraphQL query arguments in Brightspot.](#1-expose-content-url-path-as-a-graphql-query-argument)
+2. [Create a client-side routing structure with [React Router](https://reactrouter.com/en/main) that takes advantage of GraphQL query arguments and GraphQL [query variables](#graphql-query-variables) to fetch data in a front-end application.](#2-Create-a-client-side-routing-structure-with-react-router-that-takes- advantage-of-graphql-query-arguments-and-GraphQL-query-variables-to-fetch-data-in-a-front-end-application)
 
 ## Related examples
 
@@ -17,26 +17,50 @@ This example uses [dynamic segments](#dynamic-segmentss) for [client-side routin
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `app-routing` directory:
+> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-To upload JS Classes in Brightspot (http://localhost/cms) run the following commands:
+Run the following commands from the `brightspot-routing/app` directory:
 
-```sh
-cd brightspot
-yarn
-npx brightspot types download
-npx brightspot types upload src
-```
-
-To run the front end, run the following commands from the `app-routing/app` directory:
+### Install dependencies
 
 ```sh
-yarn
-yarn codegen
-yarn start
+$ yarn
 ```
 
-The front-end application opens automatically in the browser.
+```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...
+[4/4] 🔨 Building fresh packages...
+✨ Done in 6.03s.
+```
+
+### Generate types
+
+```sh
+$ yarn codegen
+```
+
+```
+✔ Parse Configuration
+❯ Generate outputs
+  ❯ Generate ./src/generated.ts
+✔ Parse Configuration
+✔ Generate outputs
+✨ Done in 2.05s.
+```
+
+### Start the React app
+
+```sh
+$ yarn start
+```
+
+```
+Compiled successfully!
+```
+
+The React app opens automatically in the browser.
 
 > **_Note_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to update the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
 
@@ -89,26 +113,11 @@ Navigate to your front-end application to see your content displayed.
 
 ## How everything works
 
-The `brightspot/src/examples/app_routing` directory contains the JS Classes files uploaded to Brightspot:
+### 1. Create content with customized GraphQL query arguments in Brightspot
 
-1. `AllTagsViewModel.ts`:
+To make a field available as a query input field in GraphQL, add the Indexed annotation to the content class in Brightspot: `@Indexed({ unique: true })`.
 
-- `ViewModel.Of(AppRoutingEndpoint)`: Extending a view model of `AppRoutingEndpoint` makes it possible to query for content without a query variable since `AppRoutingEndpoint` implements `Singleton`, ensuring the endpoint is the only one of its kind.
-
-```typescript
-@ViewInterface
-export default class AllTagsViewModel extends JavaClass(
-  'brightspot.example.app_routing.AllTagsViewModel',
-  ViewModel.Of(AppRoutingEndpoint)
-) {
-```
-
-This same pattern is also used in `AllArticlesViewModel.ts` and `AllSectionsViewModel.ts`.
-
-2. `Article.ts`:
-
-- `@Indexed({ unique: true })`: Using the Indexed annotation and setting unique to true makes a field available as a query input field in GraphQL.
-
+[Article.ts](./brightspot/src/brightspot/example/app_routing/Article.ts)
 ```typescript
   @JavaField(String)
   @Indexed({ unique: true })
@@ -116,13 +125,34 @@ This same pattern is also used in `AllArticlesViewModel.ts` and `AllSectionsView
   slug: string
 ```
 
-This same pattern is also used in `Section.ts` and `Tag.ts`.
+This annotation specifies whether the target field value is indexed, allowing the field to be queried.  
 
-Front-end code is located in `app` directory:
 
-1. `src/index.tsx`:
+### 2. Create a client-side routing structure with React Router that takes advantage of GraphQL query arguments and GraphQL query variables to fetch data in a front-end application
 
-- All routes for the front-end application are determined in this file:
+Use the indexed query input field as a unique parameter (identifier) in GraphQL queries in the front-end application.
+
+[Article.tsx](`./app/src/components/Article.tsx):
+
+```typescript
+import { useGetArticleQuery } from '../generated'
+import { Link, useParams } from 'react-router-dom'
+
+const Article = () => {
+  const { section, article } = useParams()
+  const { data, error, loading } = useGetArticleQuery({
+    variables: {
+      slug: article, // slug input field for Article determined by the parameter in the url
+    },
+  })
+```
+
+Similar structure is also used in `src/components/Section.tsx` and `src/commponents/Tag.tsx`.
+
+
+The routing structure with React Router for this application: 
+
+[index.tsx](`./app/src/index.tsx)
 
 ```typescript
 <ApolloProvider client={client}>
@@ -139,38 +169,6 @@ Front-end code is located in `app` directory:
   </BrowserRouter>
 </ApolloProvider>
 ```
-
-2. `src/components/Article.tsx`:
-
-- Example of using generated queries from [GraphQL Code Generator](https://the-guild.dev/graphql/codegen) and the `useParams` hook to get the URL slug value(s) from the dynamic params passed in from the current URL:
-
-```typescript
-import { useGetArticleQuery } from '../generated'
-import { Link, useParams } from 'react-router-dom'
-
-const Article = () => {
-  const { section, article } = useParams()
-  const { data, error, loading } = useGetArticleQuery({
-    variables: {
-      slug: article,
-    },
-  })
-```
-
-Similar structure is also used in `src/components/Section.tsx` and `src/commponents/Tag.tsx`.
-
-3. `src/components/Article.tsx`:
-
-- Note the following:
-
-```javascript
-if (data.Article.section?.slug !== section) {
-  return <NotFound />
-}
-```
-
-This check ensures that both the section and article slugs are correct in order to render the data on the front end. If either is incorrect, the application routes to the `NotFound` page.
-
 ## Key terms
 
 #### Dynamic segments
