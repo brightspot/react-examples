@@ -1,0 +1,12 @@
+type AllMovies {
+  movies: [Movie]
+}
+
+type Movie {
+  description: String
+  title: String
+}
+
+type Query {
+  AllMovies: AllMovies
+}

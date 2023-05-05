@@ -8,12 +8,12 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Movie from './Movie'
-import MovieEndpoint from './SchemaVersioningMovieEndpoint'
+import MovieEndpoint from './MovieEndpoint'
 import MovieViewModel from './MovieViewModel'
 
 @ViewInterface
 export default class AllMoviesViewModel extends JavaClass(
-  'brightspot.example.graphql_schema_versioning.AllMoviesViewModel',
+  'brightspot.example.schema_history.AllMoviesViewModel',
   ViewModel.Of(MovieEndpoint)
 ) {
   @JavaMethodParameters()

@@ -27,7 +27,7 @@ const allMoviesQuery = `
 const graphqlSchemaQuery = `
   query Schemas {
     versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
-      where: { predicate: "endpoint/getLabel = ?", arguments: "Schema Versioning Movie Endpoint" }
+      where: { predicate: "endpoint/getLabel = ?", arguments: "Movie Endpoint" }
       sorts: { order: descending, options: "timestamp" }
     ) {
       items {

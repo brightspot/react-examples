@@ -11,8 +11,8 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import AllMoviesViewModel from './AllMoviesViewModel'
 
-export default class SchemaVersioningMovieEndpoint extends JavaClass(
-  'brightspot.example.graphql_schema_versioning.SchemaVersioningMovieEndpoint',
+export default class MovieEndpoint extends JavaClass(
+  'brightspot.example.schema_history.MovieEndpoint',
   ContentDeliveryApiEndpointV1,
   Singleton
 ) {

@@ -8,8 +8,8 @@ import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQ
 import GraphQLSchemaVersion from 'brightspot-types/com/psddev/graphql/GraphQLSchemaVersion'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-export default class SchemaVersioningEndpoint extends JavaClass(
-  'brightspot.example.graphql_schema_versioning.SchemaVersioningEndpoint',
+export default class SchemaHistoryEndpoint extends JavaClass(
+  'brightspot.example.schema_history.SchemaHistoryEndpoint',
   ContentManagementApiEndpointV1,
   Singleton
 ) {
@@ -22,7 +22,7 @@ export default class SchemaVersioningEndpoint extends JavaClass(
     return [schemaClass] as unknown as List<ContentManagementEntryPointField>
   }
   getPaths(): JavaSet<string> {
-    return ['/graphql/management/schema-versions'] as unknown as JavaSet<string>
+    return ['/graphql/management/schema-history'] as unknown as JavaSet<string>
   }
 
   updateCorsConfiguration(corsConfiguration: GraphQLCorsConfiguration): void {

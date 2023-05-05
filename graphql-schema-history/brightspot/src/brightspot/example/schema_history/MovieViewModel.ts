@@ -9,7 +9,7 @@ import Movie from './Movie'
 
 @ViewInterface
 export default class MovieViewModel extends JavaClass(
-  'brightspot.example.graphql_schema_versioning.MovieViewModel',
+  'brightspot.example.schema_history.MovieViewModel',
   ViewModel.Of(Movie)
 ) {
   @JavaMethodParameters()

@@ -5,7 +5,7 @@ import Long from 'brightspot-types/java/lang/Long'
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 
 export default class Movie extends JavaClass(
-  'brightspot.example.graphql_schema_versioning.Movie',
+  'brightspot.example.schema_history.Movie',
   Content
 ) {
   @JavaField(String)

@@ -10,11 +10,11 @@ import Modification from 'brightspot-types/com/psddev/dari/db/Modification'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import UuidUtils from 'brightspot-types/com/psddev/dari/util/UuidUtils'
 
-import SchemaVersioningEndpoint from './SchemaVersioningEndpoint'
+import SchemaHistoryEndpoint from './SchemaHistoryEndpoint'
 
-export default class SchemaVersioningClient extends JavaClass(
-  'brightspot.example.graphql_schema_versioning.SchemaVersioningClient',
-  Modification.Of(SchemaVersioningEndpoint)
+export default class SchemaHistoryClient extends JavaClass(
+  'brightspot.example.schema_history.SchemaHistoryClient',
+  Modification.Of(SchemaHistoryEndpoint)
 ) {
   afterSave(): void {
     let original = this.getOriginalObject()
