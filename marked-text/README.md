@@ -1,38 +1,34 @@
 # Marked Text
 
-Marked Text is a JSON representation of a Brightspot rich-text-editor field. It contains all of the metadata for rich-text objects. The structure of the MarkedText object accounts for nested tags, represented cleanly without prior knowledge of the entire state. This is conducive to the GraphQL ecosystem.
+Marked Text is a JSON representation of a Brightspot rich-text-editor (RTE) field, which allows authors to combine plain text, formatting, and embedded objects like images and videos. Marked Text contains all the metadata for rich-text objects and is structure to account for nested tags, represented cleanly without prior knowledge of the entire state. This makes it well-suited to the GraphQL ecosystem.
 
-This flattened data structure is an asset but needs to be handled to render to any front end and with the flexibility to be customized. This example introduces [Brightspot's Marked Text Library](#brightspots-marked-text-library) as a solution.
+While this flattened data structure is an asset, it requires handling to render on any front-end and to be customized for greater flexibility. Brightspot developed the [Marked Text Library](#brightspots-marked-text-library), which provides a solution for handling and rendering Marked Text along with the ability to customize its appearance and functionality.
 
 ## What you will learn
 
-1. How to query for MarkedText via GraphQL.
-2. How to set content types and GraphQL in Brightspot that can use a RTE field
-3. How to create a front-end application with [React](https://reactjs.org/) that uses Brightspot's MarkedText library.
+1. [Creating content types that can use a RTE field](#1-creating-content-types-that-can-use-a-rte-field)
+2. [Query for a MarkedText](#2-query-for-markedtext) object via GraphQL.
+3. Use Brightspot's [MarkedText library](#3-using-brightspots-marked-text-library).
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `marked-text` directory:
+> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-To upload JS Classes in Brightspot (http://localhost/cms):
+### Install dependencies
 
-```sh
-cd brightspot
-yarn
-npx brightspot types download
-npx brightspot types upload src
-
-```
-
-To run the front end, run the following commands from the `marked-text/app` directory::
+Run the following command from the `marked-text/app` directory:
 
 ```sh
-cd app
-yarn
-yarn start
+$ yarn
 ```
 
-The front-end application opens automatically in the browser.
+```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...
+[4/4] 🔨 Building fresh packages...
+✨ Done in 5.03s.
+```
 
 ## Using the example application
 
@@ -40,13 +36,13 @@ Publish an Article. Once published, the front end will render this article.
 
 ## How everything works
 
-JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript (TypeScript). One powerful feature Brightspot provides is ease of content modeling and querying for content data with GraphQL.
+#### 1. Creating content types that can use a RTE field
 
-`brightspot/src/examples/marked-text`. This directory contains the JS Classes files that are uploaded to Brightspot:
+[CustomRichTextToolbar.ts](brightspot/src/brightspot/example/marked_text/CustomRichTextToolbar.ts) This is the custom toolbar used in this example, setup to use rich-text HTML elements.
 
-`Article.ts` This is the content type used to create the Article.
+[Article.ts](brightspot/src/brightspot/example/marked_text/Article.ts): This is the data modal for the `Article` content type used to create the Article.
 
-- The body of the content type uses `@RichText` decorator to change this to a rich-text field, importing the `CustomRichToolbar` as its toolbar:
+- The body of the content type uses the `@RichText` decorator to mark the field as a rich-text field, importing the `CustomRichToolbar` as its toolbar:
 
 ```js
   @RichText({
@@ -56,12 +52,10 @@ JS Classes give you the power to customize Brightspot, add new classes, create e
   })
 ```
 
-`CustomRichTextToolbar.ts` This is the custom toolbar for this example, setup to use rich-text HTML elements.
+[ArticleViewModel.ts](brightspot/src/brightspot/example/marked_text/ArticleViewModel.ts) The view model for the `Article`.
 
-`ArticleViewModel.ts`:
-
-- `RteMarkedText` This class has a method `getIntanceFromRichText` that takes the model (Article) and the rich text field from the model, to return a `RteMarkedText` object. It does this by converting html from the field and running them through rich text preprocessors.
-- `RteMarkedTextViewModel` Rather than the body returning a string, it returns a `RteMarkedTextViewModel` which will represent the marked text object that is passed to the front end via the GraphQL response. This view model returns its `text` and `marks`.
+- `RteMarkedText` This class has a method `getIntanceFromRichText` that takes the model as well as the rich text field from the model, to return a `RteMarkedText` object. It does this by converting html from the field and running them through rich text preprocessors.
+- `RteMarkedTextViewModel` Rather than the body returning a string, it returns a `RteMarkedTextViewModel` which will represent the marked text object that is sent to the front end via the GraphQL response. This field returns its `text` and `marks`.
 
 ```js
   @JavaMethodParameters()
@@ -75,12 +69,41 @@ JS Classes give you the power to customize Brightspot, add new classes, create e
   }
 ```
 
-`marked-text/app/src/components/Article.tsx`. This file contains the front-end logic to focus on in this example.
+#### 2. Query for MarkedText:
 
-- `Article` This component makes a call to the endpoint to return the article. The return is passing the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library.
-- `ArticleMarkQuery` This is where the query is made for the article to return the headline and body that contains the text and marks (MarkedText).
+[Article.tsx](app/src/components/Article.tsx). This file contains the front-end logic to focus on in this example.
 
-## Brightspot's Marked Text Library
+- [ArticleMarkQuery](app/src/components/Article.tsx#L17) This variable holds the query made for the article to return the headline and body that contains the text and marks (MarkedText) based on the view model:
+
+```
+const ArticleMarkQuery = `
+  query ArticleMarkedTextQuery {
+  Article {
+    headline
+    body {
+      text
+      marks {
+        start
+        end
+        descendants
+        data {
+          ... on RteHtmlElement {
+            __typename
+            name
+            attributes {
+              name
+              value
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
+```
+
+#### 3. Using Brightspot's Marked Text Library:
 
 Consider the following Marked Text object from the API response:
 
@@ -119,23 +142,12 @@ Consider the following Marked Text object from the API response:
 
 Brightspot provides a function that makes it easy to render the Marked Text data structure.
 
-The library `@brightspot/marked-text` serves `markedTextTraversal`, a function that requires two arguments, the `MarkedText` object containing the text and marks (shown above), and a Visitor object with two callback functions provided from the app.
+The library `@brightspot/marked-text` serves `markedTextTraversal`, a function that requires two arguments, the `MarkedText` object containing the text and marks (shown above), and a Visitor object with two callback functions provided from the implementor.
 
-`markedTextTraversal`:
-
-```js
-export function markedTextTraversal<M extends T, T extends N, N>(
-  text: MarkedText | undefined,
-  visitor: MarkedTextVisitor<M, T, N>
-): N[] {
-  return text ? new MarkedTextPostOrderTraversal(text, visitor).traverse() : []
-}
-```
-
-This example application's Visitor object, `visitText` returns a JSX Fragment with the text inside. `visitMark` returns a React Element within which its children are placed:
+- [Article](app/src/components/Article.tsx#L73) This component makes a call to the endpoint to return the article. The return is passing the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library:
 
 ```js
-{
+{markedTextTraversal(article?.articleData?.body, {
   visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
   visitMark: (mark, children: ReactNode[]) => {
     const element = mark.data as HtmlElement
@@ -152,10 +164,12 @@ This example application's Visitor object, `visitText` returns a JSX Fragment wi
       isVoidElement ? null : children
     )
   },
-}
+})}
 ```
 
-The library is using a [post order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal). As the data structure is flattened, it's only appropriate to use this method of traversal and it also simplifies the usage with React or any front-end library/framework.
+`markedTextTraversal` is a function that accepts a Marked Text object and a Marked Text Visitor object as input. It uses the visitor object to perform a [post order](https://www.geeksforgeeks.org/iterative-postorder-traversal) tree traversal algorithm on the Marked Text object, and invokes the visitor's callback methods to transform the nodes of the tree. It returns an array of transformed root nodes based on the visitor's implementation.
+
+Additionally, by providing a unified and customizable interface for traversing and transforming Marked Text, this function can simplify the integration of Marked Text with React or any other front-end library or framework.
 
 ## Troubleshooting
 
