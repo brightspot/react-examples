@@ -24,6 +24,9 @@ const defaultOptions: DefaultOptions = {
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
+  headers: {
+    'X-Site': process.env.REACT_APP_BSP_SITE_URL ?? '',
+  },
   cache: new InMemoryCache(),
   defaultOptions: defaultOptions,
 })
