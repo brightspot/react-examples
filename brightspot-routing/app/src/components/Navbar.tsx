@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { BiChevronDown } from 'react-icons/bi'
 import { useGetAllSectionsQuery } from '../generated'
+import { findPermalink } from '../utils/utils'
 
 const Navbar = () => {
   const [showLinks, setShowLinks] = useState(false)
@@ -47,7 +48,7 @@ const Navbar = () => {
               <li key={i} data-show={showLinks || null}>
                 <Link
                   onClick={() => setShowLinks(false)}
-                  to={`${section?.path}`}
+                  to={findPermalink(section?.directoryData)}
                   className="link-item"
                   data-show={showLinks || null}
                 >

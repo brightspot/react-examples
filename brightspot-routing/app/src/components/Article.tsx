@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import { Article } from '../generated'
+import { findPermalink } from '../utils/utils'
 
 type Props = {
   article: Article
@@ -16,7 +17,7 @@ const ArticleComponent = ({ article }: Props) => {
         {publishDate.toDateString() + ' - ' + publishDate.toTimeString()}
       </span>
       <br />
-      <Link to={`${article.section?.path || '/'}`}>
+      <Link to={findPermalink(article.section?.directoryData)}>
         <p className="article-sectionName">{article.section?.name}</p>
       </Link>
       <p className="article-body">{article.body}</p>

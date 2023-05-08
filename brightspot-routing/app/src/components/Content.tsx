@@ -1,35 +1,20 @@
 import { Navigate, useParams } from 'react-router-dom'
 
-import { DirectoryData, Maybe, useGetContentQuery } from '../generated'
+import { useGetContentQuery } from '../generated'
 
+import { findPermalink, isRedirect } from '../utils/utils'
 import NotFound from './NotFound'
 import SectionComponent from './Section'
 import ArticleComponent from './Article'
 
-const currentPathIsRedirect = (
-  currentPath: string,
-  directoryData?: Maybe<DirectoryData>
-): boolean => {
-  return (
-    directoryData?.paths?.some(
-      (e) =>
-        e?.path === currentPath &&
-        (e.type === 'Redirect (Permanent)' || e.type === 'Redirect (Temporary)')
-    ) || false
-  )
-}
-
 const Content = () => {
   const parameters = useParams()
 
-  let currentPath = ''
-  Object.values(parameters).forEach(
-    (parameter) => (currentPath += `/${parameter}`)
-  )
+  let urlPath = '/' + Object.values(parameters)
 
   const { data, error, loading } = useGetContentQuery({
     variables: {
-      path: currentPath,
+      path: urlPath,
     },
   })
 
@@ -37,15 +22,15 @@ const Content = () => {
   if (loading) return <div className="loading">loading...</div>
 
   if (data?.Section) {
-    if (currentPathIsRedirect(currentPath, data.Section.directoryData)) {
-      return <Navigate to={data.Section.path || '/'} />
+    if (isRedirect(urlPath, data.Section.directoryData)) {
+      return <Navigate to={findPermalink(data.Section.directoryData)} />
     }
     return <SectionComponent section={data.Section} />
   }
 
   if (data?.Article) {
-    if (currentPathIsRedirect(currentPath, data.Article.directoryData)) {
-      return <Navigate to={data.Article.path || '/'} />
+    if (isRedirect(urlPath, data.Article.directoryData)) {
+      return <Navigate to={findPermalink(data.Article.directoryData)} />
     }
     return <ArticleComponent article={data.Article} />
   }
