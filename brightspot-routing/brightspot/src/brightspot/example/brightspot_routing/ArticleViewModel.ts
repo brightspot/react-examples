@@ -1,8 +1,8 @@
 import JavaClass from 'brightspot-types/JavaClass'
 import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
+import Long from 'brightspot-types/java/lang/Long'
 
-import DirectoryData from 'brightspot-types/com/psddev/cms/db/Directory$Data'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
@@ -29,14 +29,8 @@ export default class ArticleViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
-  @JavaMethodReturn(String)
-  getPath(): string {
-    return this.model.getPermalink()
-  }
-
-  @JavaMethodParameters()
-  @JavaMethodReturn(Number)
-  getPublishDate(): number {
+  @JavaMethodReturn(Long)
+  getPublishDate(): Long {
     return this.model.getPublishDate().getTime()
   }
 
@@ -54,7 +48,7 @@ export default class ArticleViewModel extends JavaClass(
   getDirectoryData(): DirectoryDataViewModel {
     return this.createView(
       DirectoryDataViewModel.getClass(),
-      this.model.as(DirectoryData.class)
+      this.model
     )
   }
 }
