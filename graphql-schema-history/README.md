@@ -1,6 +1,8 @@
 # Schema History
 
-GraphQL endpoints are versionless, following [best practices](https://graphql.org/learn/best-practices/#versioning) schemas should evolve without breaking changes. However, breaking changes can still occur. As a schema evolves, it is best to have a process to detect changes and any potential problems.
+GraphQL endpoints are versionless, clients can request data without specifying a specific version number. While it is [recommended](https://graphql.org/learn/best-practices/#versioning) to evolve schemas without introducing breaking changes, it is still possible for them to occur. Therefore, it is important to have a process in place for detecting changes and potential problems as the schema evolves.
+
+Following schemas should evolve without breaking changes. However, breaking changes can still occur. As a schema evolves, it is best to have a process to detect changes and any potential problems.
 
 Brightspot stores a record whenever a schema changes that can be viewed in Brightspot. This example demonstrates how to track changes to schemas and compare versions of the schema programmatically. The front-end application uses [GraphQL Inspector](https://www.the-guild.dev/graphql/inspector/docs/introduction) to view schema changes before updating any code (helping you catch any breaking changes), and also [Codegen](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to generate types based on the most up-to-date schema.
 
@@ -59,6 +61,8 @@ You can now view schema-history in the browser.
 At startup, there is one schema. It gets generated after running Codegen successfully in the `app/schemas` directory, named `originalSchema.graphql`. GraphQL Inspector requires two schemas in order to run a comparison and detect changes.
 
 ### Step 1: Generating the second schema
+
+Brightspot's GraphQL APIs are generated dynamically based on your content type definitions. If you remove a field from your content type, the corresponding field in the GraphQL schema will also be removed.
 
 Make the following arbitrary changes to the [Movie view model](brightspot/src/brightspot/example/schema_history/MovieViewModel.ts):
 
