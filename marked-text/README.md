@@ -1,6 +1,6 @@
 # Marked Text
 
-Marked Text is a JSON representation of a Brightspot rich-text-editor (RTE) field, which allows authors to combine plain text, formatting, and embedded objects like images and videos. Marked Text contains all the metadata for rich-text objects and is structure to account for nested tags, represented cleanly without prior knowledge of the entire state. This makes it well-suited to the GraphQL ecosystem.
+Marked Text is a JSON representation of a Brightspot rich-text-editor (RTE) field, which allows authors to combine plain text, formatting, and embedded objects like images and videos. Marked Text contains all the metadata for rich-text objects and is structured to account for nested tags, represented cleanly without prior knowledge of the entire state. This makes it well-suited to the GraphQL ecosystem.
 
 While this flattened data structure is an asset, it requires handling to render on any front-end and to be customized for greater flexibility. Brightspot developed the [Marked Text Library](#brightspots-marked-text-library), which provides a solution for handling and rendering Marked Text along with the ability to customize its appearance and functionality.
 
