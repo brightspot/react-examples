@@ -40,36 +40,6 @@ query ArticleMarkedTextQuery {
 }
 `
 
-const attrSwitch = (attr: string) => {
-  switch (attr) {
-    case 'class':
-      return 'className'
-    case 'colspan':
-      return 'colSpan'
-    case 'rowspan':
-      return 'rowSpan'
-    default:
-      return attr
-  }
-}
-
-const voidElements = [
-  'area',
-  'base',
-  'br',
-  'col',
-  'embed',
-  'hr',
-  'img',
-  'input',
-  'keygen',
-  'link',
-  'meta',
-  'source',
-  'track',
-  'wbr',
-]
-
 const Article = () => {
   const [article, setArticle] = useState<ArticleResponse>()
   const GRAPHQL_URL = process.env.REACT_APP_GRAPHQL_URL ?? ''
@@ -119,20 +89,14 @@ const Article = () => {
     <div className="marked-text-container Article">
       <h1 className="headline">{article?.articleData?.headline}</h1>
       {markedTextTraversal(article?.articleData?.body, {
-        visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
-        visitMark: (mark, children: ReactNode[]) => {
+        visitText: (text: string) => <Fragment key={key++}>{text}</Fragment>,
+        visitMark: (mark: any, children: ReactNode[]) => {
           const element = mark.data as HtmlElement
-          const isVoidElement = voidElements.includes(element.name)
-
-          const attrs = element.attributes.reduce((a, b) => {
-            const n: string = attrSwitch(b.name)
-            return { ...a, [n]: b.value }
-          }, {})
 
           return React.createElement(
             element.name,
-            { ...attrs, key: `k-${key++}` },
-            isVoidElement ? null : children
+            { key: `k-${key++}` },
+            children
           )
         },
       })}
