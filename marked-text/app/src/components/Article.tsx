@@ -28,10 +28,6 @@ query ArticleMarkedTextQuery {
           ... on RteHtmlElement {
             __typename
             name
-            attributes {
-              name
-              value
-            }
           }
         }
       }
