@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, Fragment, ReactNode } from 'react'
 import {
-  HtmlElement,
+  Mark,
+  MarkData,
   MarkedText,
   markedTextTraversal,
 } from '@brightspot/marked-text'
@@ -12,6 +13,10 @@ interface ArticleData {
 interface ArticleResponse {
   articleData?: ArticleData
   errors?: string[]
+}
+
+interface RteHtmlElement extends MarkData {
+  name: string
 }
 
 const ArticleMarkQuery = `
@@ -86,8 +91,8 @@ const Article = () => {
       <h1 className="headline">{article?.articleData?.headline}</h1>
       {markedTextTraversal(article?.articleData?.body, {
         visitText: (text: string) => <Fragment key={key++}>{text}</Fragment>,
-        visitMark: (mark: any, children: ReactNode[]) => {
-          const element = mark.data as HtmlElement
+        visitMark: (mark: Mark, children: ReactNode[]) => {
+          const element = mark.data as RteHtmlElement
 
           return React.createElement(
             element.name,

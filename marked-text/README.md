@@ -159,7 +159,7 @@ Brightspot provides a function that makes it easy to render the Marked Text data
 
 The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
 
-`markedTextTraversal` is a function that accepts a Marked Text object and a Marked Text Visitor object as input. It uses the visitor object to perform a [post order](https://www.geeksforgeeks.org/iterative-postorder-traversal) tree traversal algorithm on the Marked Text object, and invokes the visitor's callback methods to transform the nodes of the tree. It returns an array of transformed root nodes based on the visitor's implementation.
+- The function `markedTextTraversal` accepts a Marked Text object and a Visitor object as input. The visitor object is used during a [post order](https://www.geeksforgeeks.org/iterative-postorder-traversal) tree traversal algorithm on the Marked Text object, and invokes the visitor's callback methods to transform the nodes of the tree. It returns an array of transformed root nodes based on the visitor's implementation.
 
 - [Article](app/src/components/Article.tsx#L73) This component makes a call to the endpoint to return the article. The return is passing the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library.
 
@@ -167,7 +167,7 @@ The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
 markedTextTraversal(article?.articleData?.body, {
   visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
   visitMark: (mark, children: ReactNode[]) => {
-    const element = mark.data as HtmlElement
+    const element = mark.data as RteHtmlElement
 
     return React.createElement(
       element.name,
