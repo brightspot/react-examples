@@ -1,0 +1,20 @@
+query GetAllPaths {
+  AllSections {
+    sections {
+      directoryData {
+        paths {
+          path
+        }
+      }
+    }
+  }
+  AllArticles {
+    articles {
+      directoryData {
+        paths {
+          path
+        }
+      }
+    }
+  }
+}
