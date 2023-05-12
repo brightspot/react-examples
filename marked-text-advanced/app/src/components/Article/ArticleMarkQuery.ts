@@ -1,6 +1,6 @@
 export const ArticleMarkQuery = `
-query ArticleMarkQuery($path: String) {
-  Article(model: {path: $path}) {
+query ArticleMarkQuery {
+  Article {
     headline
     body {
       text

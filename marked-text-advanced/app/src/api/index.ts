@@ -19,9 +19,6 @@ const dataRequestParams = {
   },
   body: JSON.stringify({
     query: ArticleMarkQuery,
-    variables: {
-      path: 'marked-text',
-    },
   }),
 }
 
