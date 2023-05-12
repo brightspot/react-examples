@@ -1,5 +1,9 @@
 import { MarkData, MarkedText } from '@brightspot/marked-text'
 
+export interface RteHtmlElement extends MarkData {
+  name: string
+  attributes: { name: string; value: string }[]
+}
 export interface ImageRichTextElement extends MarkData {
   fileUrl?: string
   alt?: string

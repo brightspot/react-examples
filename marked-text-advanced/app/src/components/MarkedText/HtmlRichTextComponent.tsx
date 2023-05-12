@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react'
-import { HtmlElement } from '@brightspot/marked-text'
+import { RteHtmlElement } from '../../types'
 
 const HtmlRichTextComponent = ({
   element,
   children,
 }: {
-  element: HtmlElement
+  element: RteHtmlElement
   children: ReactNode[]
 }) => {
   if (element.name === 'script') return <></> // do nothing with script
@@ -25,7 +25,7 @@ const HtmlRichTextComponent = ({
 
 /**
  * Function used to convert regular html strings to React convention
- * @param k The key used in the {@link HtmlElement } attributes array
+ * @param k The key used in the {@link RteHtmlElement } attributes array
  * @returns {string} The React camelCased key
  */
 const attrKey = (k: string) => {
@@ -48,13 +48,13 @@ const attrKey = (k: string) => {
 }
 
 /**
- * Function to take the attributes array held within the {@link HtmlElement} and return an object for the React Element Props.
+ * Function to take the attributes array held within the {@link RteHtmlElement} and return an object for the React Element Props.
  * Style is unique as the key will be style and one long string as the value, it needs to be broken into another object of key value pairs.
- * @param element {@link HtmlElement}
+ * @param element {@link RteHtmlElement}
  * @returns Object with key value pairs, with key being the HTML element attribute e.g. href, src and value being the string.
  * The style attribute returns as an object with key being style and value being an object of key value pairs.
  */
-const attrHandler = (element: HtmlElement) => {
+const attrHandler = (element: RteHtmlElement) => {
   const { attributes } = element
   return attributes.reduce((a, b) => {
     const attr: string = attrKey(b.name)

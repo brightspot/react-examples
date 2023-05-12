@@ -1,7 +1,8 @@
 import React, { Fragment, ReactNode } from 'react'
 import { markedTextTraversal } from '@brightspot/marked-text'
-import { HtmlElement, MarkedText } from '@brightspot/marked-text'
+import { MarkedText } from '@brightspot/marked-text'
 import {
+  RteHtmlElement,
   ImageRichTextElement,
   ExternalContentRichTextElement,
 } from '../../types'
@@ -26,7 +27,7 @@ const MarkedTextComponent = ({
               return (
                 <HtmlRichTextComponent
                   key={key++}
-                  element={mark.data as HtmlElement}
+                  element={mark.data as RteHtmlElement}
                   children={children}
                 />
               )
