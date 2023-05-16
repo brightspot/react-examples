@@ -41,18 +41,6 @@ export default class CorsConfigurationEndpoint extends JavaClass(
   ): void {
     super.updateCorsConfiguration(graphQLCorsConfiguration)
 
-    if (this.corsConfiguration) {
-      Array.from(this.corsConfiguration.getAllowedOrigins()).map((origin) => {
-        graphQLCorsConfiguration.addAllowedOrigin(origin)
-      })
-
-      Array.from(this.corsConfiguration.getAllowedHeaders()).map((header) => {
-        graphQLCorsConfiguration.addAllowedHeader(header)
-      })
-
-      graphQLCorsConfiguration.setMaxAge(this.corsConfiguration.getMaxAge())
-    }
-
     // Add allowed origins here:
     // graphQLCorsConfiguration.addAllowedOrigin('localhost')
 
@@ -61,10 +49,6 @@ export default class CorsConfigurationEndpoint extends JavaClass(
 
     // Set max age to thirty seconds here:
     // graphQLCorsConfiguration.setMaxAge(30)
-  }
-
-  afterSave() {
-    this.updateCorsConfiguration(new GraphQLCorsConfiguration())
   }
 
   getApiAccessOption(): GraphQLApiAccessOption {
