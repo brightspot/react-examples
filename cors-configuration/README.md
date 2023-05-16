@@ -6,7 +6,7 @@ CORS adds security against [Cross Site Request Forgery](https://owasp.org/www-co
 
 However, if the CORS configuration is not set up as intended, the front-end application will run into errors and will be blocked from retrieving or sending data to the server.
 
-This example uses JS Classes and the [Brightspot GraphQL Content Delivery API (CDA) endpoint](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) to demonstrate how to easily manage and debug common [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues in an app to streamline development and better secure production applications.
+This example demonstrates how to easily manage and debug common CORS issues in an app to streamline development and better secure production applications.
 
 ## Running the example application
 
@@ -38,88 +38,64 @@ The front-end app on start up displays **Loading...**. Open the developer consol
 
 This is a common error that occurs when a server and a front-end application are hosted on different domains and the front-end application’s domain has not been added to the server’s allowed origins list.
 
-There are two ways two fix this with Brightspot:
-
-1. Programmatically, editing the JS classes files.
-2. Editorially, via the local [Brightspot]('http://localhost/cms') instance.
-
-## Via JS Classes
-
 Edit the following file:
 `brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts`
 
 1. Uncomment the code `graphQLCorsConfiguration.addAllowedOrigin('localhost')`.
 2. Save the file.
-3. Upload types again: `npx brightspot types upload src` from the brightspot directory.
-4. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
-5. Via the Navigation menu, click under **Admin**, **APIs**.
-6. Click on **CORS Configuration Endpoint** and save.
-
-## Via Brightspot
-
-1. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
-2. Via the Navigation menu, click under **Admin** &rarr; **APIs**.
-3. Click on **CORS Configuration Endpoint**.
-
-At this stage, you see a form. Under **Cors Configuration** there is a dropdown with two options:
-
-1. **Set:**, which is selected by default.
-2. **None**.
-
-Add 'localhost' to the **Allowed Origins** list. Then click save.
-
-> **Note**: You could change this selection to **None** but then you would not be able to fix these issues via Brightspot. This setting is for applications where the front end and server are hosted on the same domain and therefore will not run into CORS errors.
-
-## Going back to the front end
+3. Upload types.
 
 Start up your front-end application or refresh if it is still running.
 
 **Access to fetch at 'http://localhost/graphql/delivery/cors-configuration' from origin 'http://localhost:3000' has been blocked by CORS policy: Request header field foo is not allowed by Access-Control-Allow-Headers in preflight response.**
 
-The same origin error no longer appears, showing the same origin issue is resolved. However, there is another issue to address: the front-end application’s request header is being blocked.
+The same origin error no longer appears, the same origin issue is resolved. However, the front-end application’s request header is being blocked.
 
-Now the front-end application's request header is being blocked. Follow the steps below to resolve the issue:
-
-## Via JS Classes
-
-Edit the following file:
-`brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts`
+Edit the [CORS configuration endpoint](brightspot/src/brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts) once again:
 
 1. Uncomment the code `graphQLCorsConfiguration.addAllowedHeader('foo')`.
 2. Save the file.
-3. Upload types again: `npx brightspot types upload src` from the brightspot/src directory.
-4. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
-5. Via the Navigation menu, click under **Admin**, **APIs**.
-6. Click on **CORS Configuration Endpoint** and save.
+3. Upload types.
 
-## Via Brightspot
-
-1. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
-2. Via the Navigation menu, click under **Admin**, **APIs**.
-3. Click on **CORS Configuration Endpoint**.
-4. Add 'foo' to the **Allowed Headers** list. Then click save.
-
-## Going back to the front end
-
-Start up your front-end application again or refresh if it is still running. Open up the developer console, you no longer see any CORS errors.
+Visit your front-end application. Refresh and open up the developer console. There are no longer any CORS errors.
 
 ## How everything works
 
-`brightspot/src/examples/cors-configuration`: This directory contains the JS Classes that are uploaded to Brightspot.
+`brightspot/src/examples/cors-configuration`:
 
 `CorsConfigurationEndpoint.ts`: This file is the endpoint used for this example.
 
 - The `JavaField` expects expects a class of `CustomGraphQLCorsConfiguration`. For this example a display name of `CORS Configuration` is given for the form that controls the CORS settings.
-- `getCorsConfiguration` gets the current CORS settings to place in the form.
-- `setCorsConfiguration` updates the values in the current form.
-- `updateCorsConfiguration` updates the CORS settings to what has been put in the form. It also can be edited to update the settings programmatically.
-- `afterSave` is called when the form is saved. This then calls `updateCorsConfiguration` to update the CORS settings.
+
+  ```js
+  @JavaField(CustomGraphQLCorsConfiguration)
+  corsConfiguration: CustomGraphQLCorsConfiguration
+  ```
+
+- `updateCorsConfiguration` This method is used to update the CORS settings programmatically:
+
+  ```js
+  updateCorsConfiguration(
+      graphQLCorsConfiguration: GraphQLCorsConfiguration
+  ): void {
+      super.updateCorsConfiguration(graphQLCorsConfiguration)
+
+      // Add allowed origins here:
+      // graphQLCorsConfiguration.addAllowedOrigin('localhost')
+
+      // Add allowed headers here:
+      // graphQLCorsConfiguration.addAllowedHeader('foo')
+
+      // Set max age to thirty seconds here:
+      // graphQLCorsConfiguration.setMaxAge(30)
+  }
+  ```
 
 ## Preflight Requests
 
-When the browser makes a request, it first sends a check request to the server called a [preflight request](https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request).
+When the browser makes a request, it first sends a [preflight request](https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request).
 
-If the preflight request fails, you run into the CORS errors listed above. Either the origin was not on the allowed origins list, or headers that are present in the request are not permitted.
+If the preflight request fails, you will run into the CORS errors listed above. Either the origin was not on the allowed origins list, or headers that are present in the request are not permitted.
 
 ## Performance
 
@@ -127,43 +103,23 @@ Making two requests everytime a front-end app sends an API call to the server wi
 
 Open the developer console and navigate to the network tab. Under name, there will be two **cors-configuration** requests. After the first POST request is made, there is a preflight request sent with the [OPTIONS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS#preflighted_requests_in_cors) method. The POST requests will not be sent until the server responds approving the request.
 
+| CORS Configuration Network Tab                                      |
+| ------------------------------------------------------------------- |
+| <img alt="pre-flight-requests" src="images/pre-flight-request.png"> |
+
 ## Access Control Max Age
 
-To avoid having to make preflight request when making the same request, Brightspot offers another CORS configuration option. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age') which can once again be set programmatically or via your Brightspot instance:
+To avoid having to make preflight request when making the same request, Brightspot offers another CORS configuration option. [Access Control Max Age]('https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age') which can be set programmatically.
 
-## Via JS Classes
-
-Edit the following file:
-`brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts`
+Edit the following file the Edit the [CORS configuration endpoint](brightspot/src/brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts):
 
 1. Uncomment the code `graphQLCorsConfiguration.setMaxAge(30)`.
 2. Save the file.
-3. Upload types again: `npx brightspot types upload src` from the brightspot/src directory.
-4. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
-5. Via the Navigation menu, click under **Admin**, **APIs**.
-6. Click on **CORS Configuration Endpoint** and save.
+3. Upload types.
 
-## Via Brightspot
-
-1. Open the local [Brightspot]('http://localhost/cms') instance in the web browser.
-2. Via the Navigation menu, click under **Admin**, **APIs**.
-3. Click on **CORS Configuration Endpoint**.
-4. Under **Max Age** add '30' to the space available. Then save.
-
-## Going back to the front end
-
-Start up your front-end application again or refresh if it is still running. Open up the developer console and look at the network tab. There will be four requests like the first time around but for the next thirty delta seconds, refresh the page and see that there is no longer a need for the pre-flight requests. After thirty seconds, it will need to make another pre-flight request. This is due to the '30' delta seconds placed in this example.
+Start up your front-end application again or refresh if it is still running. Open up the developer console and look at the network tab. There will be two requests like the first time around but for the next thirty delta seconds, refresh the page and see that there is no longer a need for the pre-flight request. After thirty seconds, it will need to make another pre-flight request.
 
 ## Try it yourself
-
-- Add your own custom headers to the front-end application. Edit the `cors-configuration/app/src/App.tsx` file and under the code below, add your own custom headers. It will trigger a CORS error; fix it either using JS classes or Brightspot:
-
-```js
-myHeaders.append('Foo', 'Bar')
-// Add custom headers here
-```
-
-- Update the code via JS classes to accept a max age of your choice to test pre-flight requests. Bear in mind browsers have different limits to the amount of time that can be entered to cache pre-flight requests.
 
 ## Troubleshooting
 
