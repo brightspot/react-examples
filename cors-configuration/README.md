@@ -1,12 +1,8 @@
 # Cors Configuration
 
-"Cross-Origin Resource Sharing ([CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources." - MDN Web Docs
+Cross Origin Resource Sharing ([CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)) is an HTTP-header based mechanism that enhances security by allowing a server to specify which origins can access its resources. It relaxes the [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) and prevents [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf). Improper CORS configuration can lead to errors and block frontend applications from retrieving or sending data to the server.
 
-CORS adds security against [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf) when configured correctly. The configuration relaxes the [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) to ensure that a trusted domain is whitelisted to grant access to data from an API placed on another domain and/or port.
-
-However, if the CORS configuration is not set up as intended, the front-end application will run into errors and will be blocked from retrieving or sending data to the server.
-
-This example demonstrates how to easily manage and debug common CORS issues in an app to streamline development and better secure production applications.
+This example demonstrates effective management and debugging of CORS issues for streamlined development and enhanced production application security.
 
 ## Running the example application
 
