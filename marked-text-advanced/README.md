@@ -8,8 +8,8 @@ This example demonstrates querying Marked Text with more complex rich text eleme
 
 ## What you will learn
 
-1. Query for Marked Text objects containing complex types of Rich Text Elements
-2. Render complex rich text elements with the Marked Text Library
+1. [Query for Marked Text objects containing complex types of Rich Text Elements](#1-query-for-marked-text-objects-containing-complex-types-of-rich-text-elements)
+2. [Render complex rich text elements with the Marked Text Library](#2-render-complex-rich-text-elements-with-the-marked-text-library)
 
 ## Running the example application
 
@@ -48,6 +48,8 @@ Copy link from [Codepen](https://codepen.io/)
 ## How everything works
 
 `marked-text-advanced/app/src/components/Article`
+
+#### 1. Query for Marked Text objects containing complex types of Rich Text Elements
 
 - `ArticleContainer` calls the [fetchArticle](app/src/api/index.ts) function to return the Article. It passes the returned Marked Text body to the [MarkedTextComponent](app/src/components/MarkedText/MarkedTextComponent.tsx)
 - `ArticleMarkQuery` The query for the article to return the headline, subheadline and body that contains the Marked Text object. The query has been setup to use [fragments](https://graphql.org/learn/queries/#fragments) to contain the rich text elements:
@@ -121,6 +123,8 @@ Copy link from [Codepen](https://codepen.io/)
     credit
   }
   ```
+
+#### 2. Render complex rich text elements with the Marked Text Library
 
 `marked-text-advanced/app/src/components/MarkedText`
 
