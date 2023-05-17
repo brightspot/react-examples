@@ -1,101 +1,238 @@
 # MarkedText - Advanced
 
-This example highlights how to use JS Classes and the Brightspot GraphQL API to create content with a Rich Text Editor (RTE) field and then retrieve that field to render in a front-end application and demonstrates the use of the Brightspot MarkedText library. The RTE will also be able to handle images and external content.
+Marked Text is a JSON representation of a Brightspot RTE field. It contains all the metadata for rich-text objects and is structured to account for nested tags, represented cleanly without prior knowledge of the entire state. This makes it well-suited to the GraphQL ecosystem, and allows for maintaining the integrity of its type system.
+
+> _Note_: If you're new to Marked Text, please refer to the example [Marked Text: Intro](../marked-text).
+
+This example demonstrates querying Marked Text with more complex rich text element types (e.g. images and external content) and rendering them using Brightspot's Marked Text Library.
 
 ## What you will learn
 
-1. How to query for MarkedText via GraphQL.
-2. How to set content types and GraphQL in Brightspot that can:
-   - Use a RTE field as opposed to strings
-   - Use a RteMarkedTextViewModel to return the RTE field as a MarkedText object
-3. How to create a front-end application with [React](https://reactjs.org/) that implements Brightspot's MarkedText library.
+1. Query for Marked Text objects containing complex types of Rich Text Elements
+2. Render complex rich text elements with the Marked Text Library
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `marked-text-advanced` directory:
+> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-To upload JS Classes in Brightspot (http://localhost/cms):
+### Install dependencies
 
-```sh
-cd brightspot
-yarn
-npx brightspot types download
-npx brightspot types upload src
-
-```
-
-To run the front end:
+Run the following command from the `marked-text-advanced/app` directory:
 
 ```sh
-cd app
-yarn
-yarn start
+$ yarn
 ```
 
-The front-end application opens automatically in the browser.
+```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...
+[4/4] 🔨 Building fresh packages...
+✨ Done in 5.03s.
+```
 
 ## Using the example application
 
-Publish an Article with the headline **Marked Text**, the rest is up to you. Once published, the front end will render this article.
+Publish an Article. Once published, the front end will render this article.
 
-> **_Note:_** You may change the headline to that of your choosing, but be sure to change the variable 'path' on line 23 of `src/api/index.tsx` in the app directory to match.
+For image rich text element select the images icon <img alt="Rich Text Image Icon" src="images/images-icon.png" width=20>.
 
-This example allows users to upload images, and then place them in the RTE field:
+For external content, copy and paste links to media e.g.:
 
-1. Publish an Image content type.
-2. Return to an Article and then click on the image icon located on the toolbar (the icon placed last on the toolbar).
+Videos from [YouTube](https://www.youtube.com/)
 
-The library `@brightspot/marked-text` uses the `markedTextTraversal` function with two arguments, the body of `MarkedText` containing the text and marks, and a Visitor object with two callback functions provided from the app. The library is using a [post order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal).
+Images from [Flikr](https://www.flickr.com/)
+
+Copy link from [Codepen](https://codepen.io/)
 
 ## How everything works
 
-JS Classes give you the power to customize Brightspot, add new classes, create endpoints, and much more with JavaScript. One powerful feature Brightspot provides is ease of content modeling and querying for content data with GraphQL.
-
-Navigate to `brightspot/src/examples/marked-text-advanced`. This directory contains the JS Classes files that are uploaded to Brightspot.
-
 `marked-text-advanced/app/src/components/Article`
 
-- `ArticleContainer` This component makes a call to the endpoint from the `marked-text-advanced/app/src/api` to return the Article with the headline **Marked Text**, if the headline is different, change the path variable on line 23 of `marked-text-advanced/app/src/api/index.ts` . It then passes the returned `MarkedText` body to the `MarkedTextComponent`
-- `ArticleMarkQuery` This is where the query is made for the article to return the headline, subheadline and body that contains the text and marks (MarkedText).
+- `ArticleContainer` calls the [fetchArticle](app/src/api/index.ts) function to return the Article. It passes the returned Marked Text body to the [MarkedTextComponent](app/src/components/MarkedText/MarkedTextComponent.tsx)
+- `ArticleMarkQuery` The query for the article to return the headline, subheadline and body that contains the Marked Text object. The query has been setup to use [fragments](https://graphql.org/learn/queries/#fragments) to contain the rich text elements:
+
+  ```gql
+  query ArticleMarkQuery {
+    Article {
+      headline
+      body {
+        text
+        marks {
+          start
+          end
+          descendants
+          data {
+            ...HtmlElement
+            ...ExternalContentElement
+            ...ImageElement
+          }
+        }
+      }
+    }
+  }
+
+  fragment HtmlElement on RteHtmlElement {
+    __typename
+    name
+    attributes {
+      name
+      value
+    }
+  }
+
+  fragment ExternalContentElement on ExternalContentRichTextElement {
+    __typename
+    type
+    version
+    title
+    authorName
+    authorUrl
+    providerName
+    providerUrl
+    originalUrl
+    thumbnailUrl
+    thumbnailWidth
+    thumbnailHeight
+    markedHtml {
+      text
+      marks {
+        start
+        end
+        descendants
+        data {
+          ...HtmlElement
+        }
+      }
+    }
+  }
+
+  fragment ImageElement on ImageRichTextElement {
+    __typename
+    fileUrl
+    alt
+    image {
+      entries {
+        key
+        value
+      }
+    }
+    caption
+    credit
+  }
+  ```
 
 `marked-text-advanced/app/src/components/MarkedText`
 
-- `MarkedTextComponent` This component handles what kind of RichTextElement/RteMark it receives to direct it to the correct rich-text component. This is how the callback function for `visitMark` knows what to return.
-- `visitText` This function is called during traversal that returns the text within React Fragments.
-- `HtmlRichTextComponent` This component is used during traversal to handle `RteHtmlElement` marks.
-- `ExternalContentRichTextComponent` This component is used during traversal to handle `ExternalContentRichTextElement` marks.
-- `ImageRichTextComponent`This component is used during traversal to handle `ImageRichTextElement` marks.
-
-#### Points to note in JS Classes files:
-
-`Article.ts` This file has the following code to use a RTE field rather than one of the standard primitives used in other examples:
-
-```js
-  @RichText({
-    toolbar: CustomRichTextToolbar.getClass(),
-    lines: 5,
+- `MarkedTextComponent` This component passes the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library, it handles which rich-text component to use based on the mark data's type. This is how the callback function for `visitMark` knows what to return:
+  ```js
+  markedTextTraversal(markedText, {
+      visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
+      visitMark: (mark, children: ReactNode[]) => {
+        switch (mark.data.__typename) {
+          case 'RteHtmlElement':
+            return (
+              <HtmlRichTextComponent
+                key={key++}
+                element={mark.data as RteHtmlElement}
+                children={children}
+              />
+            )
+          case 'ExternalContentRichTextElement':
+            return (
+              <ExternalContentRichTextComponent
+                key={key++}
+                markData={mark.data as ExternalContentRichTextElement}
+              />
+            )
+          case 'ImageRichTextElement':
+            return (
+              <ImageRichTextComponent
+                key={key++}
+                markData={mark.data as ImageRichTextElement}
+              />
+            )
+          default:
+            return <Fragment key={key++}></Fragment>
+        }
+      },
   })
-```
+  ```
+- `HtmlRichTextComponent` This component is used during traversal to handle `RteHtmlElement` marks:
 
-`ArticleViewModel.ts` unlike some other examples is utilizing am imported view model called `RteMarkedTextViewModel` which takes the body to parse into text and marks:
+  ```js
+  const HtmlRichTextComponent = ({
+  element,
+  children,
+  }: {
+  element: RteHtmlElement
+  children: ReactNode[]
+  }) => {
+  if (element.name === 'script') return <></> // do nothing with script
 
-```js
-  @JavaMethodParameters()
-  @JavaMethodReturn(RteMarkedTextViewModel)
-  getBody(): RteMarkedTextViewModel {
-    return this.createView(
-      RteMarkedTextViewModel.class,
-      RteMarkedText.getInstanceFromRichText(this.model, this.model.body)
+  const isVoidElement = voidElements.includes(element.name)
+
+  let key = 0
+
+  const attrs = attrHandler(element)
+
+  return React.createElement(
+      element.name,
+      { ...attrs, key: `k-${key++}` },
+      isVoidElement ? null : children
     )
   }
-```
+  ```
+
+- `ImageRichTextComponent` This component is used during traversal to handle `ImageRichTextElement` marks:
+
+  ```js
+  const ImageRichTextComponent = ({
+    markData,
+  }: {
+    markData: ImageRichTextElement,
+  }) => {
+    const { caption, credit, alt } = markData
+
+    let key = 0
+
+    const attrs = imgAttrHandler(markData?.image?.entries, alt)
+
+    return (
+      <span className="image-rte-container">
+        {React.createElement('img', {
+          className: 'image-rte',
+          ...attrs,
+          key: `k-${key++}`,
+        })}
+        <span className="caption">{caption}</span>
+        <span className="credit">{credit}</span>
+      </span>
+    )
+  }
+  ```
+
+- `ExternalContentRichTextComponent` This component is used during traversal to handle `ExternalContentRichTextElement` marks:
+
+  ```js
+  const ExternalContentRichTextComponent = ({
+    markData,
+  }: {
+    markData: ExternalContentRichTextElement,
+  }) => {
+    const { markedHtml, type, title } = markData
+
+    return (
+      <div className="external-rich-text-content-container">
+        <h3>{title}</h3>
+        <h3>Type of Rich Text Element: {type}</h3>
+        {<MarkedTextComponent markedText={markedHtml} />}
+      </div>
+    )
+  }
+  ```
 
 ## Try it yourself
-
-Feel free to use any of the following in this example: bold, italics, underline, superscript, subscript, strikethrough and bullet points. The GraphQL schema in the example above also includes two custom elements:
-
-1. ExternalContentRichTextElement, which works by pasting external links with embeds such as YouTube videos or Flikr images.
-2. ImageRichTextElement, allowing you to create an Image content type and use the image button in the toolbar to add the image to the RTE to later retrieve on the front end.
 
 ## Troubleshooting
 
