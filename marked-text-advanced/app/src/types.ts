@@ -1,4 +1,4 @@
-import { MarkData, MarkedText } from '@brightspot/marked-text'
+import { MarkData } from '@brightspot/marked-text'
 
 export interface RteHtmlElement extends MarkData {
   name: string
@@ -20,17 +20,7 @@ export interface ImageRichTextElement extends MarkData {
   stretched?: string
 }
 
-export interface ExternalContentRichTextElement extends MarkData {
-  type?: string
-  version?: string
-  title?: string
-  authorName?: string
-  authorUrl?: string
-  providerName?: string
-  providerUrl?: string
-  originalUrl?: string
-  thumbnailUrl?: string
-  thumbnailWidth?: number
-  thumbnailHeight?: number
-  markedHtml?: MarkedText
+export interface LinkRichTextElement extends MarkData {
+  href: string
+  target: string
 }

@@ -52,7 +52,6 @@ const attrKey = (k: string) => {
  * Style is unique as the key will be style and one long string as the value, it needs to be broken into another object of key value pairs.
  * @param element {@link RteHtmlElement}
  * @returns Object with key value pairs, with key being the HTML element attribute e.g. href, src and value being the string.
- * The style attribute returns as an object with key being style and value being an object of key value pairs.
  */
 const attrHandler = (element: RteHtmlElement) => {
   const { attributes } = element
@@ -60,6 +59,7 @@ const attrHandler = (element: RteHtmlElement) => {
     const attr: string = attrKey(b.name)
     const attrVal = b.value
     if (attr === 'style') {
+      // The style attribute returns as an object with key being style and value being an object of key value pairs.
       let regex = /([\w-]*)\s*:\s*([^;]*)/g
       let match,
         properties: styleProperties = {}

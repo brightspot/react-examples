@@ -10,8 +10,8 @@ query ArticleMarkQuery {
         descendants
         data {
           ...HtmlElement
-          ...ExternalContentElement
           ...ImageElement
+          ...LinkElement
         }
       }
     }
@@ -27,32 +27,6 @@ fragment HtmlElement on RteHtmlElement {
   }
 }
 
-fragment ExternalContentElement on ExternalContentRichTextElement {
-  __typename
-  type
-  version
-  title
-  authorName
-  authorUrl
-  providerName
-  providerUrl
-  originalUrl
-  thumbnailUrl
-  thumbnailWidth
-  thumbnailHeight
-  markedHtml {
-    text
-    marks {
-      start
-      end
-      descendants
-      data {
-        ...HtmlElement
-      }
-    }
-  }
-}
-          
 fragment ImageElement on ImageRichTextElement {
   __typename
   fileUrl
@@ -65,5 +39,11 @@ fragment ImageElement on ImageRichTextElement {
   }
   caption
   credit
+}
+
+fragment LinkElement on LinkRichTextElement {
+  __typename
+  href
+  target
 }
 `

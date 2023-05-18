@@ -4,7 +4,6 @@ import JavaField from 'brightspot-types/JavaField'
 import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DirectoryItem from 'brightspot-types/com/psddev/cms/db/Directory$Item'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
-import Required from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
 import RichText from 'brightspot-types/com/psddev/cms/db/ToolUi$RichText'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import Site from 'brightspot-types/com/psddev/cms/db/Site'
@@ -19,7 +18,6 @@ export default class Article extends JavaClass(
   DirectoryItem,
   Singleton
 ) {
-  @Required
   @JavaField(String)
   headline: string
 

@@ -4,11 +4,11 @@ import { MarkedText } from '@brightspot/marked-text'
 import {
   RteHtmlElement,
   ImageRichTextElement,
-  ExternalContentRichTextElement,
+  LinkRichTextElement,
 } from '../../types'
-import ExternalContentRichTextComponent from './ExternalContentRichTextComponent'
 import HtmlRichTextComponent from './HtmlRichTextComponent'
 import ImageRichTextComponent from './ImageRichTextComponent'
+import LinkRichTextComponent from './LinkRichTextComponent'
 
 const MarkedTextComponent = ({
   markedText,
@@ -31,18 +31,19 @@ const MarkedTextComponent = ({
                   children={children}
                 />
               )
-            case 'ExternalContentRichTextElement':
-              return (
-                <ExternalContentRichTextComponent
-                  key={key++}
-                  markData={mark.data as ExternalContentRichTextElement}
-                />
-              )
             case 'ImageRichTextElement':
               return (
                 <ImageRichTextComponent
                   key={key++}
                   markData={mark.data as ImageRichTextElement}
+                />
+              )
+            case 'LinkRichTextElement':
+              return (
+                <LinkRichTextComponent
+                  key={key++}
+                  markData={mark.data as LinkRichTextElement}
+                  children={children}
                 />
               )
             default:

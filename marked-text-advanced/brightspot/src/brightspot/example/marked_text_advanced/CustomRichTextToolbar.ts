@@ -13,6 +13,7 @@ import RichTextToolbarSeparator from 'brightspot-types/com/psddev/cms/rte/RichTe
 import RichTextToolbarStyle from 'brightspot-types/com/psddev/cms/rte/RichTextToolbarStyle'
 
 import ImageRichTextElement from './ImageRichTextElement'
+import LinkRichTextElement from './LinkRichTextElement'
 
 export default class CustomRichTextToolbar extends JavaClass(
   'brightspot.example.marked_text_advanced.CustomRichTextToolbar',
@@ -56,7 +57,12 @@ export default class CustomRichTextToolbar extends JavaClass(
       'brightspot.example.marked_text_advanced.ImageRichTextElement'
     ) as unknown as Class<ImageRichTextElement>
 
+    let linkRichTextElement = ClassFinder.getClass(
+      'brightspot.example.marked_text_advanced.LinkRichTextElement'
+    ) as unknown as Class<LinkRichTextElement>
+
     list.add(imageRichTextElement)
+    list.add(linkRichTextElement)
 
     return list
   }
