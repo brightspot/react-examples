@@ -1,16 +1,21 @@
 import React from 'react'
-import { ImageRichTextElement } from '../../types'
+import { ImageRichTextElement, Entry } from '../../types'
 
 const ImageRichTextComponent = ({
   markData,
 }: {
   markData: ImageRichTextElement
 }) => {
-  const { caption, credit, alt } = markData
+  const { caption, credit, alt, image } = markData
+  const { entries } = image
 
   let key = 0
 
-  const attrs = imgAttrHandler(markData?.image?.entries, alt)
+  /**
+   * Function takes in an array of {@link Entry} and a string for the image's alt attribute.
+   * Adds the alt to the the array and then uses a reducer to return one object with key value pairs.
+   */
+  const attrs = imgAttrHandler(entries, alt)
 
   return (
     <span className="image-rte-container">
@@ -32,10 +37,7 @@ const ImageRichTextComponent = ({
  * @param alt Alt string from {@link ImageRichTextElement}
  * @returns Object with key value pairs
  */
-const imgAttrHandler = (
-  entries: { key: string; value: string }[],
-  alt: string | undefined
-) => {
+const imgAttrHandler = (entries: Entry[], alt: string | undefined) => {
   entries.push({ key: 'alt', value: alt ? alt : '' })
 
   return entries.reduce((a, b) => {

@@ -10,10 +10,15 @@ const HtmlRichTextComponent = ({
 }) => {
   if (markData.name === 'script') return <></> // do nothing with script
 
+  // Check if the element is a void element
   const isVoidElement = voidElements.includes(markData.name)
 
   let key = 0
 
+  /**
+   * Parses the {@link HtmlAttribute} array to work well with react
+   * Uses the {@link attrKey} function to convert strings to React convention
+   */
   const attrs = attrHandler(markData.attributes)
 
   return React.createElement(

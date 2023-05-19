@@ -14,16 +14,18 @@ export type ImageRichTextElement = MarkData & {
   fileUrl?: string
   alt?: string
   image: {
-    entries: {
-      key: string
-      value: string
-    }[]
+    entries: Entry[]
   }
   caption?: string
   credit?: string
   withBorder?: string
   withBackground?: string
   stretched?: string
+}
+
+export type Entry = {
+  key: string
+  value: string
 }
 
 export type LinkRichTextElement = MarkData & {
