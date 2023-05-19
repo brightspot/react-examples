@@ -20,10 +20,6 @@ export default class CorsConfigurationEndpoint extends JavaClass(
   ContentDeliveryApiEndpointV1,
   Singleton
 ) {
-  @DisplayName({ value: 'CORS Configuration' })
-  @JavaField(CustomGraphQLCorsConfiguration)
-  corsConfiguration: CustomGraphQLCorsConfiguration
-
   getPaths(): JavaSet<string> {
     return [
       '/graphql/delivery/cors-configuration',
@@ -41,13 +37,13 @@ export default class CorsConfigurationEndpoint extends JavaClass(
   ): void {
     super.updateCorsConfiguration(graphQLCorsConfiguration)
 
-    // Add allowed origins here:
+    // Allowed origins:
     // graphQLCorsConfiguration.addAllowedOrigin('localhost')
 
-    // Add allowed headers here:
+    // Allowed headers:
     // graphQLCorsConfiguration.addAllowedHeader('foo')
 
-    // Set max age to thirty seconds here:
+    // Set max age:
     // graphQLCorsConfiguration.setMaxAge(30)
   }
 
