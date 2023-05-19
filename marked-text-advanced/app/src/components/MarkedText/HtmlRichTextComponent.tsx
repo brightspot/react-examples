@@ -1,23 +1,23 @@
 import React, { ReactNode } from 'react'
-import { RteHtmlElement } from '../../types'
+import { HtmlRichTextElement, HtmlAttribute } from '../../types'
 
 const HtmlRichTextComponent = ({
-  element,
+  markData,
   children,
 }: {
-  element: RteHtmlElement
+  markData: HtmlRichTextElement
   children: ReactNode[]
 }) => {
-  if (element.name === 'script') return <></> // do nothing with script
+  if (markData.name === 'script') return <></> // do nothing with script
 
-  const isVoidElement = voidElements.includes(element.name)
+  const isVoidElement = voidElements.includes(markData.name)
 
   let key = 0
 
-  const attrs = attrHandler(element)
+  const attrs = attrHandler(markData.attributes)
 
   return React.createElement(
-    element.name,
+    markData.name,
     { ...attrs, key: `k-${key++}` },
     isVoidElement ? null : children
   )
@@ -25,7 +25,7 @@ const HtmlRichTextComponent = ({
 
 /**
  * Function used to convert regular html strings to React convention
- * @param k The key used in the {@link RteHtmlElement } attributes array
+ * @param k The key used in the {@link HtmlRichTextElement } attributes array
  * @returns {string} The React camelCased key
  */
 const attrKey = (k: string) => {
@@ -48,17 +48,16 @@ const attrKey = (k: string) => {
 }
 
 /**
- * Function to take the attributes array held within the {@link RteHtmlElement} and return an object for the React Element Props.
- * Style is unique as the key will be style and one long string as the value, it needs to be broken into another object of key value pairs.
- * @param element {@link RteHtmlElement}
+ * Function to take the attributes {@link HtmlAttribute} array and return an object for the React Element Props.
+ * @param element {@link HtmlRichTextElement}
  * @returns Object with key value pairs, with key being the HTML element attribute e.g. href, src and value being the string.
  */
-const attrHandler = (element: RteHtmlElement) => {
-  const { attributes } = element
+const attrHandler = (attributes: HtmlAttribute[]) => {
   return attributes.reduce((a, b) => {
     const attr: string = attrKey(b.name)
     const attrVal = b.value
     if (attr === 'style') {
+      // Style is unique as the key will be style and one long string as the value, it needs to be broken into another object of key value pairs.
       // The style attribute returns as an object with key being style and value being an object of key value pairs.
       let regex = /([\w-]*)\s*:\s*([^;]*)/g
       let match,

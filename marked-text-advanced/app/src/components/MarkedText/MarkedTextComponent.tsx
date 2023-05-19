@@ -2,7 +2,7 @@ import React, { Fragment, ReactNode } from 'react'
 import { markedTextTraversal } from '@brightspot/marked-text'
 import { MarkedText } from '@brightspot/marked-text'
 import {
-  RteHtmlElement,
+  HtmlRichTextElement,
   ImageRichTextElement,
   LinkRichTextElement,
 } from '../../types'
@@ -23,11 +23,11 @@ const MarkedTextComponent = ({
         visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
         visitMark: (mark, children: ReactNode[]) => {
           switch (mark.data.__typename) {
-            case 'RteHtmlElement':
+            case 'HtmlRichTextElement':
               return (
                 <HtmlRichTextComponent
                   key={key++}
-                  element={mark.data as RteHtmlElement}
+                  markData={mark.data as HtmlRichTextElement}
                   children={children}
                 />
               )
