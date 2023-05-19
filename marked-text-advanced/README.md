@@ -4,7 +4,7 @@ Marked Text is a JSON representation of a Brightspot RTE field. It contains all 
 
 > _Note_: If you're new to Marked Text, please refer to the example [Marked Text: Intro](../marked-text).
 
-This example demonstrates querying Marked Text with more complex rich text element types (e.g. images and external content) and rendering them using Brightspot's Marked Text Library.
+This example demonstrates querying Marked Text with more complex rich text element types (e.g. images and link) and rendering them using Brightspot's Marked Text Library.
 
 ## What you will learn
 
@@ -35,15 +35,11 @@ $ yarn
 
 Publish an Article. Once published, the front end will render this article.
 
-For image rich text element select the images icon <img alt="Rich Text Image Icon" src="images/images-icon.png" width=20>.
+To use the added rich text elements within the RTE field:
 
-For external content, copy and paste links to media e.g.:
+- Image rich text element select the images icon <img alt="Rich Text Image Icon" src="images/images-icon.png" width=20>.
 
-Videos from [YouTube](https://www.youtube.com/)
-
-Images from [Flikr](https://www.flickr.com/)
-
-Copy link from [Codepen](https://codepen.io/)
+- Link rich text element, highlight text you would like to link and select the link icon <img alt="Rich Text Link Icon" src="images/link-icon.png" width=20>.
 
 ## How everything works
 
@@ -66,8 +62,8 @@ Copy link from [Codepen](https://codepen.io/)
           descendants
           data {
             ...HtmlElement
-            ...ExternalContentElement
             ...ImageElement
+            ...LinkElement
           }
         }
       }
@@ -80,32 +76,6 @@ Copy link from [Codepen](https://codepen.io/)
     attributes {
       name
       value
-    }
-  }
-
-  fragment ExternalContentElement on ExternalContentRichTextElement {
-    __typename
-    type
-    version
-    title
-    authorName
-    authorUrl
-    providerName
-    providerUrl
-    originalUrl
-    thumbnailUrl
-    thumbnailWidth
-    thumbnailHeight
-    markedHtml {
-      text
-      marks {
-        start
-        end
-        descendants
-        data {
-          ...HtmlElement
-        }
-      }
     }
   }
 
@@ -122,6 +92,13 @@ Copy link from [Codepen](https://codepen.io/)
     caption
     credit
   }
+
+  fragment LinkElement on LinkRichTextElement {
+    __typename
+    target
+    href
+    body
+  }
   ```
 
 #### 2. Render complex rich text elements with the Marked Text Library
@@ -129,114 +106,47 @@ Copy link from [Codepen](https://codepen.io/)
 `marked-text-advanced/app/src/components/MarkedText`
 
 - `MarkedTextComponent` This component passes the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library, it handles which rich-text component to use based on the mark data's type. This is how the callback function for `visitMark` knows what to return:
-  ```js
-  markedTextTraversal(markedText, {
-      visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
-      visitMark: (mark, children: ReactNode[]) => {
-        switch (mark.data.__typename) {
-          case 'RteHtmlElement':
-            return (
-              <HtmlRichTextComponent
-                key={key++}
-                element={mark.data as RteHtmlElement}
-                children={children}
-              />
-            )
-          case 'ExternalContentRichTextElement':
-            return (
-              <ExternalContentRichTextComponent
-                key={key++}
-                markData={mark.data as ExternalContentRichTextElement}
-              />
-            )
-          case 'ImageRichTextElement':
-            return (
-              <ImageRichTextComponent
-                key={key++}
-                markData={mark.data as ImageRichTextElement}
-              />
-            )
-          default:
-            return <Fragment key={key++}></Fragment>
-        }
-      },
-  })
-  ```
-- `HtmlRichTextComponent` This component is used during traversal to handle `RteHtmlElement` marks:
 
-  ```js
-  const HtmlRichTextComponent = ({
-  element,
-  children,
-  }: {
-  element: RteHtmlElement
-  children: ReactNode[]
-  }) => {
-  if (element.name === 'script') return <></> // do nothing with script
+```js
+markedTextTraversal(markedText, {
+  visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
+  visitMark: (mark, children: ReactNode[]) => {
+    switch (mark.data.__typename) {
+      case 'RteHtmlElement':
+        return (
+          <HtmlRichTextComponent
+            key={key++}
+            markData={mark.data as RteHtmlElement}
+            children={children}
+          />
+        )
+      case 'ImageRichTextElement':
+        return (
+          <ImageRichTextComponent
+            key={key++}
+            markData={mark.data as ImageRichTextElement}
+          />
+        )
+      case 'LinkRichTextElement':
+        return (
+          <LinkRichTextComponent
+            key={key++}
+            markData={mark.data as LinkRichTextElement}
+            children={children}
+          />
+        )
+      default:
+        return <Fragment key={key++}></Fragment>
+    }
+  },
+})
+```
 
-  const isVoidElement = voidElements.includes(element.name)
+- [HtmlRichTextComponent](app/src/components/MarkedText/HtmlRichTextComponent.tsx) This component is set up similarly to the render function in Marked Text: Intro, though there are extra helper functions added to deal with the attributes added in this example.
 
-  let key = 0
+- [ImageRichTextComponent](app/src/components/MarkedText/ImageRichTextComponent.tsx) This compenent expect the type `ImageRichTextElement` defined in the [types file](app/src/types.ts) to then destructure the properties to render. Similarly to the `HtmlRichTextComponent`, it has a helper to deal with the property `image.entries` which is an array of keys and values.
 
-  const attrs = attrHandler(element)
-
-  return React.createElement(
-      element.name,
-      { ...attrs, key: `k-${key++}` },
-      isVoidElement ? null : children
-    )
-  }
-  ```
-
-- `ImageRichTextComponent` This component is used during traversal to handle `ImageRichTextElement` marks:
-
-  ```js
-  const ImageRichTextComponent = ({
-    markData,
-  }: {
-    markData: ImageRichTextElement,
-  }) => {
-    const { caption, credit, alt } = markData
-
-    let key = 0
-
-    const attrs = imgAttrHandler(markData?.image?.entries, alt)
-
-    return (
-      <span className="image-rte-container">
-        {React.createElement('img', {
-          className: 'image-rte',
-          ...attrs,
-          key: `k-${key++}`,
-        })}
-        <span className="caption">{caption}</span>
-        <span className="credit">{credit}</span>
-      </span>
-    )
-  }
-  ```
-
-- `ExternalContentRichTextComponent` This component is used during traversal to handle `ExternalContentRichTextElement` marks:
-
-  ```js
-  const ExternalContentRichTextComponent = ({
-    markData,
-  }: {
-    markData: ExternalContentRichTextElement,
-  }) => {
-    const { markedHtml, type, title } = markData
-
-    return (
-      <div className="external-rich-text-content-container">
-        <h3>{title}</h3>
-        <h3>Type of Rich Text Element: {type}</h3>
-        {<MarkedTextComponent markedText={markedHtml} />}
-      </div>
-    )
-  }
-  ```
-
-## Try it yourself
+- [LinkRichTextComponent](app/src/components/MarkedText/LinkRichTextComponent.tsx) This compenent expect the type `LinkRichTextElement` defined in the [types file](app/src/types.ts) to then destructure the properties to render.
 
 ## Troubleshooting
 
