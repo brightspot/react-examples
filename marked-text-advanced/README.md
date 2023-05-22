@@ -103,50 +103,50 @@ To use the added rich text elements within the RTE field:
 
 #### 2. Render complex rich text elements with the Marked Text Library
 
-`marked-text-advanced/app/src/components/MarkedText`
+[app/src/components/MarkedText](app/src/components/MarkedText) directory:
 
-- `MarkedTextComponent` This component passes the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library, it handles which rich-text component to use based on the mark data's type. This is how the callback function for `visitMark` knows what to return:
+- `MarkedTextComponent` This component imports the `markedTextTraversal` function from the Brightspot Marked Text library. This function takes two arguments: the body of the Article returned from the GraphQL API represented as a MarkedText, and an implementation of the Visitor object. The Visitor object contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the MarkedText into the desired output.
 
-```js
-markedTextTraversal(markedText, {
-  visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
-  visitMark: (mark, children: ReactNode[]) => {
-    switch (mark.data.__typename) {
-      case 'RteHtmlElement':
-        return (
-          <HtmlRichTextComponent
-            key={key++}
-            markData={mark.data as RteHtmlElement}
-            children={children}
-          />
-        )
-      case 'ImageRichTextElement':
-        return (
-          <ImageRichTextComponent
-            key={key++}
-            markData={mark.data as ImageRichTextElement}
-          />
-        )
-      case 'LinkRichTextElement':
-        return (
-          <LinkRichTextComponent
-            key={key++}
-            markData={mark.data as LinkRichTextElement}
-            children={children}
-          />
-        )
-      default:
-        return <Fragment key={key++}></Fragment>
-    }
-  },
-})
-```
+  The `visitText` callback is executed when text is reached. The text will always be a leaf node of the tree. Implementations can transform the text into an object of the implementors choosing and return it. If the text has a parent `Mark`, the transformed text will be returned as array item when the parent mark is visited. If null is returned, it will be omitted from the result.
 
-- [HtmlRichTextComponent](app/src/components/MarkedText/HtmlRichTextComponent.tsx) This component is set up similarly to the render function in Marked Text: Intro, though there are extra helper functions added to deal with the attributes added in this example.
+  The `visitMark` callback is executed when a `Mark` is reached. This is a post-order traversal, the children array contains the already visited and transformed `text` and `Mark` nodes. Implementations can transform the `mark` and `children` into an object of the implementors choosing and return it. If the `mark` has a parent `Mark`, the transformed `Mark` will be returned as a an array item when the parent `mark` is visited.
 
-- [ImageRichTextComponent](app/src/components/MarkedText/ImageRichTextComponent.tsx) This compenent expect the type `ImageRichTextElement` defined in the [types file](app/src/types.ts) to then destructure the properties to render. Similarly to the `HtmlRichTextComponent`, it has a helper to deal with the property `image.entries` which is an array of keys and values.
+  In this example, during traversal, when arriving at `visitText`, the text placed within a [React `Fragment`](https://react.dev/reference/react/Fragment). When arriving at `visitMark`, the call back function uses the `__typename` property that is inside of the `data` property of the `mark` to map each possible rich text element to the corresponding Component i.e. `HtmlRichTextComponent`, `ImageRichTextComponent` and `LinkRichTextComponent`:
 
-- [LinkRichTextComponent](app/src/components/MarkedText/LinkRichTextComponent.tsx) This compenent expect the type `LinkRichTextElement` defined in the [types file](app/src/types.ts) to then destructure the properties to render.
+  ```js
+  markedTextTraversal(markedText, {
+    visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
+    visitMark: (mark, children: ReactNode[]) => {
+      switch (mark.data.__typename) {
+        case 'RteHtmlElement':
+          return (
+            <HtmlRichTextComponent
+              key={key++}
+              markData={mark.data as RteHtmlElement}
+              children={children}
+            />
+          )
+        case 'ImageRichTextElement':
+          return (
+            <ImageRichTextComponent
+              key={key++}
+              markData={mark.data as ImageRichTextElement}
+            />
+          )
+        case 'LinkRichTextElement':
+          return (
+            <LinkRichTextComponent
+              key={key++}
+              markData={mark.data as LinkRichTextElement}
+              children={children}
+            />
+          )
+        default:
+          return <Fragment key={key++}></Fragment>
+      }
+    },
+  })
+  ```
 
 ## Troubleshooting
 
