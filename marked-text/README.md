@@ -159,24 +159,35 @@ Brightspot provides a function that makes it easy to render the Marked Text data
 
 The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
 
-- The function `markedTextTraversal` accepts a Marked Text object and a Visitor object as input. The visitor object is used during a [post order](https://www.geeksforgeeks.org/iterative-postorder-traversal) tree traversal algorithm on the Marked Text object, and invokes the visitor's callback methods to transform the nodes of the tree. It returns an array of transformed root nodes based on the visitor's implementation.
+- `markedTextTraversal` takes two arguments:
 
-- [Article](app/src/components/Article.tsx#L73) This component makes a call to the endpoint to return the article. The return is passing the body of the Article (MarkedText) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library.
+  - MarkedText returned from the GraphQL API, this is the body of the Article in this example.
+  - The Visitor object which contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the MarkedText into the desired output.
 
-```js
-markedTextTraversal(article?.articleData?.body, {
-  visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
-  visitMark: (mark, children: ReactNode[]) => {
-    const element = mark.data as RteHtmlElement
+  The `visitText` callback is triggered when reaching text, which is always a leaf node. It allows implementations to convert the text into an object of their choice and return it. If the text has a parent `Mark`, the transformed text will be included as an array item when visiting the parent mark. If null is returned, it will be excluded from the result.
 
-    return React.createElement(
-      element.name,
-      { key: `k-${key++}` },
-      children
-    )
-  },
-})
-```
+  The `visitMark` callback is executed when a `Mark` is encountered during traversal. It follows a post-order traversal, the `children` array contains the `text` and `Mark` nodes that have been visited and trans formed. Implementations have the flexibility to convert the `Mark` and its children into an object of their choosing and return it. If the current `Mark` has a parent `Mark`, the transformed `Mark` will be included as an item in the `children` array when visiting the parent `Mark`.
+
+[Article Component](app/src/components/Article.tsx#L73)
+
+- This component makes a call to the endpoint to return the published Article. The return is passing MarkedText (the Article body) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library.
+
+  In this example, during the traversal, when reaching the visitText callback, the text is encapsulated within a [React `Fragment`](https://react.dev/reference/react/Fragment). When arriving at `visitMark`, the call back function is taking the `data` property within `mark` and using type assertion to treat this property as a `RteHtmlElement`. It then uses React [`createElement`](https://react.dev/reference/react/createElement) to return a React element using the `name` property for the element name, assigns a key and passes its `children`, an array of previously transformed`ReactNode`.
+
+  ```js
+  markedTextTraversal(article?.articleData?.body, {
+    visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
+    visitMark: (mark, children: ReactNode[]) => {
+      const element = mark.data as RteHtmlElement
+
+      return React.createElement(
+        element.name,
+        { key: `k-${key++}` },
+        children
+      )
+    },
+  })
+  ```
 
 Output:
 
@@ -184,7 +195,7 @@ Output:
 <p>The <b><i>quick</i> <u>brown</u> fox </b>jumps over the <b><i>lazy</i> dog</b>.</p>
 ```
 
-Additionally, by providing a unified and customizable interface for traversing and transforming Marked Text, this function can simplify the integration of Marked Text with React or any other front-end library or framework.
+Additionally, by providing a unified and customizable interface for traversing and transforming Marked Text, the `markedTextTraversal` function can simplify the integration of Marked Text with React or any other front-end library or framework.
 
 ## Troubleshooting
 
