@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { LinkRichTextElement } from '../../types'
+import { LinkRichTextElement } from '../../generated'
 
 const LinkRichTextComponent = ({
   markData,

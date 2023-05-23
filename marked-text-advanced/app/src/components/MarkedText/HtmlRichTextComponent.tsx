@@ -1,28 +1,33 @@
 import React, { ReactNode } from 'react'
-import { HtmlRichTextElement, HtmlAttribute } from '../../types'
+import { RteHtmlElement, RteHtmlAttribute } from '../../generated'
 
 const HtmlRichTextComponent = ({
   markData,
   children,
 }: {
-  markData: HtmlRichTextElement
+  markData: RteHtmlElement
   children: ReactNode[]
 }) => {
   if (markData.name === 'script') return <></> // do nothing with script
 
   // Check if the element is a void element
-  const isVoidElement = voidElements.includes(markData.name)
+  const isVoidElement = markData.name
+    ? voidElements.includes(markData.name)
+    : false
 
   let key = 0
 
   /**
-   * Parses the {@link HtmlAttribute} array to work well with react
+   * Parses the {@link RteHtmlAttribute} array to work well with react
    * Uses the {@link attrKey} function to convert strings to React convention
    */
-  const attrs = attrHandler(markData.attributes)
+  const attrs =
+    markData?.attributes && markData?.attributes.length > 0
+      ? attrHandler(markData.attributes as RteHtmlAttribute[])
+      : []
 
   return React.createElement(
-    markData.name,
+    markData.name as string,
     { ...attrs, key: `k-${key++}` },
     isVoidElement ? null : children
   )
@@ -30,7 +35,7 @@ const HtmlRichTextComponent = ({
 
 /**
  * Function used to convert regular html strings to React convention
- * @param k The key used in the {@link HtmlRichTextElement } attributes array
+ * @param k The key used in the {@link RteHtmlElement } attributes array
  * @returns {string} The React camelCased key
  */
 const attrKey = (k: string) => {
@@ -53,13 +58,13 @@ const attrKey = (k: string) => {
 }
 
 /**
- * Function to take the attributes {@link HtmlAttribute} array and return an object for the React Element Props.
- * @param element {@link HtmlRichTextElement}
+ * Function to take the attributes {@link RteHtmlAttribute} array and return an object for the React Element Props.
+ * @param element {@link RteHtmlElement}
  * @returns Object with key value pairs, with key being the HTML element attribute e.g. href, src and value being the string.
  */
-const attrHandler = (attributes: HtmlAttribute[]) => {
+const attrHandler = (attributes: RteHtmlAttribute[]) => {
   return attributes.reduce((a, b) => {
-    const attr: string = attrKey(b.name)
+    const attr: string = attrKey(b.name as string)
     const attrVal = b.value
     if (attr === 'style') {
       // Style is unique as the key will be style and one long string as the value, it needs to be broken into another object of key value pairs.
@@ -67,8 +72,8 @@ const attrHandler = (attributes: HtmlAttribute[]) => {
       let regex = /([\w-]*)\s*:\s*([^;]*)/g
       let match,
         properties: styleProperties = {}
-      match = regex.exec(attrVal)
-      while ((match = regex.exec(attrVal)))
+      match = regex.exec(attrVal as string)
+      while ((match = regex.exec(attrVal as string)))
         properties[match[1]] = match[2].trim()
       return { ...a, [attr]: properties }
     }
