@@ -166,7 +166,7 @@ The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
 
   The `visitText` callback is triggered when reaching text, which is always a leaf node. It allows implementations to convert the text into an object of their choice and return it. If the text has a parent `Mark`, the transformed text will be included as an array item when visiting the parent mark. If null is returned, it will be excluded from the result.
 
-  The `visitMark` callback is executed when a `Mark` is encountered during traversal. It follows a post-order traversal, the `children` array contains the `text` and `Mark` nodes that have been visited and trans formed. Implementations have the flexibility to convert the `Mark` and its children into an object of their choosing and return it. If the current `Mark` has a parent `Mark`, the transformed `Mark` will be included as an item in the `children` array when visiting the parent `Mark`.
+  The `visitMark` callback is executed when a `Mark` is encountered during traversal. It follows a [post-order](https://www.geeksforgeeks.org/iterative-postorder-traversal) traversal, the `children` array contains the `text` and `Mark` nodes that have been visited and transformed. Implementations have the flexibility to convert the `Mark` and its children into an object of their choosing and return it. If the current `Mark` has a parent `Mark`, the transformed `Mark` will be included as an item in the `children` array when visiting the parent `Mark`.
 
 [Article Component](app/src/components/Article.tsx#L73)
 
