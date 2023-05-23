@@ -31,6 +31,12 @@ $ yarn
 ✨ Done in 5.03s.
 ```
 
+Generate types:
+
+```sh
+$ yarn codegen
+```
+
 ## Using the example application
 
 Publish an Article. Once published, the front end will render this article.
@@ -107,11 +113,7 @@ To use the added rich text elements within the RTE field:
 
 - `MarkedTextComponent` This component imports the `markedTextTraversal` function from the Brightspot Marked Text library. This function takes two arguments: the body of the Article returned from the GraphQL API represented as a MarkedText, and an implementation of the Visitor object. The Visitor object contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the MarkedText into the desired output.
 
-  The `visitText` callback is triggered when reaching text, which is always a leaf node. It allows implementations to convert the text into an object of their choice and return it. If the text has a parent `Mark`, the transformed text will be included as an array item when visiting the parent mark. If null is returned, it will be excluded from the result.
-
-  The `visitMark` callback is triggered when encountering a `Mark`. It follows a post-order traversal, meaning the children array contains the already visited and transformed `text` and `Mark` nodes. Implementations can convert the `mark` and children into an object of their choice and return it. If the `mark` has a parent `Mark`, the transformed `Mark` will be included as an array item when visiting the parent `mark`.
-
-  In this example, during the traversal, when reaching the visitText callback, the text is encapsulated within a [React `Fragment`](https://react.dev/reference/react/Fragment). When arriving at `visitMark`, the call back function uses the `__typename` property that is inside of the `data` property of the `mark` to map each possible rich text element to the corresponding Component i.e. `HtmlRichTextComponent`, `ImageRichTextComponent` and `LinkRichTextComponent`:
+  In this example, during traversal, when reaching the visitText callback, the text is encapsulated within a [React `Fragment`](https://react.dev/reference/react/Fragment). When arriving at `visitMark`, the call back function uses the `__typename` property that is inside of the `data` property of the `mark` to map each possible rich text element to the corresponding Component i.e. `HtmlRichTextComponent`, `ImageRichTextComponent` and `LinkRichTextComponent`:
 
   ```js
   markedTextTraversal(markedText, {
