@@ -155,7 +155,7 @@ Produces the following Marked Text object from the body of the API response:
 }
 ```
 
-Brightspot provides a function that makes it easy to render the Marked Text data structure.
+Brightspot provides a function to render the Marked Text data structure.
 
 The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
 
@@ -164,9 +164,15 @@ The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
   - MarkedText returned from the GraphQL API, this is the body of the Article in this example.
   - The Visitor object which contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the MarkedText into the desired output.
 
-  The `visitText` callback is triggered when reaching text, which is always a leaf node. It allows implementations to convert the text into an object of their choice and return it. If the text has a parent `Mark`, the transformed text will be included as an array item when visiting the parent mark. If null is returned, it will be excluded from the result.
+  `markedTextTraversal` processes the MarkedText data structure. The first step in this process involves converting the original structure into a tree structure, similar to the Document Object Model [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction). After this conversion, the function traverses this newly created tree using a [post-order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal). The function starts the transformation process from the most deeply nested node in the tree, moving upwards and outwards. This implies that the innermost elements are processed first, before the function deals with their parent nodes.
 
-  The `visitMark` callback is executed when a `Mark` is encountered during traversal. It follows a [post-order](https://www.geeksforgeeks.org/iterative-postorder-traversal) traversal, the `children` array contains the `text` and `Mark` nodes that have been visited and transformed. Implementations have the flexibility to convert the `Mark` and its children into an object of their choosing and return it. If the current `Mark` has a parent `Mark`, the transformed `Mark` will be included as an item in the `children` array when visiting the parent `Mark`.
+  The `visitText` callback function is called when the traversal reaches a piece of text, which, in this context, is always a leaf node within the tree structure. The implentor can transform this text as they see fit into an object of any chosen type, which it then returns. If the text is nested within a parent `Mark`, the `visitText` callback transforms the text into a new object by the callback, this transformed `text` object will be included within the `children` array when the traversal ascends to and processes the parent `Mark`. This allows the transformed text to be associated directly with its parent `Mark`. If the `visitText` callback returns `null`, it will be completely excluded from the final result.
+
+  The `visitMark` callback is triggered whenever the traversal process encounters a `Mark` within the tree structure. It has access to a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far. If a `Mark` node has child nodes - whether they are `text` nodes or other `Mark` nodes - those child nodes will have been processed and their transformed versions will be stored in the `children` array at the time `visitMark` is called.
+
+  If the current `Mark` being processed by `visitMark` has a parent `Mark`, the transformation of the current `Mark` isn't completely finished yet. The transformed version of the current `Mark` is included as an item in the `children` array of its parent `Mark` when `visitMark` eventually visits that parent `Mark`.
+
+  This ensures that the hierarchy of `Mark` nodes and their child nodes is maintained even after transformation. Each `Mark` will contain its child nodes (whether `text` or `Mark` nodes) within its `children` array, which creates a nested, tree-like structure in the final output.
 
 [Article Component](app/src/components/Article.tsx#L73)
 
