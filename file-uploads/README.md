@@ -1,7 +1,7 @@
 # File Uploads
-Since the official GraphQL specification does not mention file uploading, Brightspot's [Content Management API (CMA)](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/hello-content-management-api) implements a popular community extension to the [GraphQL multipart request specification](https://github.com/jaydenseric/graphql-multipart-request-spec).
+Since the official GraphQL specification does not mention file uploading, Brightspot's [Content Management API (CMA)](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/hello-content-management-api) implements the [GraphQL multipart request specification](https://github.com/jaydenseric/graphql-multipart-request-spec), a multipart form field structure for GraphQL requests used in various file upload client/server implementations.
 
-This example demonstrates uploading files from a front-end application to Brightspot using a [Content Management API (CMA)](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/hello-content-management-api) endpoint, since uploading files is GraphQL mutation (an update or deletion of data). This example use the [apollo-upload-client](https://github.com/jaydenseric/apollo-upload-client) package.  
+This example demonstrates uploading files from a front-end application to Brightspot using a CMA endpoint, since uploading files is a GraphQL mutation (an update or deletion of data). This example uses the [apollo-upload-client](https://github.com/jaydenseric/apollo-upload-client) package.  
 ## What you will learn
 1. [Upload files to Brightspot using GraphQL](#1-Upload-files-to-Brightspot-using-GraphQL).
 2. [Fields provided from the Brightspot GraphQL API when using the Storage Item field type](#2-Fields-provided-from-the-Brightspot-GraphQL-API-when-using-th-Storage-Item-field-type).
@@ -42,10 +42,13 @@ The React app opens automatically in the browser.
 ## Using the example application
 The front-end application displays **Image** items stored in Brightspot. 
 
-Once you have the front-end application running, select an image to upload. 
-1. Click **Upload Image** in the browser. 
-2. You should see your image appear. If you select a file that is not an image, Brightspot returns an error in the browser. You can delete uploaded images by clicking the **X** on the top right of the image card. 
-3. Click on the information icon on the top left of the image card to view metadata for the image.
+Once you have the front-end application running, select an image to upload using the Image Upload form. 
+1. Select either **Image File** or **Image URL** from the form dropdown menu.
+1. If you select **Image File**, click **Select Image**, then **Submit** to upload an image. If you select file that is not an image, an error message appears on the page.
+2. If you select **Image URL**, enter an image url in the **Enter Image URL** field, then click **Submit**. The same error appears if the URL isn't for an image. 
+3. Optional: add a name in the **Name** field before submitting the Image Upload form. If no name is provided, a default name will be given.
+3. Click the **X** on the top right of the image card to delete the uploaded image. 
+4. Click on the information icon on the top left of the image card to view metadata for the image.
  
 ## How everything works
 
@@ -60,7 +63,9 @@ To upload files to Brightspot, use the `StorageItem` field type for the respecti
   file: StorageItem
 ```
 
-In the front-end application, use the `createUploadLink` provided from the apollo-upload-client package. This function creates a terminating Apollo Link for Apollo Client that fetches a GraphQL multipart request if the GraphQL variables contain files. 
+Any field that is a `StorageItem` field type will have a `url` and `file` GraphQL input field available, making it possible to upload a file using the file URL or by uploading the file directly. 
+
+In the front-end application, use the `createUploadLink` function provided from the apollo-upload-client package. This function creates a [terminating Apollo Link](https://www.apollographql.com/docs/react/api/link/introduction/#the-terminating-link) for Apollo Client that fetches a GraphQL multipart request if the GraphQL variables contain files. 
 
 [index.tsx](./app/src/index.tsx)
 
@@ -68,15 +73,15 @@ In the front-end application, use the `createUploadLink` provided from the apoll
 const link = createUploadLink({
   uri: process.env.REACT_APP_GRAPHQL_URL,
   headers: {
-    'X-Client-ID': process.env.REACT_APP_CLIENT_ID,
+    'X-Client-ID': process.env.REACT_APP_CLIENT_ID,  //  client id and secret are required for any CMA endpoint
     'X-Client-Secret': process.env.REACT_APP_CLIENT_SECRET,
   },
-}) as unknown as ApolloLink
+}) 
 ```
 
 Refer to the [Brightspot Documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/uploading-files-in-brightspot-content-management-api) for an example of uploading a file with a CMA endpoint without using Apollo Client.
 
-> **_Note_** This is purely an example application. In your production environment, it is important to hide API Keys that are used for the CMA endpoint. 
+> **_Note_** This is purely an example application. In your production environment, it is important to hide API Keys that are used for the CMA endpoint.
 
 ### 2. Fields provided from the Brightspot GraphQL API when using the Storage Item field type
 
@@ -84,7 +89,7 @@ To view the available fields provided when using the `StorageItem` field type, u
 
 | Storage Item GraphQL Fields                                            |
 | -------------------------------------------------------- |
-| <img  height=600 alt="Storage Item GraphQL Fields" src="images/storage-item-fields.png"> |
+| <img  height=600 alt="Storage Item GraphQL Fields" src="docs/images/storage-item-fields.png"> |
 
 
 
@@ -129,9 +134,11 @@ query MyQuery {
 
 You can also view metadata for an Image by selecting a published Image item from the dashboard, then clicking on the ellipsis icon (**•••**) on the top right of the image, then selecting **Source Data**. 
 
+> **_Note_** Metadata for an image is only provided when the image is uploaded using the `file` input field. 
+
 ### 3. Use MIME Type annotations for limiting file upload types
 
-To specify the MIME Type for a file upload, use the `@MimeTypes` annotation:
+To specify the MIME Type for a file upload in Brightspot, use the `@MimeTypes` annotation:
 
 [Image.tsx](./brightspot/src/brightspot/example/file_uploads/Image.ts)
 
@@ -142,6 +149,7 @@ To specify the MIME Type for a file upload, use the `@MimeTypes` annotation:
 ```
 
 This annotation specifies valid MIME types for the target StorageItem field using the [SparseSet](https://artifactory.psdops.com/psddev-releases/com/psddev/dari-util/3.3.607-xe0f27a/dari-util-3.3.607-xe0f27a-javadoc.jar!/com/psddev/dari/util/SparseSet.html) representation.
+
 
 ## Try it yourself
 The following is a suggestion for learning more about file uploads with JS Classes and Brightspot:
