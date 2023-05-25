@@ -168,19 +168,19 @@ The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
 
   The `visitText` function is called when the traversal reaches a block of text (which is always a leaf node in the tree structure). The text is passed as a string argument to the function allowing the implementor to optionally transform it and return a different value.
 
-  > _Note_: The value returned will be a part of the children array passed to the visitMark function below.
+  The `visitMark` callback is triggered whenever the traversal process encounters a `Mark` within the tree structure. It has access to the current `Mark` and a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far.
 
-  The `visitMark` callback is triggered whenever the traversal process encounters a `Mark` within the tree structure. It has access to the current `Mark` and a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far. It is for this reason that the `visitText` implementation converts the string into a [React Fragment](https://react.dev/reference/react/Fragment), so that all of the items in the `children` array are React elements to easily pass to the [React createElement](https://react.dev/reference/react/createElement) API.
-
-  If the current `Mark` being processed by `visitMark` has a parent `Mark`, the transformation of the current `Mark` isn't completely finished yet. The transformed version of the current `Mark` is included as an item in the `children` array of its parent `Mark` when `visitMark` eventually visits that parent `Mark`.
-
-  This ensures that the hierarchy of `Mark` nodes and their child nodes is maintained even after transformation. Each `Mark` will contain its child nodes (whether `text` or `Mark` nodes) within its `children` array, which creates a nested, tree-like structure in the final output.
+  > _**Note**_: The value returned from both `visitText` and `visitMark` will be an item in the `children` array of their respective parent node.
 
 [Article Component](app/src/components/Article.tsx#L73)
 
 - This component makes a call to the endpoint to return the published Article. The return is passing MarkedText (the Article body) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library.
 
-  In this example, during the traversal, when reaching the visitText callback, the text is encapsulated within a React `Fragment`. When arriving at `visitMark`, the call back function is taking the `data` property within `mark` and using type assertion to treat this property as a `RteHtmlElement`. It then uses React createElement to return a React element using the `name` property for the element name, assigns a key and passes its `children`, an array of previously transformed `ReactNode`.
+  In this example, during the traversal, the visitText callback converts the string into a [React Fragment](https://react.dev/reference/react/Fragment) and returns it. This conversion makes it simple to then use the [React createElement](https://react.dev/reference/react/createElement) API to pass this value as a child in the `children` array.
+
+  When arriving at `visitMark`, the call back function is taking the `data` property within `mark` and using type assertion to treat this property as a `RteHtmlElement`.
+
+  It then uses `React.createElement` to return a React element using the `name` property for the element name, assigns a key and passes its `children`, an array of previously transformed `ReactNode`.
 
   ```js
   markedTextTraversal(article?.articleData?.body, {
@@ -197,7 +197,7 @@ The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
   })
   ```
 
-Output:
+Example Output:
 
 ```
 <p>The <b><i>quick</i> <u>brown</u> fox </b>jumps over the <b><i>lazy</i> dog</b>.</p>
