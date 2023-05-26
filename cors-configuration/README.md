@@ -39,7 +39,7 @@ The front-end app on start up displays **Loading...**. Open the developer consol
 
 This is a common error that occurs when a server and a front-end application are hosted on different domains and the front-end application’s domain has not been added to the server’s allowed origins list.
 
-Update the [CORS Configuration](brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts) endpoint by adding the following code under the `Allowed origins` comment or uncomment the code within the file:
+Update the [CORS Configuration](brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts) endpoint by adding the following code under the _"Allowed origins"_ comment or uncomment the code within the file:
 
 ```js
 graphQLCorsConfiguration.addAllowedOrigin('localhost')
@@ -53,7 +53,7 @@ Start up your front-end application or refresh if it is still running.
 
 The same origin error no longer appears, the same origin issue is resolved. However, the front-end application’s request header is being blocked.
 
-Update the [CORS Configuration](brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts) endpoint once again by adding the following code under the `Allowed headers` comment or uncomment the code within the file:
+Update the [CORS Configuration](brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts) endpoint once again by adding the following code under the _"Allowed headers"_ comment or uncomment the code within the file:
 
 ```js
 graphQLCorsConfiguration.addAllowedHeader('foo')
@@ -81,7 +81,7 @@ To avoid having to make preflight request when making the same request, Brightsp
 
 Edit the following file the Edit the [CORS configuration endpoint](brightspot/src/brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts):
 
-Update the [CORS Configuration](brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts) endpoint one last time by adding the following code under the `Set max age` comment or uncomment the code within the file:
+Update the [CORS Configuration](brightspot/example/cors_configuration/CorsConfigurationEndpoint.ts) endpoint one last time by adding the following code under the _"Set max age"_ comment or uncomment the code within the file:
 
 ```js
 graphQLCorsConfiguration.setMaxAge(30)
@@ -107,18 +107,15 @@ Start up your front-end application again or refresh if it is still running. Ope
 
   ```js
   updateCorsConfiguration(
-      graphQLCorsConfiguration: GraphQLCorsConfiguration
+    graphQLCorsConfiguration: GraphQLCorsConfiguration
   ): void {
-      super.updateCorsConfiguration(graphQLCorsConfiguration)
+    super.updateCorsConfiguration(graphQLCorsConfiguration)
 
-      // Add allowed origins here:
-      // graphQLCorsConfiguration.addAllowedOrigin('localhost')
+    graphQLCorsConfiguration.addAllowedOrigin('localhost')
 
-      // Add allowed headers here:
-      // graphQLCorsConfiguration.addAllowedHeader('foo')
+    graphQLCorsConfiguration.addAllowedHeader('foo')
 
-      // Set max age to thirty seconds here:
-      // graphQLCorsConfiguration.setMaxAge(30)
+    graphQLCorsConfiguration.setMaxAge(30)
   }
   ```
 
