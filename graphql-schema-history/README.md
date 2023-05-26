@@ -2,15 +2,13 @@
 
 GraphQL endpoints are versionless, clients can request data without specifying a specific version number. While it is [recommended](https://graphql.org/learn/best-practices/#versioning) to evolve schemas without introducing breaking changes, it is still possible for them to occur. Therefore, it is important to have a process in place for detecting changes and potential problems as the schema evolves.
 
-Following schemas should evolve without breaking changes. However, breaking changes can still occur. As a schema evolves, it is best to have a process to detect changes and any potential problems.
-
-Brightspot stores a record whenever a schema changes that can be viewed in Brightspot. This example demonstrates how to track changes to schemas and compare versions of the schema programmatically. The front-end application uses [GraphQL Inspector](https://www.the-guild.dev/graphql/inspector/docs/introduction) to view schema changes before updating any code (helping you catch any breaking changes), and also [Codegen](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to generate types based on the most up-to-date schema.
+Brightspot stores a record whenever a schema changes that can be viewed in Brightspot. This example demonstrates how to track changes to schemas and compare schema history programmatically. The front-end application uses [GraphQL Inspector](https://www.the-guild.dev/graphql/inspector/docs/introduction) to view schema changes before updating any code (helping you catch any breaking changes), and also [Codegen](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to generate types based on the most up-to-date schema.
 
 ## What you will learn
 
 1. [Create an endpoint that exposes the schema history data](#1-create-an-endpoint-that-exposes-the-schema-history-data)
 2. [Retrieve the schema data](#2-retrieve-the-schema-history-data)
-3. [Compare schema versions programatically](#3-compare-graphql-schema-versions-via-graphql-inspector)
+3. [Compare schema versions programmatically](#3-compare-graphql-schema-versions-via-graphql-inspector)
 
 ## Running the example application
 
@@ -58,7 +56,7 @@ You can now view schema-history in the browser.
 
 ## Using the example application
 
-At startup, there is one schema. It gets generated after running Codegen successfully in the `app/schemas` directory, named `originalSchema.graphql`. GraphQL Inspector requires two schemas in order to run a comparison and detect changes.
+At startup, there is one schema. It gets generated after running Codegen successfully in the `app/schemas` directory and is named `originalSchema.graphql`. GraphQL Inspector requires two schemas in order to run a comparison and detect changes.
 
 ### Step 1: Generating the second schema
 
@@ -66,7 +64,7 @@ Brightspot's GraphQL APIs are generated dynamically based on your content type d
 
 Make the following arbitrary changes to the [Movie view model](brightspot/src/brightspot/example/schema_history/MovieViewModel.ts):
 
-**Edit:** Change the method name `getDescription()` to `getPlot()`:
+Change the method name `getDescription()` to `getPlot()`:
 
 ```js
   @JavaMethodParameters()
@@ -76,7 +74,7 @@ Make the following arbitrary changes to the [Movie view model](brightspot/src/br
   }
 ```
 
-Uncomment the following methods:
+Add the following code or uncomment the code already within the file under the `Add New Fields` comment:
 
 ```js
   @JavaMethodParameters()
@@ -92,7 +90,7 @@ Uncomment the following methods:
   }
 ```
 
-Upload your Brightspot types once again. This will generate another schema that gets added to Brightspots schema history and will be the most up-to-date version.
+Upload your Brightspot types once again. This will generate another schema that gets added to Brightspot's schema history and will be the most up-to-date version.
 
 ### Step 2: Compare the schemas
 
@@ -110,7 +108,7 @@ This gets the latest schema from the history endpoint and compares it against th
 
 Example Output:
 
-```gql
+```
 [
   {
     type: 'FIELD_ADDED',
@@ -184,7 +182,7 @@ To expose the schema history to an endpoint, `GraphQLSchemaHistory` must be adde
 
 Firstly, you need to write a query that returns the schema versions you want to compare.
 
-To filter the required schemas, the example queries a specific endpoint using its label, organizes the retrieved history changes by timestamp and queries only for the `schema` field, within the `schema` field, the `publicUrl` field.
+To filter the required schemas, the example queries a specific endpoint using its label, organizes the retrieved history changes by timestamp and queries only for the `schema` field and the `publicUrl` field underneath.
 
 The `publicUrl` field is integral as this is where the schema itself is stored.
 

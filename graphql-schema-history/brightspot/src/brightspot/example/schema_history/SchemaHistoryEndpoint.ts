@@ -16,7 +16,7 @@ export default class SchemaHistoryEndpoint extends JavaClass(
   [`getEntryFields()`](): List<ContentManagementEntryPointField> {
     let schemaClass = new ContentManagementEntryPointField(
       GraphQLSchemaVersion.class,
-      true
+      false
     )
 
     return [schemaClass] as unknown as List<ContentManagementEntryPointField>

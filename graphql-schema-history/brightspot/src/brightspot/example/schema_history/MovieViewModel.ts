@@ -24,6 +24,7 @@ export default class MovieViewModel extends JavaClass(
     return this.model.description
   }
 
+  // Add New Fields:
   // @JavaMethodParameters()
   // @JavaMethodReturn(Number)
   // getReleaseYear(): number {
