@@ -71,9 +71,9 @@ const ArticleMarkQuery = `
 
 A look at the following rich text editor field:
 
-| Rich Text Editor Field                                                   |
-| ------------------------------------------------------------------------ |
-| <img alt="Rich Text Editor Field" src="images/rich-text-screenshot.png"> |
+| Rich Text Editor Field                                                        |
+| ----------------------------------------------------------------------------- |
+| <img alt="Rich Text Editor Field" src="docs/images/rich-text-screenshot.png"> |
 
 Produces the following Marked Text object from the body of the API response:
 
@@ -166,9 +166,9 @@ The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
 
   `markedTextTraversal` processes the MarkedText data structure. The first step in this process involves converting the original structure into a tree structure, similar to the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction). After this conversion, the function traverses this newly created tree using a [post-order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal). The function starts the transformation process from the most deeply nested node in the tree, moving upwards and outwards. This implies that the innermost elements are processed first, before the function deals with their parent nodes.
 
-  The `visitText` function is called when the traversal reaches a block of text (which is always a leaf node in the tree structure). The text is passed as a string argument to the function allowing the implementor to optionally transform it and return a different value.
+  The `visitText` callback is triggered when the traversal reaches a block of text (which is always a leaf node). The text is passed as a string argument to the function allowing the implementor to optionally transform it and return a different value.
 
-  The `visitMark` callback is triggered whenever the traversal process encounters a `Mark` within the tree structure. It has access to the current `Mark` and a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far.
+  The `visitMark` callback is triggered when the traversal process encounters a `Mark`. It has access to the current `Mark` and a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far.
 
   > _**Note**_: The value returned from both `visitText` and `visitMark` will be an item in the `children` array of their respective parent node.
 
@@ -179,6 +179,21 @@ The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
   In this example, during the traversal, the visitText callback converts the string into a [React Fragment](https://react.dev/reference/react/Fragment) and returns it. This conversion makes it simple to then use the [React createElement](https://react.dev/reference/react/createElement) API to pass this value as a child in the `children` array.
 
   When arriving at `visitMark`, the call back function is taking the `data` property within `mark` and using type assertion to treat this property as a `RteHtmlElement`.
+
+  _Example of a single mark_:
+
+  ```json
+  ...
+    {
+    "start": 4,
+    "end": 19,
+    "descendants": 2,
+    "data": {
+      "__typename": "RteHtmlElement",
+      "name": "b"
+    },
+  ...
+  ```
 
   It then uses `React.createElement` to return a React element using the `name` property for the element name, assigns a key and passes its `children`, an array of previously transformed `ReactNode`.
 
