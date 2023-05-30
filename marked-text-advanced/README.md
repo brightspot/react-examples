@@ -111,7 +111,7 @@ To use the added rich text elements within the RTE field:
 
 [app/src/components/MarkedText](app/src/components/MarkedText) directory:
 
-- `MarkedTextComponent` This component imports the `markedTextTraversal` function from the Brightspot Marked Text library. This function takes two arguments: the body of the Article returned from the GraphQL API represented as a MarkedText, and an implementation of the Visitor object. The Visitor object contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the MarkedText into the desired output.
+- [MarkedTextComponent](<(app/src/components/MarkedText/MarkedTextComponent.tsx)>) This component imports the `markedTextTraversal` function from the Brightspot Marked Text library. This function takes two arguments: the body of the Article returned from the GraphQL API represented as a MarkedText, and an implementation of the Visitor object. The Visitor object contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the MarkedText into the desired output.
 
   In this example, during traversal, when reaching the visitText callback, the text is encapsulated within a [React `Fragment`](https://react.dev/reference/react/Fragment). When arriving at `visitMark`, the call back function uses the `__typename` property that is inside of the `data` property of the `mark` to map each possible rich text element to the corresponding Component i.e. `HtmlRichTextComponent`, `ImageRichTextComponent` and `LinkRichTextComponent`:
 
@@ -149,6 +149,11 @@ To use the added rich text elements within the RTE field:
     },
   })
   ```
+
+- [HtmlRichTextComponent](app/src/components/MarkedText/HtmlRichTextComponent.tsx) This component uses helper functions to check if `markData` contains a void element, merge attributes into a single key-value object, and convert attribute strings into [React-compliant camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things).
+- [ImageRichTextElement](app/src/components/MarkedText/ImageRichTextElement.tsx) This component has a similar helper function as `HtmlRichTextComponent` to merge image attributes into a single key-value object.
+
+> **_Note_**: The `HtmlRichTextComponent` and [`LinkRichTextElement`](app/src/components/MarkedText/LinkRichTextElement.tsx) are passed `children` and `ImageRichTextElement` does not. This changes based on your rich text element, whether they should ever have children or not.
 
 ## Troubleshooting
 
