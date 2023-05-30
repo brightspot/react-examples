@@ -28,7 +28,7 @@ import Image from './Image'
 })
 @IconName({ value: 'photo' })
 export default class ImageRichTextElement extends JavaClass(
-  'brightspot.example.marked_text_advanced.ImageRichTextElement',
+  'brightspot.example.marked_text_advanced.rich_text.elements.ImageRichTextElement',
   RichTextElement
 ) {
   @JavaField(String)

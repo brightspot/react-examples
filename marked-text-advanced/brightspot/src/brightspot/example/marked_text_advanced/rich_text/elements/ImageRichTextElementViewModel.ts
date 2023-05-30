@@ -14,7 +14,7 @@ import ImageRichTextElement from './ImageRichTextElement'
 
 @ViewInterface
 export default class ImageRichTextElementViewModel extends JavaClass(
-  'brightspot.example.marked_text_advanced.ImageRichTextElementViewModel',
+  'brightspot.example.marked_text_advanced.rich_text.elements.ImageRichTextElementViewModel',
   ViewModel.Of(ImageRichTextElement),
   RteMarkDataView
 ) {

@@ -13,7 +13,7 @@ import LinkRichTextElement from './LinkRichTextElement'
 
 @ViewInterface
 export default class LinkRichTextElementViewModel extends JavaClass(
-  'brightspot.example.marked_text_advanced.LinkRichTextElementViewModel',
+  'brightspot.example.marked_text_advanced.rich_text.elements.LinkRichTextElementViewModel',
   ViewModel.Of(LinkRichTextElement),
   RteMarkDataView
 ) {

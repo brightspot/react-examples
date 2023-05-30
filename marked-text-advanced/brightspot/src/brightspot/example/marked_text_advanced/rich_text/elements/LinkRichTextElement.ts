@@ -17,7 +17,7 @@ import RichTextElement from 'brightspot-types/com/psddev/cms/db/RichTextElement'
 })
 @IconName({ value: 'link' })
 export default class LinkRichTextElement extends JavaClass(
-  'brightspot.example.marked_text_advanced.LinkRichTextElement',
+  'brightspot.example.marked_text_advanced.rich_text.elements.LinkRichTextElement',
   RichTextElement
 ) {
   @JavaField(String)

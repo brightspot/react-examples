@@ -10,11 +10,11 @@ import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import ArticleViewModel from './ArticleViewModel'
+import ArticleViewModel from '../model/ArticleViewModel'
 
 @DisplayName({ value: 'Marked Text: Advanced' })
 export default class ArticleEndpoint extends JavaClass(
-  'brightspot.example.marked_text_advanced.ArticleEndpoint',
+  'brightspot.example.marked_text_advanced.api.ArticleEndpoint',
   ContentDeliveryApiEndpointV1,
   Singleton
 ) {
