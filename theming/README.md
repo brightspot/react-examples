@@ -109,7 +109,7 @@ Theme configuration:
 
 [`fields`](/theming/brightspot/_config.json): Theme styling for content types added to this field for each content type.
 
-```yaml
+```jsonc
  "fields": {
         "alignment": {
           "type": "text",  // type of field
