@@ -49,19 +49,19 @@ The front-end application displays a title with a black font color.
 
 1. Generate a theme zip file:
   CD into `theming/brightspot`, and run the command `yarn run config`. A new `custom-theme.zip` file will be generated om the `theming/brightspot` directory if one does not already exist. 
-  &nbsp;
+
 2. Upload a theme to Brightspot:
   From **&#x2630;** navigate to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for the New Theme, add a Name and click on the **CHOOSE** button next to the **New Upload** dropdown menu. Select the zip file created in step 1, then click the **SAVE** button. 
-&nbsp;
+
 3. Apply Theme to your endpoint:
   Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select the theme you created, then click **SAVE**.  
-&nbsp;
+
 4. Create a Site:
   It is best practice to apply a theme to a child Site and not the Global site. Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and create a New Site by selecting **New Site**. Add a name, and for the theme, select **Shared**, then the name of the theme you created. Click **SAVE**. If you look at your front-end application, you will notice nothing has changed. This is expected since you have not selected overiding styles from the theme you applied.  
-&nbsp;
+
 5. Add theme overriding styles:
   Navigate back to the theme you created in Brightspot. There are two new tabs:  **Color Palette**, and **Overrides**. You can create a color palette to make color selection easier by selecting colors and saving those selections. If you add a color palette, those colors will appear as a palette when you click on the color pickers in the **Overrides** tab. Select colors and any other overriding styles and save. Refresh the front-end application page to see the applied overriding styles. This styling is for any site using this theme.
-&nbsp;
+
 6. Add content overriding styles:
   In Brightspot, create a **Theming Article** by clicking **+** at the top of the page, then **Theming Article** from the dropdown menu. In the **New Theming Article** form, add a title and body. Click **⋯** (located at the top right of the content item page next to the **URLS** widget) and select **Styles**. Click the **v** to expand to the **Preset** section. Select **Custom**, and select styling from the options available. Finally, click **PUBLISH**. Refresh the front-end application page to see the Theming Article and applied styles.
 
