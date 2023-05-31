@@ -240,7 +240,7 @@ The following are suggestions for learning more about with Brightspot:
 
 1. Add a new fields under `themeField` or `fields` for content items and try to use that in your front-end app. 
 
-Remember, if you make any changes to the theme `_config.json` file, you need to create a new zip file. Run `yarn run config` in the `brightspot` directory to update the custom-theme.zip file (the changes will be added to the custom-theme.zip file located in the `brightspot` directory). Then navigate to from the burger menu to **Admin** &rarr; **Themes** and select your theme. Upload the new file. In the **OVERRIDES** tab make sure the newly added field value is selected. Save your endpoint as well in Brightspot or the newly added GraphQL field will not appear. 
+Remember, if you make any changes to the theme `_config.json` file, you need to create a new zip file. Run `yarn run config` in the `brightspot` directory to update the `custom-theme.zip` file (the changes will be added to the `custom-theme.zip` file located in the `brightspot` directory). Then navigate to from the burger menu to **Admin** &rarr; **Themes** and select your theme. Upload the new file. In the **OVERRIDES** tab make sure the newly added field value is selected. Save your endpoint as well in Brightspot or the newly added GraphQL field will not appear. 
 
 2. Read the [Brightspot documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) on theming to learn more about theming. 
 
