@@ -9,62 +9,36 @@
     }
   },
   "styles": {
-    "/cat": {
+    "/themeArticle": {
       "fields": {
-        "bulletStyle": {
+        "alignment": {
           "type": "text",
-          "displayName": "List Bullet Style",
-          "cms.ui.note": "Set the bullet style for the for list options.",
+          "displayName": "Title alignment",
+          "cms.ui.note": "Select preferred alignment.",
           "cms.ui.dropDown": true,
-          "cms.ui.placeholder": "Cat",
           "values": [
             {
-              "label": "Cat",
-              "value": "bullet-cat"
+              "label": "Left",
+              "value": "left"
             },
             {
-              "label": "Circle",
-              "value": "bullet-circle"
+              "label": "Middle",
+              "value": "middle"
             },
             {
-              "label": "Star",
-              "value": "bullet-star"
-            },
-            {
-              "label": "Arrow",
-              "value": "bullet-arrow"
+              "label": "right",
+              "value": "right"
             }
           ]
-        }
-      }
-    },
-    "/dog": {
-      "fields": {
-        "bulletStyle": {
-          "type": "text",
-          "displayName": "List Bullet Style",
-          "cms.ui.note": "Set the bullet style for the for list options.",
-          "cms.ui.dropDown": true,
-          "cms.ui.placeholder": "Dog",
-          "cms.ui.tab": " Bullets",
-          "values": [
-            {
-              "label": "Dog",
-              "value": "bullet-dog"
-            },
-            {
-              "label": "Circle",
-              "value": "bullet-circle"
-            },
-            {
-              "label": "Star",
-              "value": "bullet-star"
-            },
-            {
-              "label": "Arrow",
-              "value": "bullet-arrow"
-            }
-          ]
+        },
+        "showHappyFace": {
+          "type": "boolean"
+        },
+        "sampleNumber": {
+          "type": "number"
+        },
+        "sampleColor": {
+          "type": "color"
         }
       }
     }
@@ -112,25 +86,6 @@
       ],
       "cms.ui.dropDown": true,
       "cms.ui.placeholder": "Raleway"
-    },
-    "NavBarAlignment": {
-      "displayName": "Select Nav Bar text alignment",
-      "type": "text",
-      "cms.ui.note": "select how text will appear in navbar.",
-      "values":  [
-        {
-          "label": "left",
-          "value": "left"
-        },
-        {
-          "label": "right",
-          "value": "right"
-        },
-        {
-          "label": "center",
-          "value": "center"
-        }
-      ]
     },
     "buttonStyle": {
       "displayName": "Button Style",

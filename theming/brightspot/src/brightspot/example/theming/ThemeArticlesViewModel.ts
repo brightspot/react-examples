@@ -7,21 +7,21 @@ import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
-import Cat from './Cat'
-import CatViewModel from './CatViewModel'
+import ThemeArticle from './ThemeArticle'
+import ThemeArticleViewModel from './ThemeArticleViewModel'
 import ThemingEndpoint from './ThemingEndpoint'
 
 @ViewInterface
-export default class CatsViewModel extends JavaClass(
-  'brightspot.example.theming.CatsViewModel',
+export default class ThemeArticlesViewModel extends JavaClass(
+  'brightspot.example.theming.ThemeArticlesViewModel',
   ViewModel.Of(ThemingEndpoint)
 ) {
   @JavaMethodParameters()
-  @JavaMethodReturn(List.Of(CatViewModel))
-  getCats(): List<CatViewModel> {
+  @JavaMethodReturn(List.Of(ThemeArticleViewModel))
+  getThemeArticles(): List<ThemeArticleViewModel> {
     return this.createViews(
-      CatViewModel.getClass(),
-      Query.from(Cat.getClass()).selectAll()
+      ThemeArticleViewModel.getClass(),
+      Query.from(ThemeArticle.getClass()).selectAll()
     )
   }
 }

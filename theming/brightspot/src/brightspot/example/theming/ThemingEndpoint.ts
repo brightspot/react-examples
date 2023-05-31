@@ -11,10 +11,8 @@ import ContentDeliveryApiThemeable from 'brightspot-types/com/psddev/graphql/cda
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
-import CatsViewModel from './CatsViewModel'
-import CatViewModel from './CatViewModel'
-import DogsViewModel from './DogsViewModel'
-import DogViewModel from './DogViewModel'
+import ThemeArticlesViewModel from './ThemeArticlesViewModel'
+import ThemeArticleViewModel from './ThemeArticleViewModel'
 
 export default class ThemingEndpoint extends JavaClass(
   'brightspot.example.theming.ThemingEndpoint',
@@ -28,10 +26,8 @@ export default class ThemingEndpoint extends JavaClass(
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
-      CatViewModel.getClass() as Class<CatViewModel>,
-      CatsViewModel.getClass() as Class<CatsViewModel>,
-      DogViewModel.getClass() as Class<DogViewModel>,
-      DogsViewModel.getClass() as Class<DogsViewModel>,
+      ThemeArticleViewModel.getClass() as Class<ThemeArticleViewModel>,
+      ThemeArticlesViewModel.getClass() as Class<ThemeArticlesViewModel>,
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)
     ) as unknown as List<ContentDeliveryEntryPointField>

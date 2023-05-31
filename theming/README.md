@@ -1,14 +1,15 @@
-# Example Application
+# Theming
 
-Brightspot provides the ability to create content that can be displayed in various front-end applications. Content creators can add, edit and delete content in the CMS. However, what if content creators desire the fexibility to modify front-end functionality, image sizing, or other front-end styling?
+Just like a site that's rendered by Brightspot, when building a site rendered independently, there's a need to have fields in the CMS that control stylistic or visual aspects of the final page but are decoupled from the core data model. Brightspot provides a solution with the Theme / Styleguide system. Similar capabilities have been exposed for Brightspot's [Content Delivery APIs](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA).
 
-Brightspot provides the ability to configure and modify styling and presentation functionality editorially.
-
-This example demonstrates implementing Brightspot [theming](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) via a Brightspot GraphQL [Content Delivery API (CDA)](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) Endpoint to enable editorial styling and other front-end functionality changes.
+This example demonstrates implementing Brightspot [theming](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) via a CDA Endpoint to enable editorial styling and other front-end presentation changes.
 
 ## What you will learn
-1. [Create a CDA Endpoint that incorporates a theme](#1-create-a-cda-endpoint-that-incorporates-a-theme).
-2. [Create and customize a theme to enable front-end styling and functionality configuration via GraphQL](#2-create-and-customize-a-theme-to-enable-front-end-styling-and-functionality-configuration-via-graphql).
+1. [Create a theme](#1-create-a-theme)
+2. [Configure theme content styling](#2-configure-theme-content-styling)
+3. [Configure theme global styling](#3-configure-theme-global-styling)
+4. [Add a theme to a CDA endpoint](#4-add-a-theme-to-a-cda-endpoint).
+5. [Use theme fields in a front-end application](#5-use-theme-fields-in-a-front-end-application)
 
 ## Running the example application
 
@@ -44,112 +45,202 @@ The React app opens automatically in the browser.
 
 ## Using the example application
 
-1. Upload a theme to Brightspot:
-  From **&#x2630;** navigate to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for the New Theme, add a Name and click on the **CHOOSE** button next to the **New Upload** dropdown menu. Search for the zip file `custom-theme.zip` (located in the `theming/brightspot` directory). Select the zip file, then click the **SAVE** button. 
-<br>
-2. Update the Color Palette:
-  Two new tabs are now available at the top of the Theme section: **COLOR PALETTE** and **USAGES**. The **USAGES** tab displays the sites using the respective theme. Click on **COLOR PALETTE** and ddd the following colors:
-    ```text
-      Color 1: #ff0083 (pink)
-      Color 2: #ff4da8 (light pink)
-      Color 3: #000 (black)
-      Color 4: #888888 (steel gray)
-    ```
-    Click the **SAVE** button at the bottom of the **COLOR PALETTE** section. 
-<br>
-3. Update Overrides:
-  Click on the **OVERRIDES** section. Select **Custom** from the **Preset** dropdown menu. Several fields appear. For Primary Color, select Color 1 (pink). Select Color 2 (light pink) for Secondary Color, Color 3 (black) for Primary Text Color, and Color 4 (steel gray) for Secondary Text Color. Select your preferred font for Body, your preferred Navbar Text Alignment, and finally your preferred Button Style. Finally, click the **SAVE** button at the bottom of the **OVERRIDES** section.
+The front-end application displays a title with a black font color.  
 
-  > **_Note_** If any of the theme fields have content that is italicized and the text color is gray, those fields have not yet been set. Make sure to click on the field, actually select an option or color, and then click the **OK** button. You know your value is saved because the text color will be black and not italicized.
-
-4. Enable Global Editing and apply Theme
-  Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select the **Global** site. Toggle **Allow Global Editing?** to be selected, and at the very bottom of the Global page select **Shared Theme** and then the theme you created. Click **SAVE**. Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select the theme you created, then click **SAVE**.
-
-  > **_Note_** You need to reload the site for the styles changes to apply to content items. To do so, stop and start your Docker instance. 
-
-5. Create content and configure styling
-  The front-end application displays both **Cat** and **Dog** content created in Brightspot. Create at least one **Cat** or **Dog** item. When creating your content item, note the **⋯** at the top right of the content item page(to the left of the **URLS** widget section). Click **⋯** and select **Styles**. Click the **v** to open the Presets section. Select **Custom** for the Preset, and the bullet style of your choice. Finally, publish your content.
-  Navigate to the front-end app to see the content displayed. Feel free to publish more **Cat** and **Dog** content to add to the front-end app. Notice the colors, navbar alignment, bullet style for the cards, and the button style. These configurations all come from the theme. 
+1. Generate a theme zip file:
+  CD into `theming/brightspot`, and run the command `yarn run config`. A new `custom-theme.zip` file will be generated om the `theming/brightspot` directory if one does not already exist. 
+  &nbsp;
+2. Upload a theme to Brightspot:
+  From **&#x2630;** navigate to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for the New Theme, add a Name and click on the **CHOOSE** button next to the **New Upload** dropdown menu. Select the zip file created in step 1, then click the **SAVE** button. 
+&nbsp;
+3. Apply Theme to your endpoint:
+  Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select the theme you created, then click **SAVE**.  
+&nbsp;
+4. Create a Site:
+  It is best practice to apply a theme to a child Site and not the Global site. Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and create a New Site by selecting **New Site**. Add a name, and for the theme, select **Shared**, then the name of the theme you created. Click **SAVE**. If you look at your front-end application, you will notice nothing has changed. This is expected since you have not selected overiding styles from the theme you applied.  
+&nbsp;
+5. Add theme overriding styles:
+  Navigate back to the theme you created in Brightspot. There are two new tabs:  **Color Palette**, and **Overrides**. You can create a color palette to make color selection easier by selecting colors and saving those selections. If you add a color palette, those colors will appear as a palette when you click on the color pickers in the **Overrides** tab. Select colors and any other overriding styles and save. Refresh the front-end application page to see the applied overriding styles. This styling is for any site using this theme.
+&nbsp;
+6. Add content overriding styles:
+  In Brightspot, create a **Theming Article** by clicking **+** at the top of the page, then **Theming Article** from the dropdown menu. In the **New Theming Article** form, add a title and body. Click **⋯** (located at the top right of the content item page next to the **URLS** widget) and select **Styles**. Click the **v** to expand to the **Preset** section. Select **Custom**, and select styling from the options available. Finally, click **PUBLISH**. Refresh the front-end application page to see the Theming Article and applied styles.
 
 ## How everything works
 
-### 1. Create a CDA Endpoint that incorporates a theme
-Brightspot is designed to support various themes. A theme may contain templates (for example, a coupled CMS), and/or styling, and even image size information. Brightspot provides access to these theme fields via it's GraphQL API. 
+### #1. Create a theme
 
-- [`ThemingEndpoint.ts`](/theming/brightspot/src/brightspot/example/theming/ThemingEndpoint.ts): Implement the `ContentDeliveryApiThemeable` interface to enable a theme to be selected and applied to the respective endpoint. Make sure the theme is applied to the site in use (in this example Global).
+  [`_config.json`](/theming/brightspot/_config.json): This file provides the core information for a theme. A theme config file may consist of the following fields:
+  - `themeFields`: Fields for global theme styling
+  - `colorPalette`: Fields to create a color palette for easier color selection
+  - `styles`: Fields for content styling
+  - `imageSizes`: Fields for image sizes ??
+  - `name` ?
+  - `version` ?
 
-### 2. Create and customize a theme to enable front-end styling and functionality configuration via GraphQL
+  [`_name`] ??
 
-- [`_config.json`](/theming/brightspot/_config.json): This file provides key information for a theme. Note the following fields:
-  - `"styles"`: nested under styles is a template name that corresponds to the name specified in the `@ViewTemplate` annotation in each ViewModel file. The fields are set by the content item specified by the View Template name. 
+  ```json
+  {
+    "themeFields": {},
+    "styles": {},
+    "colorPalette": {}
+  }
+  ```
 
-> **_Note_** The template name must have a preceeding forward slash. Ex: `@ViewTemplate({ value: "/cat" })`. That name should appear the same in the "styles" section for the config file. Ex: 
+  Brightspot accepts theme files as zip files. In this example, the theme zip file is generated by running the script `yarn run config`, which executes the [`config.sh`](/theming/brightspot/config.sh) file. 
 
+### #2. Configure theme content styling
+
+[`@ViewTemplate`](/theming/brightspot/src/brightspot/example/theming/Cat.ts): View interfaces with this annotation will have a string field, `_viewTemplate`, added to their object type that will return the value of the annotation. 
+
+
+View Model:
+```typescript
+@ViewInterface
+@ViewTemplate({ value: '/themingArticle' })
+export default class ThemingArticleViewModel extends JavaClass(
+  'brightspot.example.theming.ThemingArticleViewModel',
+  ViewModel.Of(ThemingArticle),
+```
+
+Theme configuration:
 ```json
  "styles": {
-    "/cat": {
+    "/themingArticle": {  // same name as @ViewTemplate value
       "fields": {
 ```
 
-  - `"themeFields"`: These fields are applied to the theme as a whole, irrespective of the Content item.
-  - `"colorPalette"`: These fields are used to create a color palette. Once the color palette is created, those colors show as available options when you click on a color picker field. The color palette is optional.
-  - `"imageSizes"`: These fields are used to specify image sizes. You can also create an `ImageSizeProvider` file that will also provide image size configurations. Refer to the [Images example](https://github.com/brightspot/react-examples/tree/feature/images) for more information on customizing images.
+> **_Note_** The template name must have a preceeding forward slash. Ex: `@ViewTemplate({ value: "/themingArticle" })`.
 
-When a theme is applied to an endpoint, and also to the site, the `_Theme` field will be available in GraphQL, and `_style` fields to respective content items:
+[`fields`](/theming/brightspot/_config.json): Theme styling for content types added to this field for each content type.
+
+```json
+ "fields": {
+        "alignment": {
+          "type": "text", // type of field
+          "displayName": "Title alignment", // name displayed in Brightspot UI
+          "cms.ui.note": "Select preferred alignment.", // any additional notes
+          "cms.ui.dropDown": true, // dropdown option
+          "values": [ //dropdown values
+            {
+              "label": "Left",
+              "value": "left"
+            },
+            {
+              "label": "Middle",
+              "value": "middle"
+            },
+            {
+              "label": "right",
+              "value": "right"
+            }
+          ]
+        },
+```
+
+Fields used in this example: `boolean`, `text`, `number`, and `color`. 
+
+### #3. Configure theme global styling
+
+[`themeFields`](/theming/brightspot/_config.json): Theme global styling fields are added to this field.
+
+Theme configuration:
+
+```json
+ "themeFields": {
+    "primaryColor": {
+      "displayName": "Primary Color",
+      "type": "color",
+      "cms.ui.placeholder": "#ff0083"
+    },
+```
+
+[`colorPalette`](/theming/brightspot/_config.json): This field enables setting color palette colors that can be used in any `color` theme UI field in Brightspot.
+
+```json
+  "colorPalette": {
+    "colorOne": {
+      "displayName": "Color 1",
+      "type": "color"
+    },
+
+```
+
+If `colorPalette` is set in the theme, this tab will after uploading a theme. 
+
+
+Example color palette:
+
+| Color Palette                                            |
+| -------------------------------------------------------- |
+| <img  width=300 alt="Color Palette for Color Picker" src="brightspot/documentation/images/colorPalette.png"> |
+
+
+### 4. Add a theme to a CDA Endpoint
+
+- [`ThemingEndpoint.ts`](/theming/brightspot/src/brightspot/example/theming/ThemingEndpoint.ts): Implement the `ContentDeliveryApiThemeable` interface to enable applying a theme to a CDA endpoint. Make sure the theme is applied to the site in use.
+
+
+### 5. Use theme fields in a front-end application
+
+When a theme is applied to an endpoint, and also to the site, the endpoint will expose a `_Theme` root field. Each content item with a `@ViewTemplate` annotation applied will also have `_style` and `_viewTemplate` fields:
 
 ```graphql
-  query GetDogsAndCats {
-    Dogs {
-      dogs {
-        _style {
-          bulletStyle # theme field for content type
-        }
-      }
-    }
-    _Theme {   # theme fields for site
-      NavBarAlignment
-      bodyFont
-      buttonStyle
-      primaryColor
-      primaryTextColor
-      secondaryColor
-      secondaryTextColor
+ query MyQuery {
+  _Theme {
+    bodyFont
+    buttonStyle
+    primaryColor
+    primaryTextColor
+    secondaryColor
+    secondaryTextColor
+  }
+  ThemeArticle(model: {slug: "great"}) {
+    _viewTemplate
+    _style {
+      alignment
+      sampleColor
+      sampleNumber
+      showHappyFace
     }
   }
+}
 ```
+
+Example response:
+
+```json
+{
+  "data": {
+    "_Theme": {
+      "bodyFont": "Merriweather",
+      "buttonStyle": "button-primary",
+      "primaryColor": null,
+      "primaryTextColor": "#483939",
+      "secondaryColor": "#ea35be",
+      "secondaryTextColor": "#e6baba"
+    },
+    "ThemeArticle": {
+      "_viewTemplate": "/themeArticle",
+      "_style": {
+        "alignment": "left",
+        "sampleColor": "#30d221",
+        "sampleNumber": 1,
+        "showHappyFace": true
+      }
+    }
+  }
+}
+```
+
+These fields can be used in the front end to dynamically change presentation. 
+
 ## Try it yourself
 The following are suggestions for learning more about with Brightspot:
 
-1. Add a new themeField and try to use that in your front-end app. For example, you can create a boolean field for a static navbar. When selected, the navbar will remain at the top of the browser instead of scrolling out of view. 
+1. Add a new fields under `themeField` or `fields` for content items and try to use that in your front-end app. 
 
-Add the following to your _config.json file in the themeFields section (since this is global stying):
-
-```json
-    "staticNavbar": {
-      "displayName": "Enable Static Navbar",
-      "type": "boolean",
-      "cms.ui.note": "when checked the navbar will remain at the top of the page"
-    }
-```
-
-Remember, if you make any changes to the theme `_config.json` file, you need to create a new zip file. Run `yarn run config` in the `brightspot` directory to update the custom-theme.zip file (the changes will be added to the custom-theme.zip file located in the `brightspot` directory). Then navigate to from the burger menu to **Admin** &rarr; **Themes** and select your theme. Upload the new file. In the **OVERRIDES** tab make sure the newly added Enable Static Navbar toggle is checked to true. Make sure to save your endpoint as well in Brightspot or the newly added GraphQL field will not appear. You also need to add this field to your GraphQL query in the front-end app. In `app/src/queries/GetDogsAndCats.tsx`, add `staticNavbar` to your query so your query's theme section looks like the following: 
-
-```graphql
-  _theme {
-        NavBarAlignment
-        bodyFont
-        primaryColor
-        primaryTextColor
-        secondaryColor
-        secondaryTextColor 
-        buttonStyle
-        staticNavbar
-      }
-```
-
-Head to `app/src/App.tsx`. You see two comments "UNCOMMENT TO USE". Uncomment both lines. The appropriate css styling are applied. 
-
-Feel free to explore adding other styling fields! 
+Remember, if you make any changes to the theme `_config.json` file, you need to create a new zip file. Run `yarn run config` in the `brightspot` directory to update the custom-theme.zip file (the changes will be added to the custom-theme.zip file located in the `brightspot` directory). Then navigate to from the burger menu to **Admin** &rarr; **Themes** and select your theme. Upload the new file. In the **OVERRIDES** tab make sure the newly added field value is selected. Save your endpoint as well in Brightspot or the newly added GraphQL field will not appear. 
 
 2. Read the [Brightspot documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) on theming to learn more about theming. 
 
