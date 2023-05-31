@@ -91,7 +91,7 @@ The front-end application displays a title with a black font color.
 
 ### #2. Configure theme content styling
 
-[`@ViewTemplate`](/theming/brightspot/src/brightspot/example/theming/Cat.ts): View interfaces with this annotation will have a string field, `_viewTemplate`, added to their object type that will return the value of the annotation. 
+[`@ViewTemplate`](/theming/brightspot/src/brightspot/example/theming/ThemeArticleViewModel.ts): View interfaces with this annotation will have a string field, `_viewTemplate`, added to their object type that will return the value of the annotation. 
 
 
 View Model:
