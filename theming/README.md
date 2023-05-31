@@ -73,11 +73,6 @@ The front-end application displays a title with a black font color.
   - `themeFields`: Fields for global theme styling
   - `colorPalette`: Fields to create a color palette for easier color selection
   - `styles`: Fields for content styling
-  - `imageSizes`: Fields for image sizes ??
-  - `name` ?
-  - `version` ?
-
-  [`_name`] ??
 
   ```json
   {
@@ -104,7 +99,7 @@ export default class ThemingArticleViewModel extends JavaClass(
 ```
 
 Theme configuration:
-```json
+```yaml
  "styles": {
     "/themingArticle": {  // same name as @ViewTemplate value
       "fields": {
@@ -114,10 +109,10 @@ Theme configuration:
 
 [`fields`](/theming/brightspot/_config.json): Theme styling for content types added to this field for each content type.
 
-```json
+```yaml
  "fields": {
         "alignment": {
-          "type": "text", // type of field
+          "type": "text",  // type of field
           "displayName": "Title alignment", // name displayed in Brightspot UI
           "cms.ui.note": "Select preferred alignment.", // any additional notes
           "cms.ui.dropDown": true, // dropdown option
