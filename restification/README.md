@@ -1,70 +1,75 @@
 ## GraphQL RESTification
 
-[GraphQL](https://graphql.org/) provides a single endpoint to handle requests for data, allowing the front-end application specify the data they need.
+Scenarios could arise where your client-side application is not inherently equipped to handle GraphQL or has already been architected with a GraphQL API but there may be an operational requirement or a privacy concern that necessitates limiting or restricting the volume, scope, or type of data that is sent for public use.
 
-However, there may be cases where your front-end application does not support GraphQL or the front-end application is set up with a GraphQL API but you want to restrict the data sent for public use.
+GraphQL Restification involves converting a GraphQL API into a RESTful API. This means replacing a single GraphQL endpoint with multiple RESTful endpoints, each representing a distinct resource or data object.
 
-GraphQL Restification translates a [GraphQL API](https://graphql.org/) into a RESTful API. The process involves exposing multiple RESTful endpoints in place of a single GraphQL endpoint.
-
-This example demonstrates how to set up GraphQL queries into individual REST API endpoints using Brightspot's GraphQL API with a potential use case.
+This example demonstrates how to set up GraphQL queries into individual REST API endpoints.
 
 ## What you will learn
 
-1. How to use Brightspot to create REST Mapping API endpoints including a use case.
-2. How to still use the GraphQL schema for type generation at build time and runtime without exposing the endpoint to the public.
+1. [Use Brightspot to create REST Mapping API endpoints](#1-create-rest-mapping-api-endpoints).
+2. Use the GraphQL schema for type generation at build time and runtime without exposing the endpoint to the public.
 
 ## Running the example application
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `restification` directory:
+> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-To upload JS Classes in Brightspot (http://localhost/cms) run the following commands:
+### Install dependencies
 
-```sh
-cd brightspot
-yarn
-npx brightspot types download
-npx brightspot types upload src
-```
-
-To run the front end, run the following commands from the `restification/app` directory:
+Run the following command from the `restification/app` directory:
 
 ```sh
-yarn
-yarn codegen
-yarn start
+$ yarn
 ```
 
-The front-end application opens automatically in the browser but will not function correctly until the steps are completed.
+```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...a
+[4/4] 🔨 Building fresh packages...
+✨ Done in 6.03s.
+```
+
+Run the following commands to start up the front-end application:
+
+```sh
+$ yarn codegen
+```
+
+```
+✔ Parse Configuration
+❯ Generate outputs
+✔ Parse Configuration
+✔ Generate outputs
+✨  Done in 0.89s.
+```
+
+```
+$ yarn start
+```
+
+```
+Compiled successfully!
+```
+
+The front-end application will not function correctly until the steps are completed.
 
 ## Step 1: Publish Member Content
 
 In Brightspot, publish at least one **Member** content type.
 
-## Step 2 Note on Codegen
+## Step 2 Building the Query and Create REST Mapping
 
-Running the previous command from the `restification/app` directory:
+In Brightspot from the menu **&#x2630;**, navigate to **Developer** &rarr; **GraphQL Explorer** and select **Members API: Restification** from the **Select GraphQL Endpoint** dropdown.
 
-```sh
-yarn codegen
-```
+In the explorer panel on the left pane you see a GraphQL query field named **brightspot_example_restification_MemberQuery**.
 
-The `codegen.yml` file will take the query included in `restification/app/queries/AllMembers.graphql` as well as the schema from `http://localhost/graphql/management/members` and creates a `generated.ts` file. This file contains types and hooks based on the query. The `codegen.yml` file also has access to the ID and Secret for authorization.
+In this example, the query created retrieves all members, restricting the data returned to only the members' display name.
 
-## Step 3 Building the Query and Create REST Mapping
+Expand the **items** dropdown and check the **displayName** checkbox. Using [aliases](https://graphql.org/learn/queries/#aliases), change the name of the field returned for **brightspot_example_restification_MemberQuery** to **ListOfMembers** and **items** to **members** for clarity.
 
-To see the API in action:
-
-1. Open the navigation menu.
-2. Scroll to **Developer** area and open the dropdown if needed.
-3. Click on **GraphQL Explorer**, and select **Members API: Restification** from the **Select GraphQL Endpoint** dropdown.
-
-In the explorer panel on the left pane you see a GraphQL query field named **brightspot_example_restification_MemberQuery**, click on this to drop down its items if needed.
-
-In previous examples, we would create queries that accept arguments of either id or path; however, in this example, the query created will retrieves all members, restricting the data returned to only the members' display name.
-
-Expand the **items** dropdown and check the **displayName** checkbox. Using [aliases](https://graphql.org/learn/queries/#aliases) we will change the name of the field returned for **brightspot_example_restification_MemberQuery** to **ListOfMembers** and **items** to **members** for clarity.
-
-The final query appears as the following after changing the default **MyQuery** to **AllMembers**:
+The final query following changing the default **MyQuery** to **AllMembers**:
 
 ```graphql
 query AllMembers {
@@ -78,10 +83,9 @@ query AllMembers {
 
 To test the query, click the play/execute button.
 
-After testing the query, create the first REST Map:
+#### 1. Create REST mapping API endpoints
 
-1. Click the Cog icon in the GraphQL Explorer.
-2. Select **Create REST Mapping**.
+After testing the query, create the first REST Map, click the Cog icon in the GraphQL Explorer (located on the right hand side of the page) and select **Create REST Mapping**.
 
 Brightspot displays a pop-up form with the following sections:
 
@@ -101,24 +105,20 @@ The **REST Endpoint** will be pre-selected with **Create New...**
 6. Under Access, select **Anyone**. Otherwise, access will inherit based on the endpoint used to create the REST mapping(s) from. In this case, a content management endpoint is being used, which always needs a client with an id and secret.
 7. Click **Save**.
 
-There are a few things to note:
-
-- After entering the name, the **Path Prefix** section automatically generates **/members-api**
-- The **GraphQL Endpoint** section defaults to **GraphQL REST API** if it is the only endpoint. Select **GraphQL REST API** from the dropdown if there are multiple endpoints.
-- The **Paths** section at the bottom generates: **/members-api/all-members**.
+> - After entering the name, the **Path Prefix** section automatically generates **/members-api**
+> - The **GraphQL Endpoint** section defaults to **GraphQL REST API** if it is the only endpoint. Select **GraphQL REST API** from the dropdown if there are multiple endpoints.
+> - The **Paths** section at the bottom generates: **/members-api/all-members**.
 
 Repeat the process for another query, this time, select the **where** dropdown. This displays two new fields:
 
 - **arguments**
 - **predicate**
 
-1. Check the box for **arguments**.
-2. Click the **$** symbol next to arguments, which will change the query to accept a variable.
-3. Next to **predicate**, enter 'displayName = ?' in the text box.
+Check the box for **arguments**, check the **$** symbol next to arguments which changes the query to accept a variable. Next to **predicate**, type in the text box 'displayName = ?'.
 
-This query takes the `arguments` and looks for a display name that matches. This will be a GET request that will take parameters and a POST request.
+This query takes the `arguments` and looks for a display name that matches. This will be set up as a GET request that will take parameters and a POST request.
 
-Change the query name to `Member` as this will be a query for a display name that matches the variable passed into `arguments`. Expand the **items** dropdown to open the dropdown fields, then check **displayName** and **email**. Add 'members' as an alias for 'items'. Your query looks similar to the following:
+Change the query name to `Member` as this will be a query for a display name that matches the variable passed into `arguments`. Expand the **items** dropdown to open the dropdown fields, then check **displayName** and **email**. Add 'members' as an alias for 'items':
 
 ```graphql
 query Member($arguments: [String]) {
@@ -148,7 +148,7 @@ Create the REST Mapping for the query. The form will be automatically completed 
 1. Test the GET endpoint by visiting '[http://localhost/members-api/all-members](http://localhost/members-api/all-members)' into your browser.
 2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments={Member Display Name Here}' in your browser.
 
-## Step 4 Run the React App
+## Step 3 Run the React App
 
 Test the endpoint using the included React App.
 
@@ -161,6 +161,16 @@ yarn start
 Navigate to `http://localhost:3000/` in the web browser and see the text from the published content.
 
 Type in the display name created earlier for the GET with params and POST request.
+
+## How everything works
+
+Running:
+
+```sh
+yarn codegen
+```
+
+The `codegen.yml` file will take the query included in `restification/app/queries/AllMembers.graphql` as well as the schema from `http://localhost/graphql/management/members` and creates a `generated.ts` file. This file contains types and hooks based on the query. The `codegen.yml` file also has access to the ID and Secret for authorization.
 
 ## Try it yourself
 
