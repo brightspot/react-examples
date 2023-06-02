@@ -4,7 +4,7 @@ import { Brightspot_Example_Restification_Member } from '../../generated'
 import { debounce, getMember } from '../../utils/utils'
 
 interface MembersData {
-  members?: Brightspot_Example_Restification_Member[] | undefined
+  members?: Brightspot_Example_Restification_Member[]
   errors?: string[]
 }
 

@@ -1,6 +1,6 @@
 query AllMembers {
-  brightspot_example_restification_MemberQuery {
-    items {
+  ListOfMembers: brightspot_example_restification_MemberQuery {
+    members: items {
       displayName
       firstName
       lastName

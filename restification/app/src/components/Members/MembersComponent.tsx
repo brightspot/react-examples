@@ -5,7 +5,7 @@ import { handleResponse } from '../../utils/utils'
 import { Brightspot_Example_Restification_Member } from '../../generated'
 
 interface MembersData {
-  members?: Brightspot_Example_Restification_Member[] | undefined
+  members?: Brightspot_Example_Restification_Member[]
   errors?: string[]
 }
 
