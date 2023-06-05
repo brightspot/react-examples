@@ -1,10 +1,12 @@
 ## GraphQL RESTification
 
-Scenarios could arise where your client-side application is not inherently equipped to handle GraphQL but you want the benefit that GraphQL provides, GraphQL's types system for one brings predictable results along with auto-generated documentation and GraphQL's ability to only return the data you need or are going to use.
+GraphQL Restification involves converting a GraphQL API into a RESTful API. This means replacing a single GraphQL endpoint with multiple RESTful endpoints.
 
-GraphQL Restification involves converting a GraphQL API into a RESTful API. This means replacing a single GraphQL endpoint with multiple RESTful endpoints, each representing a distinct resource or data object. This grants the benefit of controlling the structure of the response, specifically choosing what fields to return when a certain endpoint is called rather than all of it.
+Scenarios could arise where the consumer of Brightspot's API is not inherently equipped to handle GraphQL. Perhaps they have specific data requirements for the API and/or are not familiar with the inner workings of Brightspot or they want to fetch data that works for them and easy to consume.
 
-This example demonstrates how to set up GraphQL queries into individual REST API endpoints.
+Restification grants the benefit of controlling the structure of the response, specifically choosing what fields to return when a certain endpoint is called.
+
+This example demonstrates how to set up GraphQL queries into individual REST API endpoints in Brightspot.
 
 ## What you will learn
 
@@ -63,8 +65,6 @@ In Brightspot, publish at least one **Member** content type.
 
 In Brightspot from the menu **&#x2630;**, navigate to **Developer** &rarr; **GraphQL Explorer** and select **Members API: Restification** from the **Select GraphQL Endpoint** dropdown.
 
-In the explorer panel on the left pane you see a GraphQL query field named **brightspot_example_restification_MemberQuery**.
-
 In this example, the query created retrieves all members, restricting the data returned to only the members' display name.
 
 Copy and paste the followng query into the explorer:
@@ -96,14 +96,14 @@ The **REST Endpoint** is pre-selected with **Create New...** being the first RES
 3. Under **REST Mapping Path**, the REST mapping path is automatically generated as **/all-members** from the query name.
 4. Click **Create**.
 
-As this is the first mapping, the GraphQL Explorer creates a new form with the title **New REST GraphQL Mapping API**
+As this is the first mapping, the a new form pops up to create the REST API mapping, with the title **New REST GraphQL Mapping API**
 
 | REST Mapping API Form                                                                       |
 | ------------------------------------------------------------------------------------------- |
 | <img alt="Color Palette for Color Picker" src="documentation/images/rest-mapping-form.png"> |
 
 1. Under **Name**, enter 'Members API'.
-2. Under Access, select **Anyone**. Otherwise, access will inherit based on the endpoint used to create the REST mapping(s) from. In this case, a content management endpoint is being used, which always needs a client with an id and secret.
+2. Under Access, select **Anyone**. Access by default is set to inherit based on the endpoint used to create the REST mapping(s) from. In this case, a content management endpoint is being used, which always needs a client with an id and secret.
 3. Click **Save**.
 
 > - After entering the name, the **Path Prefix** section automatically generates **/members-api**
@@ -144,7 +144,7 @@ Create the REST Mapping for the query:
 The form will be automatically completed but under 'REST Mapping Method(s)', be sure to select 'POST' so that it displays both GET and POST.
 
 1. Test the GET endpoint by visiting '[http://localhost/members-api/all-members](http://localhost/members-api/all-members)' into your browser.
-2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments={Member Display Name Here}' in your browser.
+2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments=Member_Display_Name_Here' in your browser.
 
 ## Step 3 Run the React App
 
@@ -162,6 +162,8 @@ Type in the display name created earlier for the GET with params and POST reques
 
 ## How everything works
 
+Brightspot powers the creation of the REST Mapping API but there is added value with RESTification
+
 #### 2. Use the GraphQL schema for type generation without exposing the endpoint to the public
 
 Running:
@@ -170,7 +172,9 @@ Running:
 yarn codegen
 ```
 
-The `codegen.yml` file will take the query included in `restification/app/queries/AllMembers.graphql` as well as the schema from `http://localhost/graphql/management/members` and creates a `generated.ts` file. This file contains types and hooks based on the query. The `codegen.yml` file also has access to the ID and Secret for authorization.
+The `codegen.yml` file will take the query included in `restification/app/queries/AllMembers.graphql` as well as the schema from `http://localhost/graphql/management/members` which it has access to via ID and Secret for authorization. This creates a `generated.ts` file. This file contains types and hooks based on the query.
+
+The generated types also maintain the schema's documentation on it's type and fields.
 
 ## Try it yourself
 
