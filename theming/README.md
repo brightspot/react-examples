@@ -240,7 +240,7 @@ The following are suggestions for learning more about with Brightspot:
 1. Add a new `themeField` or `fields` and try to using those fields in your front-end application. 
 
     Remember to generate a new theme zip file if you make any changes to the `_config.json` file. Run `yarn run config` in the `brightspot` directory to update the `custom-theme.zip` file. Then navigate from **&#x2630;** to **Admin** &rarr; **Themes**, and select your theme. Select **New File** to upload the new theme zip file.
-&nbsp;
+  &nbsp;
 2. Try adding a color palette option to your theme.   If `colorPalette` is set in the theme, the **Color Palette** tab appears after uploading the theme. 
 &nbsp;
 
