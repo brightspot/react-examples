@@ -57,16 +57,16 @@ $ yarn run config
 
 2. Upload a theme to Brightspot:
   Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for **New Theme**, add a name. Click on the **CHOOSE** button next to the **New Upload** dropdown menu. Select the zip file created in step 1, then click **SAVE**.
-&nbsp;  
+<br></br>
 3. Apply the theme to your endpoint:
   Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select the theme you created, then click **SAVE**.  
-&nbsp;
+<br></br>
 4. Create a site:
   Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select **New Site**. Add a name, and for the theme, select **Shared**, then the name of the theme you created. Add a URL (for this example, use "http://localhost:3000/custom-theme"). Click **SAVE**. Check your front-end application - nothing has changed. This is expected since you have not selected overiding styles from the theme you applied.  
-&nbsp;
+<br></br>
 5. Add theme global overriding styles:
   Navigate back to the theme you created in Brightspot. There is a new tab: **Overrides**. Select styles in the **Overrides** tab and save. Refresh the front-end application page to see the applied overriding styles. These styling overrides are applied globally for the respective endpoint.
-&nbsp;
+<br></br>
 6. Add content styles:
   In Brightspot, create a **Theming Article** by clicking **+** at the top of the page, then **Theming Article** from the dropdown menu. In the **New Theming Article** form, add a title, body, and unique slug. Click the **Styles** tab.  Expand the **Theming Article Styles** section and select **Custom** from the **Preset** dropdown menu. Select styling from the options available. Finally, click **PUBLISH**. Refresh the front-end application page to see the Theming Article and content styles.
 
@@ -240,7 +240,7 @@ The following are suggestions for learning more about with Brightspot:
 1. Add a new `themeField` or `fields` and try to using those fields in your front-end application. 
 
     Remember to generate a new theme zip file if you make any changes to the `_config.json` file. Run `yarn run config` in the `brightspot` directory to update the `custom-theme.zip` file. Then navigate from **&#x2630;** to **Admin** &rarr; **Themes**, and select your theme. Select **New File** to upload the new theme zip file.
-  &nbsp;
+<br></br>
 2. Try adding a color palette option to your theme.   If `colorPalette` is set in the theme, the **Color Palette** tab appears after uploading the theme. 
 &nbsp;
 
@@ -248,7 +248,7 @@ The following are suggestions for learning more about with Brightspot:
 
   <img  width=300 alt="Color Palette for Color Picker" src="brightspot/documentation/images/colorPalette.png">
 
-&nbsp;
+<br></br>
 3. Read the [Brightspot documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) on theming to learn more about theming. 
 
 ## Troubleshooting
