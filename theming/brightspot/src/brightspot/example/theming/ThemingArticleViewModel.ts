@@ -6,15 +6,13 @@ import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 import ViewTemplate from 'brightspot-types/com/psddev/cms/view/ViewTemplate'
 
-import ThemeArticle from './ThemeArticle'
-import ViewModelOverlayValueEntryView from 'brightspot-types/com/psddev/cms/view/ViewModelOverlayValueEntryView'
+import ThemingArticle from './ThemingArticle'
 
 @ViewInterface
-@ViewTemplate({ value: '/themeArticle' })
-export default class ThemeArticleViewModel extends JavaClass(
-  'brightspot.example.theming.ThemeArticleViewModel',
-  ViewModel.Of(ThemeArticle),
-  ViewModelOverlayValueEntryView
+@ViewTemplate({ value: '/themingArticle' })
+export default class ThemingArticleViewModel extends JavaClass(
+  'brightspot.example.theming.ThemingArticleViewModel',
+  ViewModel.Of(ThemingArticle),
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)

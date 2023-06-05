@@ -7,21 +7,19 @@ import ContentDeliveryApiEndpointV1 from 'brightspot-types/com/psddev/graphql/cd
 import ContentDeliveryEntryPointField from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryEntryPointField'
 import GraphQLApiAccessOption from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOption'
 import GraphQLApiAccessOptionImplicit from 'brightspot-types/com/psddev/graphql/GraphQLApiAccessOptionImplicit'
-import ContentDeliveryApiThemeable from 'brightspot-types/com/psddev/graphql/cda/ContentDeliveryApiThemeable'
 import GraphQLCorsConfiguration from 'brightspot-types/com/psddev/graphql/GraphQLCorsConfiguration'
 import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ThemeArticlesViewModel from './ThemingArticlesViewModel'
 import ThemeArticleViewModel from './ThemingArticleViewModel'
 
-export default class ThemingEndpoint extends JavaClass(
-  'brightspot.example.theming.ThemingEndpoint',
+export default class NoThemingEndpoint extends JavaClass(
+  'brightspot.example.theming.NoThemingEndpoint',
   ContentDeliveryApiEndpointV1,
-  Singleton,
-  ContentDeliveryApiThemeable
+  Singleton
 ) {
   getPaths(): JavaSet<string> {
-    return ['/graphql/delivery/theming'] as unknown as JavaSet<string>
+    return ['/graphql/delivery/no-theming'] as unknown as JavaSet<string>
   }
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {

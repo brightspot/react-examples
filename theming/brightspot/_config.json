@@ -9,7 +9,7 @@
     }
   },
   "styles": {
-    "/themeArticle": {
+    "/themingArticle": {
       "fields": {
         "alignment": {
           "type": "text",
