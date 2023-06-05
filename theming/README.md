@@ -109,7 +109,7 @@ Theme configuration:
       "fields": {
 ```
 
-> **_Note_** The template name must have a preceeding forward slash. Ex: `@ViewTemplate({ value: "/themingArticle" })`.
+> **_Note_**: The template name must have a preceeding forward slash. Ex: `@ViewTemplate({ value: "/themingArticle" })`.
 
 [`fields`](/theming/brightspot/_config.json): Content specific theme styling fields.
 
@@ -238,7 +238,7 @@ These fields can be used in the front end to dynamically change presentation.
 The following are suggestions for learning more about with Brightspot:
 1. Add a new `themeField` or `fields` and try to using those fields in your front-end application. 
 
-    Remember to generate a new theme zip file if you make any changes to the `_config.json` file. Run `yarn run config` in the `brightspot` directory to update the `custom-theme.zip` file. Then navigate from **&#x2630;** to **Admin** &rarr; **Themes**, and select your theme. Select **New File** to upload the new theme zip file.
+  > **_Note_**: Remember to generate a new theme zip file if you make any changes to the `_config.json` file. Run `yarn run config` in the `brightspot` directory to update the `custom-theme.zip` file. Then navigate from **&#x2630;** to **Admin** &rarr; **Themes**, and select your theme. Select **New File** to upload the new theme zip file.
 
 2. Try adding a color palette option to your theme.   If `colorPalette` is set in the theme, the **Color Palette** tab appears after uploading the theme. 
 
