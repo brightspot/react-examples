@@ -1,17 +1,14 @@
 ## GraphQL RESTification
 
-GraphQL Restification involves converting a GraphQL API into a RESTful API. This means replacing a single GraphQL endpoint with multiple RESTful endpoints.
+Scenarios could arise where the consumer of Brightspot's API is not inherently equipped to handle GraphQL and prefer a RESTful API. Perhaps they have specific data requirements for the API and Brightspot's [REST API](https://www.brightspot.com/documentation/rest-management-api) is supplying them more than they need and/or they want to fetch data that works for them and is easy to consume.
 
-Scenarios could arise where the consumer of Brightspot's API is not inherently equipped to handle GraphQL. Perhaps they have specific data requirements for the API and/or are not familiar with the inner workings of Brightspot or they want to fetch data that works for them and easy to consume.
-
-Restification grants the benefit of controlling the structure of the response, specifically choosing what fields to return when a certain endpoint is called.
+GraphQL Restification involves converting a GraphQL API into a RESTful API. This means replacing a single GraphQL endpoint with multiple RESTful endpoints. Restification grants the benefit of controlling the structure of the data, allowing the JSON response to be easily configured, choosing what fields to return using GraphQL's native query fields.
 
 This example demonstrates how to set up GraphQL queries into individual REST API endpoints in Brightspot.
 
 ## What you will learn
 
 1. [Use Brightspot to create REST Mapping API endpoints](#1-create-rest-mapping-api-endpoints).
-2. [Use the GraphQL schema for type generation at build time and runtime without exposing the endpoint to the public](#2-use-the-graphql-schema-for-type-generation-without-exposing-the-endpoint-to-the-public).
 
 ## Running the example application
 
@@ -69,7 +66,7 @@ In this example, the query created retrieves all members, restricting the data r
 
 Copy and paste the followng query into the explorer:
 
-```graphql
+```
 query AllMembers {
   ListOfMembers: brightspot_example_restification_MemberQuery {
     members: items {
@@ -112,7 +109,7 @@ As this is the first mapping, the a new form pops up to create the REST API mapp
 
 Repeat the process using the following query:
 
-```graphql
+```
 query Member($arguments: [String]) {
   Member: brightspot_example_restification_MemberQuery(
     where: { predicate: "displayName = ?", arguments: $arguments }
@@ -162,19 +159,19 @@ Type in the display name created earlier for the GET with params and POST reques
 
 ## How everything works
 
-Brightspot powers the creation of the REST Mapping API but there is added value with RESTification
+Brightspot powers the creation of the REST Mapping API but there is added value with RESTification. In this example, we were able to use [GraphQL's Aliases](https://graphql.org/learn/queries/#aliases) to alter the response fields.
 
-#### 2. Use the GraphQL schema for type generation without exposing the endpoint to the public
+`brightspot_example_restification_MemberQuery` simply became `ListOfMembers`, `items` became `members` and adds that extra layer of readability:
 
-Running:
-
-```sh
-yarn codegen
 ```
-
-The `codegen.yml` file will take the query included in `restification/app/queries/AllMembers.graphql` as well as the schema from `http://localhost/graphql/management/members` which it has access to via ID and Secret for authorization. This creates a `generated.ts` file. This file contains types and hooks based on the query.
-
-The generated types also maintain the schema's documentation on it's type and fields.
+query AllMembers {
+  ListOfMembers: brightspot_example_restification_MemberQuery {
+    members: items {
+      displayName
+    }
+  }
+}
+```
 
 ## Try it yourself
 
