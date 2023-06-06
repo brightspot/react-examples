@@ -1,11 +1,15 @@
 import { useState } from 'react'
 
-import { Brightspot_Example_Restification_Member } from '../../generated'
 import { debounce, postMember } from '../../utils/utils'
 
 interface MembersData {
-  members?: Brightspot_Example_Restification_Member[]
+  members?: Member[]
   errors?: string[]
+}
+
+interface Member {
+  displayName: string
+  email: string
 }
 
 const MemberPost = () => {
@@ -17,7 +21,7 @@ const MemberPost = () => {
       () =>
         postMember(e?.target?.value).then((res) =>
           setData({
-            members: res?.data.Member.members,
+            members: res?.data.ListOfMembers.members,
             errors: res?.errors,
           })
         ),

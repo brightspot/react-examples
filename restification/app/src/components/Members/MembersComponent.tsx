@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react'
 
 import { GET_MEMBERS } from '../../api/api'
 import { handleResponse } from '../../utils/utils'
-import { Brightspot_Example_Restification_Member } from '../../generated'
 
 interface MembersData {
-  members?: Brightspot_Example_Restification_Member[]
+  members?: Member[]
   errors?: string[]
+}
+
+interface Member {
+  displayName: string
 }
 
 const Members = () => {
@@ -37,7 +40,7 @@ const Members = () => {
           {error}
         </p>
       ))}
-      {data?.members?.map((member: any, index: number) => (
+      {data?.members?.map((member, index: number) => (
         <div key={index}>
           <h1>{member.displayName}</h1>
         </div>
