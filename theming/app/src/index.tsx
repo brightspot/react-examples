@@ -4,10 +4,6 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL,
-  headers: {
-    // 'X-Client-ID': process.env.REACT_APP_CLIENT_ID!,
-    'X-Site': process.env.REACT_APP_SITE!,
-  },
   cache: new InMemoryCache(),
 })
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

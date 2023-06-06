@@ -11,33 +11,10 @@
   "styles": {
     "/themingArticle": {
       "fields": {
-        "alignment": {
-          "type": "text",
-          "displayName": "Title alignment",
-          "cms.ui.note": "Select preferred alignment.",
-          "cms.ui.dropDown": true,
-          "values": [
-            {
-              "label": "Left",
-              "value": "left"
-            },
-            {
-              "label": "Middle",
-              "value": "middle"
-            },
-            {
-              "label": "right",
-              "value": "right"
-            }
-          ]
-        },
         "showHappyFace": {
           "type": "boolean"
         },
-        "sampleNumber": {
-          "type": "number"
-        },
-        "sampleColor": {
+        "happyFaceColor": {
           "type": "color"
         }
       }
@@ -87,19 +64,23 @@
       "cms.ui.dropDown": true,
       "cms.ui.placeholder": "Raleway"
     },
-    "buttonStyle": {
-      "displayName": "Button Style",
-      "cms.ui.note": "Override the Button Style.",
+    "alignment": {
       "type": "text",
+      "displayName": "Title alignment",
+      "cms.ui.note": "Select preferred alignment.",
       "cms.ui.dropDown": true,
       "values": [
         {
-          "label": "Button Primary",
-          "value": "button-primary"
+          "label": "Left",
+          "value": "left"
         },
         {
-          "label": "Button Primary Outline",
-          "value": "button-outline"
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Right",
+          "value": "right"
         }
       ]
     }

@@ -1,4 +1,5 @@
 import './App.css'
+import { RiEmotionHappyLine } from 'react-icons/ri'
 import { useQuery } from '@apollo/client'
 import GET_ARTICLES from './queries/GetArticles'
 
@@ -22,7 +23,26 @@ function App() {
   console.log({ articleData, themeData })
   return (
     <div className="App">
-      <h1>Brightspot Theming</h1>
+      <header>
+        <h1 className="title" data-alignment={themeData.alignment}>
+          Brightspot Theming
+        </h1>
+      </header>
+      <section>
+        <ul>
+          {articleData.map((article: any) => (
+            <li key={article.slug}>
+              {article?._style?.showHappyFace && (
+                <RiEmotionHappyLine
+                  style={{ color: article?._style.happyFaceColor }}
+                />
+              )}
+              <h3>{article.headline}</h3>
+              <p>{article.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   )
 }

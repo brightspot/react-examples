@@ -13,6 +13,8 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 
 import ThemeArticlesViewModel from './ThemingArticlesViewModel'
 import ThemeArticleViewModel from './ThemingArticleViewModel'
+import JavaField from 'brightspot-types/JavaField'
+import ApiClient from 'brightspot-types/com/psddev/cms/api/ApiClient'
 
 export default class ThemingEndpoint extends JavaClass(
   'brightspot.example.theming.ThemingEndpoint',
@@ -23,6 +25,9 @@ export default class ThemingEndpoint extends JavaClass(
   getPaths(): JavaSet<string> {
     return ['/graphql/delivery/theming'] as unknown as JavaSet<string>
   }
+
+  @JavaField(ApiClient)
+  attributionalClient?: ApiClient
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
@@ -39,6 +44,8 @@ export default class ThemingEndpoint extends JavaClass(
   }
 
   getApiAccessOption(): GraphQLApiAccessOption {
-    return new GraphQLApiAccessOptionImplicit()
+    const apiAccessOption  = new GraphQLApiAccessOptionImplicit()
+    apiAccessOption.setAttributionalClient(this.attributionalClient)
+    return apiAccessOption
   }
 }

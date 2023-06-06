@@ -6,10 +6,8 @@ const GET_ARTICLES = gql`
       themingArticles {
         _viewTemplate
         _style {
-          alignment
-          sampleColor
-          sampleNumber
           showHappyFace
+          happyFaceColor
         }
         body
         headline
@@ -18,7 +16,7 @@ const GET_ARTICLES = gql`
     }
     _Theme {
       bodyFont
-      buttonStyle
+      alignment
       primaryColor
       primaryTextColor
       secondaryColor
