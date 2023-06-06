@@ -1,6 +1,6 @@
 ## GraphQL RESTification
 
-Scenarios could arise where the consumer of Brightspot's API is not inherently equipped to handle GraphQL and prefer a RESTful API. Perhaps they have specific data requirements for the API and Brightspot's [REST API](https://www.brightspot.com/documentation/rest-management-api) is supplying them more than they need and/or they want to fetch data that works for them and is easy to consume.
+Scenarios could arise where the consumer of Brightspot's API is not inherently equipped to handle GraphQL and prefer a RESTful API. Perhaps they have specific data requirements for the API and they want a custom API with specific keys/fields.
 
 GraphQL Restification involves converting a GraphQL API into a RESTful API. This means replacing a single GraphQL endpoint with multiple RESTful endpoints. Restification grants the benefit of controlling the structure of the data, allowing the JSON response to be easily configured, choosing what fields to return using GraphQL's native query fields.
 
@@ -30,20 +30,6 @@ $ yarn
 ✨ Done in 6.03s.
 ```
 
-Run the following commands to start up the front-end application:
-
-```sh
-$ yarn codegen
-```
-
-```
-✔ Parse Configuration
-❯ Generate outputs
-✔ Parse Configuration
-✔ Generate outputs
-✨  Done in 0.89s.
-```
-
 ```
 $ yarn start
 ```
@@ -54,15 +40,11 @@ Compiled successfully!
 
 The front-end application will not function correctly until the steps are completed.
 
-## Step 1: Publish Member Content
-
-In Brightspot, publish at least one **Member** content type.
-
-## Step 2: Building the Query and Create REST Mapping
+## Step 1: Building the Query and Create REST Mapping
 
 In Brightspot from the menu **&#x2630;**, navigate to **Developer** &rarr; **GraphQL Explorer** and select **Members API: Restification** from the **Select GraphQL Endpoint** dropdown.
 
-In this example, the query created retrieves all members, restricting the data returned to only the members' display name.
+In this example, the query created retrieves all members, restricting the data returned to only the members' display name. One of the benefits using GraphQL to created the REST endpoings is the ability to use [GraphQL's Aliases](https://graphql.org/learn/queries/#aliases) to alter the shape of the data.
 
 Copy and paste the followng query into the explorer:
 
@@ -75,6 +57,8 @@ query AllMembers {
   }
 }
 ```
+
+`brightspot_example_restification_MemberQuery` simply becomes `ListOfMembers`, `items` becomes `members` and adds that extra layer of readability.
 
 To test the query, click the play/execute button.
 
@@ -100,12 +84,12 @@ As this is the first mapping, the a new form pops up to create the REST API mapp
 | <img alt="Color Palette for Color Picker" src="documentation/images/rest-mapping-form.png"> |
 
 1. Under **Name**, enter 'Members API'.
-2. Under Access, select **Anyone**. Access by default is set to inherit based on the endpoint used to create the REST mapping(s) from. In this case, a content management endpoint is being used, which always needs a client with an id and secret.
+2. Under Access, select **Anyone**. Access by default is set to inherit based on the endpoint used and in this example
 3. Click **Save**.
 
 > - After entering the name, the **Path Prefix** section automatically generates **/members-api**
-> - The **GraphQL Endpoint** section defaults to **GraphQL REST API** if it is the only endpoint. Select **GraphQL REST API** from the dropdown if there are multiple endpoints.
-> - The **Paths** section at the bottom generates: **/members-api/all-members**.
+> - The **GraphQL Endpoint** section defaults to the API you are working on in the GraphQL Explorer
+> - The **Paths** section at the bottom is automatically generated based on the **Path Prefix** and the **REST Mapping Name**
 
 Repeat the process using the following query:
 
@@ -156,22 +140,6 @@ yarn start
 Navigate to `http://localhost:3000/` in the web browser and see the text from the published content.
 
 Type in the display name created earlier for the GET with params and POST request.
-
-## How everything works
-
-Brightspot powers the creation of the REST Mapping API but there is added value with RESTification. In this example, we were able to use [GraphQL's Aliases](https://graphql.org/learn/queries/#aliases) to alter the response fields.
-
-`brightspot_example_restification_MemberQuery` simply became `ListOfMembers`, `items` became `members` and adds that extra layer of readability:
-
-```
-query AllMembers {
-  ListOfMembers: brightspot_example_restification_MemberQuery {
-    members: items {
-      displayName
-    }
-  }
-}
-```
 
 ## Try it yourself
 
