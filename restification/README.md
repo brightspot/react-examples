@@ -118,9 +118,9 @@ Test the query to confirm the results are as expected.
 
 Create the REST Mapping for the query:
 
-| REST Mapping Endpoint Form                                                            |
-| ------------------------------------------------------------------------------------- |
-| <img alt="REST Mapping Endpoint Form" src="documentation/images/member-rest-map.png"> |
+| REST Mapping Endpoint Form: GET Member                                                    |
+| ----------------------------------------------------------------------------------------- |
+| <img alt="REST Mapping Endpoint Form" src="documentation/images/member-rest-mapping.png"> |
 
 The form will be automatically completed but under 'REST Mapping Method(s)'.
 
@@ -146,26 +146,33 @@ mutation CreateMember($displayName: String = "", $firstName: String = "", $lastN
 }
 ```
 
-This mutation will become a POST request to create a new member. As it's a mutation, the **REST Mapping Method** has selected POST automatically:
+This mutation will become a POST request to create a new member. As it's a mutation, the **REST Mapping Method** selected POST automatically:
 
-SCREENSHOT
+| REST Mapping Endpoint Form: POST Member                                                     |
+| ------------------------------------------------------------------------------------------- |
+| <img alt="REST Mapping Endpoint Form" src="documentation/images/create-member-mapping.png"> |
 
-1. Test the GET endpoint by visiting '[http://localhost/members-api/all-members](http://localhost/members-api/all-members)' into your browser.
+1. Test the GET endpoint by visiting [http://localhost/members-api/all-members](http://localhost/members-api/all-members) into your browser.
 2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments=Member_Display_Name_Here' in your browser.
 
-## Step 3 Run the React App
+You can test the POST request from the command line using cURL, copy and paste the following:
 
-Test the endpoint using the included React App.
-
-From the 'app' directory in the terminal, run:
-
-```sh
-yarn start
+```
+curl --location --request POST 'http://localhost/members-api/create-member' \
+--form 'displayName="TestUser"' \
+--form 'firstName="TestFirstName"' \
+--form 'lastName="TestSurname"' \
+--form 'email="test@test.com"' \
+--form 'phoneNumber="1112223333"'
 ```
 
-Navigate to `http://localhost:3000/` in the web browser and see the text from the published content.
+Output:
 
-Type in the display name created earlier for the GET with params and POST request.
+```
+{"data":{"brightspot_example_restification_MemberSave":{"displayName":"TestUser","firstName":"TestFirstName","lastName":"TestSurname","email":"test@test.com","phoneNumber":1.112223333E9}}}
+```
+
+You will now see that user is added by either navigating to Brightspot and see that **Member (REST)** content with the data just sent has been created or by navigating to [http://localhost/members-api/all-members](http://localhost/members-api/all-members) and see the object: ` {"displayName":"TestUser"}` has been added to the array of members.
 
 ## Try it yourself
 
