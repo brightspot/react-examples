@@ -115,15 +115,15 @@ Click **+** at the top of the page in Brightspot, then **Theming Article** from 
 
 - `themeFields`: Add theme global styling fields to this root configuration field.
  
- <i>Theme configuration</i>:
-  ```json5
-  "themeFields": {
-      "primaryColor": {
-        "displayName": "Primary Color",
-        "type": "color",
-        "cms.ui.placeholder": "#ff0083"
-      }, 
-  ```
+  <i>Theme configuration</i>:
+    ```json5
+    "themeFields": {
+        "primaryColor": {
+          "displayName": "Primary Color",
+          "type": "color",
+          "cms.ui.placeholder": "#ff0083"
+        }, 
+    ```
 
   Refer to the [data modeling for themes](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes#field-options) documentation to learn more about field types and field options. 
 ### 3. Configure theme content styling
