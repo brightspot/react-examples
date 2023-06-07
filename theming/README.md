@@ -9,7 +9,7 @@ This example demonstrates implementing Brightspot theming via a CDA endpoint to 
 1. [Create a theme](#1-create-a-theme).
 2. [Configure theme global styling](#2-configure-theme-global-styling).
 3. [Configure theme content styling](#3-configure-theme-content-styling).
-4. [Add a theme to a CDA endpoint](#4-add-a-theme-to-a-cda-endpoint).
+4. [Add theme to a CDA endpoint](#4-add-theme-to-cda-endpoint).
 5. [Use theme fields in a front-end application](#5-use-theme-fields-in-a-front-end-application).
 
 ## Running the example application
