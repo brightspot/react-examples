@@ -7,8 +7,8 @@ This example demonstrates implementing Brightspot theming via a CDA endpoint to 
 
 ## What you will learn
 1. [Create a theme](#1-create-a-theme).
-2. [Configure theme content styling](#2-configure-theme-content-styling).
-3. [Configure theme global styling](#3-configure-theme-global-styling).
+2. [Configure theme global styling](#2-configure-theme-global-styling).
+3. [Configure theme content styling](#3-configure-theme-content-styling).
 4. [Add a theme to a CDA endpoint](#4-add-a-theme-to-a-cda-endpoint).
 5. [Use theme fields in a front-end application](#5-use-theme-fields-in-a-front-end-application).
 
@@ -46,191 +46,177 @@ The React app opens automatically in the browser.
 
 ## Using the example application
 
-The front-end application displays the title "Brightspot Theming".  
+<details>
+<summary>1. Generate a theme zip file</summary>
 
-1. Generate a theme zip file:
-    CD into `theming/brightspot`, and run the following command to generate a `custom-theme.zip` file in the `theming/brightspot` directory if one does not already exist:
+CD into `theming/brightspot`, and run the following command to generate a new `custom-theme.zip` file in the `theming/brightspot` directory.
 
 ```sh
 $ yarn run config
 ```    
+</details>
 
-2. Upload a theme to Brightspot:
-  Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for **New Theme**, add a name. Click the **CHOOSE** button next to the **New Upload** dropdown list. Select the zip file created in step 1. Click **SAVE**.
+<details>
+<summary>2. Upload a theme</summary>
 
-3. Create a site:
-  Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select **New Site**. Add a name, and for the theme, select **Shared**, then the name of the theme you created. Click **SAVE**.
+Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for **New Theme**, add a name. Click the **CHOOSE** button next to the **New Upload** dropdown list. Select the zip file created in step 1. Click **SAVE**.
+</details>
 
-4. Create an API Client:
-  Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **New Api Client**. Add a name, and select the **Theming Endpoint** from the **Endpoints** dropdown list. Add the site you created in step 4 under **Permissions**. Click **SAVE**.
+<details>
+<summary>3. Create a site</summary>
 
-5. Apply the theme and API Client to your endpoint:
-  Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select your theme from the **Theme** dropdown list. Select your API Client from the **Attributional Client** dropdown list. Click **SAVE**. 
+Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select **New Site**. Add a name, and for the theme, select **Shared**, then the name of the theme you created. Click **SAVE**.
+</details>
 
-6. Add theme global overriding styles:
-  Navigate back to the theme you created in Brightspot. There is a new tab: **Overrides**. Select styles in the **Overrides** tab and save. Refresh the front-end application page to see the applied overriding styles. These styling overrides are applied globally for the respective endpoint.
+<details>
+<summary>4. Create an API Client</summary>
 
-7. Add content styles:
-  In Brightspot, create a **Theming Article** by clicking **+** at the top of the page, then **Theming Article** from the dropdown list. In the **New Theming Article** form, add a title, body, and unique slug. Click the **Styles** tab.  Expand the **Theming Article Styles** section and select **Custom** from the **Preset** dropdown list. Select styling from the options available. Click **PUBLISH**. Refresh the front-end application page to see the Theming Article and content styles.
+Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **New Api Client**. Add a name, and select the **Theming Endpoint** from the **Endpoints** dropdown list. Add the site you created in step 4 under **Permissions**. Click **SAVE**.
+</details>
+
+<details>
+<summary>5. Apply theme and API Client to endpoint</summary> 
+
+Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select your theme from the **Theme** dropdown list. Select your API Client from the **Attributional Client** dropdown list. Click **SAVE**. 
+</details>
+
+<details>
+<summary>6. Add theme global styles</summary>
+
+Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **&lt;Theme Name&gt;**. There is a new tab: **Overrides**. Select styles in the **Overrides** tab and save. Refresh the front-end application page to see the applied overriding styles. These styling overrides are applied globally for the respective endpoint.
+</details>
+
+<details>
+<summary>7. Add theme content styles</summary>
+
+Click **+** at the top of the page in Brightspot, then **Theming Article** from the dropdown list. In the **New Theming Article** form, add a title, body, and unique slug. Click the **Styles** tab.  Expand the **Theming Article Styles** section and select **Custom** from the **Preset** dropdown list. Select styling from the options available. Click **PUBLISH**. Refresh the front-end application page to see the Theming Article and content styles.
+</details>
 
 ## How everything works
 
 ### 1. Create a theme
 
-  [`_config.json`](/theming/brightspot/_config.json): This file provides the core information for a theme. A theme configuration file may consist of the following fields:
-  - `themeFields`: Fields for global theme styling.
-  - `colorPalette`: Fields to create a color palette for easier color selection.
-  - `styles`: Fields for content styling.
+  - [`_config.json`](/theming/brightspot/_config.json): This file provides the core information for a theme. A theme configuration file may consist of the following fields:
+    - `themeFields`: Fields for global theme styling.
+    - `colorPalette`: Fields to create a color palette for easier color selection.
+    - `styles`: Fields for content styling.
 
+    ```json5
+    {
+      "themeFields": {},
+      "styles": {},
+      "colorPalette": {}
+    }
+    ```
+
+    Brightspot accepts theme files as zip files. In this example, the theme zip file is generated by running the script `yarn run config`, which executes the [`config.sh`](/theming/brightspot/config.sh) file. 
+
+### 2. Configure theme global styling
+
+- `themeFields`: Add theme global styling fields to this root configuration field.
+ <i>Theme configuration</i>:
   ```json5
-  {
-    "themeFields": {},
-    "styles": {},
-    "colorPalette": {}
-  }
+  "themeFields": {
+      "primaryColor": {
+        "displayName": "Primary Color",
+        "type": "color",
+        "cms.ui.placeholder": "#ff0083"
+      }, 
   ```
 
-  Brightspot accepts theme files as zip files. In this example, the theme zip file is generated by running the script `yarn run config`, which executes the [`config.sh`](/theming/brightspot/config.sh) file. 
+  Refer to the [data modeling for themes](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes#field-options) documentation to learn more about field types and field options. 
+### 3. Configure theme content styling
 
-### 2. Configure theme content styling
+- [`@ViewTemplate`](/theming/brightspot/src/brightspot/example/theming/ThemeArticleViewModel.ts): View interfaces with this annotation have a string field, `_viewTemplate`, added to their object type that returns the value of the annotation. 
 
-[`@ViewTemplate`](/theming/brightspot/src/brightspot/example/theming/ThemeArticleViewModel.ts): View interfaces with this annotation have a string field, `_viewTemplate`, added to their object type that returns the value of the annotation. 
+  <i>View model</i>:
 
-View Model:
-```typescript
-@ViewInterface
-@ViewTemplate({ value: '/themingArticle' })
-export default class ThemingArticleViewModel extends JavaClass(
-  'brightspot.example.theming.ThemingArticleViewModel',
-  ViewModel.Of(ThemingArticle),
-```
+  ```typescript
+  @ViewInterface
+  @ViewTemplate({ value: '/themingArticle' })
+  export default class ThemingArticleViewModel extends JavaClass(
+    'brightspot.example.theming.ThemingArticleViewModel',
+    ViewModel.Of(ThemingArticle),
+  ```
 
-Theme configuration:
-```json5
- "styles": {
-    "/themingArticle": {  // same name as @ViewTemplate value
-      "fields": {
-```
+- `styles`: Add theme content styling fields to this root configuration field.
 
-> **_Note_**: The template name must have a preceeding forward slash. Ex: `@ViewTemplate({ value: "/themingArticle" })`.
+  <i>Theme configuration</i>:
 
-[`fields`](/theming/brightspot/_config.json): Content specific theme styling fields.
+    ```json5
+    "styles": {
+        "/themingArticle": {  // same name as @ViewTemplate value
+          "fields": { // fields for content item
+            "showHappyFace": {
+              "type": "boolean"
+            }
+          }
+        "/<someOtherViewInterface>": {
+          "fields":  {...}
+        } 
+    ```
 
-Theme configuration:
+  > **_Note_**: The view template name must have a preceeding forward slash. Ex: `@ViewTemplate({ value: "/themingArticle" })`.
 
-```json5
- "fields": {
-        "showHappyFace": {
-          "type": "boolean"
-        }
-      }
-```
+### 4. Add theme to CDA Endpoint
 
-### 3. Configure theme global styling
-
-[`themeFields`](/theming/brightspot/_config.json): Theme global styling fields.
-
-Theme configuration:
-
-```json5
- "themeFields": {
-    "primaryColor": {
-      "displayName": "Primary Color",
-      "type": "color",
-      "cms.ui.placeholder": "#ff0083"
-    },
-```
-
-### 4. Add a theme to a CDA Endpoint
-
-- [`ThemingEndpoint.ts`](/theming/brightspot/src/brightspot/example/theming/ThemingEndpoint.ts): Implement the `ContentDeliveryApiThemeable` interface to enable applying themes to a CDA endpoint. Make sure a theme is applied to the endpoint. Theme global fields are available for any site accessed from the respective endpoint. Add a theme to a site to access content styling fields. 
+- [`ThemingEndpoint.ts`](/theming/brightspot/src/brightspot/example/theming/ThemingEndpoint.ts): Implement the `ContentDeliveryApiThemeable` interface to enable applying themes to a CDA endpoint. Make sure your theme is applied to the endpoint. 
 
 ### 5. Use theme fields in a front-end application
 
-When a theme is applied to an endpoint, the endpoint will expose a `_Theme` root field for theme global styling:
+- `_Theme`: When a theme is applied to an endpoint, the endpoint will expose a `_Theme` root field for theme global styling.
 
-```graphql
- query MyQuery {
-  _Theme {
-    bodyFont
-    alignment
-    primaryColor
-    primaryTextColor
-    secondaryColor
-    secondaryTextColor
-  }
-}
-```
-
-Example response:
-
-```json5
-{
-  "data": {
-    "_Theme": {
-      "bodyFont": "Merriweather",
-      "alignment": "center",
-      "buttonStyle": "button-primary",
-      "primaryColor": "#c912bc",
-      "primaryTextColor": "#483939",
-      "secondaryColor": "#30d221",
-      "secondaryTextColor": "#242db6"
+  ```graphql
+  query MyQuery {
+    _Theme {
+      bodyFont
+      alignment
+      primaryColor
+      primaryTextColor
+      secondaryColor
+      secondaryTextColor
     }
   }
-}
+  ```
 
-```
+- `_viewTemplate`: Content items with a `@ViewTemplate` annotation will expose this field.
 
-If the front-end application uses a site with the theme applied, content style fields are available. Content items with a `@ViewTemplate` annotation applied will have the `_viewTemplate` and `_style` fields. If the theme is not applied to a site, the value returned for `_style` is null. 
-
-```graphql
- query MyQuery {
-  ThemeArticle(model: {slug: "great"}) {
-    _viewTemplate
-    _style {
-      happyFaceColor
-      showHappyFace
+  ```graphql
+  query MyQuery {
+    ThemeArticle(model: {slug: "my-article"}) {
+      _viewTemplate // value returned in this example is "/themingArticle"
     }
   }
-}
-```
+  ```
 
+- `_style`: Content items with a `@ViewTemplate` annotation will also expose this field. If the theme is not applied to a site, the value returned is null.
 
-Example response:
-
-```json5
-{
-  "data": {
-    "ThemingArticles": {
-      "themingArticles": [
-        {
-          "_style": {
-            "happyFaceColor": "#30d221",
-            "showHappyFace": true
-          },
-          "_viewTemplate": "/themingArticle"
-        }
-      ]
+  ```graphql
+  query MyQuery {
+    ThemeArticle(model: {slug: "my-article"}) {
+      _style {
+        happyFaceColor
+        showHappyFace
+      }
     }
   }
-}
-```
-
-These fields can be used in the front end to dynamically change presentation. 
+  ```
 
 ## Try it yourself
-The following are suggestions for learning more about with Brightspot:
-1. Add a new `themeFields` or `fields` and try to using those fields in your front-end application. 
+The following are suggestions for learning more about theming:
+1. Add new `themeFields` and/or `fields` and try to using those fields in your front-end application. 
 
-  > **_Note_**: Remember to generate a new theme zip file if you make changes to the `_config.json` file. Run `yarn run config` in the `brightspot` directory to update the `custom-theme.zip` file. Then navigate from **&#x2630;** to **Admin** &rarr; **Themes**, and select your theme. Select **New File** to upload the new theme zip file.
+    > **_Note_**: Remember to generate a new theme zip file if you make changes to the `_config.json` file. Run `yarn run config` in the `brightspot` directory to update the `custom-theme.zip` file. Then navigate from **&#x2630;** to **Admin** &rarr; **Themes**, and select your theme. Select **New File** to upload the new theme zip file.
 
-2. Try adding a color palette option to your theme.   If `colorPalette` is set in the theme, the **Color Palette** tab appears after uploading the theme. 
-
-    Example color palette:
-
-  <img  width=300 alt="Color Palette for Color Picker" src="brightspot/documentation/images/colorPalette.png">
-
-3. Read the [Brightspot documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) on theming to learn more about theming. 
+2. Read the [Brightspot documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) on theming to learn more about theming. 
 
 ## Troubleshooting
-Having issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+
+- Q: I am getting the following error: 
+  ```sh
+  There was an error fetching data: Validation error (FieldUndefined@[_Theme]) : Field '_Theme' in type 'Query' is undefined...
+  ```
+
+    - A: Make sure you added your theme to your endpoint (see step 5 in [Using the Example Application](#using-the-example-application)).
+
+Having other issues running the example application? Refer to the [Common Issues](/README.md) section in the respository README for assistance.

@@ -85,24 +85,6 @@
       ]
     }
   },
-  "colorPalette": {
-    "colorOne": {
-      "displayName": "Color 1",
-      "type": "color"
-    },
-    "colorTwo": {
-      "displayName": "Color 2",
-      "type": "color"
-    },
-    "colorThree": {
-      "displayName": "Color 3",
-      "type": "color"
-    },
-    "colorFour": {
-      "displayName": "Color 4",
-      "type": "color"
-    }
-  },
   "name": "theming example configuration",
   "version": "1.0.0"
 }
