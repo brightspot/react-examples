@@ -114,6 +114,7 @@ Click **+** at the top of the page in Brightspot, then **Theming Article** from 
 ### 2. Configure theme global styling
 
 - `themeFields`: Add theme global styling fields to this root configuration field.
+ 
  <i>Theme configuration</i>:
   ```json5
   "themeFields": {
