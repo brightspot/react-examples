@@ -66,9 +66,9 @@ To test the query, click the play/execute button.
 
 After testing the query, create the first REST Map, click the Cog icon in the GraphQL Explorer (located on the right hand side of the page) and select **Create REST Mapping**. The **New GraphQL REST Mapping** form pops up:
 
-| REST Mapping Endpoint Form                                                                     |
-| ---------------------------------------------------------------------------------------------- |
-| <img alt="Color Palette for Color Picker" src="documentation/images/all-members-rest-map.png"> |
+| REST Mapping Endpoint Form                                                                 |
+| ------------------------------------------------------------------------------------------ |
+| <img alt="REST Mapping Endpoint Form" src="documentation/images/all-members-rest-map.png"> |
 
 The **REST Endpoint** is pre-selected with **Create New...** being the first REST Endpoint created.
 
@@ -79,9 +79,9 @@ The **REST Endpoint** is pre-selected with **Create New...** being the first RES
 
 As this is the first mapping, the a new form pops up to create the REST API mapping, with the title **New REST GraphQL Mapping API**
 
-| REST Mapping API Form                                                                       |
-| ------------------------------------------------------------------------------------------- |
-| <img alt="Color Palette for Color Picker" src="documentation/images/rest-mapping-form.png"> |
+| REST Mapping API Form                                                              |
+| ---------------------------------------------------------------------------------- |
+| <img alt="REST Mapping API Form" src="documentation/images/rest-mapping-form.png"> |
 
 1. Under **Name**, enter 'Members API'.
 2. Under Access, select **Anyone**. Access by default is set to inherit based on the endpoint used and in this example
@@ -118,11 +118,37 @@ Test the query to confirm the results are as expected.
 
 Create the REST Mapping for the query:
 
-| REST Mapping Endpoint Form                                                                |
-| ----------------------------------------------------------------------------------------- |
-| <img alt="Color Palette for Color Picker" src="documentation/images/member-rest-map.png"> |
+| REST Mapping Endpoint Form                                                            |
+| ------------------------------------------------------------------------------------- |
+| <img alt="REST Mapping Endpoint Form" src="documentation/images/member-rest-map.png"> |
 
-The form will be automatically completed but under 'REST Mapping Method(s)', be sure to select 'POST' so that it displays both GET and POST.
+The form will be automatically completed but under 'REST Mapping Method(s)'.
+
+Repeat the process once more but copying and pasting this mutation:
+
+```
+mutation CreateMember($displayName: String = "", $firstName: String = "", $lastName: String = "", $email: String = "", $phoneNumber: Float = 1.5) {
+  brightspot_example_restification_MemberSave(
+    diffs: {brightspot_example_restification_MemberDiff: {
+      displayName: $displayName,
+      firstName: $firstName,
+      lastName: $lastName,
+      email: $email,
+      phoneNumber: $phoneNumber
+    }
+    }) {
+    displayName
+    firstName
+    lastName
+    email
+    phoneNumber
+  }
+}
+```
+
+This mutation will become a POST request to create a new member. As it's a mutation, the **REST Mapping Method** has selected POST automatically:
+
+SCREENSHOT
 
 1. Test the GET endpoint by visiting '[http://localhost/members-api/all-members](http://localhost/members-api/all-members)' into your browser.
 2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments=Member_Display_Name_Here' in your browser.
