@@ -1,13 +1,4 @@
 {
-  "imageSizes": {
-    "petHeadshot (70px x 70px)": {
-      "width": "70px",
-      "height": "70px",
-      "alternateFormats": [
-        "webp"
-      ]
-    }
-  },
   "styles": {
     "/themingArticle": {
       "fields": {

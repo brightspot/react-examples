@@ -12,7 +12,7 @@ import ThemingArticle from './ThemingArticle'
 @ViewTemplate({ value: '/themingArticle' })
 export default class ThemingArticleViewModel extends JavaClass(
   'brightspot.example.theming.ThemingArticleViewModel',
-  ViewModel.Of(ThemingArticle),
+  ViewModel.Of(ThemingArticle)
 ) {
   @JavaMethodParameters()
   @JavaMethodReturn(String)

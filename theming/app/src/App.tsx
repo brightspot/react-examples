@@ -63,7 +63,11 @@ function App() {
             <li key={article.slug}>
               {article._style?.showHappyFace && (
                 <RiEmotionHappyLine
-                  style={{ color: article._style?.happyFaceColor }}
+                  style={
+                    {
+                      '--happyFaceColor': article._style?.happyFaceColor,
+                    } as React.CSSProperties
+                  }
                 />
               )}
               <h3>{article?.headline}</h3>

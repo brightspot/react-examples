@@ -2,7 +2,6 @@
 
 Client-side applications using a Brightspot [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) may have a need for presentation logic delivered via the API, but want that data decoupled from core data models. Brightspot provides a solution with [theming](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes).
 
-
 This example demonstrates implementing Brightspot theming via a CDA endpoint to access presentation logic.
 
 ## What you will learn
@@ -46,6 +45,8 @@ The React app opens automatically in the browser.
 
 ## Using the example application
 
+ > **_Note_**: Unless otherwise specified, perform each of the following steps in the Brightspot CMS.
+
 <details>
 <summary>
 <span>
@@ -53,7 +54,7 @@ The React app opens automatically in the browser.
 </span>
 </summary>
 
-CD into `theming/brightspot`, and run the following command to generate a new `custom-theme.zip` file in the `theming/brightspot` directory.
+CD into `theming/brightspot` in your terminal, and run the following command to generate a new `custom-theme.zip` file in the `theming/brightspot` directory.
 
 ```sh
 $ yarn run config
@@ -70,7 +71,9 @@ Upload a theme
 </span>
 </summary>
 
-Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for **New Theme**, add a name. Click the **CHOOSE** button next to the **New Upload** dropdown list. Select the zip file created in step 1. Click **SAVE**.
+Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for **New Theme**, add a name. Click the **CHOOSE** button next to the **New Upload** dropdown list. Select the generated `custom-theme.zip` file. Click **SAVE**.
+
+<img  height="400px" src="/theming/brightspot/documentation/images/themeUpload.png" alt="upload theme in Brightspot">
 </details>
 
 <details>
@@ -81,6 +84,8 @@ Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. 
 </summary>
 
 Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select **New Site**. Add a name, and for the theme, select **Shared**, then the name of the theme you created. Click **SAVE**.
+
+<img  height="400px" src="/theming/brightspot/documentation/images/siteCreation.png" alt="Create site in Brightspot">
 </details>
 
 <details>
@@ -90,7 +95,9 @@ Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select 
 </span>
 </summary>
 
-Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **New Api Client**. Add a name, and select the **Theming Endpoint** from the **Endpoints** dropdown list. Add the site you created in step 4 under **Permissions**. Click **SAVE**.
+Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **New Api Client**. Add a name, and select the **Theming Endpoint** from the **Endpoints** dropdown list. Add the site you created under **Permissions**. Click **SAVE**.
+
+<img  height="500px" src="/theming/brightspot/documentation/images/apiClient.png" alt="Create API Client in Brightspot">
 </details>
 
 <details>
@@ -100,7 +107,9 @@ Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **New Api Cl
 </span>
 </summary> 
 
-Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select your theme from the **Theme** dropdown list. Select your API Client from the **Attributional Client** dropdown list. Click **SAVE**. 
+Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select your theme from the **Theme** dropdown list. Select your API Client from the **Attributional Client** dropdown list. Click **SAVE**.
+
+<img  height="400px" src="/theming/brightspot/documentation/images/endpointThemeClient.png" alt="Add API Client and theme to endpoint in Brightspot">
 </details>
 
 <details>
@@ -111,6 +120,8 @@ Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming En
 </summary>
 
 Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **&lt;Theme Name&gt;**. There is a new tab: **Overrides**. Select styles in the **Overrides** tab and save. Refresh the front-end application page to see the applied overriding styles. These styling overrides are applied globally for the respective endpoint.
+
+<img  height="400px" src="/theming/brightspot/documentation/images/themeGlobalStyles.png" alt="Add theme global styles in Brightspot">
 </details>
 
 <details>
@@ -120,7 +131,9 @@ Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **&lt;Theme Nam
 </span>
 </summary>
 
-Click **+** at the top of the page in Brightspot, then **Theming Article** from the dropdown list. In the **New Theming Article** form, add a title, body, and unique slug. Click the **Styles** tab.  Expand the **Theming Article Styles** section and select **Custom** from the **Preset** dropdown list. Select styling from the options available. Click **PUBLISH**. Refresh the front-end application page to see the Theming Article and content styles.
+Click **+** at the top of the page, then **Theming Article** from the dropdown list. In the **New Theming Article** form, add a title, body, and unique slug. Click the **Styles** tab.  Expand the **Theming Article Styles** section and select **Custom** from the **Preset** dropdown list. Select styling from the options available. Click **PUBLISH**. Refresh the front-end application page to see the Theming Article and content styles.
+
+<img  height="400px" src="/theming/brightspot/documentation/images/themeContentStyles.png" alt="Add theme content styles in Brightspot">
 </details>
 
 ## How everything works
@@ -196,43 +209,61 @@ Click **+** at the top of the page in Brightspot, then **Theming Article** from 
 
 ### 5. Use theme fields in a front-end application
 
-- `_Theme`: When a theme is applied to an endpoint, the endpoint will expose a `_Theme` root field for theme global styling.
+- [GraphQL fields](/theming/app/src/queries/GetArticles.tsx):
+  - `_Theme`: When a theme is applied to an endpoint, the endpoint will expose a `_Theme` root field for theme global styling.
 
-  ```graphql
-  query MyQuery {
-    _Theme {
-      bodyFont
-      alignment
-      primaryColor
-      primaryTextColor
-      secondaryColor
-      secondaryTextColor
-    }
-  }
-  ```
-
-- `_viewTemplate`: Content items with a `@ViewTemplate` annotation will expose this field.
-
-  ```graphql
-  query MyQuery {
-    ThemeArticle(model: {slug: "my-article"}) {
-      _viewTemplate // value returned in this example is "/themingArticle"
-    }
-  }
-  ```
-
-- `_style`: Content items with a `@ViewTemplate` annotation will also expose this field. If the theme is not applied to a site, the value returned is null.
-
-  ```graphql
-  query MyQuery {
-    ThemeArticle(model: {slug: "my-article"}) {
-      _style {
-        happyFaceColor
-        showHappyFace
+      ```graphql
+      query GetArticles {
+        _Theme {
+          bodyFont
+          alignment
+          primaryColor
+          primaryTextColor
+          secondaryColor
+          secondaryTextColor
+        }
       }
-    }
-  }
-  ```
+       ```
+
+
+  - `_viewTemplate`: Content items with a `@ViewTemplate` annotation will expose this field.
+
+      ```graphql
+      query GetArticles {
+          ThemingArticles {
+            themingArticles {
+              _viewTemplate # in this example field returns "/themingArticle"
+            }
+        }
+      }   
+      ```
+
+  - `_style`: Content items with a `@ViewTemplate` annotation will also expose this field. If the theme is not applied to a site, the value returned is null.
+
+    ```graphql
+      query GetArticles {
+        ThemingArticles {
+          themingArticles {
+            _style {
+              showHappyFace
+              happyFaceColor
+            }
+          }
+        }
+      }
+    ```
+
+- [Front-end styling](/theming/app/src/App.tsx):
+
+  - `root.style.setProperty('--primaryColor', themeData?.primaryColor || '#fff')`: One option for adding styling is with CSS variables added to the root HTML element.
+
+  - `style={{ "--happyFaceColor": article._style?.happyFaceColor } as React.CSSProperties}`: Another option is setting scoped CSS variables to particular elements. 
+
+  - `{article._style?.showHappyFace && (...`: Styling fields can be used to determine rendering of HTML elements. 
+
+  - `<h1 className="title" data-alignment={themeData?.alignment}>`: Data attributes are another way to use styling fields.
+
+    The above options are just a few of the ways styling fields can be used in a front-end application. 
 
 ## Try it yourself
 The following are suggestions for learning more about theming:

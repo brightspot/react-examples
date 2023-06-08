@@ -40,6 +40,12 @@ li {
   border-radius: 8px;
 }
 
+li > svg {
+  height: 2rem;
+  width: 2rem;
+  color: var(--happyFaceColor, #000);
+}
+
 h3 {
   overflow: hidden;
   max-width: 25ch;

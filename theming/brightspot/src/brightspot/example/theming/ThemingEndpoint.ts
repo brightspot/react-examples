@@ -27,7 +27,7 @@ export default class ThemingEndpoint extends JavaClass(
   }
 
   @JavaField(ApiClient)
-  attributionalClient?: ApiClient
+  attributionalClient?: ApiClient;
 
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
@@ -44,7 +44,7 @@ export default class ThemingEndpoint extends JavaClass(
   }
 
   getApiAccessOption(): GraphQLApiAccessOption {
-    const apiAccessOption  = new GraphQLApiAccessOptionImplicit()
+    const apiAccessOption = new GraphQLApiAccessOptionImplicit()
     apiAccessOption.setAttributionalClient(this.attributionalClient)
     return apiAccessOption
   }
