@@ -48,8 +48,8 @@ The React app opens automatically in the browser.
 
 <details>
 <summary>
-<span style="color: #2a5975">
-<b> Generate a theme zip file</b>
+<span style="color: #ff1e3c">
+<b>Generate a theme zip file</b>
 </span>
 </summary>
 
@@ -62,45 +62,65 @@ $ yarn run config
 </details>
 
 <details>
-<summary>Upload a theme</summary>
+<summary>
+<span style="color: #ff1e3c">
+<b>
+Upload a theme
+</b>
+</span>
+</summary>
 
 Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. In the **MAIN** section for **New Theme**, add a name. Click the **CHOOSE** button next to the **New Upload** dropdown list. Select the zip file created in step 1. Click **SAVE**.
-<hr />
 </details>
 
 <details>
-<summary>Create a site</summary>
+<summary>
+<span style="color: #ff1e3c">
+<b>Create a site</b>
+</span>
+</summary>
 
 Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select **New Site**. Add a name, and for the theme, select **Shared**, then the name of the theme you created. Click **SAVE**.
-<hr />
 </details>
 
 <details>
-<summary>Create an API Client</summary>
+<summary>
+<span style="color: #ff1e3c">
+<b>Create an API client</b>
+</span>
+</summary>
 
 Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **New Api Client**. Add a name, and select the **Theming Endpoint** from the **Endpoints** dropdown list. Add the site you created in step 4 under **Permissions**. Click **SAVE**.
-<hr />
 </details>
 
 <details>
-<summary>Apply theme and API Client to endpoint</summary> 
+<summary>
+<span style="color: #ff1e3c">
+<b>Apply theme and API endpoint to client</b>
+</span>
+</summary> 
 
 Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming Endpoint**. Select your theme from the **Theme** dropdown list. Select your API Client from the **Attributional Client** dropdown list. Click **SAVE**. 
-<hr />
 </details>
 
 <details>
-<summary>Add theme global styles</summary>
+<summary>
+<span style="color: #ff1e3c">
+<b>Add theme global styles</b>
+</span>
+</summary>
 
 Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **&lt;Theme Name&gt;**. There is a new tab: **Overrides**. Select styles in the **Overrides** tab and save. Refresh the front-end application page to see the applied overriding styles. These styling overrides are applied globally for the respective endpoint.
-<hr />
 </details>
 
 <details>
-<summary>Add theme content styles</summary>
+<summary>
+<span style="color: #ff1e3c">
+<b>Add theme content styles</b>
+</span>
+</summary>
 
 Click **+** at the top of the page in Brightspot, then **Theming Article** from the dropdown list. In the **New Theming Article** form, add a title, body, and unique slug. Click the **Styles** tab.  Expand the **Theming Article Styles** section and select **Custom** from the **Preset** dropdown list. Select styling from the options available. Click **PUBLISH**. Refresh the front-end application page to see the Theming Article and content styles.
-<hr />
 </details>
 
 ## How everything works
