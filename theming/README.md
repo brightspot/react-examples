@@ -48,7 +48,7 @@ The React app opens automatically in the browser.
 
 <details>
 <summary>
-<span style="color: #ff1e3c">
+<span>
 <b>Generate a theme zip file</b>
 </span>
 </summary>
@@ -63,7 +63,7 @@ $ yarn run config
 
 <details>
 <summary>
-<span style="color: #ff1e3c">
+<span>
 <b>
 Upload a theme
 </b>
@@ -75,7 +75,7 @@ Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **New Theme**. 
 
 <details>
 <summary>
-<span style="color: #ff1e3c">
+<span>
 <b>Create a site</b>
 </span>
 </summary>
@@ -85,7 +85,7 @@ Navigate from **&#x2630;** to **Admin** &rarr; **Sites & Settings**, and select 
 
 <details>
 <summary>
-<span style="color: #ff1e3c">
+<span>
 <b>Create an API client</b>
 </span>
 </summary>
@@ -95,7 +95,7 @@ Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **New Api Cl
 
 <details>
 <summary>
-<span style="color: #ff1e3c">
+<span>
 <b>Apply theme and API endpoint to client</b>
 </span>
 </summary> 
@@ -105,7 +105,7 @@ Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, and select **Theming En
 
 <details>
 <summary>
-<span style="color: #ff1e3c">
+<span>
 <b>Add theme global styles</b>
 </span>
 </summary>
@@ -115,7 +115,7 @@ Navigate from **&#x2630;** to **Admin** &rarr; **Themes** &rarr; **&lt;Theme Nam
 
 <details>
 <summary>
-<span style="color: #ff1e3c">
+<span>
 <b>Add theme content styles</b>
 </span>
 </summary>
