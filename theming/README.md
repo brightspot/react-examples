@@ -1,23 +1,3 @@
-<style>
-details>summary {
-
-  list-style: none;
-}
-summary::-webkit-details-marker {
-  display: none
-}
-
-summary::after {
-  content: ' +';
-  font-weight: bold;
-  font-size: 20px;
-}
-details[open] summary:after {
-  content: " -";
-  font-weight: bold;
-  font-size: 20px;
-}
-</style>
 # Theming
 
 Client-side applications using a Brightspot [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) may have a need for presentation logic delivered via the API, but want that data decoupled from core data models. Brightspot provides a solution with [theming](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes).
