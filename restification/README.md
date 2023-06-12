@@ -1,8 +1,8 @@
 ## GraphQL RESTification
 
-Scenarios could arise where the consumer of Brightspot's API is not inherently equipped to handle GraphQL and prefer a RESTful API. Perhaps they have specific data requirements for the API and they want a custom API with specific keys/fields.
+At times, consumers of Brightspot's API may not be inherently equipped to handle GraphQL and may instead prefer a RESTful API. Perhaps they have specific data requirements for the API, and as such, they want a custom API with specific keys and fields.
 
-GraphQL Restification involves converting a GraphQL API into a RESTful API. This means replacing a single GraphQL endpoint with multiple RESTful endpoints. Restification grants the benefit of controlling the structure of the data, allowing the JSON response to be easily configured, choosing what fields to return using GraphQL's native query fields.
+GraphQL RESTification involves converting a GraphQL API into a RESTful API by replacing a single GraphQL endpoint with multiple RESTful endpoints. RESTification grants the benefit of controlling the structure of the data, allowing the JSON response to be easily configured, and choosing what fields to return using GraphQL's native query fields.
 
 This example demonstrates how to set up GraphQL queries into individual REST API endpoints in Brightspot.
 
@@ -44,15 +44,20 @@ The front-end application will not function correctly until the steps are comple
 
 In Brightspot from the navigation menu **&#x2630;**, under **Admin**, select **Content Types**.
 
-Under the **New Content Type** form, for **Name**, enter **Member (REST)** as the content type name. Under **Items**, select the dropdown field, For the first field select **Text Field**. In the text field form, for name, enter **Display Name** and scroll down to the bottom of the form and toggle **Search Filter?** and **Required** on:
+Under the **New Content Type** form do the following:
+
+1. In the **Name** field, enter **Member (REST)**.
+2. Under **Items**, click &#10753; then select **Text Field**.
+3. In the text field form, in the **Name** field, enter **Display Name**.
+4. At the bottom of the form, toggle on **Search Filter?** and **Required**.
 
 | Text Field: Display Name                                                                     |
 | -------------------------------------------------------------------------------------------- |
 | <img alt="Text Field: Display Name " src="documentation/images/text-field-display-name.png"> |
 
-Add three more text fields, one for **First Name**, **Last Name** and **Email**. Lastly add a **Number Field** with the name **Phone Number**
-
-Then click the **SAVE** button at the very bottom.
+5. Repeat steps 2-3 to add three more text fields, named **First Name**, **Last Name** and **Email** repectively.
+6. Repeat step 2 to add a **Number Field** with the name **Phone Number**.
+7. Click **SAVE** at the bottom of the page.
 
 | Member (REST) Content Type                                                                     |
 | ---------------------------------------------------------------------------------------------- |
@@ -60,11 +65,12 @@ Then click the **SAVE** button at the very bottom.
 
 ## Step 2: Create Content Management API (CMA) Endpoint
 
-With the content type created, using the navigation menu **&#x2630;**, under **Admin**, select **APIs**. On the left pane, under **Create**, use the drop down to select **GraphQL Content Management API** and click **New** to be presented with the form to create the API.
+With the content type created, using the navigation menu **&#x2630;**, under **Admin**, select **APIs**.
 
-In the form, for **Name** enter **Members API**. Under **Read Types** and **Read/Write Types**, using the drop down menu select **Member (REST)**.
-
-Click Save.
+1. In the left pane, from the **Create** list, select **GraphQL Content Management API**, then click **New** to be presented with the form to create the API.
+2. In the **Name** field, enter **Members API**.
+3. Under **Read Types** and **Read/Write Types** fields, using the drop down menu select **Member (REST)**.
+4. Click Save.
 
 | Members API (CMA) Endpoint                                                             |
 | -------------------------------------------------------------------------------------- |
@@ -72,7 +78,7 @@ Click Save.
 
 ## Step 3: Building the Query and Create REST Mappings
 
-From the navigation menu **&#x2630;**, go to **Developer** &rarr; **GraphQL Explorer** and select **Members API** from the **Select GraphQL Endpoint** dropdown.
+From the navigation menu **&#x2630;**, under **Developer** &rarr; select **GraphQL Explorer**, then select **Members API** from the **Select GraphQL Endpoint** dropdown.
 
 In this example, the query created retrieves all members, restricting the data returned to only the members' display name. One of the benefits using GraphQL to created the REST endpoings is the ability to use [GraphQL's Aliases](https://graphql.org/learn/queries/#aliases) to alter the shape of the data.
 
@@ -88,13 +94,13 @@ query AllMembers {
 }
 ```
 
-`brightspot_generated_memberrest_MemberRestQuery` simply becomes `ListOfMembers`, `items` becomes `members` and adds that extra layer of readability.
+`brightspot_generated_memberrest_MemberRestQuery` simply becomes `ListOfMembers`, `items` becomes `members` adding an extra layer of readability.
 
 To test the query, click the play/execute button.
 
 #### 1. Create REST mapping API endpoints
 
-After testing the query, create the first REST Map, click the Cog icon in the GraphQL Explorer (located on the right hand side of the page) and select **Create REST Mapping**. The **New GraphQL REST Mapping** form pops up:
+After testing the query, create the first REST Map by clicking the gear icon &#9881; in the GraphQL Explorer (located on the upper right-hand corner of the page) and selecting **Create REST Mapping**. The **New GraphQL REST Mapping** form opens:
 
 | GraphQL Explorer with REST Mapping Endpoint Form                                           |
 | ------------------------------------------------------------------------------------------ |
@@ -107,14 +113,14 @@ The **REST Endpoint** is pre-selected with **Create New...** being the first RES
 3. Under **REST Mapping Path**, the REST mapping path is automatically generated as **/all-members** from the query name.
 4. Click **Create**.
 
-As this is the first mapping, the a new form pops up to create the REST API mapping, with the title **New REST GraphQL Mapping API**
+As this is the first mapping, the a new form opens to create the REST API mapping, with the title **New REST GraphQL Mapping API**
 
 | REST GraphQL Mapping API Form                                                             |
 | ----------------------------------------------------------------------------------------- |
 | <img alt="REST GraphQL Mapping API Form" src="documentation/images/members-api-rest.png"> |
 
 1. Under **Name**, enter 'Members API'.
-2. Under Access, select **Anyone**. Access by default is set to inherit based on the endpoint used and in this example
+2. Under Access, select **Anyone**. Access by default is set to inherit based on the endpoint used.
 3. Click **Save**.
 
 > - After entering the name, the **Path Prefix** section automatically generates **/members-api**
@@ -136,7 +142,7 @@ query Member($arguments: [String]) {
 }
 ```
 
-At the bottom of the explorer, pull up the 'QUERY VARIABLES' section and put in the variable to test. Your variable looks similar to the following:
+At the bottom of the explorer, open the 'QUERY VARIABLES' section and enter the variable to test. Your variable looks similar to the following:
 
 ```json
 {
@@ -154,7 +160,7 @@ Create the REST Mapping for the query:
 
 The form will be automatically completed but under 'REST Mapping Method(s)'.
 
-Repeat the process once more, this time copying and pasting this mutation:
+Repeat the process once more, this time copying and pasting the following mutation:
 
 ```
 mutation CreateMember($displayName: String = "", $firstName: String = "", $lastName: String = "", $email: String = "", $phoneNumber: Float = 1.5) {
@@ -176,7 +182,7 @@ mutation CreateMember($displayName: String = "", $firstName: String = "", $lastN
 }
 ```
 
-This mutation will become a POST request to create a new member. As it's a mutation, the **REST Mapping Method** selects POST automatically:
+This mutation will become a POST request to create a new member. Because it is a mutation, the **REST Mapping Method** selects POST automatically:
 
 | REST Mapping Endpoint Form: Create Member                                           |
 | ----------------------------------------------------------------------------------- |
@@ -184,8 +190,8 @@ This mutation will become a POST request to create a new member. As it's a mutat
 
 ## Step 4: Testing the REST Endpoints
 
-1. Test the GET endpoint by visiting [http://localhost/members-api/all-members](http://localhost/members-api/all-members) into your browser.
-2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments=Member_Display_Name_Here' in your browser.
+1. Test the GET endpoint by visiting [http://localhost/members-api/all-members](http://localhost/members-api/all-members).
+2. Test the second REST mapping endpoint with a GET request made with the display name as the parameter by visiting 'http://localhost/members-api/member?arguments=Member_Display_Name_Here'.
 3. Test the POST request from the command line using cURL, copy and paste the following:
 
    ```
@@ -203,12 +209,15 @@ This mutation will become a POST request to create a new member. As it's a mutat
    {"data":{"brightspot_example_restification_MemberSave":{"displayName":"TestUser","firstName":"TestFirstName","lastName":"TestSurname","email":"test@test.com","phoneNumber":1.112223333E9}}}
    ```
 
-You will now see that user is added by either navigating to Brightspot and see that **Member (REST)** content with the data just sent has been created or by navigating to [http://localhost/members-api/all-members](http://localhost/members-api/all-members) and see the object: ` {"displayName":"TestUser"}` has been added to the array of members.
+You will now see that user is added in one of two ways:
+
+1.  By navigating to Brightspot and verifying that **Member (REST)** content with the data just sent has been created.
+2.  By navigating to [http://localhost/members-api/all-members](http://localhost/members-api/all-members) and verifying that the object: ` {"displayName":"TestUser"}` has been added to the array of members.
 
 ## Try it yourself
 
 ## Troubleshooting
 
-If your REST endpoint is displaying 'INVALID CREDENTIALS'. Be sure that your REST Mapping's **Access** is changed to **Anyone** rather than **inherit**.
+If your REST endpoint is displaying 'INVALID CREDENTIALS', then ensure that your REST Mapping's **Access** is changed to **Anyone** rather than **inherit**.
 
 Having issues running the example application? Refer to the [Common Issues](/README.md) section in the repository README for assistance.
