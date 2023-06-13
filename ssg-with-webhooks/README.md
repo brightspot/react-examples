@@ -6,8 +6,8 @@ This example demonstrates how to leverage Brightspot's Webhooks feature to trigg
 
 ## What you will learn
 
-1. [Create a webhook payload](#1-create-a-webhook-payload)
-2. [Create a webhook topic and notification trigger](#2-create-a-webhook-topic-and-notification-trigger)
+1. [Create a payload and topic](#1-create-a-payload-and-topic)
+2. [Create a notification trigger](#2-create-a-notification-trigger)
 3. [Create an endpoint to manage webhooks](#3-create-an-endpoint-to-manage-webhooks)
 4. [Add a webhook to the endpoint](#4-add-a-webhook-to-the-endpoint)
 5. [Create a Next.js webhook handler](#5-create-a-nextjs-webhook-handler)
@@ -120,15 +120,15 @@ The Next.js app is a simple blog site with content consisting of **Blog Posts**.
 
 Publish one or more **Blog Posts**. After a few seconds, refresh the Next.js web page and navigate through the app to find the published content. Note that the content appears on the app without needing to rebuild.
 
-### 1. Create a webhook payload
+### 1. Create a payload and topic
 
-In this context, a webhook payload is the data structure that is sent from Brightspot to the front-end app. The app needs to know which pages to regenerate, so the payload should include a list of unique identifiers for those pages.
+In this context, a payload is the data structure that is sent from Brightspot to the front-end app. The app needs to know which pages to regenerate, so the payload should include a list of unique identifiers for those pages.
 
-A webhook payload is created by extending the `JavaRecord` class and adding fields that represent the desired data structure.
+A payload is created by extending the `JavaRecord` class and adding fields that represent the desired data structure.
 
 This example uses a data structure that mirrors the [Brightspot Routing](https://github.com/brightspot/react-examples/tree/main/brightspot-routing) example. The payload includes a `paths` field to store a list of URL paths (and associated metadata) of new or updated content.
 
-[`BlogPostPayload.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostPayload.ts)
+[BlogPostPayload.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostPayload.ts)
 
 ```ts
 export default class BlogPostPayload extends JavaClass(
@@ -140,9 +140,9 @@ export default class BlogPostPayload extends JavaClass(
 }
 ```
 
-The `paths` field is defined as a list of objects so that the URL path metadata is packaged together with the path itself. Since this type is a reference, it is defined as a separate class extending `JavaRecord`. The `@Embedded` annotation is added so that the values of the subfields are added to the payload, not just the reference itself.
+The `paths` field is defined as a list of objects so that the URL path metadata is packaged together with the path itself. Since this type is an object, it is defined as a separate class extending `JavaRecord`. The `@Embedded` annotation is added so that the values of the subfields are added to the payload.
 
-[`BlogPostPayloadPath.ts`](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostPayloadPath.ts)
+[BlogPostPayloadPath.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostPayloadPath.ts)
 
 ```ts
 @Embedded
@@ -161,13 +161,11 @@ export default class BlogPostPayloadPath extends JavaClass(
 }
 ```
 
-### 2. Create a webhook topic and notification trigger
+A topic bundles the payload together and allows for its delivery. It is created with a class that extends the `AbstractTopic<P>` abstract class where `P` is the payload class. Topics can optionally store additional configuration fields.
 
-A webhook topic bundles the payload together and allows for its delivery. It is created with a class that extends the `AbstractTopic<P>` abstract class where `P` is the payload class. Webhook topics can optionally store additional configuration fields.
+The topic in this example does not use any configuration fields and only overrides the `toStringFormat()` class method for debugging purposes.
 
-The webhook topic in this example does not use any configuration fields and only overrides the `toStringFormat()` class method for debugging purposes.
-
-[`BlogPostTopic.ts`](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostTopic.ts)
+[BlogPostTopic.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostTopic.ts)
 
 ```ts
 export default class BlogPostTopic extends JavaClass(
@@ -180,13 +178,15 @@ export default class BlogPostTopic extends JavaClass(
 }
 ```
 
-To keep the front-end app up-to-date at all times, it should receive a webhook notification every time content is created or updated. One way to capture these moments is by overriding the `afterSave()` method. Doing so will serve as the trigger to send the webhook notification.
+### 2. Create a notification trigger
+
+To keep the front-end app up-to-date at all times, it should receive a notification every time content is created or updated. One way to capture these moments is by overriding the `afterSave()` method. Doing so will serve as the trigger to send the notification.
 
 This example separates the notification trigger from the data model by using a [Modification](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/modifications) of the `BlogPost` model.
 
-Within the overriden `afterSave()` method, the webhook payload can be created, filled with the relevant URL path data, and sent as a notification.
+Within the overriden `afterSave()` method, the payload can be created, filled with the relevant URL path data, and sent as a notification.
 
-Within the `afterSave()` method, a webhook payload is created and its `paths` field is populated with the URL path data from the published content. Then a notification is published using the matching topic and the newly instantiated payload.
+Within the `afterSave()` method, a payload is created and its `paths` field is populated with the URL path data from the published content. Then a notification is published using the matching topic and the newly instantiated payload.
 
 [BlogPostTrigger.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostTrigger.ts)
 
@@ -236,7 +236,7 @@ export default class BlogPostTrigger extends JavaClass(
 
 ### 3. Create an endpoint to manage webhooks
 
-The previous step determines when webhooks are sent, but not their destinations. This step creates a REST Management API endpoint so that developers can specify webhook destination URLs.
+The previous step determines when notifications are sent, but not their delivery method. This step creates a REST Management API endpoint that allows developers to create webhooks that point to their front-end app.
 
 To create a REST Management API endpoint in Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Create** &rarr; **REST Management API** &rarr; **New**, enter a name, specify a path (or use the default), and click **Save**.
 
@@ -256,7 +256,7 @@ TODO:
 
 A webhook and its destination URL can be created through the Brightspot UI or through an external HTTP request.
 
-This example uses a Node.js script to POST a webhook to the REST Management API endpoint created in the previous step. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) to send a request to the `/webhooks` route of the endpoint with a body containing the desired webhook topic (defined in step 2) and destination URL.
+This example uses a Node.js script to POST a webhook to the REST Management API endpoint created in the previous step. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) to send a request to the `/webhooks` route of the endpoint with a body containing the desired webhook topic (defined in step 1) and a destination URL.
 
 [createWebhook.mjs](./app/createWebhook.mjs)
 
@@ -277,7 +277,7 @@ const postWebhook = async () => {
 postWebhook()
 ```
 
-The body of the request must be structured like the code snippet below. The `url` is the full destination URL for the webhook and the `topic._type` is the full class name of the webhook topic defined in step 2.
+The body of the request must be structured like the code snippet below. The `url` is the full destination URL for the webhook and the `topic._type` is the full class name of the webhook topic defined in step 1.
 
 ```js
 const body = {
@@ -296,7 +296,7 @@ This example uses Next.js [API Routes](https://nextjs.org/docs/pages/building-yo
 
 The Next.js webhook handler API route must match the URL destination defined in step 4. This example uses `pages/api/revalidate.ts`.
 
-The body of the incoming webhook will be structured like the webhook payload defined in step 1. The list of URL path data is extracted from the request and a corresponding Next.js app page is revalidated for each one.
+The body of the incoming webhook will be structured like the webhook payload defined in step 1. The list of URL path data is extracted from the request and a corresponding Next.js app pages are revalidated.
 
 [revalidate.ts](./app/pages/api/revalidate.ts)
 
