@@ -3,6 +3,7 @@ query GetAllPaths {
     blogPosts {
       paths {
         path
+        type
       }
     }
   }

@@ -39,9 +39,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   let paths: { params: ParsedUrlQuery }[] = []
 
   data.AllBlogPosts.blogPosts.forEach((blogPost: BlogPost) => {
-    blogPost.paths?.forEach((path) =>
-      paths.push({ params: { path: path?.path?.split('/') } })
-    )
+    blogPost.paths?.forEach((path) => {
+      if (path?.type === 'Permalink') {
+        paths.push({ params: { path: path?.path?.split('/') } })
+      }
+    })
   })
 
   paths.forEach((path: any) => path.params.path.shift())
