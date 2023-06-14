@@ -6,10 +6,10 @@ This example demonstrates how to leverage Brightspot's Webhooks feature to trigg
 
 ## What you will learn
 
-1. [Create a payload and topic](#1-create-a-payload-and-topic)
+1. [Create a notification payload and topic](#1-create-a-notification-payload-and-topic)
 2. [Create a notification trigger](#2-create-a-notification-trigger)
-3. [Create an endpoint to manage webhooks](#3-create-an-endpoint-to-manage-webhooks)
-4. [Add a webhook to the endpoint](#4-add-a-webhook-to-the-endpoint)
+3. [Configure the REST Management API](#3-configure-the-rest-management-api)
+4. [Create a webhook](#4-create-a-webhook)
 5. [Create a Next.js webhook handler](#5-create-a-nextjs-webhook-handler)
 6. [Create static Next.js pages](#6-create-static-nextjs-pages)
 7. [Handle permalink updates and deletions](#7-handle-permalink-updates-and-deletions)
@@ -120,7 +120,7 @@ The Next.js app is a simple blog site with content consisting of **Blog Posts**.
 
 Publish one or more **Blog Posts**. After a few seconds, refresh the Next.js web page and navigate through the app to find the published content. Note that the content appears on the app without needing to rebuild.
 
-### 1. Create a payload and topic
+### 1. Create a notification payload and topic
 
 In this context, a payload is the data structure that is sent from Brightspot to the front-end app. The app needs to know which pages to regenerate, so the payload should include a list of unique identifiers for those pages.
 
@@ -234,11 +234,11 @@ export default class BlogPostTrigger extends JavaClass(
 }
 ```
 
-### 3. Create an endpoint to manage webhooks
+### 3. Configure the REST Management API
 
-The previous step determines when notifications are sent, but not their delivery method. This step creates a REST Management API endpoint that allows developers to create webhooks that point to their front-end app.
+The previous step determines when notifications are sent, but not their delivery method. This step configures the REST Management API and allows developers to create webhooks that point to their front-end app.
 
-To create a REST Management API endpoint in Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Create** &rarr; **REST Management API** &rarr; **New**, enter a name, specify a path (or use the default), and click **Save**.
+To configure the REST Management API in Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Create** &rarr; **REST Management API** &rarr; **New**, enter a name, specify a path (or use the default), and click **Save**.
 
 <details>
 <summary>
@@ -250,13 +250,13 @@ TODO:
 <img  height="400px" src="/ssg-with-webhooks/brightspot/documentation/images/themeContentStyles.png" alt="Create REST Management API in Brightspot">
 </details>
 
-> **_Note_** REST Management API endpoints require client credentials to be accessed outside of the Brightspot UI. See {TODO: add link here} for detailed instructions on creating an API Client and API Keys.
+> **_Note_** The REST Management API requires client credentials to be accessed outside of the Brightspot UI. See {TODO: add link here} for detailed instructions on creating an API Client and API Keys.
 
-### 4. Add a webhook to the endpoint
+### 4. Create a webhook
 
-A webhook and its destination URL can be created through the Brightspot UI or through an external HTTP request.
+A webhook can be created through the Brightspot UI or through an external HTTP request.
 
-This example uses a Node.js script to POST a webhook to the REST Management API endpoint created in the previous step. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) to send a request to the `/webhooks` route of the endpoint with a body containing the desired webhook topic (defined in step 1) and a destination URL.
+This example uses a Node.js script to create a webhook. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) to send an HTTP request to the `/webhooks` route of the REST Management API with a body containing the webhook configuration. The configuration includes the desired notification topic (defined in step 1) and a recipient URL.
 
 [createWebhook.mjs](./app/createWebhook.mjs)
 
@@ -277,7 +277,7 @@ const postWebhook = async () => {
 postWebhook()
 ```
 
-The body of the request must be structured like the code snippet below. The `url` is the full destination URL for the webhook and the `topic._type` is the full class name of the webhook topic defined in step 1.
+The body of the request must be structured like the code snippet below. The `url` is the full recipient URL for the webhook and the `topic._type` is the full class name of the webhook topic defined in step 1.
 
 ```js
 const body = {
@@ -288,15 +288,15 @@ const body = {
 }
 ```
 
-> **_Note_** The script is mapped to the `yarn webhook` command defined in the `package.json` file.
+> **_Note_** The script is mapped to the `yarn webhook` command defined in the `package.json` file. In this example the command should only be run once. Separate scripts could be used to create, modify, or delete webhooks.
 
 ### 5. Create a Next.js webhook handler
 
 This example uses Next.js [API Routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) and [On-Demand Revalidation](https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration#on-demand-revalidation) to handle the webhooks coming from Brightspot.
 
-The Next.js webhook handler API route must match the URL destination defined in step 4. This example uses `pages/api/revalidate.ts`.
+The Next.js webhook handler API route must match the URL destination defined in step 4. This example uses `pages/api/revalidate`.
 
-The body of the incoming webhook will be structured like the webhook payload defined in step 1. The list of URL path data is extracted from the request and a corresponding Next.js app pages are revalidated.
+The body of the incoming webhook will be structured like the webhook payload defined in step 1. The list of URL path data is extracted from the request and the corresponding Next.js app pages are revalidated.
 
 [revalidate.ts](./app/pages/api/revalidate.ts)
 
@@ -348,15 +348,123 @@ export default async function handler(
 
 ### 6. Create static Next.js pages
 
-> **_Note_** TODO
+Since the **Blog Post** content URL paths depend on CMS data, the corresponding Next.js page filename must use [Dynamic Routes](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes) and [Catch-all Segments](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes#catch-all-segments) to map out the paths.
+
+```
+pages/[...path.tsx]
+```
+
+Then, to define the list of page paths to be statically generated during the site build, the [getStaticPaths](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths) function is defined inside the page. It uses Apollo Client and a `GetAllPaths` query to get the URL paths of content that already exists in Brightspot.
+
+> **_Note_** The `getStaticPaths` function in this example only adds paths with the `Permalink` type. Other path types are ignored.
+
+[[...path.tsx]](./app/pages/%5B...path%5D.tsx)
+
+```ts
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await client.query({
+    query: GetAllPathsDocument,
+  })
+
+  let paths: { params: ParsedUrlQuery }[] = []
+
+  data.AllBlogPosts.blogPosts.forEach((blogPost: BlogPost) => {
+    blogPost.paths?.forEach((path) => {
+      if (path?.type === 'Permalink') {
+        paths.push({ params: { path: path?.path?.split('/') } })
+      }
+    })
+  })
+
+  paths.forEach((path: any) => path.params.path.shift())
+
+  return {
+    paths,
+    fallback: true,
+  }
+}
+```
+
+Next, the props for each static page are fetched using [getStaticProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props). The `context` parameter contains a field that lists the route segments (e.g. `[my, example, path]`). The segments are joined to form a URL path string that serves as the `path` query variable for the `GetBlogPost` query. If that query returns a **Blog Post** object, it passes the data as props for the Next.js page to use.
+
+```ts
+export const getStaticProps: GetStaticProps = async (context) => {
+  let subdirectories = context.params?.path as string[]
+  let path = subdirectories.join('/')
+
+  const { data } = await client.query({
+    query: GetBlogPostDocument,
+    variables: {
+      path,
+    },
+  })
+
+  if (data.BlogPost) {
+    return {
+      props: { blogPost: data.BlogPost },
+    }
+  }
+
+  return {
+    notFound: true,
+  }
+}
+```
+
+Lastly, the page uses the props to render out the component.
+
+```ts
+const Content: NextPage<Props> = ({ blogPost }) => {
+  // return ...
+}
+```
 
 ### 7. Handle permalink updates and deletions
 
-> **_Note_** TODO
+The notification trigger used in step 2 captures the URL paths of the content _after_ it is saved. This creates a potential problem when a permalink is updated or deleted. The resulting webhook will send the new permalink path(s), but not the old one(s), potentially creating dead links on the front-end app. Although it is generally discouraged, editors may still choose to delete permalinks.
+
+This step modifies the notification trigger to include the old URL paths in the payload so the front-end app will regenerate those pages as well.
+
+First, an `oldObject` field is added to the trigger with the `@Ignored` annotation so that it does not appear on the **Blog Post** content edit page. The `oldObject` field is populated within the `beforeCommit()` method and its value is set using the [Query API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/querying). Since this happens `beforeCommit()`, all of the objects previous values, including the URL paths, are stored for later use.
+
+[BlogPostTrigger.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostTrigger.ts)
+
+```ts
+@Ignored
+@JavaField(BlogPost)
+oldObject?: BlogPost
+
+beforeCommit() {
+  super.beforeCommit()
+
+  this.oldObject = Query.from(BlogPost.getClass())
+    .where('_id = ?', this)
+    .noCache()
+    .first()
+}
+```
+
+Then the `getAllPaths()` helper method is updated to add the URL paths from the `oldObject` as well.
+
+```ts
+getAllPaths(): JavaSet<Path> {
+  let paths = this.as(DirectoryData.class).getPaths()
+  paths.addAll(
+    this.oldObject?.as(DirectoryData.class).getPaths() ||
+      new ArrayList<Path>()
+  )
+
+  return paths
+}
+```
 
 ## Try it yourself
 
-> **_Note_** TODO
+The following is a suggestion for learning more about Static Site Generation and Webhooks with Brightspot:
+
+1. Consider a case where the app needs to serve 3xx status codes on redirect URLs. Try updating the `getStaticProps` function to check if the path is a permalink and return a `Redirect` object if so.
+
+2. This example sends webhooks to the Next.js app even when a published **Blog Post** belongs to a different site. Add a `Site` configuration field to the `BlogPostTopic` and override the `shouldDeliver()` method to return `false` when the URL paths belong to a different site.
 
 ## Troubleshooting
 
