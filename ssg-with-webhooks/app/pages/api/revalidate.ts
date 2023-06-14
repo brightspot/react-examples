@@ -13,11 +13,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  fs.writeFile('debug_req.json', JSON.stringify(req.body, null, 4), (err) => {
-    if (err) {
-      console.log(err)
-    }
-  })
+
+  if (process.env.NEXT_PUBLIC_DEBUG) {
+    fs.writeFile('debug_req.json', JSON.stringify(req.body, null, 4), (err) => {
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
 
   let paths: Path[] = req.body.data.paths || []
 
