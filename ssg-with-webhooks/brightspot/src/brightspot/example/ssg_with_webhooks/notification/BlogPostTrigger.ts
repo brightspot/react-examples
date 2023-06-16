@@ -52,7 +52,9 @@ export default class BlogPostTrigger extends JavaClass(
   }
 
   getAllPaths(): JavaSet<Path> {
-    let paths = this.as(DirectoryData.class).getPaths()
+    let paths = new ArrayList<Path>()
+    
+    paths.addAll(this.as(DirectoryData.class).getPaths())
     paths.addAll(
       this.oldObject?.as(DirectoryData.class).getPaths() ||
         new ArrayList<Path>()
