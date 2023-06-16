@@ -141,8 +141,8 @@ Click **+** at the top of the page, then **Theming Article** from the dropdown l
 ### 1. Create a theme
 
   - [`_config.json`](/theming/brightspot/_config.json): This file provides the core information for a theme. In order to configure global and content styling with a theme, a theme MUST have the following fields:
-    - `themeFields`: All items listed under this field are for global theme styling.
-    - `styles`: All items listed under this field are for content styling.
+    - `themeFields`: All items listed under this field are for theme global styling.
+    - `styles`: All items listed under this field are for theme content styling.
 
     ```json5
     {
@@ -155,7 +155,7 @@ Click **+** at the top of the page, then **Theming Article** from the dropdown l
 
 ### 2. Configure theme global styling
 
-- `themeFields`: Add theme global styling fields to this root configuration field. The name of each field is the name that will appear in the theme schema. The same is true for content styling fields. 
+- `themeFields`: Theme global styling fields are added to this root configuration field. The name of each field is the name that will appear in the theme schema. The same is true for content styling fields. 
  
   <i>Theme configuration</i>:
     ```json5
@@ -170,11 +170,9 @@ Click **+** at the top of the page, then **Theming Article** from the dropdown l
   Refer to the [data modeling for themes](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes#field-options) documentation to learn more about field types and field options. 
 ### 3. Configure theme content styling
 
-- [`@ViewTemplate`](/theming/brightspot/src/brightspot/example/theming/ThemeArticleViewModel.ts): This annotation is needed to link styles from the theme configuration file to the specified View Interface. Adding this annotation to View Interfaces will expose the `_viewTemplate` field in the GraphQL schema. This field returns the value of the annotation.
+- Objects listed under the `styles` field in the `config.json` must have unique keys (ex: `/themingArticle`) that are used to identify content styles with a specified content item. All styling objects listed for the particular key are the styles that are available for the content item.
 
-  The following styles field: 
-
-  ```json5
+    ```json5
       "styles": {
           "/themingArticle": {  // same name as @ViewTemplate value
             "fields": { // fields for content item
@@ -185,12 +183,13 @@ Click **+** at the top of the page, then **Theming Article** from the dropdown l
           "/<someOtherViewInterface>": {
             "fields":  {...}
           } 
-      ```
-  are linked to the View Interface:
+    ```
+
+- [`@ViewTemplate`](/theming/brightspot/src/brightspot/example/theming/ThemeArticleViewModel.ts): This annotation is needed to link styles from the theme configuration file to the specified content item View Interface. 
 
   ```typescript
         @ViewInterface
-        @ViewTemplate({ value: '/themingArticle' })
+        @ViewTemplate({ value: '/themingArticle' }) // same name as the unique key under the styles object in the theme configuration file
         export default class ThemingArticleViewModel extends JavaClass(
           'brightspot.example.theming.ThemingArticleViewModel',
           ViewModel.Of(ThemingArticle),
@@ -200,8 +199,7 @@ Click **+** at the top of the page, then **Theming Article** from the dropdown l
 
 ### 4. Add a theme to a CDA endpoint
 
-- [`ThemingEndpoint.ts`](/theming/brightspot/src/brightspot/example/theming/ThemingEndpoint.ts): Implement the `ContentDeliveryApiThemeable` interface to enable applying themes to a CDA endpoint. Make sure your theme is applied to the endpoint. See "Apply theme and API client to API endpoint" in the [Using the example application](#using-the-example-application) to review how to apply the theme to an endpoint.
-### 5. Use theme fields in a front-end application
+- [`ThemingEndpoint.ts`](/theming/brightspot/src/brightspot/example/theming/ThemingEndpoint.ts): Implement the `ContentDeliveryApiThemeable` interface to enable applying themes to a CDA endpoint. Make sure your theme is applied to the endpoint.
 
 - [GraphQL fields](/theming/app/src/queries/GetArticles.tsx):
   - `_Theme`: When a theme is applied to an endpoint, the endpoint will expose a `_Theme` root field for theme global styling.
@@ -218,18 +216,6 @@ Click **+** at the top of the page, then **Theming Article** from the dropdown l
         }
       }
        ```
-
-  - `_viewTemplate`: Content items with a `@ViewTemplate` annotation will expose this field.
-
-      ```graphql
-      query GetArticles {
-          ThemingArticles {
-            themingArticles {
-              _viewTemplate # in this example field returns "/themingArticle"
-            }
-        }
-      }   
-      ```
 
   - `_style`: Content items with a `@ViewTemplate` annotation will also expose this field. If the theme is not applied to a site, the value returned is null.
 
