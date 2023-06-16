@@ -2,7 +2,7 @@
 
 Static web pages are faster and lighter than dynamic sites, resulting in better performance and load times. They are typically used for content that rarely changes because updating static pages requires lengthy rebuilds of the entire site. However, newer front-end frameworks allow for on-demand updates to individual pages, providing fast and up-to-date pages without the limitation of frequent site rebuilds.
 
-This example demonstrates how to leverage Brightspot's Webhooks feature to trigger web page regeneration when content is published or updated.
+This example demonstrates how to leverage Brightspot's Notification and Webhooks features to trigger web page regeneration when content is published or updated.
 
 ## What you will learn
 
@@ -11,14 +11,15 @@ This example demonstrates how to leverage Brightspot's Webhooks feature to trigg
 3. [Configure the REST Management API](#3-configure-the-rest-management-api)
 4. [Create a webhook](#4-create-a-webhook)
 5. [Create a Next.js webhook handler](#5-create-a-nextjs-webhook-handler)
-6. [Create static Next.js pages](#6-create-static-nextjs-pages)
-7. [Handle permalink updates and deletions](#7-handle-permalink-updates-and-deletions)
+6. [Create view models to get URL paths and data fields](#6-create-view-models-to-get-url-paths-and-data-fields)
+7. [Create static Next.js pages](#7-create-static-nextjs-pages)
+8. [Handle permalink updates and deletions](#8-handle-permalink-updates-and-deletions)
 
 ## Running the example application
 
 > **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-### Create a REST Management API
+### Configure a REST Management API
 
 In Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Create** &rarr; **REST Management API** &rarr; **New**, enter a name, and click **Save**.
 
@@ -184,7 +185,7 @@ To keep the front-end app up-to-date at all times, it should receive a notificat
 
 This example separates the notification trigger from the data model by using a [Modification](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/modifications) of the `BlogPost` model.
 
-Within the overriden `afterSave()` method, the payload can be created, filled with the relevant URL path data, and sent as a notification.
+Within the overridden `afterSave()` method, the payload can be created, filled with the relevant URL path data, and sent as a notification.
 
 Within the `afterSave()` method, a payload is created and its `paths` field is populated with the URL path data from the published content. Then a notification is published using the matching topic and the newly instantiated payload.
 
@@ -243,11 +244,10 @@ To configure the REST Management API in Brightspot, navigate to **☰** &rarr; *
 <details>
 <summary>
 <span>
-<b>Create REST Management API</b>
+<b>Configure REST Management API</b>
 </span>
 </summary>
-TODO:
-<img  height="400px" src="/ssg-with-webhooks/brightspot/documentation/images/themeContentStyles.png" alt="Create REST Management API in Brightspot">
+<img  height="400px" src="./brightspot/documentation/images/restManagementApi.png" alt="Configure REST Management API in Brightspot">
 </details>
 
 > **_Note_** The REST Management API requires client credentials to be accessed outside of the Brightspot UI. See {TODO: add link here} for detailed instructions on creating an API Client and API Keys.
@@ -346,7 +346,15 @@ export default async function handler(
 }
 ```
 
-### 6. Create static Next.js pages
+### 6. Create view models to get URL paths and data fields
+
+To build static pages, the Next.js app needs to be able to fetch all of the URL paths for relevant content and then use those paths to get the data fields for each.
+
+Since this example has a single data model, it uses a view model that queries for all objects of that type ([AllBlogPostsViewModel.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/api/AllBlogPostsViewModel.ts)). Then the Next.js app uses that view model in a GraphQL query that gets the relevant URL path metadata ([AllPaths.graphql](./app/queries/AllPaths.graphql)).
+
+For each individual object, it uses the [BlogPostViewModel.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/api/BlogPostViewModel.ts) and [BlogPost.graphql](./app/queries/BlogPost.graphql) query to fetch relevant data.
+
+### 7. Create static Next.js pages
 
 Since the **Blog Post** content URL paths depend on CMS data, the corresponding Next.js page filename must use [Dynamic Routes](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes) and [Catch-all Segments](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes#catch-all-segments) to map out the paths.
 
@@ -354,7 +362,9 @@ Since the **Blog Post** content URL paths depend on CMS data, the corresponding 
 pages/[...path.tsx]
 ```
 
-Then, to define the list of page paths to be statically generated during the site build, the [getStaticPaths](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths) function is defined inside the page. It uses Apollo Client and a `GetAllPaths` query to get the URL paths of content that already exists in Brightspot.
+Then, to define the list of page paths to be statically generated during the site build, the [getStaticPaths](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths) function is defined inside the page.
+
+It uses Apollo Client and the query defined in step 6 to get the list of all URL paths to the relevant content and then returns that list.
 
 > **_Note_** The `getStaticPaths` function in this example only adds paths with the `Permalink` type. Other path types are ignored.
 
@@ -385,7 +395,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 ```
 
-Next, the props for each static page are fetched using [getStaticProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props). The `context` parameter contains a field that lists the route segments (e.g. `[my, example, path]`). The segments are joined to form a URL path string that serves as the `path` query variable for the `GetBlogPost` query. If that query returns a **Blog Post** object, it passes the data as props for the Next.js page to use.
+Next, the props for each static page are fetched using [getStaticProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props). The `context` parameter contains a field that lists the URL route segments (e.g. `[my, example, path]`). The segments are joined to form a URL path string that serves as a query variable for the GraphQL query that gets a single matching **Blog Post**. If the query returns an object, it passes the data as props for the Next.js page to use.
 
 ```ts
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -419,13 +429,13 @@ const Content: NextPage<Props> = ({ blogPost }) => {
 }
 ```
 
-### 7. Handle permalink updates and deletions
+### 8. Handle permalink updates and deletions
 
 The notification trigger used in step 2 captures the URL paths of the content _after_ it is saved. This creates a potential problem when a permalink is updated or deleted. The resulting webhook will send the new permalink path(s), but not the old one(s), potentially creating dead links on the front-end app. Although it is generally discouraged, editors may still choose to delete permalinks.
 
 This step modifies the notification trigger to include the old URL paths in the payload so the front-end app will regenerate those pages as well.
 
-First, an `oldObject` field is added to the trigger with the `@Ignored` annotation so that it does not appear on the **Blog Post** content edit page. The `oldObject` field is populated within the `beforeCommit()` method and its value is set using the [Query API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/querying). Since this happens `beforeCommit()`, all of the objects previous values, including the URL paths, are stored for later use.
+First, an `oldObject` field is added to the trigger with the `@Ignored` annotation so that it does not appear on the **Blog Post** content edit page. The `oldObject` field is populated within the `beforeCommit()` method and its value is set using the [Query API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/querying). Since this happens `beforeCommit()`, all of the object's previous values, including the URL paths, are stored for later use.
 
 [BlogPostTrigger.ts](./brightspot/src/brightspot/example/ssg_with_webhooks/notification/BlogPostTrigger.ts)
 
@@ -448,7 +458,9 @@ Then the `getAllPaths()` helper method is updated to add the URL paths from the 
 
 ```ts
 getAllPaths(): JavaSet<Path> {
-  let paths = this.as(DirectoryData.class).getPaths()
+  let paths = new ArrayList<Path>()
+
+  paths.addAll(this.as(DirectoryData.class).getPaths())
   paths.addAll(
     this.oldObject?.as(DirectoryData.class).getPaths() ||
       new ArrayList<Path>()
@@ -463,8 +475,6 @@ getAllPaths(): JavaSet<Path> {
 The following is a suggestion for learning more about Static Site Generation and Webhooks with Brightspot:
 
 1. Consider a case where the app needs to serve 3xx status codes on redirect URLs. Try updating the `getStaticProps` function to check if the path is a permalink and return a `Redirect` object if so.
-
-2. This example sends webhooks to the Next.js app even when a published **Blog Post** belongs to a different site. Add a `Site` configuration field to the `BlogPostTopic` and override the `shouldDeliver()` method to return `false` when the URL paths belong to a different site.
 
 ## Troubleshooting
 
