@@ -19,15 +19,26 @@ This example demonstrates how to leverage Brightspot's Notification and Webhooks
 
 > **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-### Configure a REST Management API
-
+<details>
+<summary>
+<span>
+<b>Configure a REST Management API</b>
+</span>
+</summary>
 In Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Create** &rarr; **REST Management API** &rarr; **New**, enter a name, and click **Save**.
 
 ```
 ✅ Saved
 ```
 
-### Create an API Client
+</details>
+
+<details>
+<summary>
+<span>
+<b>Create an API Client</b>
+</span>
+</summary>
 
 In Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Clients** &rarr; **New API Client** and add a name, add your newly created REST Management API to the `Endpoints` field, and add an API Key. Then copy the Client ID and API Key into the matching variables in the `app/.env` file. Finally, click **Save**.
 
@@ -37,13 +48,27 @@ In Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Cli
 
 > **_Note_** See {TODO: add link here} for detailed instructions on creating an API Client and API Keys.
 
-### Create a Site
+</details>
+
+<details>
+<summary>
+<span>
+<b>Create a Site</b>
+</span>
+</summary>
 
 In Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **Sites & Settings** &rarr; **New Site** and enter a name, add `http://localhost:3000` to the `URLs` field, and click **Save**
 
-### Install dependencies
+</details>
 
 Run the following commands from the `ssg-with-webhooks/app` directory:
+
+<details>
+<summary>
+<span>
+<b>Install dependencies</b>
+</span>
+</summary>
 
 ```sh
 $ yarn
@@ -57,7 +82,14 @@ $ yarn
 ✨ Done in 6.03s.
 ```
 
-### Generate types
+</details>
+
+<details>
+<summary>
+<span>
+<b>Generate types</b>
+</span>
+</summary>
 
 ```sh
 $ yarn codegen
@@ -72,7 +104,14 @@ $ yarn codegen
 ✨ Done in 2.05s.
 ```
 
-### Create a webhook
+</details>
+
+<details>
+<summary>
+<span>
+<b>Create a webhook</b>
+</span>
+</summary>
 
 ```sh
 $ yarn webhook
@@ -94,7 +133,14 @@ $ yarn webhook
 ✨  Done in 0.46s.
 ```
 
-### Generate production build
+</details>
+
+<details>
+<summary>
+<span>
+<b>Generate Next.js app production build</b>
+</span>
+</summary>
 
 ```sh
 $ yarn build
@@ -105,7 +151,14 @@ $ yarn build
 ✨  Done in 3.97s.
 ```
 
-### Start the Next.js app production server
+</details>
+
+<details>
+<summary>
+<span>
+<b>Start the Next.js app production server</b>
+</span>
+</summary>
 
 ```sh
 $ yarn start
@@ -114,6 +167,8 @@ $ yarn start
 ```
 ready - started server on 0.0.0.0:3000, url: http://localhost:3000
 ```
+
+</details>
 
 ## Using the example application
 
@@ -220,9 +275,7 @@ export default class BlogPostTrigger extends JavaClass(
    * Helper method that returns the URL path data for this published content
    ***/
   getAllPaths(): JavaSet<Path> {
-    let paths = this.as(DirectoryData.class).getPaths()
-
-    return paths
+    return this.as(DirectoryData.class).getPaths()
   }
 
   /***
