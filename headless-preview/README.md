@@ -7,40 +7,56 @@ The inability to preview content before publishing can be frustrating for conten
 Brightspot, however, provides the ability to [preview](https://www.brightspot.com/documentation/brightspot-cms-user-guide/latest/preview) content before publishing with ALL platforms, headless included. With little additional configuration, headless platform content creators can see their changes on a web page as they create or edit content.
 
 This example demonstrates how to use JS Classes to configure and use the Brightspot preview mode with a headless configuration. 
+
+## What you will learn
+TODO**
+
 ## Running the example application
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `headless-preview` directory:
 
-To upload JS Classes in Brightspot (http://localhost/cms) run the following commands:
+> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
-```sh
-cd brightspot
-yarn
-npx brightspot types download
-npx brightspot types upload src
-```
+Run the following commands from the `theming/app` directory:
 
-To run the front end, run the following commands from the `headless-preview/app` directory:
+### Install dependencies
 
 ```sh
-yarn
-yarn start
+$ yarn
 ```
 
-The front-end application opens automatically in the browser.
+```
+[1/4] 🔍 Resolving packages...
+[2/4] 🚚 Fetching packages...
+[3/4] 🔗 Linking dependencies...
+[4/4] 🔨 Building fresh packages...
+✨ Done in 6.03s.
+```
+
+### Start the React app
+
+```sh
+$ yarn start
+```
+
+```
+Compiled successfully!
+```
+
+The React app opens automatically in the browser.
 
 ## Using the example application
-Make sure the front-end application is up and running so you can see how the preview pane in Brightspot updates in real time.
+Verify the front-end application is up and running so you can see how the preview pane in Brightspot updates in real time.
 
 Publish a **Course** content item in Brightspot. The content updates in the preview pane as you edit text.
 
 > **_Note_** If you do not see the preview pane, click on the eye icon to the left of the **PUBLISH** button. 
 
 ## How everything works
+
 With a headless platform, you are not using a templating system Brightspot provides with its traditional architecture. Instead, you provide your front-end application to connect to the Brightspot platform. 
 
 To view changes to content before publishing with a headless platform, you need to provide Brightspot with the URL where the front-end application is running. That URL will load in an iframe in Brightspot's preview pane, and Brightspot will send `previewId` and `typename` to the URL via HTTP parameters on a request. The `previewId` is used as a query argument to fetch preview content with GraphQL. The GraphQL query will return the data that corresponds to edited content. These editing changes are available in real time. 
 
-#### JS Classes Files:
+#### Back End:
 Navigate to `brightspot/src/examples/headless_preview`. This directory contains the JS Class files that are uploaded to Brightspot. The following are key points to note:
 
 - `Course.ts`: The class that contains the business logic (fields, etc.)
