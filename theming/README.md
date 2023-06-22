@@ -244,7 +244,7 @@ Click **+** at the top of the page, then **Theming Article** from the dropdown l
     Scoped to a particular element:
 
       ```tsx
-      `style={{ "--happyFaceColor": article._style?.happyFaceColor } as React.CSSProperties}
+      style={{ "--happyFaceColor": article._style?.happyFaceColor } as React.CSSProperties}
       ```
 
   - Conditional rendering:
