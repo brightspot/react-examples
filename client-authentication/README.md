@@ -56,7 +56,7 @@ The app is split into two sections, one that uses [Client-side rendering](https:
 
 > **_Note_** The client ID and secret API key are public in the client-side rendering part of the app.
 
-To show how the application responds to an incorrect API Key, modify the `NEXT_PUBLIC_GRAPHQL_CLIENT_SECRET` and/or `GRAPHQL_CLIENT_SECRET` values in the `.env` file located at `client-authentication/app` to some new value. Then restart the Next.js app and navigate to it in your web browser.
+To show how the application responds to an incorrect API Key, modify the `NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY` and/or `GRAPHQL_CLIENT_API_KEY` values in the `.env` file located at `client-authentication/app` to some new value. Then restart the Next.js app and navigate to it in your web browser.
 
 ## How everything works
 
