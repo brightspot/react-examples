@@ -36,7 +36,7 @@ const ClientSideRender: NextPage = () => {
       method: 'POST',
       headers: {
         'X-Client-Id': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_ID ?? '',
-        'X-Client-Secret': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_SECRET ?? '',
+        'X-Client-Secret': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY ?? '',
         // WARNING: Secret key is exposed in web browser
       },
       body: JSON.stringify({

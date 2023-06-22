@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     method: 'POST',
     headers: {
       'X-Client-Id': process.env.GRAPHQL_CLIENT_ID ?? '',
-      'X-Client-Secret': process.env.GRAPHQL_CLIENT_SECRET ?? '',
+      'X-Client-Secret': process.env.GRAPHQL_CLIENT_API_KEY ?? '',
       // Secret key is hidden behind proxy server
     },
     body: JSON.stringify({
