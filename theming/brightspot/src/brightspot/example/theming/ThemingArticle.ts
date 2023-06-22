@@ -5,10 +5,7 @@ import Content from 'brightspot-types/com/psddev/cms/db/Content'
 import DisplayName from 'brightspot-types/com/psddev/dari/db/Recordable$DisplayName'
 import Indexed from 'brightspot-types/com/psddev/dari/db/Recordable$Indexed'
 import JavaRequired from 'brightspot-types/com/psddev/dari/db/Recordable$Required'
-import TabDisplay from 'brightspot-types/com/psddev/cms/db/ToolUi$TabDisplay'
-import TabDisplayMode from 'brightspot-types/com/psddev/cms/db/TabDisplayMode'
 
-@TabDisplay({ mode: TabDisplayMode.TABS })
 @DisplayName({ value: 'Theming Article' })
 export default class ThemingArticle extends JavaClass(
   'brightspot.example.theming.ThemingArticle',

@@ -2,11 +2,14 @@
   "styles": {
     "/themingArticle": {
       "fields": {
-        "showHappyFace": {
-          "type": "boolean"
-        },
         "happyFaceColor": {
-          "type": "color"
+          "displayName": "Happy Face Color",
+          "type": "color",
+          "cms.ui.cluster": "Testing"
+        },
+        "showHappyFace": {
+          "displayName": "Show Happy Face",
+          "type": "boolean"
         }
       }
     }

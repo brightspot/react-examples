@@ -11,7 +11,6 @@ type ArticleData = {
     showHappyFace?: boolean
     happyFaceColor?: string
   }
-  _viewTemplate: string
 }
 
 type Theme = {

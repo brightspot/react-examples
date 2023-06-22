@@ -4,7 +4,6 @@ const GET_ARTICLES = gql`
   query GetArticles {
     ThemingArticles {
       themingArticles {
-        _viewTemplate
         _style {
           showHappyFace
           happyFaceColor
