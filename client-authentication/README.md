@@ -14,6 +14,12 @@ Brightspot supports API keys through its API Client system. This example demonst
 
 > **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
+### Create an API Client
+
+In Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Clients** &rarr; **New API Client** and add a name, add the `Fun Fact Endpoint` to the `Endpoints` field, and add an API Key. Then copy the Client ID and API Key into the matching variables in the `app/.env` file. Finally, click **Save**.
+
+> **_Note_** There are four fields that need to be modified in the `app/.env` file, the `NEXT_PUBLIC` client ID and API key, and the regular client ID and API key.
+
 Run the following commands from the `client-authentication/app` directory:
 
 ### Install dependencies
@@ -44,7 +50,7 @@ The front-end application will open automatically in the browser.
 
 ## Using the example application
 
-The Next.js app makes requests to the GraphQL endpoint. The requests includes HTTP headers that contain a client ID and secret API key. If the value of the client ID and API key in the headers match the values stored in Brightspot then the app will display the data returned.
+The Next.js app makes requests to the GraphQL endpoint. The requests include HTTP headers that contain a client ID and secret API key. If the value of the client ID and API key in the headers match the values stored in Brightspot then the app will display the data returned.
 
 The app is split into two sections, one that uses [Client-side rendering](https://nextjs.org/docs/basic-features/data-fetching/overview) to fetch data after the page has loaded and the other uses [Server-side rendering](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props) to fetch data before the page has loaded.
 
@@ -66,13 +72,11 @@ getApiAccessOption(): GraphQLApiAccessOption {
 
 ### 2. Create an API Client and API Key
 
-An an API Client can be created in Brightspot at **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Clients** &rarr; **New API Client**. The associated endpoints can be added to the `Endpoints` field and API keys can be managed through the `Keys` field.
+An API Client can be created in Brightspot at **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Clients** &rarr; **New API Client**. The associated endpoints can be added to the `Endpoints` field and API keys can be managed through the `Keys` field.
 
-| API Client Form |
-| -------------------------------------------------------- |
-| <img width="600" alt="API Client Form" src="https://user-images.githubusercontent.com/6299599/232790408-bfda52c6-34ca-4c82-94cd-1cf14b436ea3.png"> |
-
-> **_Note_** This example uses an API Client that is pre-configured to work with the front-end application. It is best practice to create an API Client editorially in production environments.
+| API Client Form                                                                               |
+| --------------------------------------------------------------------------------------------- |
+| <img width="600" alt="API Client Form" src="./brightspot/documentation/images/apiClient.png"> |
 
 ### 3. Query the endpoint
 
@@ -92,7 +96,7 @@ const handleClick = () => {
     method: 'POST',
     headers: {
       'X-Client-Id': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_ID ?? '',
-      'X-Client-Secret': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_SECRET ?? '',
+      'X-Client-Secret': process.env.NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY ?? '',
       // WARNING: Secret key is exposed in web browser
     },
     body: JSON.stringify({
@@ -111,7 +115,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     method: 'POST',
     headers: {
       'X-Client-Id': process.env.GRAPHQL_CLIENT_ID ?? '',
-      'X-Client-Secret': process.env.GRAPHQL_CLIENT_SECRET ?? '',
+      'X-Client-Secret': process.env.GRAPHQL_CLIENT_API_KEY ?? '',
       // Secret key is hidden behind Next.js server
     },
     body: JSON.stringify({
