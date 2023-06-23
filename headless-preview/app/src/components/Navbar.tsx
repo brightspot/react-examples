@@ -10,9 +10,15 @@ type Props = {
       slug?: string
     }
   ]
+  instructors: [
+    {
+      name?: string
+      slug?: string
+    }
+  ]
 }
 
-export function Navbar({ courses }: Props) {
+export function Navbar({ courses, instructors }: Props) {
   const [showLinks, setShowLinks] = useState(false)
   const toggleLinks = () => {
     setShowLinks(!showLinks)
@@ -36,12 +42,13 @@ export function Navbar({ courses }: Props) {
                 className="down-chevron"
                 data-reverse={showLinks || null}
               />
-              <p>Courses</p>
+              <p>Courses | Instructors</p>
             </div>
           </button>
         </div>
         <div className="links-container" data-show={showLinks || null}>
           <ul className="links" data-show={showLinks || null}>
+            <p>Courses</p>
             {courses?.map((course, i: number) => (
               <li key={i} data-show={showLinks || null}>
                 <Link
@@ -51,6 +58,19 @@ export function Navbar({ courses }: Props) {
                   data-show={showLinks || null}
                 >
                   <p className="link-text">{course?.title}</p>
+                </Link>
+              </li>
+            ))}
+            <p>Instructors</p>
+            {instructors?.map((instructor, i: number) => (
+              <li key={i} data-show={showLinks || null}>
+                <Link
+                  onClick={() => setShowLinks(false)}
+                  to={`/instructors/${instructor.slug}`}
+                  className="link-item"
+                  data-show={showLinks || null}
+                >
+                  <p className="link-text">{instructor?.name}</p>
                 </Link>
               </li>
             ))}

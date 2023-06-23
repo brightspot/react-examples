@@ -14,6 +14,8 @@ import Singleton from 'brightspot-types/com/psddev/dari/db/Singleton'
 import AllCoursesViewModel from './AllCoursesViewModel'
 import CourseViewModel from './CourseViewModel'
 import HeadlessPreviewEndpointViewModel from './HeadlessPreviewEndpointViewModel'
+import InstructorViewModel from './InstructorViewModel'
+import AllInstructorsViewModel from './AllInstructorsViewModel'
 
 export default class HeadlessPreviewEndpoint extends JavaClass(
   'brightspot.example.headless_preview.HeadlessPreviewEndpoint',
@@ -31,7 +33,9 @@ export default class HeadlessPreviewEndpoint extends JavaClass(
   [`getQueryEntryFields()`](): List<ContentDeliveryEntryPointField> {
     return [
       CourseViewModel.getClass(),
+      AllInstructorsViewModel.getClass(),
       AllCoursesViewModel.getClass(),
+      InstructorViewModel.getClass(),
       HeadlessPreviewEndpointViewModel.getClass(),
     ].map(
       (c) => new ContentDeliveryEntryPointField(c)

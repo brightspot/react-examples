@@ -2,15 +2,23 @@ import { useQuery } from '@apollo/client'
 import Course from './Course'
 import NotFound from './NotFound'
 import GET_COURSE from '../queries/GetCourse'
+import GET_INSTRUCTOR from '../queries/GetInstructor'
 import PreviewBanner from './PreviewBanner'
+import Instructor from './Instructor'
 
-const BrightspotPreview = () => {
+type Props = {
+  contentType: string
+}
+
+const BrightspotPreview = ({ contentType }: Props) => {
   const previewId = new URLSearchParams(window.location.search).get('previewId')
   const previewType = new URLSearchParams(window.location.search).get(
     'typename'
   )
 
-  const { data, loading, error } = useQuery(GET_COURSE, {
+  const queryType = contentType === 'instructor' ? GET_INSTRUCTOR : GET_COURSE
+
+  const { data, loading, error } = useQuery(queryType, {
     variables: {
       preview: {
         id: previewId,
@@ -26,7 +34,10 @@ const BrightspotPreview = () => {
     )
   }
 
-  if (!data?.Course) {
+  if (
+    (contentType === 'course' && !data?.Course) ||
+    (contentType === 'instructor' && !data.Instructor)
+  ) {
     return <NotFound />
   }
 
@@ -39,7 +50,13 @@ const BrightspotPreview = () => {
           endpointId={data.HeadlessPreviewEndpoint.id}
         />
       )}
-      <Course course={data.Course} />
+      {contentType === 'course' ? (
+        <Course course={data.Course} />
+      ) : contentType === 'instructor' ? (
+        <Instructor instructor={data.Instructor} />
+      ) : (
+        <div>No Content</div>
+      )}
     </>
   )
 }

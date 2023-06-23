@@ -6,6 +6,7 @@ import Courses from './components/Courses'
 import NotFound from './components/NotFound'
 import BrightspotPreview from './components/BrightspotPreview'
 import CourseContainer from './components/CourseContainer'
+import InstructorContainer from './components/InstructorContainer'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URL ?? '',
@@ -16,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const previewId = new URLSearchParams(window.location.search).get('previewId')
 
 const previewType = new URLSearchParams(window.location.search).get('typename')
-
+console.log({ previewId, previewType })
 root.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
@@ -27,7 +28,22 @@ root.render(
           <Route
             path="courses/brightspot-preview"
             element={
-              previewId && previewType ? <BrightspotPreview /> : <NotFound />
+              previewId && previewType ? (
+                <BrightspotPreview contentType="course" />
+              ) : (
+                <NotFound />
+              )
+            }
+          />
+          <Route path="instructors/:slug" element={<InstructorContainer />} />
+          <Route
+            path="instructors/brightspot-preview"
+            element={
+              previewId && previewType ? (
+                <BrightspotPreview contentType="instructor" />
+              ) : (
+                <NotFound />
+              )
             }
           />
           <Route path="*" element={<NotFound />} />
