@@ -1,15 +1,15 @@
 # Headless Preview
 
-Traditional Content Management Systems (CMS) typically provide a preview mode to see how content looks on a web page before publishing, though this is often not the case for headless implementations. 
+When creating content with Brightspot, content creators should be able to see content changes real time.
 
-The inability to preview content before publishing can be frustrating for content creators.
+Brightspot makes this possible with it's [Preview System](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/preview-system).
 
-Brightspot, however, provides the ability to [preview](https://www.brightspot.com/documentation/brightspot-cms-user-guide/latest/preview) content before publishing with ALL platforms, headless included. With little additional configuration, headless platform content creators can see their changes on a web page as they create or edit content.
-
-This example demonstrates how to use JS Classes to configure and use the Brightspot preview mode with a headless configuration. 
+This example demonstrates how to configure and use the Brightspot Preview System with a front end using React and GraphQL. 
 
 ## What you will learn
-TODO**
+1. Create content that can be viewed in Brightspot's Preview Pane.
+2. Use an Entry View Interface to access all associated preview content.
+3. Access Preview System data in a front-end application.
 
 ## Running the example application
 
