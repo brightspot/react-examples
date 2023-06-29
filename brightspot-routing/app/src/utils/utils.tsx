@@ -1,11 +1,11 @@
-import { DirectoryData, Maybe } from '../generated'
+import { DirectoryPath, Maybe } from '../generated'
 
 export const isRedirect = (
   path: string,
-  directoryData?: Maybe<DirectoryData>
+  directoryPaths?: Maybe<Array<Maybe<DirectoryPath>>>
 ): boolean => {
   return (
-    directoryData?.paths?.some(
+    directoryPaths?.some(
       (e) =>
         e?.path === path &&
         (e.type === 'Redirect (Permanent)' || e.type === 'Redirect (Temporary)')
@@ -13,9 +13,8 @@ export const isRedirect = (
   )
 }
 
-export const findPermalink = (directoryData?: Maybe<DirectoryData>): string => {
-  return (
-    directoryData?.paths?.find((path) => path?.type === 'Permalink')?.path ||
-    '/'
-  )
+export const findPermalink = (
+  paths?: Maybe<Array<Maybe<DirectoryPath>>>
+): string => {
+  return paths?.find((path) => path?.type === 'Permalink')?.path || '/'
 }

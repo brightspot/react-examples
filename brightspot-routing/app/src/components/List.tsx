@@ -10,7 +10,7 @@ const List = ({ articles }: Props) => (
   <section className="cardList-section">
     {articles &&
       articles.map((article, i) => (
-        <Link key={i} to={findPermalink(article?.directoryData)}>
+        <Link key={i} to={findPermalink(article?.paths)}>
           <div className="list-item" data-first={i === 0 ? true : null}>
             {article?.section?.name && (
               <p className="cardList-pageName">{article?.section?.name}</p>

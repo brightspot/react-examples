@@ -3,18 +3,14 @@ query GetContent($path: String) {
     name
     articles {
       headline
-      directoryData {
-        paths {
-          path
-          type
-        }
-      }
-    }
-    directoryData {
       paths {
         path
         type
       }
+    }
+    paths {
+      path
+      type
     }
   }
   Article(model: { path: $path }) {
@@ -23,18 +19,14 @@ query GetContent($path: String) {
     publishDate
     section {
       name
-      directoryData {
-        paths {
-          path
-          type
-        }
-      }
-    }
-    directoryData {
       paths {
         path
         type
       }
+    }
+    paths {
+      path
+      type
     }
   }
 }

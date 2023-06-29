@@ -48,7 +48,7 @@ const Navbar = () => {
               <li key={i} data-show={showLinks || null}>
                 <Link
                   onClick={() => setShowLinks(false)}
-                  to={findPermalink(section?.directoryData)}
+                  to={findPermalink(section?.paths)}
                   className="link-item"
                   data-show={showLinks || null}
                 >

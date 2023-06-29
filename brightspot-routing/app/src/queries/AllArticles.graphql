@@ -4,11 +4,9 @@ query GetAllArticles {
       headline
       body
       publishDate
-      directoryData {
-        paths {
-          path
-          type
-        }
+      paths {
+        path
+        type
       }
       section {
         name

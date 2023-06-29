@@ -13,7 +13,7 @@ const CardList = ({ allArticles }: Props) => (
         <Link
           className="cardList-link"
           key={i}
-          to={findPermalink(article?.directoryData)}
+          to={findPermalink(article?.paths)}
         >
           <div className="cardList-item">
             <h4 className="cardList-articleHeadline">{article?.headline}</h4>

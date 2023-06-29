@@ -22,15 +22,15 @@ const Content = () => {
   if (loading) return <div className="loading">loading...</div>
 
   if (data?.Section) {
-    if (isRedirect(urlPath, data.Section.directoryData)) {
-      return <Navigate to={findPermalink(data.Section.directoryData)} />
+    if (isRedirect(urlPath, data.Section.paths)) {
+      return <Navigate to={findPermalink(data.Section.paths)} />
     }
     return <SectionComponent section={data.Section} />
   }
 
   if (data?.Article) {
-    if (isRedirect(urlPath, data.Article.directoryData)) {
-      return <Navigate to={findPermalink(data.Article.directoryData)} />
+    if (isRedirect(urlPath, data.Article.paths)) {
+      return <Navigate to={findPermalink(data.Article.paths)} />
     }
     return <ArticleComponent article={data.Article} />
   }

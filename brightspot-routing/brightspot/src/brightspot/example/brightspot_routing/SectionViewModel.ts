@@ -3,13 +3,14 @@ import JavaMethodParameters from 'brightspot-types/JavaMethodParameters'
 import JavaMethodReturn from 'brightspot-types/JavaMethodReturn'
 import List from 'brightspot-types/java/util/List'
 
+import DirectoryData from 'brightspot-types/com/psddev/cms/db/Directory$Data'
 import Query from 'brightspot-types/com/psddev/dari/db/Query'
 import ViewInterface from 'brightspot-types/com/psddev/cms/view/ViewInterface'
 import ViewModel from 'brightspot-types/com/psddev/cms/view/ViewModel'
 
 import Article from './Article'
 import ArticleViewModel from './ArticleViewModel'
-import DirectoryDataViewModel from './DirectoryDataViewModel'
+import DirectoryPathViewModel from './DirectoryPathViewModel'
 import Section from './Section'
 
 @ViewInterface
@@ -35,11 +36,11 @@ export default class SectionViewModel extends JavaClass(
   }
 
   @JavaMethodParameters()
-  @JavaMethodReturn(DirectoryDataViewModel)
-  getDirectoryData(): DirectoryDataViewModel {
-    return this.createView(
-      DirectoryDataViewModel.getClass(),
-      this.model
+  @JavaMethodReturn(List.Of(DirectoryPathViewModel))
+  getPaths(): List<DirectoryPathViewModel> {
+    return this.createViews(
+      DirectoryPathViewModel.getClass(),
+      this.model.as(DirectoryData.class).getPaths()
     )
   }
 }

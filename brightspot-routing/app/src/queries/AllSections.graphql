@@ -2,11 +2,9 @@ query GetAllSections {
   AllSections {
     sections {
       name
-      directoryData {
-        paths {
-          path
-          type
-        }
+      paths {
+        path
+        type
       }
     }
   }

@@ -17,7 +17,7 @@ const ArticleComponent = ({ article }: Props) => {
         {publishDate.toDateString() + ' - ' + publishDate.toTimeString()}
       </span>
       <br />
-      <Link to={findPermalink(article.section?.directoryData)}>
+      <Link to={findPermalink(article.section?.paths)}>
         <p className="article-sectionName">{article.section?.name}</p>
       </Link>
       <p className="article-body">{article.body}</p>
