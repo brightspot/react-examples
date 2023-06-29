@@ -133,31 +133,29 @@ const Content = () => {
 
 Brightspot stores additional metadata about each URL path including information about its type (permalink, alias, or redirect). A front-end application can use this metadata to make decisions about how to route the application. For example, if an app gets data for a piece of content using a URL path that has the redirect type, it would know to redirect the web browser.
 
-This metadata can be included in the content's [View Model](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/view-models) so that it appears as a field on the resulting GraphQL schema. This example names it `directoryData` and breaks it down into a list of `path` and `type` pairs as shown in the example response below.
+This metadata can be included in the content's [View Model](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/view-models) so that it appears as a field on the resulting GraphQL schema. This example names it `paths` and breaks it down into a list of `path` and `type` pairs as shown in the example response below.
 
 ```json
 {
   "data": {
     "Article": {
       "headline": "Example Article",
-      "directoryData": {
-        "paths": [
-          {
-            "path": "/example-article",
-            "type": "Permalink"
-          },
-          {
-            "path": "/example-redirect",
-            "type": "Redirect (Permanent)"
-          }
-        ]
-      }
+      "paths": [
+        {
+          "path": "/example-article",
+          "type": "Permalink"
+        },
+        {
+          "path": "/example-redirect",
+          "type": "Redirect (Permanent)"
+        }
+      ]
     }
   }
 }
 ```
 
-The `directoryData` GraphQL schema field is added to the `ArticleViewModel` with the `getDirectoryData()` method. It returns a view model that represents the URL path metadata.
+The `paths` GraphQL schema field is added to the `ArticleViewModel` with the `getPaths()` method. It returns a list of view models that represent each URL path and its metadata by using the `as(DirectoryData.class)` API (e.g. `this.model.as(DirectoryData.class)`). This example uses the `getPaths()` method available on the `DirectoryData` class to get the list of URL paths.
 
 [ArticleViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/ArticleViewModel.ts)
 
@@ -169,30 +167,10 @@ export default class ArticleViewModel extends JavaClass(
 ) {
   // Other fields...
 
-  // Adds a field for URL path metadata
+  // Adds a field for URL paths and associated metadata
   @JavaMethodParameters()
-  @JavaMethodReturn(DirectoryDataViewModel)
-  getDirectoryData(): DirectoryDataViewModel {
-    return this.createView(DirectoryDataViewModel.getClass(), this.model)
-  }
-}
-```
-
-The URL path metadata can be accessed by using the `as(DirectoryData.class)` API (e.g. `this.model.as(DirectoryData.class)`). This example uses the `getPaths()` method available on the `DirectoryData` class to get the list of URL paths.
-
-[DirectoryDataViewModel.ts](./brightspot/src/brightspot/example/brightspot_routing/DirectoryDataViewModel.ts)
-
-```ts
-// Defines the fields available under Directory Data
-@ViewInterface
-export default class DirectoryDataViewModel extends JavaClass(
-  'brightspot.example.brightspot_routing.DirectoryDataViewModel',
-  ViewModel.Of(JavaRecord)
-) {
-  // Adds a field for the set of URL paths
-  @JavaMethodParameters()
-  @JavaMethodReturn(JavaSet.Of(DirectoryPathViewModel))
-  getPaths(): JavaSet<DirectoryPathViewModel> {
+  @JavaMethodReturn(List.Of(DirectoryPathViewModel))
+  getPaths(): List<DirectoryPathViewModel> {
     return this.createViews(
       DirectoryPathViewModel.getClass(),
       this.model.as(DirectoryData.class).getPaths()
@@ -228,9 +206,9 @@ export default class DirectoryPathViewModel extends JavaClass(
 }
 ```
 
-With the view models updated, the React app can fetch the URL path metadata alongside the normal content fields. The app checks the React URL path against the returned content's directory data. If it finds that the React URL path refers to a redirect, it routes the app to the content's permalink path.
+With the view models updated, the React app can fetch the URL path metadata alongside the normal content fields. The app checks the React URL path against the returned content's paths. If it finds that the React URL path refers to a redirect, it routes the app to the content's permalink path.
 
-This example only checks the directory data for redirects, but could be set to behave differently for each URL path type.
+This example only checks the URL paths for redirects, but could be set to behave differently for each URL path type.
 
 [Content.tsx](./app/src/components/Content.tsx)
 
@@ -240,8 +218,8 @@ const Content = () => {
 
   if (data?.Article) {
     // if the React URL path is a redirect, navigate the app to the permalink path
-    if (isRedirect(urlPath, data.Article.directoryData)) {
-      return <Navigate to={findPermalink(data.Article.directoryData)} />
+    if (isRedirect(urlPath, data.Article.paths)) {
+      return <Navigate to={findPermalink(data.Article.paths)} />
     }
     // else render the Article component
     return <ArticleComponent article={data.Article} />
