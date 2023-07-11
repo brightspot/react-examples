@@ -1,0 +1,16 @@
+overwrite: true
+schema: ${GRAPHQL_SDL_ENDPOINT}
+documents: './src/components/**/*.graphql'
+generates:
+  ./src/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+      handleAsSDL: true
+  ./schemas/originalSchema.graphql:
+    schema: './schemas/originalSchema.graphql'
+    plugins:
+      - schema-ast
