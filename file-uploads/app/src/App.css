@@ -1,17 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap');
-
 :root {
   --black: #202124;
   --text: #4b4545;
   --red: #ee0120;
   --border: #f1eced;
   --blue: #2a5975;
+  --backgroundColor: #faf9f9;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Noto Sans', sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -30,8 +29,28 @@ h1 {
   color: var(--black);
 }
 
+p,
+button,
+label {
+  font-size: 1.2rem;
+  margin: 0.3rem;
+  color: var(--black);
+}
+
 ul {
   list-style-type: none;
+}
+
+dialog {
+  border: none;
+  width: 95vw;
+  max-width: 500px;
+}
+
+dialog input {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--border);
 }
 
 .container {
@@ -76,56 +95,43 @@ ul {
   border-radius: 4px;
 }
 
-.delete {
+.delete,
+.info {
   position: absolute;
   color: #000;
+  padding: 0.3rem;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete {
   top: 4px;
   right: 4px;
   font-size: 30px;
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
-  padding: 2px;
-  height: 20px;
-  width: 20px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete:hover {
-  cursor: pointer;
-  color: var(--blue);
-  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .info {
-  position: absolute;
   top: 4px;
   left: 4px;
-  color: #000;
   font-size: 1rem;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 800;
   z-index: 15;
-  border-radius: 50%;
 }
 
 input[type='file'] {
   display: none;
 }
 
-.info:hover {
+.info:hover,
+.delete:hover {
   cursor: pointer;
   color: var(--blue);
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--backgroundColor);
 }
 
 .popup {
@@ -155,17 +161,24 @@ pre {
   word-wrap: break-word;
 }
 
-.file-upload {
-  display: inline-block;
+button:hover {
   cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 22px;
-  color: #fff;
-  background: var(--red);
-  border: 2px solid var(--red);
 }
 
-.file-upload:hover {
-  background-color: #fff;
-  color: var(--red);
+.imageUrlBtn {
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.imageFileUpload,
+.imageUrlBtn {
+  padding: 0.3rem;
+}
+
+.imageUrlBtn:hover,
+.imageFileUpload:hover {
+  cursor: pointer;
+  color: var(--blue);
+  background-color: var(--backgroundColor);
 }

@@ -1,6 +1,6 @@
 import './App.css'
 import { useMutation, useQuery } from '@apollo/client'
-import { useState } from 'react'
+import { useState, useRef, FormEvent, MouseEvent } from 'react'
 import { ChangeEvent } from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import UPLOAD_IMAGE from './queries/UploadImage'
@@ -21,6 +21,9 @@ type ImageItem = {
 }
 
 function App() {
+  const dialogRef = useRef<HTMLDialogElement | null>(null)
+  const urlInputRef = useRef<HTMLInputElement | null>(null)
+
   const [errorMessage, setErrorMessage] = useState('')
 
   const [UploadImage] = useMutation(UPLOAD_IMAGE, {
@@ -57,13 +60,64 @@ function App() {
 
   if (loading) return <div>Loading...</div>
 
+  const showModal = () => {
+    setErrorMessage('')
+    dialogRef.current?.showModal()
+  }
+
+  const handleSubmitUrl = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (urlInputRef?.current?.value) {
+      UploadImage({ variables: { url: urlInputRef.current.value } }).then(
+        () => {
+          if (urlInputRef.current) {
+            urlInputRef.current.value = '' // reset file upload input after completed
+          }
+        }
+      )
+      dialogRef?.current?.close()
+    } else {
+      alert('no url submitted')
+    }
+  }
+  const handleClose = (e: MouseEvent<HTMLButtonElement> | KeyboardEvent) => {
+    e.preventDefault()
+    dialogRef?.current?.close()
+  }
+
   return (
     <div className="App">
       <h1>File Uploads</h1>
-      <label className="file-upload">
-        Upload Image
+      <label title="Upload image file" className="imageFileUpload">
+        Upload Image File
         <input type="file" name="file" onChange={(e) => handleFileUpload(e)} />
       </label>
+
+      <dialog ref={dialogRef}>
+        <form onSubmit={(e) => handleSubmitUrl(e)}>
+          <label title="Input image URL">
+            <input type="text" name="fileUrl" ref={urlInputRef} />
+          </label>
+          <div>
+            <button className="imageUrlBtn" onClick={(e) => handleClose(e)}>
+              Cancel
+            </button>
+            <button id="submitBtn" type="submit" className="imageUrlBtn">
+              Submit
+            </button>
+          </div>
+        </form>
+      </dialog>
+      <p title="Image URl">
+        <button
+          id="showDialog"
+          className="imageUrlBtn"
+          onClick={() => showModal()}
+        >
+          Add Image URL
+        </button>
+      </p>
+
       <div className="container">
         {errorMessage && (
           <p className="error">
