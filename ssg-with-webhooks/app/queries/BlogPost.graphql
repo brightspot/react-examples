@@ -1,0 +1,11 @@
+query GetBlogPost($path: String) {
+  BlogPost(model: { path: $path }) {
+    body
+    title
+    paths {
+      path
+      site
+      type
+    }
+  }
+}
