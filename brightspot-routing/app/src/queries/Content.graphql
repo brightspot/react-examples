@@ -1,0 +1,32 @@
+query GetContent($path: String) {
+  Section(model: { path: $path }) {
+    name
+    articles {
+      headline
+      paths {
+        path
+        type
+      }
+    }
+    paths {
+      path
+      type
+    }
+  }
+  Article(model: { path: $path }) {
+    headline
+    body
+    publishDate
+    section {
+      name
+      paths {
+        path
+        type
+      }
+    }
+    paths {
+      path
+      type
+    }
+  }
+}

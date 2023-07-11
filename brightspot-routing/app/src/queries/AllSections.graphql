@@ -1,0 +1,11 @@
+query GetAllSections {
+  AllSections {
+    sections {
+      name
+      paths {
+        path
+        type
+      }
+    }
+  }
+}

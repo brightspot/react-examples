@@ -1,0 +1,16 @@
+query GetAllArticles {
+  AllArticles {
+    articles {
+      headline
+      body
+      publishDate
+      paths {
+        path
+        type
+      }
+      section {
+        name
+      }
+    }
+  }
+}
