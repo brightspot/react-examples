@@ -1,0 +1,15 @@
+query GetArticle($slug: String) {
+  Article(model: { slug: $slug }) {
+    body
+    headline
+    publishDate
+    section {
+      slug
+      name
+    }
+    tags {
+      category
+      slug
+    }
+  }
+}
