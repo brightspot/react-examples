@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  flex-wrap: wrap;
+}
+
+.seperator {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.memo-card {
+  padding: 15px 50px;
+  border: solid 5px #ee0120;
+  border-top: none;
+  border-left: none;
+  border-radius: 11px;
+  margin: 20px;
+}
