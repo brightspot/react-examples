@@ -1,5 +1,6 @@
 import { useState, useRef, Dispatch, SetStateAction, useEffect } from 'react'
 import { RiDeleteBinLine } from 'react-icons/ri'
+import { IoInformationCircleSharp } from 'react-icons/io5'
 
 type Props = {
   setErrorMessage: Dispatch<SetStateAction<string>>
@@ -54,7 +55,7 @@ const FileUploadCard = ({
         ref={infoRef}
         onClick={() => setShowImageMetadata(!showImageMetadata)}
       >
-        i
+        <IoInformationCircleSharp />
       </div>
       <div
         ref={popupRef}
@@ -64,7 +65,7 @@ const FileUploadCard = ({
         <p>Metadata:</p>
         <pre>{json}</pre>
       </div>
-      <img src={url} alt={name} />
+      <img src={url} alt={name} height="300" width="500" />
     </li>
   )
 }
