@@ -1,49 +1,39 @@
 # Marked Text
 
-Brightspot's Rich Text Editor (RTE) field is stored in HTML format which is inherently nested. This can make it difficult for clients to parse and use the response data efficiently.
+The contents of a rich-text editor (RTE) field is stored in HTML format. HTML's nested structure can be difficult for clients to efficiently parse and use. To better accommodate processing of the RTE field, Brightspot provides the `MarkedText` class, a JSON representation of the RTE field. `MarkedText` contains all the metadata for rich-text objects, and cleanly represents an RTE field without prior knowledge of the field's state. This makes `MarkedText` well-suited for the GraphQL ecosystem.
 
-Marked Text is a JSON representation of a Brightspot RTE field. It contains all the metadata for rich-text objects and is structured to account for nested tags, represented cleanly without prior knowledge of the entire state. This makes it well-suited to the GraphQL ecosystem, and allows for maintaining the integrity of its type system.
-
-While Marked Text's data structure is advantageous, it requires handling to render to any front-end and customize with great flexibility. Brightspot developed the Marked Text Library as a solution for handling and rendering Marked Text, along with the ability to customize its appearance and functionality.
+In addition, Brightspot developed the Marked Text Library to conveniently query for, parse, and render `MarkedText`.
 
 ## What you will learn
 
-1. [Query for a MarkedText](#1-query-for-markedtext) object via GraphQL.
-2. Render with Brightspot's [MarkedText library](#2-render-with-brightspots-marked-text-library).
+* [Query for a MarkedText](#step-1-query-for-markedtext) object via GraphQL.
+* Render the response with Brightspot's [MarkedText library](#step-2-rendering-rich-text-with-the-marked-text-library).
 
 ## Running the example application
 
-> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
-Run the following command from the `marked-text/app` directory:
+Run the following command from the `marked-text/app/` directory:
 
 ```sh
-$ yarn
+yarn
 ```
 
-```
-[1/4] 🔍 Resolving packages...
-[2/4] 🚚 Fetching packages...
-[3/4] 🔗 Linking dependencies...
-[4/4] 🔨 Building fresh packages...
-✨ Done in 5.03s.
-```
+Wait until a message similar to `✨ Done in 5.03s` appears.
 
 ## Using the example application
 
-Publish an Article. Once published, the front end will render this article.
+Publish an Article. Once published, the front end can render this article.
 
 ## How everything works
 
-#### 1. Query for MarkedText:
+### Step 1. Query for MarkedText
 
-[Article.tsx](app/src/components/Article.tsx). This file contains the front-end logic to focus on in this example.
+Inspect the file [Article.tsx](app/src/components/Article.tsx). This file contains the front-end logic described in this example. In particular, the constant [ArticleMarkQuery](app/src/components/Article.tsx#L17) holds the query for retrieving the article. The key `body` contains the text and marks which form the `MarkedText` object based on the view model.
 
-- [ArticleMarkQuery](app/src/components/Article.tsx#L17) This variable holds the query made to return the article. The body contains the text and marks which forms the Marked Text object based on the view model:
-
-```
+```graphql
 const ArticleMarkQuery = `
   query ArticleMarkedTextQuery {
   Article {
@@ -67,15 +57,9 @@ const ArticleMarkQuery = `
 `
 ```
 
-#### 2. Render with Brightspot's Marked Text Library:
+<img alt="Rich Text Editor Field" src="docs/images/rich-text-screenshot.png">
 
-A look at the following rich text editor field:
-
-| Rich Text Editor Field                                                        |
-| ----------------------------------------------------------------------------- |
-| <img alt="Rich Text Editor Field" src="docs/images/rich-text-screenshot.png"> |
-
-Produces the following Marked Text object from the body of the API response:
+Referring to the previous image, the retrieved `MarkedText` representation is as follows:
 
 ```json
 {
@@ -155,70 +139,66 @@ Produces the following Marked Text object from the body of the API response:
 }
 ```
 
-Brightspot provides a function to render the Marked Text data structure.
+### Step 2. Rendering rich text with the Marked Text Library
 
-The library `@brightspot/marked-text` serves the function `markedTextTraversal`.
+The library `@brightspot/marked-text` serves the function `markedTextTraversal`. This function renders the `MarkedText` data structure, and takes the following arguments:
 
-- `markedTextTraversal` takes two arguments:
+- A `MarkedText` object returned from the GraphQL API. This is the body of the Article in this example.
+- A `Visitor` object which contains two properties, `visitText` and `visitMark`, whose values are callback functions. These callback functions are used to transform the `MarkedText` into the implentor's desired output.
 
-  - MarkedText returned from the GraphQL API, this is the body of the Article in this example.
-  - The Visitor object which contains two properties, `visitText` and `visitMark`, whose values are callback functions. These callback functions are used to transform the MarkedText into the implentors desired output.
+`markedTextTraversal` first converts the original `MarkedText` structure into a tree structure, similar to the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction). Next, the function traverses this newly created tree using a [post-order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal). The traversal starts from the most deeply nested node in the tree, moving upwards and outwards. This implies the innermost elements are processed first, followed by the subsequent parent nodes.
 
-  `markedTextTraversal` processes the MarkedText data structure. The first step in this process involves converting the original structure into a tree structure, similar to the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction). After this conversion, the function traverses this newly created tree using a [post-order traversal](https://www.geeksforgeeks.org/iterative-postorder-traversal). The function starts the transformation process from the most deeply nested node in the tree, moving upwards and outwards. This implies that the innermost elements are processed first, before the function deals with their parent nodes.
+The `visitText` callback is triggered when the traversal reaches a block of text (which is always a leaf node). The text is passed as a string argument to the function, allowing the implementor to optionally transform it and return a different value.
 
-  The `visitText` callback is triggered when the traversal reaches a block of text (which is always a leaf node). The text is passed as a string argument to the function allowing the implementor to optionally transform it and return a different value.
+The `visitMark` callback is triggered when the traversal process encounters a `Mark`. It has access to the current `Mark` and a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far.
 
-  The `visitMark` callback is triggered when the traversal process encounters a `Mark`. It has access to the current `Mark` and a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far.
+**Note**: The value returned from both `visitText` and `visitMark` will be an item in the `children` array of its respective parent node.
 
-  > _**Note**_: The value returned from both `visitText` and `visitMark` will be an item in the `children` array of their respective parent node.
+The constant `fetchArticleData` defines a call to the endpoint to retrieve the published Article. The return passes `MarkedText` (the Article body) and `Visitor` objects to the `markedTextTraversal` function imported from the Brightspot Marked Text library.
 
-[Article Component](app/src/components/Article.tsx#L73)
+In this example, during the traversal, the `visitText` callback converts the string into a [React Fragment](https://react.dev/reference/react/Fragment) and returns it. This conversion makes it simple to then use the [React createElement](https://react.dev/reference/react/createElement) API to pass this value as a child in the `children` array.
 
-- This component makes a call to the endpoint to return the published Article. The return is passing MarkedText (the Article body) as well as the Visitor object to the `markedTextTraversal` function import from the Brightspot Marked Text library.
+When arriving at `visitMark`, the callback function takes the `mark.data` property and uses type assertion to treat this property as an `RteHtmlElement`.
 
-  In this example, during the traversal, the visitText callback converts the string into a [React Fragment](https://react.dev/reference/react/Fragment) and returns it. This conversion makes it simple to then use the [React createElement](https://react.dev/reference/react/createElement) API to pass this value as a child in the `children` array.
+_Example of a single mark_
 
-  When arriving at `visitMark`, the call back function is taking the `data` property within `mark` and using type assertion to treat this property as a `RteHtmlElement`.
+```json
+...
+{
+  "start": 4,
+  "end": 19,
+  "descendants": 2,
+  "data": {
+    "__typename": "RteHtmlElement",
+    "name": "b"
+  },
+...
+```
 
-  _Example of a single mark_:
+It then uses `React.createElement` to return a React element using the `name` property for the element name, assigns a key, and passes its `children`, an array of previously transformed `ReactNode`s.
 
-  ```json
-  ...
-    {
-    "start": 4,
-    "end": 19,
-    "descendants": 2,
-    "data": {
-      "__typename": "RteHtmlElement",
-      "name": "b"
-    },
-  ...
-  ```
+```js
+markedTextTraversal(article?.articleData?.body, {
+  visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
+  visitMark: (mark, children: ReactNode[]) => {
+    const element = mark.data as RteHtmlElement
 
-  It then uses `React.createElement` to return a React element using the `name` property for the element name, assigns a key and passes its `children`, an array of previously transformed `ReactNode`.
-
-  ```js
-  markedTextTraversal(article?.articleData?.body, {
-    visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
-    visitMark: (mark, children: ReactNode[]) => {
-      const element = mark.data as RteHtmlElement
-
-      return React.createElement(
-        element.name,
-        { key: `k-${key++}` },
-        children
-      )
-    },
-  })
-  ```
+    return React.createElement(
+      element.name,
+      { key: `k-${key++}` },
+      children
+    )
+  },
+})
+```
 
 Example Output:
 
-```
+```html
 <p>The <b><i>quick</i> <u>brown</u> fox </b>jumps over the <b><i>lazy</i> dog</b>.</p>
 ```
 
-Additionally, by providing a unified and customizable interface for traversing and transforming Marked Text, the `markedTextTraversal` function can simplify the integration of Marked Text with React or any other front-end library or framework.
+Additionally, by providing a unified and customizable interface for traversing and transforming `MarkedText`, the `markedTextTraversal` function can simplify the integration of `MarkedText` with React or any other front-end library or framework.
 
 ## Troubleshooting
 
