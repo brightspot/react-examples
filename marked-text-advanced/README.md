@@ -1,60 +1,47 @@
 # MarkedText - Advanced
 
-Marked Text is a JSON representation of a Brightspot RTE field. It contains all the metadata for rich-text objects and is structured to account for nested tags, represented cleanly without prior knowledge of the entire state. This makes it well-suited to the GraphQL ecosystem, and allows for maintaining the integrity of its type system.
+This example application demonstrates querying MarkedText with complex rich-text element types (such as images and links), and rendering the results using Brightspot's MarkedText Library.
 
-> _Note_: If you're new to Marked Text, please refer to the example [Marked Text: Intro](../marked-text).
-
-This example demonstrates querying Marked Text with more complex rich text element types (e.g. images and link) and rendering them using Brightspot's Marked Text Library.
+**Note**: If you're new to MarkedText, refer to the introductory example [Marked Text](../marked-text).
 
 ## What you will learn
 
-1. [Query for Marked Text objects containing complex types of Rich Text Elements](#1-query-for-marked-text-objects-containing-complex-types-of-rich-text-elements)
-2. [Render complex rich text elements with the Marked Text Library](#2-render-complex-rich-text-elements-with-the-marked-text-library)
+* [Query for MarkedText objects containing complex types of rich-text elements](#step-1-query-for-markedtext-objects-containing-complex-types-of-rich-text-elements)
+* [Render complex rich-text elements with the MarkedText Library](#step-2-render-complex-rich-text-elements-with-the-markedtext-library)
 
 ## Running the example application
 
-> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
-Run the following command from the `marked-text-advanced/app` directory:
+Run the following command from the `marked-text-advanced/app/` directory:
 
 ```sh
-$ yarn
+yarn
 ```
-
-```
-[1/4] 🔍 Resolving packages...
-[2/4] 🚚 Fetching packages...
-[3/4] 🔗 Linking dependencies...
-[4/4] 🔨 Building fresh packages...
-✨ Done in 5.03s.
-```
+Wait until a message similar to `✨ Done in 5.03s` appears.
 
 Generate types:
 
 ```sh
-$ yarn codegen
+yarn codegen
 ```
 
 ## Using the example application
 
-Publish an Article. Once published, the front end will render this article.
+Before performing the following steps, do the following:
 
-To use the added rich text elements within the RTE field:
-
-- Image rich text element select the images icon <img alt="Rich Text Image Icon" src="images/images-icon.png" width=20>.
-
-- Link rich text element, highlight text you would like to link and select the link icon <img alt="Rich Text Link Icon" src="images/link-icon.png" width=20>.
+1. Publish an Article if you haven't already done so.
+1. Add an image to the Article's rich-text field by clicking <img alt="Rich Text Image Icon" src="images/images-icon.png" width=20> in the RTE toolbar.
+1. Add a hyperlink to the Article's rich-text body by highlighting text and clicking <img alt="Rich Text Link Icon" src="images/link-icon.png" width=20> in the RTE toolbar.
 
 ## How everything works
 
-`marked-text-advanced/app/src/components/Article`
+### Step 1. Query for MarkedText objects containing complex types of rich-text elements
 
-#### 1. Query for Marked Text objects containing complex types of Rich Text Elements
-
-- `ArticleContainer` calls the [fetchArticle](app/src/api/index.ts) function to return the Article. It passes the returned Marked Text body to the [MarkedTextComponent](app/src/components/MarkedText/MarkedTextComponent.tsx)
-- `ArticleMarkQuery` The query for the article to return the headline, subheadline and body that contains the Marked Text object. The query has been setup to use [fragments](https://graphql.org/learn/queries/#fragments) to contain the rich text elements:
+- `ArticleContainer` calls the [fetchArticle](app/src/api/index.ts) function to return the Article. It passes the returned `MarkedText` body to the [MarkedTextComponent](app/src/components/MarkedText/MarkedTextComponent.tsx)
+- `ArticleMarkQuery` The query for the article to return the headline, subheadline and body that contains the `MarkedText` object. The query has been setup to use [fragments](https://graphql.org/learn/queries/#fragments) to contain the rich text elements:
 
   ```gql
   query ArticleMarkQuery {
@@ -107,53 +94,58 @@ To use the added rich text elements within the RTE field:
   }
   ```
 
-#### 2. Render complex rich text elements with the Marked Text Library
+### Step 2. Render complex rich text elements with the MarkedText library
 
-[app/src/components/MarkedText](app/src/components/MarkedText) directory:
+The following components are in the [app/src/components/MarkedText](app/src/components/MarkedText) directory.
 
-- [MarkedTextComponent](<(app/src/components/MarkedText/MarkedTextComponent.tsx)>) This component imports the `markedTextTraversal` function from the Brightspot Marked Text library. This function takes two arguments: the body of the Article returned from the GraphQL API represented as a MarkedText, and an implementation of the Visitor object. The Visitor object contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the MarkedText into the desired output.
+#### [MarkedTextComponent]((app/src/components/MarkedText/MarkedTextComponent.tsx))
+This component imports the `markedTextTraversal` function from the Brightspot MarkedText library. This function takes two arguments: the body of the Article returned from the GraphQL API represented as a `MarkedText`, and an implementation of the `Visitor` object. The `Visitor` object contains two properties, `visitText` and `visitMark`, whose values are callback functions used to transform the `MarkedText` into the desired output.
 
-  In this example, during traversal, when reaching the visitText callback, the text is encapsulated within a [React `Fragment`](https://react.dev/reference/react/Fragment). When arriving at `visitMark`, the call back function uses the `__typename` property that is inside of the `data` property of the `mark` to map each possible rich text element to the corresponding Component i.e. `HtmlRichTextComponent`, `ImageRichTextComponent` and `LinkRichTextComponent`:
+In this example, during traversal, when running the `visitText` callback, the text is encapsulated within a [React `Fragment`](https://react.dev/reference/react/Fragment). When arriving at `visitMark`, the callback function uses the `__typename` property inside the `mark.data` property to map each possible rich-text element to the corresponding component `HtmlRichTextComponent`, `ImageRichTextComponent` and `LinkRichTextComponent`.
 
-  ```js
-  markedTextTraversal(markedText, {
-    visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
-    visitMark: (mark, children: ReactNode[]) => {
-      switch (mark.data.__typename) {
-        case 'RteHtmlElement':
-          return (
-            <HtmlRichTextComponent
-              key={key++}
-              markData={mark.data as RteHtmlElement}
-              children={children}
-            />
-          )
-        case 'ImageRichTextElement':
-          return (
-            <ImageRichTextComponent
-              key={key++}
-              markData={mark.data as ImageRichTextElement}
-            />
-          )
-        case 'LinkRichTextElement':
-          return (
-            <LinkRichTextComponent
-              key={key++}
-              markData={mark.data as LinkRichTextElement}
-              children={children}
-            />
-          )
-        default:
-          return <Fragment key={key++}></Fragment>
-      }
-    },
-  })
-  ```
+```js
+markedTextTraversal(markedText, {
+  visitText: (text) => <Fragment key={key++}>{text}</Fragment>,
+  visitMark: (mark, children: ReactNode[]) => {
+    switch (mark.data.__typename) {
+      case 'RteHtmlElement':
+        return (
+          <HtmlRichTextComponent
+            key={key++}
+            markData={mark.data as RteHtmlElement}
+            children={children}
+          />
+        )
+      case 'ImageRichTextElement':
+        return (
+          <ImageRichTextComponent
+            key={key++}
+            markData={mark.data as ImageRichTextElement}
+          />
+        )
+      case 'LinkRichTextElement':
+        return (
+          <LinkRichTextComponent
+            key={key++}
+            markData={mark.data as LinkRichTextElement}
+            children={children}
+          />
+        )
+      default:
+        return <Fragment key={key++}></Fragment>
+    }
+  },
+})
+```
 
-- [HtmlRichTextComponent](app/src/components/MarkedText/HtmlRichTextComponent.tsx) This component uses helper functions to check if `markData` contains a void element, merge attributes into a single key-value object, and convert attribute strings into [React-compliant camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things).
-- [ImageRichTextElement](app/src/components/MarkedText/ImageRichTextElement.tsx) This component has a similar helper function as `HtmlRichTextComponent` to merge image attributes into a single key-value object.
+#### [HtmlRichTextComponent](app/src/components/MarkedText/HtmlRichTextComponent.tsx)
+This component uses helper functions to check if `markData` contains a void element, merge attributes into a single key-value object, and convert attribute strings into [React-compliant camelCase](https://react.dev/learn/writing-markup-with-jsx#3-camelcase-salls-most-of-the-things).
 
-> **_Note_**: The `HtmlRichTextComponent` and [`LinkRichTextElement`](app/src/components/MarkedText/LinkRichTextElement.tsx) are passed `children` and `ImageRichTextElement` does not. This changes based on your rich text element, whether they should ever have children or not.
+#### [ImageRichTextElement](app/src/components/MarkedText/ImageRichTextElement.tsx)
+
+This component has a similar helper function as `HtmlRichTextComponent` to merge image attributes into a single key-value object.
+
+**Note**: The [`HtmlRichTextComponent`](app/src/components/MarkedText/HtmlRichTextElement.tsx) and [`LinkRichTextElement`](app/src/components/MarkedText/LinkRichTextElement.tsx) are passed `children`, but [`ImageRichTextElement`](app/src/components/MarkedText/ImageRichTextElement.tsx) are not. This changes based on your rich text element, whether they should ever have children or not.
 
 ## Troubleshooting
 

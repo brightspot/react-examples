@@ -25,7 +25,7 @@ Wait until a message similar to `✨ Done in 5.03s` appears.
 
 ## Using the example application
 
-Publish an Article. Once published, the front end can render this article.
+Before performing the following steps, publish an Article.
 
 ## How everything works
 
@@ -33,7 +33,7 @@ Publish an Article. Once published, the front end can render this article.
 
 Inspect the file [Article.tsx](app/src/components/Article.tsx). This file contains the front-end logic described in this example. In particular, the constant [ArticleMarkQuery](app/src/components/Article.tsx#L17) holds the query for retrieving the article. The key `body` contains the text and marks which form the `MarkedText` object based on the view model.
 
-```graphql
+```gql
 const ArticleMarkQuery = `
   query ArticleMarkedTextQuery {
   Article {
