@@ -44,9 +44,9 @@ You can publish assets in Brightspot, and then use the GraphQL API to query for 
 
 Navigate to `brightspot/src/brightspot/example/content_delivery/`. This directory contains the JavaScript class files that are uploaded to Brightspot.
 
-### JavaScript classes files:
+### JavaScript class files
 - `Color.ts`: Defines the data model (fields and methods).
-- `ColorViewModel.ts`: Contains logic needed for the view (the front-end application). The getter functions determine what fields will be included in the schema.
+- `ColorViewModel.ts`: Contains logic needed for the view (the front-end application). The getter functions determine which fields will be included in the schema.
 - `ColorEndpoint.ts`: Creates a custom Content Delivery Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. This class has the following methods:
   - `getPaths`: Specifies the target paths for sending HTTP requests (this path is added to `app/.env`).
   - `getQueryEntryFields`: Specifies the view-model class that drives the schema for the custom endpoint.
