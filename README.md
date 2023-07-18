@@ -21,7 +21,7 @@ After starting Brightspot and your front-end application, refer to the associate
 1. Clone the `react-examples` repository.
 1. In the root of the repository, run
 
-```
+```sh
 docker-compose up
 ```
 
@@ -31,7 +31,7 @@ Press **Ctrl-C** to stop the docker containers.
 
 Run the following commands in the appropriate `brightspot/` directory:
 
-```
+```sh
 yarn
 npx brightspot config server http://localhost/cms
 npx brightspot login
