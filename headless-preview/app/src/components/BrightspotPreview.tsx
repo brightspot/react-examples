@@ -1,0 +1,47 @@
+import { useQuery } from '@apollo/client'
+import Course from './Course'
+import NotFound from './NotFound'
+import GET_COURSE from '../queries/GetCourse'
+import PreviewBanner from './PreviewBanner'
+
+const BrightspotPreview = () => {
+  const previewId = new URLSearchParams(window.location.search).get('previewId')
+  const previewType = new URLSearchParams(window.location.search).get(
+    'typename'
+  )
+
+  const { data, loading, error } = useQuery(GET_COURSE, {
+    variables: {
+      preview: {
+        id: previewId,
+      },
+    },
+  })
+
+  if (loading) return <div className="loading">Loading...</div>
+
+  if (error) {
+    return (
+      <p className="error">{`There was an error fetching data for the course: ${error.message} `}</p>
+    )
+  }
+
+  if (!data?.Course) {
+    return <NotFound />
+  }
+
+  return (
+    <>
+      {previewId && previewType && (
+        <PreviewBanner
+          previewId={previewId}
+          previewType={previewType}
+          endpointId={data.HeadlessPreviewEndpoint.id}
+        />
+      )}
+      <Course course={data.Course} />
+    </>
+  )
+}
+
+export default BrightspotPreview
