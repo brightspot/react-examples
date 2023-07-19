@@ -1,5 +1,5 @@
 # Content Delivery
-This example demonstrates creating a GraphQL [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) endpoint to access content published in Brightspot.
+This example demonstrates creating a GraphQL [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) endpoint to access content published in Brightspot in a front-end application.
 
 ## What you will learn
 
