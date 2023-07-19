@@ -50,7 +50,7 @@ The response includes the color's name and hex value.
   - `updateCorsConfiguration`: Permits cross-origin resource sharing (CORS) to enable requests from localhost.
   - `getAccessOption`: Allows implicit access, so an API key is not required.
 
-## Step 2. Create content types and corresponding view modals
+### Step 2. Create content types and corresponding view modals
 
 - [`Color.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/Color.ts): Defines the data model(fields and methods).
 - [`ColorViewModel.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/ColorViewModel.ts): Contains logic needed for the view (the front-end application). The getter functions determine which fields will be included in the schema.
