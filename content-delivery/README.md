@@ -56,7 +56,7 @@ The response includes the color's name and hex value.
 - [`.env`](/content-delivery/app/.env): This file contains the GraphQL endpoint URL used for sending APi requests to Brightspot.
 
 ## Try it yourself
-The following are suggestions for learning more about JavaScript classes and Brightspot:
+The following are suggestions for learning more about using a Brightspot GraphQL CDA Endpoint:
 
 1. Add a new field for your **Color** content, such as a complementary hex value that you can use on the front end as an accent.
 1. Add the `@JavaRequired` decorator above the field of your choice to make the field required. See what happens when you try to leave that field blank in Brightspot.
