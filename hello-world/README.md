@@ -4,8 +4,8 @@ This example demonstrates creating a GraphQL [Content Delivery API](https://www.
 
 ## What you will learn
 1. [Programatically create a CDA endpoint.](#step-1-programatically-create-a-cda-endpoint)
-1. [View GraphQL query response in Brightspot's GraphQL Explorer](#step-2-view-graphql-query-response-in-brightspots-graphql-explorer)
-1. [View CDA endpoint query response in a front-end application](#step-3-view-cda-endpoint-query-response-in-a-front-end-application)
+1. [View GraphQL query response in Brightspot's GraphQL Explorer.](#step-2-view-graphql-query-response-in-brightspots-graphql-explorer)
+1. [View CDA endpoint query response in a front-end application.](#step-3-view-cda-endpoint-query-response-in-a-front-end-application)
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then run the following commands.
 
