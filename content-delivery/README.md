@@ -1,10 +1,10 @@
 # Content Delivery
-This example highlights using JavaScript classes and the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) to generate a GraphQL Content Delivery API  (CDA) endpoint.
+This example demonstrates creating a GraphQL [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) endpoint with Brightspot.
 
 ## What you will learn
-- How a custom CDA endpoint is created with JavaScript classes, and how to add query entry fields to that endpoint.
-- What the core structure of a view model and content class looks like with JavaScript classes.
-- How to create a simple front-end application with [React](https://reactjs.org/) that displays content published in Brightspot.
+
+1. [How to programatically create a CDA endpoint with query entry fields.](#step-1-programatically-create-a-cda-endpoint-with-query-entry-fields)
+2. [How to display content published in Brightspot in a front-end application.](#step-2-display-content-published-in-brightspot-in-a-front-end-application)
 
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then run the following commands.
@@ -40,18 +40,20 @@ In Brightspot, create a **Color** asset by doing the following:
 The response includes the color's name and hex value.
 
 ## How everything works
-You can publish assets in Brightspot, and then use the GraphQL API to query for those assets. In addition, you can change the schema that your GraphQL endpoint provides. You can perform all these tasks with JavaScript classes.
 
-Navigate to `brightspot/src/brightspot/example/content_delivery/`. This directory contains the JavaScript class files that are uploaded to Brightspot.
+### Step 1. Programatically create a CDA endpoint with query entry fields
 
-### JavaScript class files
-- `Color.ts`: Defines the data model (fields and methods).
-- `ColorViewModel.ts`: Contains logic needed for the view (the front-end application). The getter functions determine which fields will be included in the schema.
-- `ColorEndpoint.ts`: Creates a custom Content Delivery Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. This class has the following methods:
-  - `getPaths`: Specifies the target paths for sending HTTP requests (this path is added to `app/.env`).
+- [`Color.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/Color.ts): Defines the data model (fields and methods).
+- [`ColorViewModel.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/ColorViewModel.ts): Contains logic needed for the view (the front-end application). The getter functions determine which fields will be included in the schema.
+- [`ColorEndpoint.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/ColorEndpoint.ts): Creates a custom CDA Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. This class has the following methods:
+  - `getPaths`: Specifies the target paths for sending HTTP requests.
   - `getQueryEntryFields`: Specifies the view-model class that drives the schema for the custom endpoint.
   - `updateCorsConfiguration`: Permits cross-origin resource sharing (CORS) to enable requests from localhost.
   - `getAccessOption`: Allows implicit access, so an API key is not required.
+
+### Step 2: Display content published in Brightspot in a front-end application
+
+- [`.env`](/content-delivery/app/.env): This file contains the GraphQL endpoint URL used for sending APi requests to Brightspot.
 
 ## Try it yourself
 The following are suggestions for learning more about JavaScript classes and Brightspot:
