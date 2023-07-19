@@ -2,7 +2,7 @@
 
 This example application demonstrates querying MarkedText with complex rich-text element types (such as images and links), and rendering the results using Brightspot's MarkedText Library.
 
-> **_Note_:**: If you're new to MarkedText, refer to the introductory example [Marked Text](../marked-text).
+> **_Note_:** If you're new to MarkedText, refer to the introductory example [Marked Text](../marked-text).
 
 ## What you will learn
 
