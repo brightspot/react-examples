@@ -57,7 +57,7 @@ The response includes the color's name and hex value.
 
 ### Step 3: Display content published in Brightspot in a front-end application
 
-- [`.env`](/content-delivery/app/.env): This file contains the GraphQL endpoint URL used for sending APi requests to Brightspot.
+- [`.env`](/content-delivery/app/.env): This file contains the GraphQL endpoint URL used for sending API requests to Brightspot.
 
 ## Try it yourself
 The following are suggestions for learning more about using a Brightspot GraphQL CDA Endpoint:
