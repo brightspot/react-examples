@@ -12,7 +12,7 @@ You can create custom logic that allows or blocks introspection queries. This ex
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. 
+> **_Note_:** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. 
 
 ### Install dependencies
 
@@ -50,7 +50,7 @@ yarn start
 
 An introspection query rule is a class that implements the `IntrospectionQueryRule` abstract class and provides the body of the `isAllowed()` method. The `isAllowed()` method returns `true` or `false` based on whether a particular request should be allowed.
 
-**Note** By default, GraphQL Introspection is disabled in production mode.
+> **_Note_:** By default, GraphQL Introspection is disabled in production mode.
 
 ```ts
 [`isAllowed()`](): boolean {
