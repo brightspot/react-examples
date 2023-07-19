@@ -1,14 +1,14 @@
 # react-examples
 
-This repository is a collection of React examples demonstrating various Brightspot functionality and use cases.
+This repository is a collection of React code examples pertinent to Brightspot front-end development. Each directory within the repo addresses a specific Brightspot feature or use case.
 
-Each example application directory is comprised of the following:
+Each directory contains the following:
 
-- `app`: frontend application
-- `brightspot`: JS Classes for Brightspot
-- `README.md`: Explanation and instructions for the example app
+- `app/`: front-end application
+- `brightspot/`: JavaScript classes for Brightspot
+- `README.md`: Description of the application, as well as instructions for installing and running it.
 
-After starting Brightspot and your frontend application, refer to the README located in the example application directory for further information.
+After starting Brightspot and your front-end application, refer to the associated `README.md` for further information.
 
 ## Requirements for running an example application ✅
 
@@ -19,21 +19,19 @@ After starting Brightspot and your frontend application, refer to the README loc
 ## Starting Brightspot 🚀
 
 1. Clone the `react-examples` repository.
-2. In the root of the repository, run
+1. In the root of the repository, run
 
-```
+```sh
 docker-compose up
 ```
 
-Enter `CTRL c` to stop the docker containers.
+Press **Ctrl-C** to stop the docker containers.
 
-## Uploading Content to Brightspot 📤
+## Uploading content to Brightspot 📤
 
-JS Classes make it possible to create and modify Brightspot content with JavaScript (TypeScript).
+Run the following commands in the appropriate `brightspot/` directory:
 
-Run the following commands in the example application `brightspot` directory:
-
-```
+```sh
 yarn
 npx brightspot config server http://localhost/cms
 npx brightspot login
@@ -41,48 +39,48 @@ npx brightspot types download
 npx brightspot types upload src
 ```
 
-> **_Note_** If there is already a `brightspot.json` file you can skip the `npx brightspot config server` command.
+> **_Note_:** If there is already a `brightspot.json` file, you can skip the `npx brightspot config server` command.
 
-## Running the frontend application 👟
+## Running the front-end application 👟
 
-Run `yarn` in the example application `app` directory. The command for starting the app differs for React and Next.js applications:
+In the `app/` directory, run one of the following commands:
 
-React:
+For React:
 
 ```
 yarn start
 ```
 
-Next.js:
+For Next.js:
 
 ```
 yarn dev
 ```
 
-The frontend application will open automatically in your browser.
+The front-end application will open automatically in your browser.
 
 ## Other helpful Docker commands 💡
 
-- `docker-compose start`: start a stopped docker container
-- `docker-compose stop`: stop container (this command does NOT delete data)
-- `docker-compose down`: delete container (this command does NOT delete data stored in named volumes)
-- `docker-compose up`: to run container without detaching to run it in the background
-- `docker-compose down -v`: delete container and volumes (helpful if you need a fresh docker instance)
-- `docker volue prune`: delete unused volumes
+- `docker-compose start`: Starts a stopped docker container.
+- `docker-compose stop`: Stops container (this command does *not* delete data).
+- `docker-compose down`: Deletes container (this command does *not* delete data stored in named volumes).
+- `docker-compose up`: to run container without detaching to run it in the background.
+- `docker-compose down -v`: Deletes container and volumes (helpful if you need a fresh docker instance).
+- `docker volume prune`: Deletes unused volumes.
 
 ## Common Issues 🤔
 
-1. My endpoint schema has not updated after making changes in the JS Class.
+* My endpoint schema has not updated after making changes in the JavaScript class.
 
-   - In Brightspot, navigate to `Admin`, `APIs`, select the endpoint you have updated, and click `SAVE`.
+   - In Brightspot, navigate to **Admin > APIs**, select the endpoint you have updated, and click **Save**.
 
-2. I want to remove all data and start fresh.
+* I want to remove all data and start fresh.
 
    - Use the `docker-compose down -v` command.
 
-3. I try to login using `npx brightspot login` but a message appears that I am already logged in. However, when I try to upload or download types I am prompted to login again.
+* I try to log in using `npx brightspot login`, but a message appears indicating that I am already logged in. However, when I try to upload or download types I am prompted to login again.
 
-   - This is to be expected. You should only encounter this situation if you run `docker-compose down` and then start running docker again. Just follow the terminal prompts (i.e. login if prompted), then re-run the previous command (`npx brightspot types download` or `npx brightspot types upload src`).
+   - This is to be expected. You should only encounter this situation if you run `docker-compose down` and then start running docker again. Just follow the terminal prompts (log in if prompted), then re-run the previous command (`npx brightspot types download` or `npx brightspot types upload src`).
 
-4. I am getting a `failed to fetch` error in my frontend application.
-   - Make sure the Brightspot docker containers are running. If you are using the default command, `docker-compose up` to run the containers, check the logs for any possible errors. Finally, try to query for the content using GraphQL Explorer in Brightspot to make sure the GraphQL endpoint is working as expected.
+* I am getting a `failed to fetch` error in my front-end application.
+   - Make sure the Brightspot docker containers are running. If you are using the default command `docker-compose up` to run the containers, check the logs for any possible errors. Try to query for the content using GraphQL Explorer in Brightspot to ensure the GraphQL endpoint is working as expected.

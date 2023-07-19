@@ -1,58 +1,62 @@
 # Hello World
 
-This example highlights how simple it is to use JS Classes and the [Brightspot GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) for generating a GraphQL Content Delivery API endpoint (CDA) to then connect to a front-end application.
+This example demonstrates creating a GraphQL [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) endpoint to access content in a front-end application.
 
+## What you will learn
+1. [Programatically create a CDA endpoint.](#step-1-programatically-create-a-cda-endpoint)
+1. [View GraphQL query response in Brightspot's GraphQL Explorer.](#step-2-view-graphql-query-response-in-brightspots-graphql-explorer)
+1. [View CDA endpoint query response in a front-end application.](#step-3-view-cda-endpoint-query-response-in-a-front-end-application)
 ## Running the example application
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then run the following commands.
 
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then follow the quick-start steps starting in the `hello-world` directory:
+To upload JavaScript classes in Brightspot (http://localhost/cms):
 
-To upload JS Classes in Brightspot (http://localhost/cms):
-
-```
-cd brightspot
+```sh
+cd hello-world/brightspot/
 yarn
 npx brightspot types download
 npx brightspot types upload src
-
 ```
 
-To run the front-end:
+To run the front end:
 
-```
-cd app
+```sh
+cd hello-world/app/
 yarn
 yarn start
 ```
 
 The front-end application will open automatically in the browser.
 
-## Using the example application
-
-Navigate to the GraphQL Explorer in Brightspot by selecting the menu button, then 'GraphQL Explorer'. Select 'Hello World Endpoint' as your GraphQL Endpoint. Make sure the `message` field is checked in the query on the left pane. Run the query by pressing the Run button in the middle of the GraphQL Explorer page. You should see the message 'Hello, World!'.
-
 ## How everything works
 
-Brightspot gives you the power to create endpoints and content with ease. You can do this both editorially and with JS Classes.
+### Step 1. Programatically create a CDA endpoint
 
-Navigate to `brightspot/src/examples/hello-world`. This directory contains the JS Classes files that are uploaded to Brightspot.
+- [`HelloWorldViewModel.ts`](/hello-world/brightspot/src/brightspot/example/hello_world/HelloWorldViewModel.ts): Contains logic for generating the view (the front-end application). The getter functions determine which fields will be included in the schema.
+- [`HelloWorldEndpoint.ts`](/hello-world/brightspot/src/brightspot/example/hello_world/HelloWorldEndpoint.ts): Creates a custom CDA Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint, and that it should be created automatically when the application loads. This class has the following methods:
+  - `getPaths`: Specifies the target paths for sending HTTP requests.
+  - `getQueryEntryFields`: Specifies the view-model class that drives the schema for the custom endpoint.
+  - `updateCorsConfiguration`: Permits cross-origin resource sharing (CORS) to enable requests from localhost.
+  - `getAccessOption`: Allows implicit access, so an API key is not required.
 
-#### JS Classes Files:
+### Step 2. View GraphQL query response in Brightspot's GraphQL Explorer
 
-- `HelloWorldViewModel.ts`: the class that contains logic requirements needed for the view (the frontend application)
-  - getter functions determine what fields will be included in the schema.
-- `HelloWorldEndpoint.ts`: the class that creates a custom Content Delivery Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint, and that it should be created automatically when the application loads. It has the following configurations:
-  - `getPaths`: specify the path(s) to send HTTP requests to (this path is added to `app/.env`)
-  - `getQueryEntryFields`: use the View Model class to determine the schema for the custom endpoint
-  - `updateCorsConfiguration`: permit cross-origin resource sharing (CORS) to enable requests from localhost
-  - `getAccessOption`: implicit access so an API key is not required
+In Brightspot, run the sample query by doing the following:
+
+1. Navigate to the GraphQL Explorer in Brightspot by selecting  ☰ **> GraphQL Explorer**.
+1. Select **Hello World Endpoint** as your GraphQL Endpoint. Make sure the **message** field is checked in the query on the left pane.
+1. Run the query by clicking **Run** in the middle of the GraphQL Explorer page. You should see the message `Hello, World!`.
+
+### Step 3. View CDA endpoint query response in a front-end application
+
+- [`.env`](/hello-world/app/.env): This file contains the GraphQL endpoint URL used for sending APi requests to Brightspot.
 
 ## Try it yourself
 
-The following are suggestions for learning more about JS Classes and Brightspot:
+The following are suggestions for learning more:
 
-1. Try changing the path and then check in Brightspot: navigate to `Admin`, `APIs`, and then your endpoint. You will see the endpoint listed there. Make sure to add the new path in your `app/.env` file!
-
-2. Try changing the message that is returned from the GraphQL query.
+1. Try changing the path and then check in Brightspot. Navigate to **Admin > APIs**, and then to your endpoint. You will see the endpoint listed there. Make sure to add the new path in your `app/.env` file!
+1. Try changing the message that is returned from the GraphQL query.
 
 ## Troubleshooting
 
