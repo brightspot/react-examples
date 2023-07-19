@@ -1,10 +1,11 @@
 # Content Delivery
-This example demonstrates creating a GraphQL [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) endpoint with Brightspot.
+This example demonstrates creating a GraphQL [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) endpoint to access content published in Brightspot.
 
 ## What you will learn
 
-1. [How to programatically create a CDA endpoint with query entry fields.](#step-1-programatically-create-a-cda-endpoint-with-query-entry-fields)
-2. [How to display content published in Brightspot in a front-end application.](#step-2-display-content-published-in-brightspot-in-a-front-end-application)
+1. [Programatically create a CDA endpoint with query entry fields.](#step-1-programatically-create-a-cda-endpoint-with-query-entry-fields)
+1. [Create content types and a corresponding view modals.](#step-2-create-content-types-and-corresponding-view-modals)
+1. [Display content published in Brightspot in a front-end application.](#step-3-display-content-published-in-brightspot-in-a-front-end-application)
 
 ## Running the example application
 Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then run the following commands.
@@ -43,15 +44,18 @@ The response includes the color's name and hex value.
 
 ### Step 1. Programatically create a CDA endpoint with query entry fields
 
-- [`Color.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/Color.ts): Defines the data model (fields and methods).
-- [`ColorViewModel.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/ColorViewModel.ts): Contains logic needed for the view (the front-end application). The getter functions determine which fields will be included in the schema.
 - [`ColorEndpoint.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/ColorEndpoint.ts): Creates a custom CDA Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. This class has the following methods:
   - `getPaths`: Specifies the target paths for sending HTTP requests.
   - `getQueryEntryFields`: Specifies the view-model class that drives the schema for the custom endpoint.
   - `updateCorsConfiguration`: Permits cross-origin resource sharing (CORS) to enable requests from localhost.
   - `getAccessOption`: Allows implicit access, so an API key is not required.
 
-### Step 2: Display content published in Brightspot in a front-end application
+## Step 2. Create content types and corresponding view modals
+
+- [`Color.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/Color.ts): Defines the data model(fields and methods).
+- [`ColorViewModel.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/ColorViewModel.ts): Contains logic needed for the view (the front-end application). The getter functions determine which fields will be included in the schema.
+
+### Step 3: Display content published in Brightspot in a front-end application
 
 - [`.env`](/content-delivery/app/.env): This file contains the GraphQL endpoint URL used for sending APi requests to Brightspot.
 
