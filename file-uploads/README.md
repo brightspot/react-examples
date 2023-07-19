@@ -19,22 +19,10 @@ Run the following commands from the `brightspot-routing/app` directory:
 $ yarn
 ```
 
-```
-[1/4] 🔍 Resolving packages...
-[2/4] 🚚 Fetching packages...
-[3/4] 🔗 Linking dependencies...
-[4/4] 🔨 Building fresh packages...
-✨ Done in 6.03s.
-```
-
 ### Start the React app
 
 ```sh
 $ yarn start
-```
-
-```
-Compiled successfully!
 ```
 
 The React app opens automatically in the browser.
@@ -43,7 +31,7 @@ The React app opens automatically in the browser.
 
 1. <b>Create an API Client:</b>
 
-    Navigate from **&#x2630;** to **Admin** &rarr; **APIs** &rarr; **Clients**, and select **New API Client**. Enter a name, and select **File Uploads Endpoint** for the endpoint. Copy the Client ID and add the ID to the `REACT_APP_CLIENT_ID` field in the `file-uploads/app/.env` file. Click **Add API Key**, copy the key that is generated, and add to the `REACT_APP_CLIENT_SECRET` in the same `.env` file. Save the API Client.
+    Navigate from **&#x2630;** to **Admin** &rarr; **APIs**, then, under the **Clients** section, select **New API Client**. Enter a name, and select **File Uploads Endpoint** for the endpoint. Copy the Client ID and add the ID to the `REACT_APP_CLIENT_ID` field in the `file-uploads/app/.env` file. Click **Add API Key**, copy the key that is generated, and add to the `REACT_APP_CLIENT_SECRET` in the same `.env` file. Save the API Client.
 <br>
 
 2. <b>Upload images from front-end:</b>
@@ -115,7 +103,7 @@ query MyQuery {
 }
 ```
 
-You can also choose to select specific metadata keys:
+You can choose to select specific metadata keys:
 
 ```graphql
 query MyQuery {
@@ -160,4 +148,4 @@ The following is a suggestion for learning more about file uploads with JS Class
 - Create a File class instead of a Image class, and limit the StorageItem to only accept certain file types. Refer to [Common MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types) for possible MIME types to use (hint: your `@MimeTypes` annotation should look something like: `@MimeTypes({ value: '+application/pdf +application/txt' })`).
 
 ## Troubleshooting
-Refer to the [Common Issues](/README.md) section in the respository README for assistance.
+Refer to the [Common Issues](/README.md) section in the repository README for assistance.
