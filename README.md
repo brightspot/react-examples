@@ -39,7 +39,7 @@ npx brightspot types download
 npx brightspot types upload src
 ```
 
-**Note** If there is already a `brightspot.json` file, you can skip the `npx brightspot config server` command.
+> **_Note_:** If there is already a `brightspot.json` file, you can skip the `npx brightspot config server` command.
 
 ## Running the front-end application 👟
 
