@@ -2,103 +2,76 @@
 
 By default, you can query for content using [Brightspot's GraphQL API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/graphql-api) using the `id` [GraphQL query argument](#graphql-query-arguments). 
 
-You can also use the `path` query argument (which are permalinks in Brightspot) if content implements `Directory.Item`. Refer to [Brightspot Routing](https://github.com/brightspot/react-examples) for an example using Brightspot's system for generating permalinks and managing URLs, redirects, and more.
+You can also use the `path` query argument (which are permalinks in Brightspot) if a content type implements `Directory.Item`. Refer to [Brightspot Routing](../brightspot-routing/README.md) for an example of using Brightspot for generating permalinks, managing URLs and redirects, and more.
 
-However, you might not want to utilize `id`, or have specific customization requirements that make Brightspot's predefined permalink system unsuitable. 
+However, you might not want to utilize `id`, or have specific customization requirements that make Brightspot's predefined permalink system unsuitable. For such cases, Brightspot gives you the ability to customize [GraphQL query arguments](#graphql-query-arguments) to be any unique content identifier.
 
-That is why Brightspot also gives you the ability to customize [GraphQL query arguments](#graphql-query-arguments) to be any unique content identifier.
-
-This example uses [dynamic segments](#dynamic-segments) for [client-side routing](https://reactrouter.com/en/main/start/overview#client-side-routing) in a front-end [React](https://react.dev/) application. This examples uses [URL slugs](#url-slug) as GraphQL query arguments that are unique URL paths for requesting content data.
+This example uses [dynamic segments](#dynamic-segments) for [client-side routing](https://reactrouter.com/en/main/start/overview#client-side-routing) in a front-end React application. The example uses [URL slugs](#url-slug) as GraphQL query arguments.
 
 ## What you will learn
 
-1. [Create content with customized GraphQL query arguments in Brightspot.](#1-Create-content-with-customized-GraphQL-query-arguments-in-Brightspot)
-2. [Create a client-side routing structure using GraphQL query arguments.](#2-Create-a-client-side-routing-structure-using-GraphQL-query-arguments)
+1. [Create content with customized GraphQL query arguments in Brightspot.](#step-1-create-content-with-customized-graphql-query-arguments-in-brightspot)
+2. [Create a client-side routing structure using GraphQL query arguments.](#step-2-create-a-client-side-routing-structure-using-graphql-query-arguments)
 
 ## Related examples
 
-- [Brightspot Routing](https://github.com/brightspot/react-examples)
-
+- [Brightspot Routing](../brightspot-routing/README.md)
 ## Running the example application
 
-> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
-Run the following commands from the `brightspot-routing/app` directory:
+Run the following commands from the `brightspot-routing/app/` directory:
 
 ### Install dependencies
 
 ```sh
-$ yarn
+yarn
 ```
-
-```
-[1/4] 🔍 Resolving packages...
-[2/4] 🚚 Fetching packages...
-[3/4] 🔗 Linking dependencies...
-[4/4] 🔨 Building fresh packages...
-✨ Done in 6.03s.
-```
+Wait until a message similar to `✨ Done in 5.03s` appears.
 
 ### Generate types
 
 ```sh
-$ yarn codegen
+yarn codegen
 ```
 
-```
-✔ Parse Configuration
-❯ Generate outputs
-  ❯ Generate ./src/generated.ts
-✔ Parse Configuration
-✔ Generate outputs
-✨ Done in 2.05s.
-```
+Wait until a message similar to `✨ Done in 2.03s` appears.
 
 ### Start the React app
 
 ```sh
-$ yarn start
+yarn start
 ```
-
-```
-Compiled successfully!
-```
-
 The React app opens automatically in the browser.
 
-> **_Note_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to update the `app/generated` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
+**Note** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to update the `app/generated/` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
 
 ## Using the example application
 
 The front-end application is a simple news website. Content consists of sections, tags, and articles.
 
-Publish the following content in Brightspot:
+To start, in Brightspot publish a few instances of the following content types:
 
-1. **Sections**(s)
-2. **Tag**(s)
-3. **Article**(s)
-
-Navigate to your front-end application to see your content displayed.
+- Sections
+- Tags
+- Articles
 
 ## How everything works
 
-### 1. Create content with customized GraphQL query arguments in Brightspot
+### Step 1. Create content with customized GraphQL query arguments in Brightspot
 
-To make a field available as a query input field in GraphQL, add the Indexed annotation to the content class in Brightspot, making sure to only allow unique values: `@Indexed({ unique: true })`.
+To make a field available as a query input field in GraphQL, add the `@Indexed({ unique: true })` annotation that ensures the field has unique values. The following example is in the file [Article.ts](./brightspot/src/brightspot/example/app_routing/Article.ts).
 
-[Article.ts](./brightspot/src/brightspot/example/app_routing/Article.ts)
 ```typescript
-  @JavaField(String)
-  @Indexed({ unique: true })
-  @JavaRequired
-  slug: string
+@JavaField(String)
+@Indexed({ unique: true })
+@JavaRequired
+slug: string
 ```
 
-### 2. Create a client-side routing structure using GraphQL query arguments
+### Step 2. Create a client-side routing structure using GraphQL query arguments
 
-Use the indexed query input field as a unique parameter (identifier) in GraphQL queries in the front-end application.
-
-[Article.tsx](`./app/src/components/Article.tsx):
+Use the indexed query input field as a unique parameter (identifier) in GraphQL queries. The following example is in the file [Article.tsx](./app/src/components/Article.tsx).
 
 ```typescript
 import { useGetArticleQuery } from '../generated'
@@ -113,11 +86,9 @@ const Article = () => {
   })
 ```
 
-Similar structure is also used in `src/components/Section.tsx` and `src/commponents/Tag.tsx`.
+Similar structure is also used in  [Section.tsx](./app/src/components/Section.tsx) and [Tag.tsx](./app/src/components/Tag.tsx).
 
-The routing structure with React Router for this application is: 
-
-[index.tsx](`./app/src/index.tsx)
+The routing structure for the React Router is in the file [index.tsx](./app/src/index.tsx).
 
 ```typescript
 <ApolloProvider client={client}>
@@ -138,7 +109,7 @@ The routing structure with React Router for this application is:
 
 #### Dynamic segments
 
-Segments of a URL as dynamic placeholders, like parameters in a function.
+Segments of a URL as dynamic placeholders, similar to parameters in a function.
 
 ```jsx
 <Route path=":section/:article" element={<Article />} />
@@ -160,7 +131,7 @@ Refer to the [React Router Dynamic Segment documentation](https://reactrouter.co
 
 #### URL slug
 
-The last part of the URL address that acts as a unique identifier for a webpage.
+The last part of the URL that acts as a unique identifier for a webpage within a domain.
 
 ```javascript
 /// unique-url-slug is the URL slug
@@ -169,7 +140,7 @@ The last part of the URL address that acts as a unique identifier for a webpage.
 
 #### GraphQL query arguments
 
-A set of key-value pairs attached to a specific field. Arguments are passed into the server-side execution of the respective field, and affect how the field is resolved. Arguments can be literal values or variables (refer to [GraphQL query variables](#graphql-query-variables)).
+A set of key-value pairs attached to a specific field. Arguments are passed into the server-side execution of the respective field, affecting how the field is resolved. Arguments can be literal values or variables (refer to [GraphQL query variables](#graphql-query-variables)).
 
 ```javascript
 query GetArticle($slug: String) {
@@ -183,7 +154,7 @@ query GetArticle($slug: String) {
 
 #### GraphQL query variables
 
-A GraphQL query is like a function, to which you can provide dynamic arguments. These dynamic arguments are query variables.
+A GraphQL query is similar to a function to which you can provide dynamic arguments. These dynamic arguments are query variables.
 
 ```javascript
 query GetArticle($slug: String) { // variable definition ($slug: String)
@@ -195,7 +166,7 @@ query GetArticle($slug: String) { // variable definition ($slug: String)
 }
 ```
 
-Refer to [GraphQl documentation](https://graphql.org/learn/queries/#variables) for more information.
+Refer to GraphQL's [Variables](https://graphql.org/learn/queries/#variables) for more information.
 
 ## Troubleshooting
 
