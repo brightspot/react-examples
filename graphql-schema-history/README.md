@@ -16,7 +16,7 @@ Brightspot stores a record whenever a schema changes that can be viewed in Brigh
 
 ### Get Original Schema URL
 
-Before comparing schemas, you will need to have the original schema. Go to your Brightspot instance in your browser navigate to **☰** &rarr; **Developer** &rarr; **GraphQL Explorer** and copy and paste the following query:
+Before comparing schemas, you will need to have the original schema. Go to your Brightspot instance in your browser navigate to **☰** &rarr; **Developer** &rarr; **GraphQL Explorer**. Select the **Movie Endpoint** first, to load the schema. Then change to **Schema History Endpoint** and copy and paste the following query:
 
 ```
 query Schemas {
