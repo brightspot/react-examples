@@ -51,7 +51,7 @@ The return data will look similar to the following:
 }
 ```
 
-Copy the URL in the first "schema". The value of the "publicUrl" key and paste it in the [.env](./app/.env#l3) as the value for **GRAPHQL_SDL_URL**.
+Copy the "publicUrl" value - the URL of the first schema - and paste it in the [.env](./app/.env#l3) file as the value for **GRAPHQL_SDL_URL**.
 
 This ensures the original schema will always be the same when running codegen and is configured to return the same version received with an [introspection query](https://graphql.org/learn/introspection/) bound by the same introspection query rules.
 
