@@ -1,0 +1,13 @@
+query GetTag($slug: String) {
+  Tag(model: { slug: $slug }) {
+    category
+    articles {
+      headline
+      slug
+      section {
+        name
+        slug
+      }
+    }
+  }
+}

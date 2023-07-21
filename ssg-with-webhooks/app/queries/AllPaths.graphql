@@ -1,0 +1,10 @@
+query GetAllPaths {
+  AllBlogPosts {
+    blogPosts {
+      paths {
+        path
+        type
+      }
+    }
+  }
+}

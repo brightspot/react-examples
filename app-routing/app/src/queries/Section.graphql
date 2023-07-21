@@ -1,0 +1,15 @@
+query GetSection($slug: String) {
+  Section(model: { slug: $slug }) {
+    name
+    slug
+    articles {
+      headline
+      publishDate
+      slug
+      section {
+        name
+        slug
+      }
+    }
+  }
+}

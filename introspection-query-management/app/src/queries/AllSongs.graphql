@@ -1,0 +1,11 @@
+query AllSongs {
+  AllSongs {
+    songs {
+      name
+      artist
+      album
+      genre
+      year
+    }
+  }
+}

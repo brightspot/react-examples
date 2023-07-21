@@ -1,0 +1,84 @@
+{
+  "styles": {
+    "/themingArticle": {
+      "fields": {
+        "happyFaceColor": {
+          "displayName": "Happy Face Color",
+          "type": "color",
+          "cms.ui.cluster": "Testing"
+        },
+        "showHappyFace": {
+          "displayName": "Show Happy Face",
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "themeFields": {
+    "primaryColor": {
+      "displayName": "Primary Color",
+      "type": "color",
+      "cms.ui.placeholder": "#ff0083"
+    },
+    "secondaryColor": {
+      "displayName": "Secondary Color",
+      "type": "color",
+      "cms.ui.placeholder": "#ff4da8"
+
+    },
+    "primaryTextColor": {
+      "displayName": "Primary Text Color",
+      "type": "color",
+      "cms.ui.note": "Headlines, Body Text",
+      "cms.ui.placeholder": "#000"
+    },
+    "secondaryTextColor": {
+      "displayName": "Secondary Text Color",
+      "type": "color",
+      "cms.ui.note": "Description Text",
+      "cms.ui.placeholder": "#ffffff"
+    },
+    "bodyFont": {
+      "displayName": "Body",
+      "type": "text",
+      "values": [
+        {
+          "label": "Montserrat",
+          "value": "Montserrat"
+        },
+        {
+          "label": "Merriweather",
+          "value": "Merriweather"
+        },
+        {
+          "label": "Raleway",
+          "value": "Raleway"
+        }
+      ],
+      "cms.ui.dropDown": true,
+      "cms.ui.placeholder": "Raleway"
+    },
+    "alignment": {
+      "type": "text",
+      "displayName": "Title alignment",
+      "cms.ui.note": "Select preferred alignment.",
+      "cms.ui.dropDown": true,
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "name": "theming example configuration",
+  "version": "1.0.0"
+}

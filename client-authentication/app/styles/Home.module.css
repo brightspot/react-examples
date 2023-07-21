@@ -1,0 +1,137 @@
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.split > * {
+  border-left: 0.5px solid black;
+  border-right: 0.5px solid black;
+}
+
+.container {
+  padding: 0 2rem;
+  min-height: 100vh;
+}
+
+.main {
+  min-height: 90vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadButton {
+  background-color: #ee0120;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.loadButton:hover {
+  background: white;
+  border: 1px solid #ee0120;
+  color: #ee0120;
+}
+
+.loadButton:focus {
+  background: #f0f0f0;
+  border: 1px solid #ee0120;
+  color: #ee0120;
+}
+
+.title {
+  margin: 4rem;
+  line-height: 1.15;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.description {
+  margin: 4rem 0;
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
+.card {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  border: 1px solid #ee0120;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 25rem;
+}
+
+.card:hover h2,
+.card:focus h2,
+.card:active h2 {
+  color: #ee0120;
+}
+
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.carousel {
+  width: 25rem;
+  text-align: center;
+}
+
+.carousel > a {
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #ee0120;
+  color: white;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;
+  margin: 0.5rem 0.5rem 0 0;
+  position: relative;
+}
+
+.carousel > a:hover {
+  background: white;
+  border: 1px solid #ee0120;
+  color: #ee0120;
+}
+
+.carousel > a:focus {
+  background: #f0f0f0;
+  border: 1px solid #ee0120;
+  color: #ee0120;
+}
+
+.slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}

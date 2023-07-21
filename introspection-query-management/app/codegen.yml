@@ -1,0 +1,14 @@
+overwrite: true
+schema:
+  - ${REACT_APP_GRAPHQL_URL}:
+      headers:
+        Introspection-Key: ${INTROSPECTION_KEY}
+documents: './src/queries/*.graphql'
+generates:
+  ./src/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true

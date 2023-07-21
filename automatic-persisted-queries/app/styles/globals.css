@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Roboto+Mono&display=swap');
+
+:root {
+  --primary: #ee0120;
+  --primary-hover: #f4556a;
+  --secondary: #2a5975;
+  --secondary-hover: #547a90;
+  --border-color: #f1eced;
+  --black: rgb(75, 69, 69);
+  --text: rgb(120, 113, 113);
+  --success: #22bb33;
+  --danger-light: #ffebe9;
+  --danger: #cf222e;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', monospace, sans-serif;
+  background-color: #fbfbfb;
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  border: 2px solid transparent;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  background-color: var(--primary);
+  transition: all 0.2s linear 0s;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  margin-bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+table {
+  width: 100%;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  border: none;
+  display: flex;
+}
+
+fieldset > label {
+  margin: 0 7px 0 0;
+  display: flex;
+  align-items: center;
+}
+
+input[type='radio'] {
+  accent-color: var(--secondary);
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  margin: 0 7px 0 0;
+}
+
+th {
+  font-weight: 400;
+}

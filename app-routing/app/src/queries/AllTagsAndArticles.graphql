@@ -1,0 +1,21 @@
+query GetAllTagsAndArticles {
+  AllTags {
+    tags {
+      category
+      slug
+    }
+  }
+  AllArticles {
+    articles {
+      slug
+      headline
+      tags {
+        category
+      }
+      section {
+        name
+        slug
+      }
+    }
+  }
+}
