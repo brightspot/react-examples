@@ -14,6 +14,47 @@ Brightspot stores a record whenever a schema changes that can be viewed in Brigh
 
 > **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
+### Get Original Schema URL
+
+Before comparing schemas, you will need to have the original schema. Go to your Brightspot instance in your browser navigate to **☰** &rarr; **Developer** &rarr; **GraphQL Explorer** and copy and paste the following query:
+
+```
+query Schemas {
+  versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
+    where: { predicate: "endpoint/getLabel = ?", arguments: "Movie Endpoint" }
+    sorts: { order: descending, options: "timestamp" }
+  ) {
+    items {
+      schema {
+        publicUrl
+      }
+    }
+  }
+}
+```
+
+The return data will look similar to the following:
+
+```
+{
+  "data": {
+    "versions": {
+      "items": [
+        {
+          "schema": {
+            "publicUrl": "http://localhost/storage/42/4e/2e875f164f479330294112cad4ea/movie-endpoint-01-01-2023-00-00-00-edt.graphql"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+Copy the URL in the first "schema". The value of the "publicUrl" key and paste it in the [.env](./app/.env#l3) as the value for **GRAPHQL_SDL_ENDPOINT**.
+
+This ensures the original schema will always be the same when running codegen and is configured to return the same version received with an [introspection query](https://graphql.org/learn/introspection/) bound by the same introspection query rules.
+
 ### Install dependencies
 
 Run the following command from the `graphql-schema-history/app` directory:
