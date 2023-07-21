@@ -14,11 +14,11 @@ This example demonstrates how to use APQs with Brightspot and [Apollo Client](ht
 ## What you will learn
 
 1. [Enable APQs in Brightspot](#step-1-enable-apqs-in-brightspot).
-2. [Configure a front-end application to use APQs with Brightspot](#step-2-configure-a-front-end-application-to-use-apqs-with-brightspot).
+1. [Configure a front-end application to use APQs with Brightspot](#step-2-configure-a-front-end-application-to-use-apqs-with-brightspot).
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
@@ -47,8 +47,8 @@ The UI displays an Aviation Alphabet Converter page (option to use either an inp
 Key points to observe in the UI:
 
 1. **Cache control** : Value displays if a cache-control response header is set in Brightspot.
-2. **Select query type** : "Good" query types implement best practices for queries and "Bad" query types implement practices to avoid. For details on implementation refer to the comments found in the query files in `app/queries`.
-3. Query execution details: `GET` or `POST` for HTTP method used, `MISS` or `HIT` for CDN caching, and query execution time in milliseconds.
+1. **Select query type** : "Good" query types implement best practices for queries and "Bad" query types implement practices to avoid. For details on implementation refer to the comments found in the query files in `app/queries`.
+1. Query execution details: `GET` or `POST` for HTTP method used, `MISS` or `HIT` for CDN caching, and query execution time in milliseconds.
 
 | UI Key Points                                            |
 | -------------------------------------------------------- |
@@ -68,7 +68,7 @@ To add a cache-control header to query responses:
 
 In the `app/.env` file, set the `LOGGER` environment variable to `true` to turn logging on for query requests and responses.
 
-**Note** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser's console network tab.
+> **_Note:_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser's console network tab.
 
 Below is an example of logging the client request and server response when query string not found:
 
@@ -158,9 +158,9 @@ A [persisted query protocol](brightspot/src/brightspot/example/automatic_persist
 }
 ```
 
-**Note** Adding cache-control response headers is optional but recommended if using a CDN.
+> **_Note:_** Adding cache-control response headers is optional but recommended if using a CDN.
 
-#### Add cache control headers to the [endpoint view model](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts):
+#### Add cache control headers to the [endpoint view model](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts)
 
 ```typescript
 onCreate(response: ViewResponse) {
