@@ -8,7 +8,7 @@ This example demonstrates creating a GraphQL [Content Delivery API](https://www.
 1. [Display content published in Brightspot in a front-end application.](#step-3-display-content-published-in-brightspot-in-a-front-end-application)
 
 ## Running the example application
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then run the following commands.
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. Make sure you have the Docker instance for the example applications running, then run the following commands.
 
 To upload JavaScript classes in Brightspot (http://localhost/cms):
 
