@@ -3,7 +3,7 @@
 This example demonstrates creating a GraphQL [Content Delivery API](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/cda-guides) (CDA) endpoint to access content in a front-end application.
 
 ## What you will learn
-1. [Programatically create a CDA endpoint.](#step-1-programatically-create-a-cda-endpoint)
+1. [Programmatically create a CDA endpoint.](#step-1-programmatically-create-a-cda-endpoint)
 1. [View GraphQL query response in Brightspot's GraphQL Explorer.](#step-2-view-graphql-query-response-in-brightspots-graphql-explorer)
 1. [View CDA endpoint query response in a front-end application.](#step-3-view-cda-endpoint-query-response-in-a-front-end-application)
 ## Running the example application
@@ -30,7 +30,7 @@ The front-end application will open automatically in the browser.
 
 ## How everything works
 
-### Step 1. Programatically create a CDA endpoint
+### Step 1. Programmatically create a CDA endpoint
 
 - [`HelloWorldViewModel.ts`](/hello-world/brightspot/src/brightspot/example/hello_world/HelloWorldViewModel.ts): Contains logic for generating the view (the front-end application). The getter functions determine which fields will be included in the schema.
 - [`HelloWorldEndpoint.ts`](/hello-world/brightspot/src/brightspot/example/hello_world/HelloWorldEndpoint.ts): Creates a custom CDA Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint, and that it should be created automatically when the application loads. This class has the following methods:

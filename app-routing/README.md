@@ -11,7 +11,7 @@ This example uses [dynamic segments](#dynamic-segments) for [client-side routing
 ## What you will learn
 
 1. [Create content with customized GraphQL query arguments in Brightspot.](#step-1-create-content-with-customized-graphql-query-arguments-in-brightspot)
-2. [Create a client-side routing structure using GraphQL query arguments.](#step-2-create-a-client-side-routing-structure-using-graphql-query-arguments)
+1. [Create a client-side routing structure using GraphQL query arguments.](#step-2-create-a-client-side-routing-structure-using-graphql-query-arguments)
 
 ## Related examples
 
