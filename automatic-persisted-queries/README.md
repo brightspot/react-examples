@@ -18,7 +18,7 @@ This example demonstrates how to use APQs with Brightspot and [Apollo Client](ht
 
 ## Running the example application
 
-> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
@@ -69,7 +69,7 @@ Refer to MDN's [cache control documentation](https://developer.mozilla.org/en-US
 
 In the `app/.env` file, set the `LOGGER` environment variable to `true` to turn logging on for query requests and responses.
 
-> **_Note_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser console network tab.
+> **_Note:_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser's console network tab.
 
 Example logging for client request and server response when query string not found:
 
@@ -157,7 +157,7 @@ Ideally, you want to avoid unneccessary `POST` requests by using GraphQL variabl
     }
   ```
 
-> **_Note_** Adding cache-control response headers is optional but recommended if using a CDN.
+> **_Note:_** Adding cache-control response headers is optional but recommended if using a CDN.
 
 - Add cache control headers to the [endpoint view model](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts):
 
@@ -174,12 +174,31 @@ Ideally, you want to avoid unneccessary `POST` requests by using GraphQL variabl
 
 - Create an [Apollo Client instance](app/lib//client.ts): This example adds a salt, so customization is needed. Follow the instruction for [Apollo Client setup](https://www.apollographql.com/docs/apollo-server/performance/apq/#apollo-client-setup) if no customization is needed.
 
-  ```typescript
-  const persistedQueriesLink = createPersistedQueryLink({
-    generateHash: async (query: DocumentNode) => {
-      const secret = process.env.SECRET_KEY! // Must be the same salt defined in the persisted query protocol in Brightspot
-      const message = secret.concat(print(query))
-      const result = await sha256(message) //The hashing algorithm used must be the same as that defined in the Brightspot persisted query protocol
+> **_Note:_** Adding cache-control response headers is optional but recommended if using a CDN.
+
+#### Add cache control headers to the [endpoint view model](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts)
+
+```typescript
+onCreate(response: ViewResponse) {
+  super.onCreate(response)
+  if (this.model.cacheControl) {
+      response.addHeader('Cache-Control', this.model.cacheControl) // The `cache-control` value comes from the `cacheControl` field set on the endpoint.
+  }
+}
+```
+
+### Step 2. Configure a front-end application to use APQs with Brightspot
+
+#### Create an [Apollo Client instance](app/lib//client.ts)
+
+This example adds a salt, so customization is needed. Follow the instruction for [Apollo Client setup](https://www.apollographql.com/docs/apollo-server/performance/apq/#apollo-client-setup) if no customization is needed.
+
+```typescript
+const persistedQueriesLink = createPersistedQueryLink({
+  generateHash: async (query: DocumentNode) => {
+    const secret = process.env.SECRET_KEY! // Must be the same salt defined in the persisted query protocol in Brightspot
+    const message = secret.concat(print(query))
+    const result = await sha256(message) //The hashing algorithm used must be the same as that defined in the Brightspot persisted query protocol
       return result
     },
     useGETForHashedQueries: true,

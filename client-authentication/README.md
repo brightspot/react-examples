@@ -6,21 +6,19 @@ Brightspot supports API keys through its API Client system. This example demonst
 
 ## What you will learn
 
-1. [Restrict access to the endpoint.](#1-restrict-access-to-the-endpoint)
-2. [Create an API Client and API Key.](#2-create-an-api-client-and-api-key)
-3. [Query the endpoint.](#3-query-the-endpoint)
+1. [Restrict access to the endpoint.](#step-1-restrict-access-to-the-endpoint)
+1. [Create an API Client and API Key.](#step-2-create-an-api-client-and-api-key)
+1. [Query the endpoint.](#step-3-query-the-endpoint)
 
 ## Running the example application
 
-> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Create an API Client
 
 In Brightspot, navigate to **☰** &rarr; **Admin** &rarr; **APIs** &rarr; **Clients** &rarr; **New API Client** and add a name, add the `Fun Fact Endpoint` to the `Endpoints` field, and add an API Key. Then copy the Client ID and API Key into the matching variables in the `app/.env` file. Finally, click **Save**.
 
-> **_Note_** There are four fields that need to be modified in the `app/.env` file, the `NEXT_PUBLIC` client ID and API key, and the regular client ID and API key.
-
-Run the following commands from the `client-authentication/app` directory:
+> **_Note:_** There are four fields that need to be modified in the `app/.env` file: `GRAPHQL_CLIENT_ID`, `GRAPHQL_CLIENT_API_KEY`, `NEXT_PUBLIC_GRAPHQL_CLIENT_ID`, and `NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY`.
 
 ### Install dependencies
 
@@ -54,7 +52,7 @@ The Next.js app makes requests to the GraphQL endpoint. The requests include HTT
 
 The app is split into two sections, one that uses [Client-side rendering](https://nextjs.org/docs/basic-features/data-fetching/overview) to fetch data after the page has loaded and the other uses [Server-side rendering](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props) to fetch data before the page has loaded.
 
-> **_Note_** The client ID and secret API key are public in the client-side rendering part of the app.
+> **_Note:_** The client ID and secret API key are public in the client-side rendering part of the app.
 
 To show how the application responds to an incorrect API Key, modify the `NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY` and/or `GRAPHQL_CLIENT_API_KEY` values in the `.env` file located at `client-authentication/app` to some new value. Then restart the Next.js app and navigate to it in your web browser.
 
@@ -84,7 +82,7 @@ The GraphQL endpoint checks each incoming HTTP request for `X-Client-Id` and `X-
 
 This example uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send requests to the endpoint with the required headers. The `ClientSideRender` component sends the request on an event trigger and the `ServerSideRender` component gets the same data passed in as props from a request made on the Next.js server.
 
-> **_Note_** It is best practice to use a proxy server (like a Next.js server) to make any HTTP requests that include an API key so that they are hidden from the public.
+> **_Note:_** It is best practice to use a proxy server (like a Next.js server) to make any HTTP requests that include an API key so that they are hidden from the public.
 
 [ClientSideRender.tsx](./app/components/ClientSideRender.tsx)
 

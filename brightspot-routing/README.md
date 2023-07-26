@@ -6,13 +6,13 @@ This example demonstrates how to use the routing APIs to fetch content by URL pa
 
 ## What you will learn
 
-1. [Expose content URL path as a GraphQL query argument.](#1-expose-content-url-path-as-a-graphql-query-argument)
-2. [Route a React app based on the URL path](#2-route-a-react-app-based-on-the-url-path)
-3. [Handle redirects based on URL path metadata](#3-handle-redirects-based-on-url-path-metadata)
+1. [Expose content URL path as a GraphQL query argument.](#step-1-expose-content-url-path-as-a-graphql-query-argument)
+1. [Route a React app based on the URL path](#step-2-route-a-react-app-based-on-the-url-path)
+1. [Handle redirects based on URL path metadata](#step-3-handle-redirects-based-on-url-path-metadata)
 
 ## Running the example application
 
-> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 Run the following commands from the `brightspot-routing/app` directory:
 
@@ -227,7 +227,7 @@ const Content = () => {
 }
 ```
 
-> **_Note_** The `isRedirect()` and `findPermalink()` methods are specific to this React app.
+> **_Note:_** The `isRedirect()` and `findPermalink()` methods are specific to this React app.
 
 ## Try it yourself
 

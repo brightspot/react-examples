@@ -1,18 +1,18 @@
 # Introspection Query Management
 
-GraphQL has an [introspection system](https://graphql.org/learn/introspection) that allows users to ask a schema for information about the queries it supports. GraphQL introspection queries can be useful for developers using code-generation tools or for implementing build pipelines. However, enabling introspection queries can expose sensitive information, so it is best practice to [disable such queries in production](https://www.apollographql.com/blog/graphql/security/why-you-should-disable-graphql-introspection-in-production/).
+GraphQL has an [introspection system](https://graphql.org/learn/introspection) that allows users to ask a schema for information about the queries it supports. GraphQL introspection queries can be useful for developers using code-generation tools or for implementing build pipelines. However, enabling introspection queries can expose sensitive information, so it is a best practice to [disable such queries in production](https://www.apollographql.com/blog/graphql/security/why-you-should-disable-graphql-introspection-in-production/).
 
 You can create custom logic that allows or blocks introspection queries. This example demonstrates how to create an introspection query rule that allows access only if a specific HTTP header is passed.
 
 ## What you will learn
 
 1. [Create an introspection query rule.](#step-1-create-an-introspection-query-rule)
-2. [Apply the rule to an endpoint.](#step-2-apply-the-rule-to-an-endpoint)
-3. [Configure the build pipeline to factor in the rule.](#step-3-configure-the-build-pipeline-to-factor-in-the-rule)
+1. [Apply the rule to an endpoint.](#step-2-apply-the-rule-to-an-endpoint)
+1. [Configure the build pipeline to factor in the rule.](#step-3-configure-the-build-pipeline-to-factor-in-the-rule)
 
 ## Running the example application
 
-> **_Note_:** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. 
+**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. 
 
 ### Install dependencies
 
@@ -50,7 +50,7 @@ yarn start
 
 An introspection query rule is a class that implements the `IntrospectionQueryRule` abstract class and provides the body of the `isAllowed()` method. The `isAllowed()` method returns `true` or `false` based on whether a particular request should be allowed.
 
-> **_Note_:** By default, GraphQL Introspection is disabled in production mode.
+**Note** By default, GraphQL Introspection is disabled in production mode.
 
 ```ts
 [`isAllowed()`](): boolean {
