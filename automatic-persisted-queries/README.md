@@ -18,7 +18,7 @@ This example demonstrates how to use APQs with Brightspot and [Apollo Client](ht
 
 ## Running the example application
 
-> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
@@ -68,7 +68,7 @@ To add a cache-control header to query responses:
 
 In the `app/.env` file, set the `LOGGER` environment variable to `true` to turn logging on for query requests and responses.
 
-> **_Note:_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser's console network tab.
+**Note** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser's console network tab.
 
 Below is an example of logging the client request and server response when query string not found:
 
@@ -158,7 +158,7 @@ A [persisted query protocol](brightspot/src/brightspot/example/automatic_persist
 }
 ```
 
-> **_Note:_** Adding cache-control response headers is optional but recommended if using a CDN.
+**Note** Adding cache-control response headers is optional but recommended if using a CDN.
 
 #### Add cache control headers to the [endpoint view model](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts)
 
