@@ -14,6 +14,47 @@ Brightspot stores each version of a schema in a record, so you can trace a schem
 
 **Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
+### Get Original Schema URL
+
+Before comparing schemas, you will need to have the original schema. Go to your Brightspot instance in your browser navigate to **☰** &rarr; **Developer** &rarr; **GraphQL Explorer**. Select the **Movie Endpoint** first, to load the schema. Then change to **Schema History Endpoint** and copy and paste the following query:
+
+```
+query Schemas {
+  versions: com_psddev_graphql_GraphQLSchemaVersionQuery(
+    where: { predicate: "endpoint/getLabel = ?", arguments: "Movie Endpoint" }
+    sorts: { order: descending, options: "timestamp" }
+  ) {
+    items {
+      schema {
+        publicUrl
+      }
+    }
+  }
+}
+```
+
+The return data will look similar to the following:
+
+```
+{
+  "data": {
+    "versions": {
+      "items": [
+        {
+          "schema": {
+            "publicUrl": "http://localhost/storage/42/4e/2e875f164f479330294112cad4ea/movie-endpoint-01-01-2023-00-00-00-edt.graphql"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+Copy the "publicUrl" value - the URL of the first schema - and paste it in the [.env](./app/.env#l3) file as the value for **GRAPHQL_SDL_URL**.
+
+This ensures the original schema will always be the same when running codegen and is configured to return the same version received with an [introspection query](https://graphql.org/learn/introspection/) bound by the same introspection query rules.
+
 ### Install dependencies
 
 Run the following command from the `graphql-schema-history/app/` directory:
