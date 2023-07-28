@@ -12,7 +12,7 @@ This example demonstrates how to use the routing APIs to fetch content by URL pa
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 Run the following commands from the `brightspot-routing/app/` directory:
 
@@ -205,7 +205,7 @@ const Content = () => {
 }
 ```
 
-**Note** The `isRedirect()` and `findPermalink()` methods are specific to this React app.
+> **_Note:_** The `isRedirect()` and `findPermalink()` methods are specific to this React app.
 
 ## Try it yourself
 

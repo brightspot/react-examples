@@ -18,7 +18,7 @@ This example uses [dynamic segments](#dynamic-segments) for [client-side routing
 - [Brightspot Routing](../brightspot-routing/README.md)
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 Run the following commands from the `brightspot-routing/app/` directory:
 
@@ -44,7 +44,7 @@ yarn start
 ```
 The React app opens automatically in the browser.
 
-**Note** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to update the `app/generated/` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
+> **_Note:_** If you make any changes to GraphQL queries in the front-end application, be sure to run `yarn codegen` to update the `app/generated/` directory. Refer to the [GraphQL Code Generator documentation](https://www.the-guild.dev/graphql/codegen/docs/getting-started) to learn more.
 
 ## Using the example application
 

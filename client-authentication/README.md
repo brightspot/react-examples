@@ -12,7 +12,7 @@ Brightspot supports API keys through its API Client system. This example demonst
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Create an API Client
 
@@ -23,7 +23,7 @@ Brightspot supports API keys through its API Client system. This example demonst
 1. Copy the client ID and API key into the matching variables in the `app/.env` file. 
 1. Click **Save**.
 
-**Note** There are four fields that need to be modified in the `app/.env` file: `GRAPHQL_CLIENT_ID`, `GRAPHQL_CLIENT_API_KEY`, `NEXT_PUBLIC_GRAPHQL_CLIENT_ID`, and `NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY`.
+> **_Note:_** There are four fields that need to be modified in the `app/.env` file: `GRAPHQL_CLIENT_ID`, `GRAPHQL_CLIENT_API_KEY`, `NEXT_PUBLIC_GRAPHQL_CLIENT_ID`, and `NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY`.
 
 ### Install dependencies
 
@@ -51,7 +51,7 @@ The app is split into two sections:
 - One section uses [Client-side rendering](https://nextjs.org/docs/basic-features/data-fetching/overview) to fetch data after the page has loaded.
 - One section uses [Server-side rendering](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props) to fetch data before the page has loaded.
 
-**Note** The client ID and secret API key are public in the client-side rendering part of the app.
+> **_Note:_** The client ID and secret API key are public in the client-side rendering part of the app.
 
 To show how the application responds to an incorrect API Key, modify the `NEXT_PUBLIC_GRAPHQL_CLIENT_API_KEY` or `GRAPHQL_CLIENT_API_KEY` values in the `client-authentication/app/.env` file to some new value. Then restart the Next.js app and reload it in your browser.
 
@@ -81,7 +81,7 @@ The GraphQL endpoint checks each incoming HTTP request for `X-Client-Id` and `X-
 
 The following example uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to send requests to the endpoint with the required headers. The `ClientSideRender` component sends the request on an event trigger, and the `ServerSideRender` component gets the same data passed in as `props` from a request made on the Next.js server.
 
-**Note** It is best practice to use a proxy server (like a Next.js server) to make any HTTP requests that include an API key so that they are hidden from the public.
+> **_Note:_** It is best practice to use a proxy server (like a Next.js server) to make any HTTP requests that include an API key so that they are hidden from the public.
 
 #### Client-side rendering
 
