@@ -3,12 +3,12 @@ This example demonstrates creating a GraphQL [Content Delivery API](https://www.
 
 ## What you will learn
 
-1. [Programatically create a CDA endpoint with query entry fields.](#step-1-programatically-create-a-cda-endpoint-with-query-entry-fields)
+1. [Programmatically create a CDA endpoint with query entry fields.](#step-1-programmatically-create-a-cda-endpoint-with-query-entry-fields)
 1. [Create content types and a corresponding view modals.](#step-2-create-content-types-and-corresponding-view-modals)
 1. [Display content published in Brightspot in a front-end application.](#step-3-display-content-published-in-brightspot-in-a-front-end-application)
 
 ## Running the example application
-Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth. Make sure you have the Docker instance for the example applications running, then run the following commands.
+Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. Make sure you have the Docker instance for the example applications running, then run the following commands.
 
 To upload JavaScript classes in Brightspot (http://localhost/cms):
 
@@ -42,7 +42,7 @@ The response includes the color's name and hex value.
 
 ## How everything works
 
-### Step 1. Programatically create a CDA endpoint with query entry fields
+### Step 1. Programmatically create a CDA endpoint with query entry fields
 
 - [`ColorEndpoint.ts`](/content-delivery/brightspot/src/brightspot/example/content_delivery/ColorEndpoint.ts): Creates a custom CDA Endpoint. It implements `Singleton` to specify that there is only one instance of this endpoint. This class has the following methods:
   - `getPaths`: Specifies the target paths for sending HTTP requests.

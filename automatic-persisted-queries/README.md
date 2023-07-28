@@ -6,45 +6,39 @@ To resolve this issue, Brightspot supports two types of [persisted](https://www.
 
 Persisted queries positively impact network performance in two ways:
 
-1. By sending a smaller query string in the network request.
-2. By enabling the use of the HTTP `GET` method for query network requests (since the query size is small enough to use `GET`), thus making it possible to take advantage of the browser cache and [integrate with a CDN](https://www.apollographql.com/docs/apollo-server/performance/apq/#using-get-requests-with-apq-on-a-cdn).
+* By sending a smaller query string in the network request.
+* By enabling the use of the HTTP `GET` method for query network requests (since the query size is small enough to use `GET`), thus making it possible to take advantage of the browser cache and [integrate with a CDN](https://www.apollographql.com/docs/apollo-server/performance/apq/#using-get-requests-with-apq-on-a-cdn).
 
 This example demonstrates how to use APQs with Brightspot and [Apollo Client](https://www.apollographql.com/docs/react/), using [best practices](https://www.apollographql.com/docs/react/data/operation-best-practices/) for GraphQL queries. The example configuration provides a mock CDN to demonstrate the performance benefits possible with APQs and CDNs.
 
 ## What you will learn
 
-1. [Enable APQs in Brightspot](#1-enable-apqs-in-brightspot).
-2. [Configure a front-end application to use APQs with Brightspot](#2-configure-a-front-end-application-to-use-apqs-with-brightspot).
+1. [Enable APQs in Brightspot](#step-1-enable-apqs-in-brightspot).
+1. [Configure a front-end application to use APQs with Brightspot](#step-2-configure-a-front-end-application-to-use-apqs-with-brightspot).
 
 ## Running the example application
 
-> **_Note_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
-Run the following command from the `automatic-persisted-queries/app` directory:
+Run the following command from the `automatic-persisted-queries/app/` directory:
 
 ```sh
-$ yarn
+yarn
 ```
 
-```
-[1/4] 🔍 Resolving packages...
-[2/4] 🚚 Fetching packages...
-[3/4] 🔗 Linking dependencies...
-[4/4] 🔨 Building fresh packages...
-✨ Done in 6.03s.
-```
+Wait until a message similar to `✨ Done in 5.03s` appears.
 
-Run the following command to start up the front-end application:
+Run the following command to start the front-end application:
 
 ```sh
-$ yarn dev
+yarn dev
 ```
 
 ## Using the example application
 
-#### Front end:
+### Front end
 
 The front end is a [Next.js](https://nextjs.org/) application.
 
@@ -52,26 +46,31 @@ The UI displays an Aviation Alphabet Converter page (option to use either an inp
 
 Key points to observe in the UI:
 
-1.  **Cache control** : Value displays if a cache-control response header is set in Brightspot.
-2.  **Select query type** : "Good" query types implement best practices for queries and "Bad" query types implement practices to avoid. For details on implementation refer to the comments found in the query files in `app/queries`.
-3.  Query execution details: `GET` or `POST` for HTTP method used, `MISS` or `HIT` for CDN caching, and query execution time in milliseconds.
+1. **Cache control** : Value displays if a cache-control response header is set in Brightspot.
+1. **Select query type** : "Good" query types implement best practices for queries and "Bad" query types implement practices to avoid. For details on implementation refer to the comments found in the query files in `app/queries`.
+1. Query execution details: `GET` or `POST` for HTTP method used, `MISS` or `HIT` for CDN caching, and query execution time in milliseconds.
 
 | UI Key Points                                            |
 | -------------------------------------------------------- |
 | <img  width=600 alt="UI Key Points" src="images/ui.png"> |
 
-#### Brightspot:
+### Brightspot
 
-To add a cache-control header to query responses, navigate to: **&#x2630;** &rarr; **Admin** &rarr; **APIs** &rarr; **Endpoints** &rarr; **Aviation Alphabet Endpoint**. In the **Cache Control** field, enter `max-age=80000`. In the browser, trigger a network request to see the cache-control value display in the UI. You will also notice that `HIT` will appear for responses that are [cached](https://www.cloudflare.com/learning/cdn/what-is-caching/) by the CDN. Execution time will vary based on `HIT` or `MISS`.
-Refer to MDN's [cache control documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) for more information on configuring cache control.
+To add a cache-control header to query responses:
 
-#### View query requests and responses:
+1. Navigate to  **&#x2630; > Admin > APIs > Endpoints > Aviation Alphabet Endpoint**.
+1. In the **Cache Control** field, enter `max-age=80000`.
+1. In the browser, trigger a network request to see the cache-control value display in the UI.
+
+`HIT` appears in responses that are [cached](https://www.cloudflare.com/learning/cdn/what-is-caching/) by the CDN. Execution time will vary based on `HIT` or `MISS`. Refer to MDN's [cache control documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) for more information about configuring cache control.
+
+### View query requests and responses
 
 In the `app/.env` file, set the `LOGGER` environment variable to `true` to turn logging on for query requests and responses.
 
-> **_Note_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser console network tab.
+> **_Note:_** In an application that uses client-side data fetching (this application uses [API Routes](https://nextjs.org/docs/api-routes/introduction), which acts as a proxy server to hide a [salt](<https://en.wikipedia.org/wiki/Salt_(cryptography)#:~:text=In%20cryptography%2C%20a%20salt%20is,to%20safeguard%20passwords%20in%20storage>) hashed with a query string), you can view the network requests and responses in the browser's console network tab.
 
-Example logging for client request and server response when query string not found:
+Below is an example of logging the client request and server response when query string not found:
 
 ```sh
 🚀 network call:  1
@@ -108,7 +107,7 @@ POST Body:  { # the followup request includes both the query string and its hash
 }
 ```
 
-Example logging for client request and server response when query string found: 
+Example of logging for a client request and server response when there is a query string: 
 
 ```sh
 🚀 network call:  1
@@ -122,75 +121,80 @@ request url:  http://localhost/graphql/delivery/apq/?operationName=GetTextBad&op
 
 ```
 
-Ideally, you want to avoid unneccessary `POST` requests by using GraphQL variables (so the query string doesn't change), since a `POST` request using APQ actually decreases network performance (since two queries are sent instead of one).
+Ideally, you want to avoid unnecessary `POST` requests by using GraphQL variables (so the query string doesn't change); a `POST` request using APQ actually decreases network performance (since two queries are sent instead of one).
 
 ## How everything works
 
-#### 1. Enable APQs in Brightspot
+### Step 1. Enable APQs in Brightspot
 
-- [Create a persisted query protocol class](brightspot/src/brightspot/example/automatic_persisted_queries/CustomAPQProtocol.ts): A persisted query protocol implements `AutomaticPersistedQueryProtocol`, which enables generating a persisted query extension (the hashed value of a query), and getting queries by hash. The protocol must provide the following methods:
+#### Create a persisted query protocol class
 
-  - `getSharedSecret`: This method sets a salt to increase security - only clients that hash queries along with the respective salt are valid. Return an empty string if a salt isn't desired.
+A [persisted query protocol](brightspot/src/brightspot/example/automatic_persisted_queries/CustomAPQProtocol.ts) implements `AutomaticPersistedQueryProtocol`, which enables generating a persisted query extension (the hashed value of a query), and getting queries by hash. The protocol must provide the following methods:
 
-    ```typescript
-    [`getSharedSecret()`](): string {
-      return 'secret'
-    }
-    ```
-
-  - `getHashAlgorithm`: Brightspot provides a `Sha256PersistedQueryHashAlgorithm` class for generating query hashes. You can also add a custom hash algorithm.
-
-    ```typescript
-    [`getHashAlgorithm()`](): AutomaticPersistedQueryHashAlgorithm {
-        return new Sha256PersistedQueryHashAlgorithm()
-    }
-    ```
-
-- Define your persisted query protocol in the [endpoint](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts):
+- `getSharedSecret`: This method sets a salt to increase security: only clients that hash queries along with the respective salt are valid. Return an empty string if a salt isn't desired.
 
   ```typescript
-  [`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
-      let CustomAPQProtocol = ClassFinder.getClass(
-        'brightspot.example.automatic_persisted_queries.CustomAPQProtocol'
-      )
-    return new CustomAPQProtocol()
-    }
+  [`getSharedSecret()`](): string {
+    return 'secret'
+  }
   ```
 
-> **_Note_** Adding cache-control response headers is optional but recommended if using a CDN.
-
-- Add cache control headers to the [endpoint view model](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts):
+- `getHashAlgorithm`: Brightspot provides a `Sha256PersistedQueryHashAlgorithm` class for generating query hashes. You can also add a custom hash algorithm.
 
   ```typescript
-    onCreate(response: ViewResponse) {
-      super.onCreate(response)
-      if (this.model.cacheControl) {
-        response.addHeader('Cache-Control', this.model.cacheControl) // The `cache-control` value comes from the `cacheControl` field set on the endpoint.
-      }
-    }
+  [`getHashAlgorithm()`](): AutomaticPersistedQueryHashAlgorithm {
+      return new Sha256PersistedQueryHashAlgorithm()
+  }
   ```
 
-#### 2. Configure a front-end application to use APQs with Brightspot
+#### Define your persisted query protocol in the [endpoint](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts)
 
-- Create an [Apollo Client instance](app/lib//client.ts): This example adds a salt, so customization is needed. Follow the instruction for [Apollo Client setup](https://www.apollographql.com/docs/apollo-server/performance/apq/#apollo-client-setup) if no customization is needed.
+```typescript
+[`getPersistedQueryProtocol()`](): PersistedQueryProtocol {
+  let CustomAPQProtocol = ClassFinder.getClass(
+    'brightspot.example.automatic_persisted_queries.CustomAPQProtocol'
+  )
+  return new CustomAPQProtocol()
+}
+```
 
-  ```typescript
-  const persistedQueriesLink = createPersistedQueryLink({
-    generateHash: async (query: DocumentNode) => {
-      const secret = process.env.SECRET_KEY! // Must be the same salt defined in the persisted query protocol in Brightspot
-      const message = secret.concat(print(query))
-      const result = await sha256(message) //The hashing algorithm used must be the same as that defined in the Brightspot persisted query protocol
+**Note** Adding cache-control response headers is optional but recommended if using a CDN.
+
+#### Add cache control headers to the [endpoint view model](brightspot/src/brightspot/example/automatic_persisted_queries/AviationAlphabetEndpoint.ts)
+
+```typescript
+onCreate(response: ViewResponse) {
+  super.onCreate(response)
+  if (this.model.cacheControl) {
+      response.addHeader('Cache-Control', this.model.cacheControl) // The `cache-control` value comes from the `cacheControl` field set on the endpoint.
+  }
+}
+```
+
+### Step 2. Configure a front-end application to use APQs with Brightspot
+
+#### Create an [Apollo Client instance](app/lib//client.ts)
+
+This example adds a salt, so customization is needed. Follow the instruction for [Apollo Client setup](https://www.apollographql.com/docs/apollo-server/performance/apq/#apollo-client-setup) if no customization is needed.
+
+```typescript
+const persistedQueriesLink = createPersistedQueryLink({
+  generateHash: async (query: DocumentNode) => {
+    const secret = process.env.SECRET_KEY! // Must be the same salt defined in the persisted query protocol in Brightspot
+    const message = secret.concat(print(query))
+    const result = await sha256(message) //The hashing algorithm used must be the same as that defined in the Brightspot persisted query protocol
       return result
-    },
-    useGETForHashedQueries: true,
-  })
-  ```
+  },
+  useGETForHashedQueries: true,
+})
+```
 
-- [Configure environment variables if needed](app/.env):
-  `SECRET_KEY`: Salt set in the Brightspot persisted query protocol.
-  `GRAPHQL_URL`: URL for the Brightspot GraphQL API endpoint.
-  `NEXT_PUBLIC_HOST`: URL for the front-end application. This is used to make fetch requests using Next.js API Routes.
-  `LOGGER`: set value to true to view query requests and responses in your terminal.
+##### Configure environment variables if needed
+Configure the following environment variables in [app/.env](app/.env):
+* `SECRET_KEY`: Salt set in the Brightspot persisted query protocol.
+* `GRAPHQL_URL`: URL for the Brightspot GraphQL API endpoint.
+* `NEXT_PUBLIC_HOST`: URL for the front-end application. This is used to make fetch requests using Next.js API Routes.
+* `LOGGER`: set value to true to view query requests and responses in your terminal.
 
 ## Troubleshooting
 

@@ -11,7 +11,7 @@ In addition, Brightspot developed the Marked Text Library to conveniently query 
 
 ## Running the example application
 
-> **_Note_:** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
@@ -152,7 +152,7 @@ The `visitText` callback is triggered when the traversal reaches a block of text
 
 The `visitMark` callback is triggered when the traversal process encounters a `Mark`. It has access to the current `Mark` and a `children` array. This array holds all the `text` and `Mark` nodes that have been visited and transformed by the traversal so far.
 
-> **_Note_:** The value returned from both `visitText` and `visitMark` will be an item in the `children` array of its respective parent node.
+> **_Note:_** The value returned from both `visitText` and `visitMark` will be an item in the `children` array of its respective parent node.
 
 The constant `fetchArticleData` defines a call to the endpoint to retrieve the published Article. The return passes `MarkedText` (the Article body) and `Visitor` objects to the `markedTextTraversal` function imported from the Brightspot Marked Text library.
 

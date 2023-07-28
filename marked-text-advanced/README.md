@@ -2,7 +2,7 @@
 
 This example application demonstrates querying MarkedText with complex rich-text element types (such as images and links), and rendering the results using Brightspot's MarkedText Library.
 
-> **_Note_:** If you're new to MarkedText, refer to the introductory example [Marked Text](../marked-text).
+> **_Note:_** If you're new to MarkedText, refer to the introductory example [Marked Text](../marked-text).
 
 ## What you will learn
 
@@ -11,7 +11,7 @@ This example application demonstrates querying MarkedText with complex rich-text
 
 ## Running the example application
 
-> **_Note_:** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Install dependencies
 
@@ -40,8 +40,8 @@ Before performing the following steps, do the following:
 
 ### Step 1. Query for MarkedText objects containing complex types of rich-text elements
 
-- `ArticleContainer` calls the [fetchArticle](app/src/api/index.ts) function to return the Article. It passes the returned `MarkedText` body to the [MarkedTextComponent](app/src/components/MarkedText/MarkedTextComponent.tsx)
-- `ArticleMarkQuery` The query for the article to return the headline, subheadline and body that contains the `MarkedText` object. The query has been setup to use [fragments](https://graphql.org/learn/queries/#fragments) to contain the rich text elements:
+- `ArticleContainer` calls the [fetchArticle](app/src/api/index.ts) function to return the Article. It passes the returned `MarkedText` body to the [MarkedTextComponent](app/src/components/MarkedText/MarkedTextComponent.tsx).
+- `ArticleMarkQuery` The query for the article to return the headline, subheadline and body that contains the `MarkedText` object. The query has been setup to use [fragments](https://graphql.org/learn/queries/#fragments) to contain the rich text elements.
 
   ```gql
   query ArticleMarkQuery {
@@ -145,7 +145,7 @@ This component uses helper functions to check if `markData` contains a void elem
 
 This component has a similar helper function as `HtmlRichTextComponent` to merge image attributes into a single key-value object.
 
-> **_Note_:** The [`HtmlRichTextComponent`](app/src/components/MarkedText/HtmlRichTextElement.tsx) and [`LinkRichTextElement`](app/src/components/MarkedText/LinkRichTextElement.tsx) are passed `children`, but [`ImageRichTextElement`](app/src/components/MarkedText/ImageRichTextElement.tsx) are not. This changes based on your rich text element, whether they should ever have children or not.
+> **_Note:_** The [`HtmlRichTextComponent`](app/src/components/MarkedText/HtmlRichTextElement.tsx) and [`LinkRichTextElement`](app/src/components/MarkedText/LinkRichTextElement.tsx) are passed `children`, but [`ImageRichTextElement`](app/src/components/MarkedText/ImageRichTextElement.tsx) are not. This changes based on your rich text element, whether they should ever have children or not.
 
 ## Troubleshooting
 
