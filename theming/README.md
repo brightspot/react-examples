@@ -12,7 +12,7 @@ This example demonstrates implementing Brightspot theming via a CDA endpoint to 
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. 
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications. 
 
 ### Install dependencies
 
@@ -34,7 +34,7 @@ The React app opens automatically in the browser.
 
 ## Using the example application
 
-**Note**: Unless otherwise specified, perform each of the following steps in the Brightspot CMS.
+> **_Note:_** Unless otherwise specified, perform each of the following steps in the Brightspot CMS.
 
 <details>
 <summary>
@@ -212,7 +212,7 @@ export default class ThemingArticleViewModel extends JavaClass(
   ViewModel.Of(ThemingArticle),
 ```
 
-**Note**: The view template name must have a preceding forward slash, such as `@ViewTemplate({ value: "/themingArticle" })`.
+> **_Note:_** The view template name must have a preceding forward slash, such as `@ViewTemplate({ value: "/themingArticle" })`.
 
 ### Step 4. Add a theme to a CDA endpoint
 
@@ -292,7 +292,7 @@ The following are suggestions for learning more about theming:
 
 1. Add new `themeFields` or `fields`, and use those fields in your front-end application. 
 
-   **Note**: Remember to generate a new theme zip file if you make changes to the `_config.json` file. Run `yarn run config` in the `brightspot/` directory to update the `custom-theme.zip` file. Then navigate to **&#x2630; > Admin > Themes**, and select your theme. Select **New File** to upload the new theme zip file, and save all updates.
+   > **_Note:_** Remember to generate a new theme zip file if you make changes to the `_config.json` file. Run `yarn run config` in the `brightspot/` directory to update the `custom-theme.zip` file. Then navigate to **&#x2630; > Admin > Themes**, and select your theme. Select **New File** to upload the new theme zip file, and save all updates.
 
 1. Read the [Brightspot documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/latest/data-modeling-for-themes) on theming to learn more about theming. 
 

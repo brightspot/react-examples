@@ -12,7 +12,7 @@ Brightspot stores each version of a schema in a record, so you can trace a schem
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 ### Get Original Schema URL
 

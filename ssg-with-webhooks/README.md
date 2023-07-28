@@ -17,7 +17,7 @@ This example demonstrates how to leverage Brightspot's notification and webhooks
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications.
 
 <details>
 <summary>
@@ -116,7 +116,7 @@ Wait until a message `ready - started server on 0.0.0.0:3000, url: http://localh
 
 ## Using the example application
 
-The Next.js app is a simple blog site consisting of blog posts. The blot poses are defined to automatically generate permalinks as shown in the [Brightspot Routing](../brightspot-routing) example.
+The Next.js app is a simple blog site consisting of blog posts. The blog posts are defined to automatically generate permalinks as shown in the [Brightspot Routing](../brightspot-routing) example.
 
 Within Brightspot, publish one or more blog posts. After a few seconds, refresh the Next.js web page, and navigate through the app to find the published posts. The posts appear on the app without needing to rebuild.
 
@@ -275,7 +275,7 @@ const body = {
 }
 ```
 
-**Note** The script is mapped to the `yarn webhook` command defined in `package.json`. In this example, the command should only be run once. Separate scripts could be used to create, modify, or delete webhooks.
+> **_Note:_** The script is mapped to the `yarn webhook` command defined in `package.json`. In this example, the command should only be run once. Separate scripts could be used to create, modify, or delete webhooks.
 
 ### Step 5. Create a Next.js webhook handler
 
@@ -347,7 +347,7 @@ pages/[...path.tsx]
 
 Then, to define the list of page paths to be statically generated during the site build, the [getStaticPaths](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths) function is defined inside the page. This function uses Apollo Client and the query defined in [Step 6](#step-6-create-view-models-to-get-url-paths-and-data-fields) to get the list of all URL paths to the relevant assets, and then returns that list. See the example in the file [[...path.tsx]](./app/pages/%5B...path%5D.tsx).
 
-**Note** The `getStaticPaths` function in this example only adds paths with the `Permalink` type. Other path types are ignored.
+> **_Note:_** The `getStaticPaths` function in this example only adds paths with the `Permalink` type. Other path types are ignored.
 
 ```ts
 export const getStaticPaths: GetStaticPaths = async () => {

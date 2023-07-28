@@ -11,7 +11,7 @@ This example demonstrates uploading files from a front-end application to Bright
 
 ## Running the example application
 
-**Note** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
+> **_Note:_** Just starting? Refer to the [README](/README.md) at the root of the `react-examples` repository for details on running example applications in depth.
 
 Run the following commands from the `file-uploads/app/` directory:
 
@@ -73,7 +73,7 @@ const link = createUploadLink({
 
 Refer to the [Brightspot Documentation](https://www.brightspot.com/documentation/brightspot-cms-developer-guide/uploading-files-in-brightspot-content-management-api) for an example of uploading a file with a CMA endpoint without using Apollo Client.
 
-**Note** Using environment variables does not hide API keys, because they can be retrieved from the browser's developer tools via the API fetch request. In a production environment, it is important to hide API keys that are used for the CMA endpoint. 
+> **_Note:_** Using environment variables does not hide API keys, because they can be retrieved from the browser's developer tools via the API fetch request. In a production environment, it is important to hide API keys that are used for the CMA endpoint. 
 
 ### Step 2. Brightspot's Storage Item GraphQL fields
 
@@ -129,7 +129,7 @@ query MyQuery {
 
 You can also view metadata for an image by selecting a published Image item from the dashboard, then clicking **&#x22EF;** on the top right of the image, then selecting **Source Data**. 
 
-**Note** Metadata for an image is only provided when the image is uploaded using the `file` input field. 
+> **_Note:_** Metadata for an image is only provided when the image is uploaded using the `file` input field. 
 
 ### Step 3. Use MIME type annotations for limiting file upload types
 
