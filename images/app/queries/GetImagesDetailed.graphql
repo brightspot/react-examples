@@ -1,0 +1,53 @@
+query GetImagesDetailed {
+  Images {
+    items {
+      title
+      imageId
+      imageFile {
+        size {
+          height
+          width
+          name
+          altFormats {
+            name
+          }
+        }
+        crops {
+          height
+          name
+          width
+          x
+          y
+        }
+        focus {
+          x
+          y
+        }
+        contentType
+        filename
+        publicUrl
+        width
+        height
+        sizes {
+          name
+          width
+          height
+          srcSets {
+            size
+          }
+        }
+        edits {
+          brightness
+          contrast
+          flipH
+          flipV
+          grayscale
+          invert
+          rotate
+          sepia
+          sharpen
+        }
+      }
+    }
+  }
+}
