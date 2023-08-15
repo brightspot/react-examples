@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "3.6.9",
+    "@brightspot/marked-text": "4.5.9-rc.1",
     "@graphql-codegen/schema-ast": "^3.0.1",
     "@graphql-inspector/cli": "3.4.0",
     "@graphql-inspector/core": "^4.2.1",
