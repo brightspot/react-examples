@@ -1,0 +1,17 @@
+overwrite: true
+schema: ${REACT_APP_GRAPHQL_URL}
+documents: './src/queries/*.graphql'
+generates:
+  ./src/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+
+  persisted-query-ids/server.json:
+    - graphql-codegen-persisted-query-ids:
+          output: server
+          algorithm: sha256
+  

@@ -1,0 +1,9 @@
+query GetSpqItems {
+  SpqItems {
+    whitelistVersionUsed
+    spqItems {
+      body
+      title
+    }
+  }
+}
