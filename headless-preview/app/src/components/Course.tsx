@@ -7,7 +7,6 @@ type Props = {
       ageRange: string
       subject: string
     }
-    previewEndpointId: string
   }
 }
 

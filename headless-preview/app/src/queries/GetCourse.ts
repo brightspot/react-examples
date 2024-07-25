@@ -42,7 +42,6 @@ const GET_COURSE = gql`
       ageRange
       subject
     }
-    previewEndpointId
   }
 `
 
