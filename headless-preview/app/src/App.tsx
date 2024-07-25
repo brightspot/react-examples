@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <Navbar courses={data?.AllCourses?.courses} />
+      <Navbar courses={data?.AllCourses?.data?.courses} />
       {error && (
         <p className="error">{`There was an error fetching data for courses: ${error}`}</p>
       )}

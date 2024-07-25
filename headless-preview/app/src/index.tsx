@@ -15,8 +15,6 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 const previewId = new URLSearchParams(window.location.search).get('previewId')
 
-const previewType = new URLSearchParams(window.location.search).get('typename')
-
 root.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
@@ -27,7 +25,7 @@ root.render(
           <Route
             path="courses/brightspot-preview"
             element={
-              previewId && previewType ? <BrightspotPreview /> : <NotFound />
+              previewId ? <BrightspotPreview /> : <NotFound />
             }
           />
           <Route path="*" element={<NotFound />} />

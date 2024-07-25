@@ -8,7 +8,9 @@ const CourseContainer = () => {
   const { slug } = useParams()
   const { data, loading, error } = useQuery(GET_COURSE, {
     variables: {
-      slug: slug,
+      with: { _type: { Course: { slug: slug } } },
+      preview: false,
+      previewId: "00000000-0000-0000-0000-000000000000",
     },
   })
 
@@ -20,13 +22,13 @@ const CourseContainer = () => {
     )
   }
 
-  if (!data?.Course) {
+  if (!data?.Get?.Record) {
     return <NotFound />
   }
 
   return (
     <>
-      <Course course={data.Course} />
+      <Course course={data?.Get?.Record?.View?.PageEntry?.data} />
     </>
   )
 }

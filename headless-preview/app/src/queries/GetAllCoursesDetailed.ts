@@ -3,11 +3,15 @@ import { gql } from '@apollo/client'
 const GET_COURSES_DETAILED = gql`
   query getAllCoursesDetailed {
     AllCourses {
-      courses {
-        ageRange
-        slug
-        subject
-        title
+      data {
+        courses {
+          _model {
+            ageRange
+            slug
+            subject
+            title
+          }
+        }
       }
     }
   }

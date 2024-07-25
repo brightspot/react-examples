@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import GET_COURSES_DETAILED from '../queries/GetAllCoursesDetailed'
 
 type Course = {
-  ageRange?: string
-  slug?: string
-  subject?: string
-  subtitle?: string
-  title?: string
+  _model?: {
+    ageRange?: string
+    slug?: string
+    subject?: string
+    title?: string
+  }
 }
 
 const Courses = () => {
@@ -22,13 +23,13 @@ const Courses = () => {
     <div className="course-container">
       <h1>All Courses</h1>
       <div className="cards-container">
-        {data?.AllCourses?.courses?.map((course: Course, i: number) => (
-          <Link className="card-link" to={`/courses/${course.slug}`} key={i}>
+        {data?.AllCourses?.data?.courses?.map((course: Course, i: number) => (
+          <Link className="card-link" to={`/courses/${course?._model?.slug}`} key={i}>
             <div className="course-card">
-              <h3 className="course-cardTitle">{course.title}</h3>
+              <h3 className="course-cardTitle">{course?._model?.title}</h3>
               <div className="subject-age-container">
-                <span className="course-subject-age">{course.subject}</span>
-                <span className="course-subject-age">{course.ageRange}</span>
+                <span className="course-subject-age">{course?._model?.subject}</span>
+                <span className="course-subject-age">{course?._model?.ageRange}</span>
               </div>
             </div>
           </Link>

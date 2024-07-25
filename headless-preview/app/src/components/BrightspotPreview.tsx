@@ -5,16 +5,18 @@ import GET_COURSE from '../queries/GetCourse'
 import PreviewBanner from './PreviewBanner'
 
 const BrightspotPreview = () => {
+  const id = new URLSearchParams(window.location.search).get('id')
   const previewId = new URLSearchParams(window.location.search).get('previewId')
-  const previewType = new URLSearchParams(window.location.search).get(
-    'typename'
-  )
+  const view = new URLSearchParams(window.location.search).get('view') || ''
+  const deviceWidth = new URLSearchParams(window.location.search).get('deviceWidth') || ''
 
   const { data, loading, error } = useQuery(GET_COURSE, {
     variables: {
-      preview: {
-        id: previewId,
+      with: {
+        _id: id,
       },
+      preview: true,
+      previewId: previewId,
     },
   })
 
@@ -26,20 +28,21 @@ const BrightspotPreview = () => {
     )
   }
 
-  if (!data?.Course) {
+  if (!data?.Get?.Record?.Preview) {
     return <NotFound />
   }
 
   return (
     <>
-      {previewId && previewType && (
+      {id && previewId && (
         <PreviewBanner
+          id={id}
           previewId={previewId}
-          previewType={previewType}
-          endpointId={data.HeadlessPreviewEndpoint.id}
+          view={view}
+          deviceWidth={deviceWidth}
         />
       )}
-      <Course course={data.Course} />
+      <Course course={data?.Get?.Record?.Preview?.View?.PreviewEntry?.data} />
     </>
   )
 }

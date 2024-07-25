@@ -1,21 +1,17 @@
 import useSessionStorage from '../utils/useSessionStorage'
 
 type Props = {
+  id: string
   previewId: string
-  previewType: string
-  endpointId: string
+  view: string
+  deviceWidth: string
 }
 
-const PreviewBanner = ({ previewId, previewType, endpointId }: Props) => {
-  const deviceWidth = new URLSearchParams(window.location.search)
-    .get('deviceWidth')
-    ?.valueOf()
+const PreviewBanner = ({ id, previewId, view, deviceWidth }: Props) => {
   const [showPreview, setShowPreview] = useSessionStorage(
     'show-preview',
     'true'
   )
-
-  const queryString = `query GetCourse {Course(preview: {id: "${previewId}"}) { ageRange description subject title }}`
 
   const handlePreview = () => {
     if (showPreview === 'true') {
@@ -34,24 +30,18 @@ const PreviewBanner = ({ previewId, previewType, endpointId }: Props) => {
         className="preview-information"
         data-preview={showPreview === 'true' ? true : null}
       >
+        <span className="preview-text">objectId: </span>
+        <span>{`${id}`}</span>
+        <br />
         <span className="preview-text">previewId: </span>
         <span>{`${previewId}`}</span>
         <br />
-        <span className="preview-text">previewType: </span>
-        <span>{`${previewType}`}</span>
+        <span className="preview-text">view: </span>
+        <span>{`${view}`}</span>
         <br />
         <span className="preview-text">deviceWidth: </span>
-        <span className="preview-width">{`${deviceWidth}`}</span>
+        <span className="preview-text">{`${deviceWidth}`}</span>
         <br />
-        <a
-          href={`${
-            process.env.REACT_APP_CMS_HOST_URL
-          }?endpointId=${endpointId}&query=${encodeURIComponent(queryString)}`}
-          rel="noreferrer"
-          target="_blank"
-        >
-          <span className="preview-link">Debug Tool</span>
-        </a>
       </div>
     </>
   )

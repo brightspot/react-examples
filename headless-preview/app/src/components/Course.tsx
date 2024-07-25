@@ -1,10 +1,13 @@
 type Props = {
   course: {
-    title: string
-    slug: string
-    description: string
-    ageRange: string
-    subject: string
+    _model: {
+      title: string
+      slug: string
+      description: string
+      ageRange: string
+      subject: string
+    }
+    previewEndpointId: string
   }
 }
 
@@ -12,14 +15,14 @@ const Course = ({ course }: Props) => {
   return (
     <>
       <div className="course-container">
-        <h1 className="course-title">{course.title}</h1>
+        <h1 className="course-title">{course?._model?.title}</h1>
         <div className="course-subject-age-container">
           <span className="course-subject-age with-margin">
-            {course.ageRange}
+            {course?._model?.ageRange}
           </span>
-          <span className="course-subject-age">{course.subject}</span>
+          <span className="course-subject-age">{course?._model?.subject}</span>
         </div>
-        <p className="course-description">{course.description}</p>
+        <p className="course-description">{course?._model?.description}</p>
       </div>
     </>
   )

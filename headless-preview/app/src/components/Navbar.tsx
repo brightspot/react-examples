@@ -6,8 +6,10 @@ import { BiChevronDown } from 'react-icons/bi'
 type Props = {
   courses: [
     {
-      title?: string
-      slug?: string
+      _model?: {
+        title?: string
+        slug?: string
+      }
     }
   ]
 }
@@ -46,11 +48,11 @@ export function Navbar({ courses }: Props) {
               <li key={i} data-show={showLinks || null}>
                 <Link
                   onClick={() => setShowLinks(false)}
-                  to={`/courses/${course.slug}`}
+                  to={`/courses/${course?._model?.slug}`}
                   className="link-item"
                   data-show={showLinks || null}
                 >
-                  <p className="link-text">{course?.title}</p>
+                  <p className="link-text">{course?._model?.title}</p>
                 </Link>
               </li>
             ))}
