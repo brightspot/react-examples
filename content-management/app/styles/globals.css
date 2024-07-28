@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+/* Variables */
+:root {
+  --grayscaleOne: #faf9f9;
+  --grayscaleTwo: #f1eced;
+  --grayscaleThree: #e6dfe0;
+  --grayscaleFour: #f0f0f0;
+  --grayscaleFive: #949494;
+  --primaryTextColor: #4b4545;
+  --secondaryTextColor: #787171;
+  --primaryRed: #e62a8f;
+  --moduleBgColor: #4285f4;
+  --moduleBgColorHover: #2764c5;
+  --borderColor: #f1eced;
+  --success: #28a745;
+  --mainTransition: all 0.3s linear;
+  --mainSpacing: 0.3rem;
+  --lightShadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  --navNotesShadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  --mainBorderRadius: 5px;
+  --buttonBorderRadius: 22px;
+  --inputHeight: 30px;
+}
+
+/* Global */
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0 auto;
+  font-family: 'Noto Sans', sans-serif;
+  color: var(--primaryTextColor);
+  /* background: var(--grayscaleTwo); */
+  background: #fff;
+  line-height: 1.7;
+  font-size: 16px;
+  min-height: 100%;
+  min-width: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--slantedFont);
+  margin-bottom: 1.25rem;
+  letter-spacing: var(--mainSpacing);
+}
+p {
+  margin: 0.2rem;
+  padding: 0;
+}
+
+#error {
+  color: var(--primaryRed);
+  text-align: center;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+#loading {
+  text-align: center;
+  font-size: 1.2rem;
+}

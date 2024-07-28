@@ -1,0 +1,148 @@
+.noteCard {
+  padding: 0.5rem;
+  background-color: #fff;
+  box-shadow: var(--navNotesShadow);
+  border-radius: var(--mainBorderRadius);
+  margin-bottom: 1rem;
+  color: var(--primaryTextColor);
+  position: relative;
+  width: 100%;
+  transition: box-shadow 0.2s linear;
+}
+
+.noteCard:hover {
+  box-shadow: var(--lightShadow);
+}
+.noteCard[data-hide='true'] {
+  opacity: 0;
+}
+
+.noteForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputFieldTitle {
+  max-width: 300px;
+  word-wrap: break-word;
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.inputFieldText {
+  max-width: 300px;
+  word-wrap: break-word;
+  font-size: 1rem;
+  margin-bottom: 7px;
+}
+
+.inputFieldUserInfo {
+  width: 100%;
+  word-wrap: break-word;
+  font-size: 0.9rem;
+  color: var(--secondaryTextColor);
+  font-style: italic;
+}
+
+.submitButton {
+  width: 100px;
+  height: var(--inputHeight);
+  border-radius: var(--buttonBorderRadius);
+  color: var(--moduleBgColor);
+  border: 1px solid var(--moduleBgColor);
+  background-color: #fff;
+  transition: all 0.3s ease-out;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  cursor: pointer;
+  background-color: var(--moduleBgColor);
+  color: #fff;
+}
+
+.noteBottom {
+  display: flex;
+  height: 50px;
+  align-items: flex-end;
+}
+
+.error {
+  color: var(--primaryRed);
+  font-style: italic;
+}
+.errorCloseBtn {
+  border: 0;
+  background: transparent;
+}
+
+.errorCloseBtn:hover {
+  cursor: pointer;
+}
+
+.errorCloseIcon {
+  margin-right: 4px;
+  height: 15px;
+  width: 15px;
+  color: var(--primaryRed);
+}
+
+.optionsList {
+  list-style-type: none;
+  position: absolute;
+  right: 07px;
+  bottom: 27px;
+  box-shadow: var(--lightShadow);
+  border-radius: var(--mainBorderRadius);
+  padding: 10px 0;
+  line-height: 2;
+  background-color: #fff;
+  min-width: 7rem;
+  text-align: center;
+}
+
+.optionsList:hover {
+  cursor: pointer;
+}
+
+.optionsList li {
+  color: var(--moduleBgColor);
+  font-weight: 800;
+}
+.optionsList li:hover {
+  background-color: var(--grayscaleFour);
+}
+
+.optionsList span {
+  margin-left: 7px;
+}
+
+.listIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.optionsButton {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border: 0;
+  background-color: transparent;
+  transition: all 0.5s ease-out;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
+.optionsButton:hover {
+  cursor: pointer;
+}
+
+.optionsIcon {
+  color: var(--primaryTextColor);
+  width: 20px;
+  height: 20px;
+}
